@@ -28,7 +28,7 @@ const projectRoot = path.resolve(__dirname, '../../');
 
 // ============ CONFIGURAÇÕES ============
 const config = {
-  sourceDir: path.resolve(projectRoot, 'ESTÚDIO ENTRE/[IDENTIDADE]/Fontes'),
+  sourceDir: path.resolve(projectRoot, 'src/assets/fonts'),
   outputDir: path.resolve(projectRoot, 'public/fonts'),
   logFile: path.resolve(__dirname, 'conversion-log.json'),
   extensions: ['.ttf'],

@@ -301,13 +301,13 @@ import { fontConverterPresets } from './config.js';
 **Problema:** Script não encontra a pasta de fontes
 
 **Solução:**
-1. Verifique se `ESTÚDIO ENTRE/[IDENTIDADE]/Fontes` existe
+1. Verifique se `src/assets/fonts` existe
 2. Confirme o caminho relativo está correto
 3. Edite `config.js` se o caminho for diferente
 
 ```bash
 # Teste o caminho
-ls -la "ESTÚDIO ENTRE/[IDENTIDADE]/Fontes"
+ls -la "src/assets/fonts"
 ```
 
 ### ⚠️ "Nenhum arquivo .ttf encontrado"

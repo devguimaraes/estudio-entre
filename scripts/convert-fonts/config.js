@@ -10,7 +10,7 @@ export const fontConverterConfig = {
   // ========================
 
   // Diretório com arquivos .ttf de entrada
-  sourceDir: './ESTÚDIO ENTRE/[IDENTIDADE]/Fontes',
+  sourceDir: './src/assets/fonts',
 
   // Diretório onde os arquivos .woff2 serão salvos
   outputDir: './public/fonts',
