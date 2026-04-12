@@ -1,0 +1,45 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  eventType?: string;
+  eventDate?: string;
+}
+
+const { title, description, ogImage, eventType, eventDate } = Astro.props;
+---
+
+<BaseLayout title={`${title} — Estúdio Entre`} description={description} ogImage={ogImage}>
+  <main class="min-h-screen bg-cream text-near-black">
+    <!-- Breadcrumb -->
+    <nav class="px-6 py-4 max-w-5xl mx-auto" aria-label="Breadcrumb">
+      <ol class="flex items-center gap-2 text-sm text-text-muted font-body">
+        <li>
+          <a href="/" class="hover:text-bordo transition-colors">Home</a>
+        </li>
+        <li aria-hidden="true">/</li>
+        <li>
+          <a href="/#agenda" class="hover:text-bordo transition-colors">Agenda</a>
+        </li>
+        <li aria-hidden="true">/</li>
+        <li class="text-bordo font-semibold" aria-current="page">{title}</li>
+      </ol>
+    </nav>
+
+    <!-- Event content slot -->
+    <slot />
+
+    <!-- Back link -->
+    <div class="px-6 py-12 max-w-5xl mx-auto">
+      <a
+        href="/#agenda"
+        class="inline-flex items-center gap-2 text-terracota hover:text-bordo transition-colors font-display font-semibold"
+      >
+        ← Voltar para Agenda
+      </a>
+    </div>
+  </main>
+</BaseLayout>

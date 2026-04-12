@@ -4,8 +4,8 @@
  */
 
 @font-face {
-  font-family: 'Buvera';
-  src: url('/fonts/[PRINCIPAL] Buvera/Buvera-Black.woff2') format('woff2');
+  font-family: "Buvera";
+  src: url("/fonts/[PRINCIPAL] Buvera/Buvera-Black.woff2") format("woff2");
   font-weight: 900;
   font-style: normal;
   font-display: swap;
@@ -13,8 +13,8 @@
 }
 
 @font-face {
-  font-family: 'Buvera';
-  src: url('/fonts/[PRINCIPAL] Buvera/Buvera-BlackItalic.woff2') format('woff2');
+  font-family: "Buvera";
+  src: url("/fonts/[PRINCIPAL] Buvera/Buvera-BlackItalic.woff2") format("woff2");
   font-weight: 900;
   font-style: italic;
   font-display: swap;
@@ -22,8 +22,8 @@
 }
 
 @font-face {
-  font-family: 'Buvera';
-  src: url('/fonts/[PRINCIPAL] Buvera/Buvera-Bold.woff2') format('woff2');
+  font-family: "Buvera";
+  src: url("/fonts/[PRINCIPAL] Buvera/Buvera-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -31,8 +31,8 @@
 }
 
 @font-face {
-  font-family: 'Buvera';
-  src: url('/fonts/[PRINCIPAL] Buvera/Buvera-BoldItalic.woff2') format('woff2');
+  font-family: "Buvera";
+  src: url("/fonts/[PRINCIPAL] Buvera/Buvera-BoldItalic.woff2") format("woff2");
   font-weight: 700;
   font-style: italic;
   font-display: swap;
@@ -40,26 +40,26 @@
 }
 
 @font-face {
-  font-family: 'Buvera';
-  src: url('/fonts/[PRINCIPAL] Buvera/Buvera-ExtraBold.woff2') format('woff2');
-  font-weight: 700;
+  font-family: "Buvera";
+  src: url("/fonts/[PRINCIPAL] Buvera/Buvera-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
   font-style: normal;
   font-display: swap;
   /* Original: Buvera-ExtraBold.ttf (85.93 KB → 34.8 KB) */
 }
 
 @font-face {
-  font-family: 'Buvera';
-  src: url('/fonts/[PRINCIPAL] Buvera/Buvera-ExtraBoldItalic.woff2') format('woff2');
-  font-weight: 700;
+  font-family: "Buvera";
+  src: url("/fonts/[PRINCIPAL] Buvera/Buvera-ExtraBoldItalic.woff2") format("woff2");
+  font-weight: 800;
   font-style: italic;
   font-display: swap;
   /* Original: Buvera-ExtraBoldItalic.ttf (86.18 KB → 35.48 KB) */
 }
 
 @font-face {
-  font-family: 'Buvera';
-  src: url('/fonts/[PRINCIPAL] Buvera/Buvera-Medium.woff2') format('woff2');
+  font-family: "Buvera";
+  src: url("/fonts/[PRINCIPAL] Buvera/Buvera-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -67,8 +67,8 @@
 }
 
 @font-face {
-  font-family: 'Buvera';
-  src: url('/fonts/[PRINCIPAL] Buvera/Buvera-MediumItalic.woff2') format('woff2');
+  font-family: "Buvera";
+  src: url("/fonts/[PRINCIPAL] Buvera/Buvera-MediumItalic.woff2") format("woff2");
   font-weight: 500;
   font-style: italic;
   font-display: swap;
@@ -76,8 +76,8 @@
 }
 
 @font-face {
-  font-family: 'Buvera';
-  src: url('/fonts/[PRINCIPAL] Buvera/Buvera-Regular.woff2') format('woff2');
+  font-family: "Buvera";
+  src: url("/fonts/[PRINCIPAL] Buvera/Buvera-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -85,8 +85,8 @@
 }
 
 @font-face {
-  font-family: 'Buvera';
-  src: url('/fonts/[PRINCIPAL] Buvera/Buvera-RegularItalic.woff2') format('woff2');
+  font-family: "Buvera";
+  src: url("/fonts/[PRINCIPAL] Buvera/Buvera-RegularItalic.woff2") format("woff2");
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -94,8 +94,8 @@
 }
 
 @font-face {
-  font-family: 'Buvera';
-  src: url('/fonts/[PRINCIPAL] Buvera/Buvera-SemiBold.woff2') format('woff2');
+  font-family: "Buvera";
+  src: url("/fonts/[PRINCIPAL] Buvera/Buvera-SemiBold.woff2") format("woff2");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -103,11 +103,10 @@
 }
 
 @font-face {
-  font-family: 'Buvera';
-  src: url('/fonts/[PRINCIPAL] Buvera/Buvera-SemiBoldItalic.woff2') format('woff2');
+  font-family: "Buvera";
+  src: url("/fonts/[PRINCIPAL] Buvera/Buvera-SemiBoldItalic.woff2") format("woff2");
   font-weight: 600;
   font-style: italic;
   font-display: swap;
   /* Original: Buvera-SemiBoldItalic.ttf (85.79 KB → 34.95 KB) */
 }
-

@@ -1,0 +1,113 @@
+@import "tailwindcss";
+@import "./fonts/fonts.css";
+
+/* ============================
+   Design System — Estúdio Entre
+   Paleta validada: identidade-visual.md v3.0
+   ============================ */
+
+@theme {
+  /* Cores primárias */
+  --color-orange: #ec6838;
+  --color-orange-dark: #c2420e;
+  --color-bordo: #3d1020;
+  --color-cream: #f0ede8;
+
+  /* Cores secundárias */
+  --color-terracota: #9e4b2d;
+  --color-terracota-light: #c86440;
+  --color-lilas: #777bde;
+  --color-lilas-light: #d2bcfa;
+  --color-lilas-mid: #bdb2dd;
+  --color-olive: #8e8100;
+  --color-forest: #1d432c;
+  --color-mustard: #dec72c;
+  --color-cyan: #b9e4eb;
+  --color-amber: #e08d3d;
+  --color-gold: #c4a54b;
+  --color-beige: #f0dcb4;
+
+  /* Cores base */
+  --color-near-black: #1a1612;
+  --color-text-muted: #7a6e62;
+
+  /* Tipografia */
+  --font-display: "Buvera", sans-serif;
+  --font-body: "Buvera", "Space Grotesk", sans-serif;
+  --font-sans: "Space Grotesk", sans-serif;
+  --font-serif: "DM Serif Display", serif;
+
+  /* Easings */
+  --ease-expo: cubic-bezier(0.87, 0, 0.13, 1);
+  --ease-circ: cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+/* ============================
+   Base styles
+   ============================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-orange);
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-lilas-light);
+  color: var(--color-bordo);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-near-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-orange);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-amber);
+}
+
+/* Focus visible */
+:focus-visible {
+  outline: 2px solid var(--color-lilas);
+  outline-offset: 2px;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

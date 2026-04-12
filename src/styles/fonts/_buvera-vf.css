@@ -4,11 +4,10 @@
  */
 
 @font-face {
-  font-family: 'Buvera VF';
-  src: url('/fonts/[PRINCIPAL] Buvera/Buvera-VF.woff2') format('woff2');
+  font-family: "Buvera VF";
+  src: url("/fonts/[PRINCIPAL] Buvera/Buvera-VF.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
   /* Original: Buvera-VF.ttf (101.34 KB → 46.07 KB) */
 }
-
