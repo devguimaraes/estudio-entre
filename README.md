@@ -114,9 +114,6 @@ estudios-entre/
 │   ├── identidade-visual.md  # Logo, cores, tipografia
 │   └── Guia_Estudio Entre.pdf
 │
-├── scripts/
-│   └── convert-fonts/     # ✅ Conversor TTF → WOFF2 (funcional)
-│
 ├── .github/
 │   └── GIT-FLOW-CONFIG.md # ✅ Documentação Git Flow
 │

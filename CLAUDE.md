@@ -18,15 +18,6 @@ bun run preview      # Preview do build
 bun run lint         # Lint com Biome
 ```
 
-### Script auxiliar: conversão de fontes
-
-```bash
-cd scripts/convert-fonts
-npm run convert:full   # Converte TTF → WOFF2 e gera CSS de font-faces
-```
-
-Os arquivos WOFF2 vão para `public/fonts/` e o CSS gerado para `src/styles/fonts/`.
-
 ## Stack
 
 - **Framework:** Astro 5.x com SSG (static site generation)
