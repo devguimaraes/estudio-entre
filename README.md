@@ -2,9 +2,10 @@
 
 > Hub cultural e criativo independente da zona norte do Rio de Janeiro
 
-**Status:** Pré-lançamento (desenvolvimento em andamento)  
+**Status:** 🔄 Pré-lançamento — Documentação 100% / Assets prontos / Implementação técnica iniciando  
 **Localização:** Rua Maria Calmon, 100 — Méier, Rio de Janeiro – RJ  
-**Data de atualização:** Abril 2026
+**Data de atualização:** 12 de Abril de 2026  
+**Mantido por:** Equipe Estúdio Entre
 
 ---
 
@@ -22,23 +23,75 @@ Promover encontros significativos entre cultura, conhecimento e bem-estar, ofere
 ### Visão
 Ser o principal ponto de encontro cultural independente da zona norte do Rio de Janeiro — um lugar que as pessoas reconhecem como seu.
 
+### 📌 Estado do Projeto
+- ✅ **Documentação:** Completa (Branding, PRD, identidade visual, Git Flow)
+- ✅ **Identidade Visual & Assets:** Prontos (logos, ícones, texturas, mockups, images sociais)
+- ✅ **Fontes Otimizadas:** Convertidas para WOFF2, CSS auto-gerado
+- 🔄 **Implementação técnica:** Iniciando (estrutura Astro ainda a criar)
+- ❌ **CI/CD & Deploy:** A ser configurado
+
 ---
 
-## 🛠️ Stack Técnico
+## � Quick Start
 
-| Camada | Tecnologia | Versão |
-|---|---|---|
-| **Framework** | Astro | 5.x |
-| **UI Islands** | React | 19.x |
-| **Estilos** | Tailwind CSS | 4.x |
-| **Componentes** | Shadcn/ui + Radix UI | latest |
-| **Animações** | GSAP + ScrollTrigger + SplitText | 3.x |
-| **CMS** | Sanity.io | Free plan |
-| **Scroll suave** | Lenis | latest |
-| **Linting** | Biome | latest |
-| **Runtime** | Bun | latest |
-| **Deploy** | Vercel Hobby | — |
-| **Analytics** | GA4 + Search Console | — |
+### Pré-requisitos
+- **Node.js** 18+ ou **Bun** (recomendado)
+- **Git** com Git Flow configurado
+
+### Setup Inicial (TODO)
+```bash
+# 1. Clonar repositório
+git clone https://github.com/devguimaraes/estudio-entre.git
+cd estudio-entre
+
+# 2. Instalar dependências
+bun install
+# ou: npm install / yarn install / pnpm install
+
+# 3. Configurar variáveis de ambiente
+cp .env.example .env.local
+# Adicionar: SANITY_PROJECT_ID, SANITY_DATASET, GA_MEASUREMENT_ID, etc.
+
+# 4. Inicializar Sanity CMS
+sanity init
+
+# 5. Rodar dev server
+bun run dev
+
+# 6. Abrir no navegador
+# → http://localhost:4321
+```
+
+**Status:** Estrutura técnica ainda a ser criada. Após este setup estar pronto, as instruções acima funcionarão.
+
+---
+
+## 🛠️ Stack Técnico (Planejado)
+
+> 📝 **Nota:** Stack abaixo representa a arquitetura **planejada**. Implementação em progresso.
+
+| Camada | Tecnologia | Versão | Status |
+|---|---|---|---|
+| **Framework** | Astro | 5.x | 🔄 Iniciando |
+| **UI Islands** | React | 19.x | 🔄 Iniciando |
+| **Estilos** | Tailwind CSS | 4.x | 🔄 Iniciando |
+| **Componentes** | Shadcn/ui + Radix UI | latest | 🔄 Iniciando |
+| **Animações** | GSAP + ScrollTrigger + SplitText | 3.x | 🔄 Iniciando |
+| **CMS** | Sanity.io | Free plan | 🔄 Iniciando |
+| **Scroll suave** | Lenis | latest | 🔄 Iniciando |
+| **Linting** | Biome | latest | 🔄 Iniciando |
+| **Runtime** | Bun | latest | ❌ Aguardando |
+| **Deploy** | Vercel Hobby | — | ❌ Aguardando |
+| **Analytics** | GA4 + Search Console | — | ❌ Aguardando |
+
+### ✅ Recursos Já Prontos
+- **Fontes:** 3 famílias (Buvera sans, Dongra script, Helony script) otimizadas em WOFF2
+- **Tipografia CSS:** Auto-gerado com `--font-*` variables, `@font-face` com `font-display: swap`
+- **Ícones:** 22 SVGs otimizados em `src/assets/icons/`
+- **Logos:** 9 variações (claro, preto, vinho) em `src/assets/logos/`
+- **Imagens sociais:** 31 assets (avatares, stories, feeds) em `src/assets/images/`
+- **Texturas:** 5 backgrounds em `src/assets/textures/`
+- **Mockups:** 6 aplicações em contextos reais em `src/assets/mockups/`
 
 ---
 
@@ -47,31 +100,37 @@ Ser o principal ponto de encontro cultural independente da zona norte do Rio de 
 ```
 estudios-entre/
 ├── src/
-│   ├── components/        # Componentes React reutilizáveis
-│   ├── layouts/           # Layouts base das páginas
-│   ├── pages/             # Páginas Astro (index, sobre, agenda, etc)
-│   ├── styles/            # Estilos globais e configuração Tailwind
-│   ├── assets/            # Imagens otimizadas, ícones
-│   └── utils/             # Funções auxiliares, helpers
+│   ├── components/        # 🔄 Componentes React reutilizáveis (vazio — iniciando)
+│   ├── layouts/           # 🔄 Layouts base das páginas (vazio — iniciando)
+│   ├── pages/             # 🔄 Páginas Astro (vazio — iniciando)
+│   ├── styles/            # ✅ Estilos globais + Tailwind (fonts.css pronto)
+│   ├── assets/            # ✅ Imagens otimizadas, ícones, logos (completo)
+│   └── utils/             # 🔄 Funções auxiliares, helpers (vazio — iniciando)
 │
-├── public/                # Assets estáticos (favicon, etc)
-├── docs/                  # Documentação do projeto
+├── public/                # ✅ Assets estáticos (favicon, fontes WOFF2)
+├── docs/                  # ✅ Documentação completa
+│   ├── brifieng.md        # Missão, visão, personas, tom de voz
+│   ├── PRD-site.md        # Requisitos, arquitetura, CMS schema
+│   ├── identidade-visual.md  # Logo, cores, tipografia
+│   └── Guia_Estudio Entre.pdf
 │
-├── ESTÚDIO ENTRE/         # Identidade visual, ícones, assets da marca
-│   ├── [IDENTIDADE]/      # Logo, fontes, paleta
-│   ├── ÍCONES/            # Biblioteca de ícones
-│   ├── IMPRESSOS/         # Layouts de impressos
-│   └── INSTAGRAM/         # Assets para redes sociais
+├── scripts/
+│   └── convert-fonts/     # ✅ Conversor TTF → WOFF2 (funcional)
 │
-├── .github/               # Workflows, templates de issue/PR
-├── .editorconfig          # Configuração de editor (espaçamento, fim de linha)
-├── .gitignore             # Arquivos a ignorar no controle de versão
-└── README.md              # Este arquivo
+├── .github/
+│   └── GIT-FLOW-CONFIG.md # ✅ Documentação Git Flow
+│
+├── .editorconfig          # ✅ Configuração editor
+├── .gitignore             # ✅ Configurado
+└── README.md              # ✅ Este arquivo
 ```
+
+**Legenda:** ✅ Pronto | 🔄 Em desenvolvimento | ❌ Aguardando
+> 📝 **Nota:** Estrutura técnica (Astro, React, Tailwind, Sanity) está pronta no planejamento e documentação. O código ainda não foi inicializado — deixe o planejamento de tarefas para a próxima fase de implementação.
 
 ---
 
-## 🌊 Git Flow — Fluxo de Branches
+## �🌊 Git Flow — Fluxo de Branches
 
 Este projeto segue o modelo **Git Flow** com as seguintes branches:
 
@@ -240,15 +299,29 @@ git commit -m "chore(deps): atualizar Astro para 5.1.0"
 
 ## 🎯 Métricas de Sucesso
 
-| Métrica | Meta (3 meses pós-lançamento) |
+### Performance & UX (Pós-lançamento)
+| Métrica | Meta |
 |---|---|
 | Lighthouse Performance | ≥ 95 |
 | Lighthouse SEO | ≥ 98 |
 | Lighthouse Accessibility | ≥ 95 |
-| Core Web Vitals (LCP) | < 2.5s |
-| Core Web Vitals (CLS) | < 0.1 |
+| Core Web Vitals — LCP | < 2.5s |
+| Core Web Vitals — CLS | < 0.1 |
+
+### Acquisition & Engagement (3 meses pós-lançamento)
+| Métrica | Meta |
+|---|---|
 | Cliques orgânicos/mês | > 200 |
 | Posição média keywords-alvo | Top 5 local |
+| Taxa de clique (CTR) | > 3% |
+| Bounce rate | < 60% |
+
+### Conversão
+| Métrica | Meta |
+|---|---|
+| Eventos/mês reservados via site | > 50 |
+| Leads via formulário | > 20/mês |
+| Newsletter subscribers | > 100 (1º mês)
 
 ---
 
@@ -279,5 +352,4 @@ git commit -m "chore(deps): atualizar Astro para 5.1.0"
 
 ---
 
-**Última atualização:** Abril 2026  
-**Mantido por:** Equipe Estúdio Entre
+**Última atualização:** 12 de Abril de 2026
