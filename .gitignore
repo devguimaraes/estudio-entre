@@ -75,6 +75,12 @@ node_modules/.cache/
 # Vercel
 .vercel
 
+# AI tools
+.agents/
+.claude/
+.gemini/
+skills-lock.json
+
 # macOS
 .AppleDouble
 .LSOverride
