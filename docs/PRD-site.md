@@ -384,7 +384,181 @@ sections.forEach(({ el, bg }) => {
 
 ---
 
-## 8. Performance
+## 8. Direção de Experiência Imersiva (Awwwards Level)
+
+### Conceito Central: “Entre”
+
+O site do Estúdio Entre não deve ser tratado como uma interface tradicional, mas como uma experiência de travessia.
+
+A navegação deve transmitir a sensação de:
+
+- Entrar em um espaço
+- Transitar entre estados (luz, som, palavra, corpo)
+- Descobrir camadas progressivamente
+- Permanecer por curiosidade, não apenas por necessidade
+
+> O usuário não “acessa um site”.  
+> Ele entra no Estúdio Entre.
+
+---
+
+### 8.1 Princípios de Experiência
+
+#### 1. Transição > Navegação
+
+- Evitar mudanças bruscas entre seções
+- Cada scroll deve representar uma passagem
+- O conteúdo não aparece de forma instantânea — ele se revela
+
+**Diretriz técnica:**
+- Uso de GSAP + ScrollTrigger para transições contínuas
+- Transições de background, tipografia e elementos visuais entre seções
+
+---
+
+#### 2. Ritmo e Respiro
+
+A experiência deve alternar entre:
+
+- Momentos de intensidade (movimento, cor, animação)
+- Momentos de pausa (espaço, silêncio visual, tipografia estática)
+
+Evitar excesso de estímulos contínuos.
+
+---
+
+#### 3. Tempo como elemento de UX
+
+- Nem toda interação deve ser instantânea
+- Micro delays são intencionais e fazem parte da experiência
+
+Exemplos:
+- Textos que aparecem palavra por palavra
+- Elementos que entram com leve atraso
+- Hover com resposta suave e progressiva
+
+---
+
+#### 4. Interface invisível
+
+- Minimizar elementos tradicionais de UI:
+  - Botões excessivos
+  - Containers rígidos
+  - Divisões visuais óbvias
+
+O layout deve parecer fluido e orgânico.
+
+---
+
+### 8.2 Scroll como narrativa
+
+O scroll é o principal motor da experiência.
+
+#### Regras obrigatórias:
+
+- Uso de smooth scroll (Lenis)
+- Transições contínuas entre seções (sem cortes secos)
+- Uso de:
+  - Parallax leve
+  - Elementos sticky
+  - Sobreposição de camadas
+
+#### Comportamento esperado:
+
+O conteúdo deve reagir ao scroll, criando sensação de progressão narrativa.
+
+---
+
+### 8.3 Direção Visual Sensorial
+
+#### Cores como estados emocionais
+
+| Seção | Emoção | Cor |
+|------|------|------|
+| Hero | Energia / convite | Laranja |
+| Sobre | Acolhimento | Creme |
+| Eixos | Profundidade | Preto |
+| Agenda | Movimento | Verde |
+| Contato | Conexão | Roxo |
+
+- Mudanças de cor devem ser animadas (não instantâneas)
+
+---
+
+#### Tipografia
+
+- Deve ter presença e ritmo
+- Headlines com destaque e personalidade
+- Uso de variações de escala e peso ao longo da página
+
+---
+
+#### Imagens
+
+- Não devem ser decorativas
+- Devem transmitir textura, ambiente e presença física
+
+Preferência por:
+- Close-ups
+- Luz ambiente
+- Detalhes do espaço
+
+---
+
+### 8.4 Interações
+
+#### Hover
+
+- Nunca instantâneo
+- Deve utilizar easing suave
+
+#### Clique
+
+- Deve gerar sensação de resposta física (feedback claro)
+
+#### Scroll-triggered animations
+
+- Entrada com:
+  - Fade + translate
+  - Ou revelação progressiva
+
+---
+
+### 8.5 Hero (Seção crítica)
+
+O Hero deve ser o ponto de maior impacto da experiência.
+
+#### Requisitos obrigatórios:
+
+- Uso de SplitText (animação palavra por palavra)
+- Movimento sutil contínuo (evitar estado completamente estático)
+- Sensação de convite e abertura
+
+---
+
+### 8.6 Anti-padrões (não permitido)
+
+❌ Layout excessivamente baseado em cards  
+❌ Transições bruscas entre seções  
+❌ Scroll sem suavização  
+❌ Conteúdo totalmente estático  
+❌ Interface genérica de template  
+
+---
+
+### 8.7 Critério de Qualidade
+
+O site deve atingir um nível de experiência comparável a projetos de referência em plataformas como Awwwards.
+
+#### Indicadores de sucesso:
+
+- O usuário permanece navegando sem objetivo direto imediato
+- O scroll gera curiosidade contínua
+- A experiência é memorável, não apenas funcional
+
+---
+
+## 9. Performance
 
 ### Fontes
 
