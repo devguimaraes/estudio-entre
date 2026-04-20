@@ -2,7 +2,7 @@
 .env
 .env.local
 .env.*.local
-.env*.example
+# .env.example deve ser versionado (não ignorar)
 
 # Dependencies
 node_modules/
