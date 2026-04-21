@@ -79,5 +79,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body>
     <slot />
+
+    <script>
+      import { initAnimations } from "@/animations/init";
+      initAnimations();
+    </script>
   </body>
 </html>
