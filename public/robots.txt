@@ -1,0 +1,11 @@
+# robots.txt - Estúdio Entre
+
+# Bloquear Sanity Studio de indexação
+User-agent: *
+Disallow: /studio/
+
+# Permitir todo o resto
+Allow: /
+
+# Sitemap
+Sitemap: https://estudioentre.com.br/sitemap-index.xml
