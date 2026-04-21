@@ -3,6 +3,9 @@ import gsap from "gsap";
 /**
  * Animações de entrada da seção Hero
  * Timing cinematográfico (1.5-2s por elemento)
+ *
+ * Usa gsap.fromTo() porque os elementos começam com opacity: 0 no CSS.
+ * gsap.from() animaria DE 0 PARA 0 (sem efeito).
  */
 export function animateHero(): void {
   const prefersReducedMotion = window.matchMedia(
@@ -21,6 +24,8 @@ export function animateHero(): void {
 
   if (!logoMark || !logo || !ctas) return;
 
+  const ease = "power2.out";
+
   // Reduced motion: mostrar tudo sem animação
   if (prefersReducedMotion) {
     const all = [logoMark, eyebrow, logo, ctas, scrollIndicator];
@@ -33,64 +38,50 @@ export function animateHero(): void {
     return;
   }
 
-  const ease = "power2.out";
-
   // 1. Logo mark (ícone chave)
-  gsap.from(logoMark, {
-    opacity: 0,
-    duration: 1.2,
-    ease,
-    delay: 0.3,
-  });
+  gsap.fromTo(
+    logoMark,
+    { opacity: 0 },
+    { opacity: 1, duration: 1.2, ease, delay: 0.3 },
+  );
 
   // 2. Eyebrow
   if (eyebrow) {
-    gsap.from(eyebrow, {
-      opacity: 0,
-      y: 30,
-      duration: 1.5,
-      ease,
-      delay: 0.6,
-    });
+    gsap.fromTo(
+      eyebrow,
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 1.5, ease, delay: 0.6 },
+    );
   }
 
   // 3. Logo principal
-  gsap.from(logo, {
-    opacity: 0,
-    y: 30,
-    duration: 1.8,
-    ease,
-    delay: 0.9,
-  });
+  gsap.fromTo(
+    logo,
+    { opacity: 0, y: 30 },
+    { opacity: 1, y: 0, duration: 1.8, ease, delay: 0.9 },
+  );
 
   // 4. Tagline (palavra por palavra)
-  gsap.from(words, {
-    opacity: 0,
-    y: 20,
-    duration: 0.9,
-    stagger: 0.3,
-    ease,
-    delay: 1.6,
-  });
+  gsap.fromTo(
+    words,
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.9, stagger: 0.3, ease, delay: 1.6 },
+  );
 
   // 5. CTAs
-  gsap.from(ctas, {
-    opacity: 0,
-    y: 30,
-    duration: 1.8,
-    ease,
-    delay: 3.1,
-  });
+  gsap.fromTo(
+    ctas,
+    { opacity: 0, y: 30 },
+    { opacity: 1, y: 0, duration: 1.8, ease, delay: 3.1 },
+  );
 
   // 6. Scroll indicator
   if (scrollIndicator) {
-    gsap.from(scrollIndicator, {
-      opacity: 0,
-      y: 20,
-      duration: 1.5,
-      ease,
-      delay: 3.5,
-    });
+    gsap.fromTo(
+      scrollIndicator,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 1.5, ease, delay: 3.5 },
+    );
   }
 
   // 7. Parallax da chave (desktop apenas)
