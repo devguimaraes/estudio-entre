@@ -1,0 +1,32 @@
+# Dependencies
+node_modules
+bun.lockb
+
+# Build outputs
+dist
+.astro
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Development
+.git
+.gitignore
+.vscode
+.idea
+
+# Documentation
+docs
+README.md
+CLAUDE.md
+.github
+
+# Testing
+coverage
+
+# Misc
+.DS_Store
+Thumbs.db
+*.log
