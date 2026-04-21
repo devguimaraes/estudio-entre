@@ -6,12 +6,10 @@ export default defineConfig({
   name: "default",
   title: "Estúdio Entre",
 
-  projectId: process.env.SANITY_PROJECT_ID || "",
-  dataset: process.env.SANITY_DATASET || "production",
+  projectId: "7a0ee11t",
+  dataset: "production",
 
-  plugins: [
-    structureTool(),
-  ],
+  plugins: [structureTool()],
 
   schema: {
     types: schemaTypes,

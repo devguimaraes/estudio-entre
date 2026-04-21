@@ -18,6 +18,7 @@ export default defineConfig({
       projectId: env.SANITY_PROJECT_ID,
       dataset: env.SANITY_DATASET,
       useCdn: false,
+      studioBasePath: "/studio",
     }),
   ],
   vite: {
