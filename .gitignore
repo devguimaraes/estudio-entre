@@ -81,6 +81,10 @@ node_modules/.cache/
 .gemini/
 skills-lock.json
 
+# Git worktrees
+.worktrees/
+worktrees/
+
 # macOS
 .AppleDouble
 .LSOverride
