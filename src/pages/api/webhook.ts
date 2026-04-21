@@ -57,8 +57,8 @@ export const POST: APIRoute = async ({ request }) => {
         });
         clearTimeout(timeoutId);
         console.log("Deploy hook acionado");
-      } catch (fetchError) {
-        if (fetchError.name === "AbortError") {
+      } catch (fetchError: unknown) {
+        if (fetchError instanceof Error && fetchError.name === "AbortError") {
           console.warn("Deploy hook timeout (continuando mesmo assim)");
         } else {
           throw fetchError;
