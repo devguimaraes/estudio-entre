@@ -46,8 +46,14 @@
       </p>
 
       <div class="hero__ctas">
-        <a href="#sobre" class="hero__cta hero__cta--primary">Conheça o espaço</a>
-        <a href="#agenda" class="hero__cta hero__cta--secondary">Ver agenda</a>
+        <a href="#agenda" class="hero__cta hero__cta--primary">
+          Próximos encontros
+          <span class="hero__cta-arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="#espaco" class="hero__cta hero__cta--secondary">
+          Conheça o espaço
+          <span class="hero__cta-arrow" aria-hidden="true">→</span>
+        </a>
       </div>
     </div>
 
@@ -71,6 +77,11 @@
     <span class="hero__scroll-text">Scroll</span>
     <span class="hero__scroll-line"></span>
   </div>
+
+  <script>
+    import { animateHero } from "@/animations/hero";
+    animateHero();
+  </script>
 </section>
 
 <style>
@@ -84,7 +95,7 @@
     grid-template-columns: 1fr 1fr;
     min-height: 100vh;
     min-height: 100dvh;
-    overflow: hidden;
+    overflow: visible;
     background-color: var(--color-orange);
   }
 
@@ -113,8 +124,8 @@
 
   .hero__logo-mark {
     position: absolute;
-    top: 1.5rem;
-    left: 2rem;
+    top: 3rem;
+    left: 4rem;
     z-index: 10;
     opacity: 0;
   }
@@ -201,17 +212,44 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.875rem 2rem;
+    gap: 0.75rem;
+    padding: 1.1rem 2.2rem;
     font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 0.9375rem;
-    letter-spacing: 0.02em;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
     text-decoration: none;
     border-radius: 4px;
+    position: relative;
+    overflow: hidden;
     transition:
-      background-color 0.3s var(--ease-expo),
-      transform 0.3s var(--ease-expo),
-      box-shadow 0.3s var(--ease-expo);
+      background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hero__cta::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(240, 237, 232, 0.2), transparent);
+    transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hero__cta:hover::before {
+    left: 100%;
+  }
+
+  .hero__cta-arrow {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hero__cta:hover .hero__cta-arrow {
+    transform: translateX(6px);
   }
 
   .hero__cta--primary {
@@ -222,13 +260,13 @@
   .hero__cta--primary:hover {
     background-color: white;
     transform: translateX(8px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
   }
 
   .hero__cta--secondary {
     background-color: transparent;
     color: var(--color-cream);
-    border: 1px solid var(--color-cream);
+    border: 2px solid var(--color-cream);
   }
 
   .hero__cta--secondary:hover {
