@@ -1,5 +1,6 @@
 ---
 import "@/styles/global.css";
+import Navbar from "@/components/ui/Navbar.astro";
 
 interface Props {
   title: string;
@@ -86,6 +87,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     />
   </head>
   <body>
+    <Navbar />
     <slot />
 
     <script>

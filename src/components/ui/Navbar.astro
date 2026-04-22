@@ -1,0 +1,260 @@
+---
+// Navbar.astro — Navegação fixa com adaptação de cor por seção
+// Astro puro com CSS scoped. Drawer animado via GSAP.
+---
+
+<nav class="navbar navbar--light" aria-label="Menu principal">
+  <div class="navbar__inner">
+    <a href="/" class="navbar__logo" aria-label="Estúdio Entre — Início">
+      <img src="/icons/olho.svg" alt="" width="40" height="28" aria-hidden="true" />
+    </a>
+
+    <ul class="navbar__links" role="list">
+      <li><a href="#sobre" class="navbar__link">Sobre</a></li>
+      <li><a href="#eixos" class="navbar__link">Eixos</a></li>
+      <li><a href="#agenda" class="navbar__link">Agenda</a></li>
+      <li><a href="#espaco" class="navbar__link">Espaço</a></li>
+      <li><a href="#contato" class="navbar__link">Contato</a></li>
+    </ul>
+
+    <button
+      class="navbar__hamburger"
+      type="button"
+      aria-label="Abrir menu"
+      aria-expanded="false"
+    >
+      <span class="navbar__hamburger-line"></span>
+      <span class="navbar__hamburger-line"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Drawer e overlay fora do nav para z-index correto -->
+<div class="navbar__overlay" id="navbar-overlay" aria-hidden="true"></div>
+<aside class="navbar__drawer" id="navbar-drawer" aria-label="Menu de navegação" aria-hidden="true">
+  <nav>
+    <a href="#sobre" class="navbar__drawer-link">Sobre</a>
+    <a href="#eixos" class="navbar__drawer-link">Eixos</a>
+    <a href="#agenda" class="navbar__drawer-link">Agenda</a>
+    <a href="#espaco" class="navbar__drawer-link">Espaço</a>
+    <a href="#contato" class="navbar__drawer-link">Contato</a>
+  </nav>
+</aside>
+
+<script>
+  import { initNavbar } from "@/animations/navbar";
+  initNavbar();
+</script>
+
+<style>
+  /* ============================
+     Navbar — BEM scoped styles
+     ============================ */
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background: transparent;
+    transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* --- Color themes --- */
+
+  .navbar--light {
+    color: var(--color-cream);
+  }
+
+  .navbar--dark {
+    color: var(--color-near-black);
+  }
+
+  /* --- Inner --- */
+
+  .navbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.25rem 4rem;
+  }
+
+  /* --- Logo --- */
+
+  .navbar__logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    line-height: 0;
+  }
+
+  .navbar__logo img {
+    width: 40px;
+    height: auto;
+  }
+
+  .navbar--light .navbar__logo img {
+    filter: brightness(0) invert(1);
+  }
+
+  .navbar--dark .navbar__logo img {
+    filter: none;
+  }
+
+  /* --- Desktop links --- */
+
+  .navbar__links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .navbar__link {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+
+  .navbar__link:hover,
+  .navbar__link.is-active {
+    opacity: 1;
+  }
+
+  /* --- Hamburger --- */
+
+  .navbar__hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: inherit;
+  }
+
+  .navbar__hamburger-line {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 1px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .navbar__hamburger[aria-expanded="true"] .navbar__hamburger-line:first-child {
+    transform: translateY(4px) rotate(45deg);
+  }
+
+  .navbar__hamburger[aria-expanded="true"] .navbar__hamburger-line:last-child {
+    transform: translateY(-4px) rotate(-45deg);
+  }
+
+  /* --- Overlay --- */
+
+  .navbar__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 101;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .navbar__overlay.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* --- Drawer --- */
+
+  .navbar__drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80%;
+    max-width: 320px;
+    height: 100dvh;
+    background-color: var(--color-near-black);
+    z-index: 102;
+    pointer-events: none;
+  }
+
+  .navbar__drawer.is-open {
+    pointer-events: auto;
+  }
+
+  .navbar__drawer nav {
+    display: flex;
+    flex-direction: column;
+    padding: 6rem 2rem 2rem;
+  }
+
+  .navbar__drawer-link {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    color: var(--color-cream);
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+
+  .navbar__drawer-link:hover {
+    opacity: 1;
+  }
+
+  /* ============================
+     Mobile (max-width: 768px)
+     ============================ */
+
+  @media (max-width: 768px) {
+    .navbar__links {
+      display: none;
+    }
+
+    .navbar__hamburger {
+      display: flex;
+    }
+
+    .navbar__inner {
+      padding: 1rem 1.5rem;
+    }
+
+    .navbar__logo img {
+      width: 32px;
+    }
+  }
+
+  /* ============================
+     Reduced motion
+     ============================ */
+
+  @media (prefers-reduced-motion: reduce) {
+    .navbar,
+    .navbar__link,
+    .navbar__hamburger-line,
+    .navbar__drawer-link,
+    .navbar__overlay {
+      transition: none;
+    }
+  }
+</style>

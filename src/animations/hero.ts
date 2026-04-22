@@ -12,7 +12,6 @@ export function animateHero(): void {
     "(prefers-reduced-motion: reduce)",
   ).matches;
 
-  const logoMark = document.querySelector<HTMLElement>(".hero__logo-mark");
   const eyebrow = document.querySelector<HTMLElement>(".hero__eyebrow");
   const logo = document.querySelector<HTMLElement>(".hero__logo");
   const words = document.querySelectorAll<HTMLElement>(".hero__word");
@@ -22,13 +21,13 @@ export function animateHero(): void {
   );
   const key = document.querySelector<HTMLElement>(".hero__key");
 
-  if (!logoMark || !logo || !ctas) return;
+  if (!logo || !ctas) return;
 
   const ease = "power2.out";
 
   // Reduced motion: mostrar tudo sem animação
   if (prefersReducedMotion) {
-    const all = [logoMark, eyebrow, logo, ctas, scrollIndicator];
+    const all = [eyebrow, logo, ctas, scrollIndicator];
     for (const el of all) {
       if (el) gsap.set(el, { opacity: 1 });
     }
@@ -38,27 +37,20 @@ export function animateHero(): void {
     return;
   }
 
-  // 1. Logo mark (ícone chave)
-  gsap.fromTo(
-    logoMark,
-    { opacity: 0 },
-    { opacity: 1, duration: 1.2, ease, delay: 0.3 },
-  );
-
-  // 2. Eyebrow
+  // 1. Eyebrow
   if (eyebrow) {
     gsap.fromTo(
       eyebrow,
       { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 1.5, ease, delay: 0.6 },
+      { opacity: 1, y: 0, duration: 1.5, ease, delay: 0.3 },
     );
   }
 
-  // 3. Logo principal
+  // 2. Logo principal
   gsap.fromTo(
     logo,
     { opacity: 0, y: 30 },
-    { opacity: 1, y: 0, duration: 1.8, ease, delay: 0.9 },
+    { opacity: 1, y: 0, duration: 1.8, ease, delay: 0.6 },
   );
 
   // 4. Tagline (palavra por palavra)

@@ -13,12 +13,13 @@ interface SectionColor {
   selector: string;
   bg: string;
   text: string;
+  navTheme: "light" | "dark";
 }
 
 const sections: SectionColor[] = [
-  { selector: ".hero", bg: "#ec6838", text: "#f0ede8" },
-  { selector: ".sobre", bg: "#f0ede8", text: "#1a1612" },
-  { selector: ".eixos", bg: "#1a1612", text: "#f0ede8" },
+  { selector: ".hero", bg: "#ec6838", text: "#f0ede8", navTheme: "light" },
+  { selector: ".sobre", bg: "#f0ede8", text: "#1a1612", navTheme: "dark" },
+  { selector: ".eixos", bg: "#1a1612", text: "#f0ede8", navTheme: "light" },
 ];
 
 export function initColorTransition(): void {
@@ -48,4 +49,10 @@ function applyColors(section: SectionColor, instant: boolean): void {
     ease: "power2.out",
     overwrite: "auto",
   });
+
+  const navbar = document.querySelector<HTMLElement>(".navbar");
+  if (navbar) {
+    navbar.classList.remove("navbar--light", "navbar--dark");
+    navbar.classList.add(`navbar--${section.navTheme}`);
+  }
 }
