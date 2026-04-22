@@ -96,6 +96,19 @@ img {
   display: block;
 }
 
+/* Custom cursor — desktop only */
+@media (pointer: fine) {
+  body {
+    cursor: none;
+  }
+
+  a,
+  button,
+  [data-cursor] {
+    cursor: none;
+  }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   html {

@@ -1,6 +1,7 @@
 ---
 import "@/styles/global.css";
 import Navbar from "@/components/ui/Navbar.astro";
+import CursorCustom from "@/components/ui/CursorCustom.astro";
 
 interface Props {
   title: string;
@@ -88,13 +89,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body>
     <Navbar />
+    <CursorCustom />
     <slot />
 
     <script>
       import { initAnimations } from "@/animations/init";
       import { initColorTransition } from "@/animations/colorTransition";
+      import { initCursor } from "@/animations/cursor";
       initAnimations();
       initColorTransition();
+      initCursor();
     </script>
   </body>
 </html>
