@@ -19,7 +19,7 @@
 
   <!-- Logo mark (top-left) -->
   <a href="/" class="hero__logo-mark" aria-label="Ir para o início">
-    <img src="/icons/olho.svg" alt="" width="55" height="55" aria-hidden="true" />
+    <img src="/icons/olho.svg" alt="" width="55" height="38" aria-hidden="true" />
   </a>
 
   <!-- Grid de conteúdo -->
@@ -30,11 +30,12 @@
 
       <img
         class="hero__logo"
-        src="/logos/Logo_Estudio Entre - Claro 2.png"
+        src="/logos/Logo_Estudio Entre - Claro 2.webp"
         alt="Estúdio Entre"
         width="500"
-        height="auto"
+        height="172"
         loading="eager"
+        fetchpriority="high"
       />
 
       <p class="hero__tagline">
@@ -64,7 +65,7 @@
         src="/icons/olho.svg"
         alt=""
         width="320"
-        height="auto"
+        height="221"
       />
     </div>
   </div>
@@ -106,7 +107,7 @@
     inset: 0;
     z-index: 1;
     pointer-events: none;
-    background-image: url("/textures/vertical-banner-social-media-flyers-posters-online-ads-brochures-digital-presentations-etc.webp");
+    background-image: url("/textures/paper-texture-optimized.webp");
     background-repeat: repeat;
     background-size: cover;
     opacity: 0.08;
@@ -184,7 +185,7 @@
     font-family: var(--font-body);
     font-weight: 500;
     font-style: italic;
-    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    font-size: clamp(1.125rem, 3.5vw, 1.5rem);
     color: var(--color-cream);
     max-width: 420px;
     line-height: 1.4;
@@ -410,14 +411,30 @@
       max-width: 280px;
     }
 
+    .hero__tagline {
+      font-size: clamp(1rem, 4vw, 1.25rem);
+      max-width: 100%;
+    }
+
+    .hero__word {
+      margin-right: 0.15em;
+    }
+
+    .hero__word:last-child {
+      margin-right: 0;
+    }
+
     .hero__cta {
       width: 100%;
       max-width: 100%;
       justify-content: center;
+      font-size: 0.875rem;
+      padding: 1rem 1.75rem;
     }
 
     .hero__ctas {
       max-width: 100%;
+      gap: 0.875rem;
     }
 
     .hero__logo-mark {

@@ -55,6 +55,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+    <!-- Logo preload (LCP critical) -->
+    <link
+      rel="preload"
+      as="image"
+      href="/logos/Logo_Estudio Entre - Claro 2.webp"
+      fetchpriority="high"
+    />
+
     <!-- Font preloading (critical: Bold + ExtraBold for headings) -->
     <link
       rel="preload"
