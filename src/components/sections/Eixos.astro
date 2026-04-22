@@ -1,0 +1,348 @@
+---
+// Eixos.astro — Dois eixos de atuação do Estúdio Entre
+// Astro puro com CSS scoped. Animações GSAP via módulo separado.
+---
+
+<section class="eixos" id="eixos" aria-label="Eixos de atuação do Estúdio Entre">
+  <div class="eixos__grid">
+    <!-- Eixo 1 — Cultura, Cuidado e Formação -->
+    <div class="eixos__bloco eixos__bloco--cultura">
+      <div class="eixos__bloco-header">
+        <span class="eixos__bloco-line"></span>
+        <h2 class="eixos__bloco-title">Cultura, Cuidado e Formação</h2>
+      </div>
+      <div class="eixos__services">
+        <div class="eixos__card">
+          <img class="eixos__card-icon" src="/icons/olho.svg" alt="" width="32" height="22" aria-hidden="true" />
+          <div class="eixos__card-content">
+            <h3 class="eixos__card-title">Rodas de Biblioterapia</h3>
+            <p class="eixos__card-desc">Leitura guiada e partilha como ferramenta de cuidado emocional e conexão.</p>
+          </div>
+        </div>
+        <div class="eixos__card">
+          <img class="eixos__card-icon" src="/icons/calendario.svg" alt="" width="32" height="32" aria-hidden="true" />
+          <div class="eixos__card-content">
+            <h3 class="eixos__card-title">Saraus e Eventos Culturais</h3>
+            <p class="eixos__card-desc">Chamada aberta para artistas — música, poesia, performance, total liberdade de linguagem.</p>
+          </div>
+        </div>
+        <div class="eixos__card">
+          <img class="eixos__card-icon" src="/icons/spark.svg" alt="" width="32" height="32" aria-hidden="true" />
+          <div class="eixos__card-content">
+            <h3 class="eixos__card-title">Oficinas Criativas</h3>
+            <p class="eixos__card-desc">Oficinas sobre leitura, escrita, escuta e processos de criação com experiência prática.</p>
+          </div>
+        </div>
+        <div class="eixos__card">
+          <img class="eixos__card-icon" src="/icons/play.svg" alt="" width="32" height="32" aria-hidden="true" />
+          <div class="eixos__card-content">
+            <h3 class="eixos__card-title">Encontros "Entre ao Vivo"</h3>
+            <p class="eixos__card-desc">Encontros progressivos com música, conversa e portas abertas.</p>
+          </div>
+        </div>
+      </div>
+      <a href="#contato?interesse=cultura" class="eixos__cta eixos__cta--cultura">
+        Quero participar
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <!-- Eixo 2 — Produção, Áudio e Conteúdo -->
+    <div class="eixos__bloco eixos__bloco--producao">
+      <div class="eixos__bloco-header">
+        <span class="eixos__bloco-line"></span>
+        <h2 class="eixos__bloco-title">Produção, Áudio e Conteúdo</h2>
+      </div>
+      <div class="eixos__services">
+        <div class="eixos__card">
+          <img class="eixos__card-icon" src="/icons/microfone.svg" alt="" width="32" height="32" aria-hidden="true" />
+          <div class="eixos__card-content">
+            <h3 class="eixos__card-title">Gravação de Podcasts</h3>
+            <p class="eixos__card-desc">Estrutura profissional para gravar podcasts, entrevistas e videocasts.</p>
+          </div>
+        </div>
+        <div class="eixos__card">
+          <img class="eixos__card-icon" src="/icons/fone.svg" alt="" width="32" height="32" aria-hidden="true" />
+          <div class="eixos__card-content">
+            <h3 class="eixos__card-title">DJ Sessions e Audições</h3>
+            <p class="eixos__card-desc">Sets de DJs e experiências de audição crítica e experimentação sonora.</p>
+          </div>
+        </div>
+        <div class="eixos__card">
+          <img class="eixos__card-icon" src="/icons/play.svg" alt="" width="32" height="32" aria-hidden="true" />
+          <div class="eixos__card-content">
+            <h3 class="eixos__card-title">Pós-produção de Áudio</h3>
+            <p class="eixos__card-desc">Captação, edição e finalização para projetos culturais e independentes.</p>
+          </div>
+        </div>
+      </div>
+      <a href="#contato?interesse=producao" class="eixos__cta eixos__cta--producao">
+        Quero gravar
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    import { animateEixos } from "@/animations/eixos";
+    animateEixos();
+  </script>
+</section>
+
+<style>
+  /* ============================
+     Eixos — BEM scoped styles
+     ============================ */
+
+  .eixos {
+    position: relative;
+    background-color: var(--color-near-black);
+    color: var(--color-cream);
+    padding: 8rem 0;
+    overflow: hidden;
+  }
+
+  /* --- Grid --- */
+
+  .eixos__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* --- Bloco --- */
+
+  .eixos__bloco {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    padding: 4rem;
+    opacity: 0;
+  }
+
+  .eixos__bloco--cultura {
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  /* --- Bloco header --- */
+
+  .eixos__bloco-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .eixos__bloco-line {
+    display: block;
+    width: 60px;
+    height: 3px;
+    border-radius: 2px;
+  }
+
+  .eixos__bloco--cultura .eixos__bloco-line {
+    background-color: var(--color-orange);
+  }
+
+  .eixos__bloco--producao .eixos__bloco-line {
+    background-color: var(--color-lilas);
+  }
+
+  .eixos__bloco-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    line-height: 1.2;
+    color: var(--color-cream);
+  }
+
+  /* --- Services grid --- */
+
+  .eixos__services {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  /* --- Card --- */
+
+  .eixos__card {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition:
+      background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: default;
+  }
+
+  .eixos__bloco--cultura .eixos__card:hover {
+    background-color: rgba(236, 104, 56, 0.12);
+    border-color: rgba(236, 104, 56, 0.3);
+  }
+
+  .eixos__bloco--producao .eixos__card:hover {
+    background-color: rgba(119, 123, 222, 0.12);
+    border-color: rgba(119, 123, 222, 0.3);
+  }
+
+  /* Touch fallback */
+  @media (hover: none) {
+    .eixos__bloco--cultura .eixos__card:active {
+      background-color: rgba(236, 104, 56, 0.12);
+      border-color: rgba(236, 104, 56, 0.3);
+    }
+
+    .eixos__bloco--producao .eixos__card:active {
+      background-color: rgba(119, 123, 222, 0.12);
+      border-color: rgba(119, 123, 222, 0.3);
+    }
+  }
+
+  /* --- Card icon --- */
+
+  .eixos__card-icon {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    filter: brightness(0) invert(1);
+    opacity: 0.7;
+    margin-top: 0.15rem;
+  }
+
+  .eixos__bloco--cultura .eixos__card:hover .eixos__card-icon {
+    opacity: 1;
+    filter: brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(-15deg);
+  }
+
+  .eixos__bloco--producao .eixos__card:hover .eixos__card-icon {
+    opacity: 1;
+    filter: brightness(0) invert(0.7) sepia(1) saturate(3) hue-rotate(200deg);
+  }
+
+  /* --- Card content --- */
+
+  .eixos__card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .eixos__card-title {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-cream);
+  }
+
+  .eixos__card-desc {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  /* --- CTA --- */
+
+  .eixos__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 2rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-top: auto;
+    transition:
+      background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .eixos__cta--cultura {
+    background-color: var(--color-orange);
+    color: var(--color-cream);
+  }
+
+  .eixos__cta--cultura:hover {
+    background-color: var(--color-orange-dark);
+    transform: translateX(6px);
+  }
+
+  .eixos__cta--producao {
+    background-color: var(--color-lilas);
+    color: var(--color-cream);
+  }
+
+  .eixos__cta--producao:hover {
+    background-color: var(--color-lilas-mid);
+    transform: translateX(6px);
+  }
+
+  /* ============================
+     Tablet (max-width: 1024px)
+     ============================ */
+
+  @media (max-width: 1024px) {
+    .eixos {
+      padding: 5rem 0;
+    }
+
+    .eixos__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .eixos__bloco {
+      padding: 3rem 2rem;
+    }
+
+    .eixos__bloco--cultura {
+      border-right: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .eixos__services {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* ============================
+     Mobile (max-width: 768px)
+     ============================ */
+
+  @media (max-width: 768px) {
+    .eixos {
+      padding: 4rem 0;
+    }
+
+    .eixos__bloco {
+      padding: 2.5rem 1.5rem;
+    }
+
+    .eixos__services {
+      grid-template-columns: 1fr;
+    }
+
+    .eixos__cta {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  /* ============================
+     Reduced motion
+     ============================ */
+
+  @media (prefers-reduced-motion: reduce) {
+    .eixos__card,
+    .eixos__cta {
+      transition: none;
+    }
+  }
+</style>
