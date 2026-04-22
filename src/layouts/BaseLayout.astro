@@ -90,7 +90,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <script>
       import { initAnimations } from "@/animations/init";
+      import { initColorTransition } from "@/animations/colorTransition";
       initAnimations();
+      initColorTransition();
     </script>
   </body>
 </html>
