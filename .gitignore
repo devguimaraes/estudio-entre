@@ -130,3 +130,7 @@ studio/node_modules/
 # Mockups temporários de referência
 mockups/
 mockups-hero/
+
+# Playwright test artifacts
+.playwright-mcp/
+sobre-*.png
