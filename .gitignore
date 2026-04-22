@@ -126,3 +126,7 @@ studio/node_modules/
 *.ai
 *.sketch
 .figma
+
+# Mockups temporários de referência
+mockups/
+mockups-hero/
