@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Site institucional do **Estúdio Entre** — hub cultural independente no Méier, Rio de Janeiro. Funciona como hub de descoberta orgânica, ferramenta de conversão e centralizador de informação (agenda, serviços, contato).
 
-**Status:** Pré-lançamento. Documentação e assets prontos. Implementação técnica iniciando.
+**Status:** Pré-lançamento. M1 e M2 completos. Próximo: M3 (Agenda, Galeria, CMS & Contato).
 
 ## Comandos
 
@@ -41,7 +41,7 @@ O site é majoritariamente HTML estático. Apenas seções interativas usam Reac
 - **Galeria** (`client:visible`) — lightbox + drag scroll
 - **Contato** (`client:idle`) — formulário com validação
 
-Header, Hero, Sobre, Eixos e Footer são Astro puro (zero JS). Animações GSAP rodam em `<script>` Astro.
+Header, Hero, Sobre, Eixos e Footer são Astro puro (zero JS). Animações GSAP rodam em `<script>` Astro. Navbar e CursorCustom também são Astro puro com animações GSAP.
 
 ### Rotas planejadas
 
@@ -55,13 +55,18 @@ Header, Hero, Sobre, Eixos e Footer são Astro puro (zero JS). Animações GSAP 
 
 ```
 src/
-  components/     # Componentes React reutilizáveis (islands)
+  components/
+    sections/     # Hero, Sobre, Eixos (Astro puro)
+    ui/           # Navbar, CursorCustom (Astro puro)
+    islands/      # Componentes React reutilizáveis (Agenda, Galeria, Contato)
+  animations/     # Módulos GSAP: hero, sobre, eixos, navbar, cursor, colorTransition
   layouts/        # Layouts base das páginas
   pages/          # Páginas Astro
   styles/         # CSS global, Tailwind, fonts.css (auto-gerado)
   assets/         # Ícones SVG, logos, imagens, texturas, mockups, fontes TTF originais
   utils/          # Helpers e funções auxiliares
 public/fonts/     # Fontes WOFF2 servidas estaticamente
+public/icons/     # Ícones SVG (olho, spark, calendario, microfone, fone, play)
 docs/             # Briefing, PRD, identidade visual
 scripts/          # Conversor de fontes TTF → WOFF2
 ```
