@@ -134,3 +134,4 @@ mockups-hero/
 # Playwright test artifacts
 .playwright-mcp/
 sobre-*.png
+eixos-*.png
