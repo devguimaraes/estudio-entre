@@ -1,0 +1,487 @@
+---
+import ContatoForm from "@/components/islands/ContatoForm";
+---
+
+<section class="contato" id="contato" aria-label="Contato do Estúdio Entre">
+  <div class="contato__header">
+    <p class="contato__eyebrow">Contato</p>
+    <h2 class="contato__title">Vamos conversar?</h2>
+  </div>
+
+  <div class="contato__grid">
+    <!-- Formulário -->
+    <div class="contato__form-wrapper">
+      <ContatoForm client:idle />
+    </div>
+
+    <!-- Informações -->
+    <div class="contato__info">
+      <!-- Endereço -->
+      <div class="contato__address">
+        <h3 class="contato__info-title">Endereço</h3>
+        <p class="contato__info-text">
+          Rua Maria Calmon, 100 — Méier<br />
+          Rio de Janeiro – RJ, 20710-030
+        </p>
+        <a
+          href="https://www.google.com/maps/dir/?api=1&destination=-22.8976,-43.2896"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contato__map-link"
+          data-cursor="VER MAPA"
+        >
+          <svg class="contato__map-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+          Como chegar
+        </a>
+      </div>
+
+      <!-- Redes sociais -->
+      <div class="contato__social">
+        <h3 class="contato__info-title">Redes sociais</h3>
+        <div class="contato__social-links">
+          <a
+            href="https://www.instagram.com/entrenoestudio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contato__social-link"
+            aria-label="Instagram"
+            data-cursor="INSTAGRAM"
+          >
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+            </svg>
+          </a>
+          <a
+            href="https://www.tiktok.com/@entrenoestudio"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contato__social-link"
+            aria-label="TikTok"
+            data-cursor="TIKTOK"
+          >
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.46V13a8.28 8.28 0 005.58 2.15V11.7a4.83 4.83 0 01-3.77-1.24V6.69h3.77z" />
+            </svg>
+          </a>
+          <a
+            href="https://www.facebook.com/61583641444105"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contato__social-link"
+            aria-label="Facebook"
+            data-cursor="FACEBOOK"
+          >
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    import { animateContato } from "@/animations/contato";
+    animateContato();
+  </script>
+</section>
+
+<style>
+  /* ============================
+     Contato — BEM scoped styles
+     ============================ */
+
+  .contato {
+    position: relative;
+    background-color: var(--color-purple);
+    color: var(--color-cream);
+    padding: 8rem 4rem;
+    overflow: hidden;
+  }
+
+  /* --- Header --- */
+
+  .contato__header {
+    text-align: center;
+    max-width: 1400px;
+    margin: 0 auto 4rem;
+    opacity: 0;
+  }
+
+  .contato__eyebrow {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--color-cream);
+    opacity: 0.7;
+    margin-bottom: 1rem;
+  }
+
+  .contato__title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    color: var(--color-cream);
+  }
+
+  /* --- Grid --- */
+
+  .contato__grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 6fr 4fr;
+    gap: 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  /* --- Form wrapper --- */
+
+  .contato__form-wrapper {
+    opacity: 0;
+  }
+
+  /* --- Form styles (React-rendered via :global) --- */
+
+  .contato :global(.contato__form) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .contato :global(.contato__field) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .contato :global(.contato__label) {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-cream);
+    opacity: 0.85;
+  }
+
+  .contato :global(.contato__input),
+  .contato :global(.contato__select),
+  .contato :global(.contato__textarea) {
+    background-color: rgba(240, 237, 232, 0.08);
+    border: 1px solid rgba(240, 237, 232, 0.2);
+    color: var(--color-cream);
+    border-radius: 4px;
+    padding: 0.875rem 1rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition:
+      border-color 0.3s ease,
+      background-color 0.3s ease;
+  }
+
+  .contato :global(.contato__input):focus,
+  .contato :global(.contato__select):focus,
+  .contato :global(.contato__textarea):focus {
+    outline: none;
+    border-color: var(--color-lilas-light);
+    background-color: rgba(240, 237, 232, 0.12);
+  }
+
+  .contato :global(.contato__input)::placeholder,
+  .contato :global(.contato__textarea)::placeholder {
+    color: rgba(240, 237, 232, 0.4);
+  }
+
+  .contato :global(.contato__select) {
+    appearance: none;
+    cursor: pointer;
+  }
+
+  .contato :global(.contato__select) option {
+    background-color: var(--color-purple-dark);
+    color: var(--color-cream);
+  }
+
+  .contato :global(.contato__select-wrapper) {
+    position: relative;
+  }
+
+  .contato :global(.contato__select-wrapper)::after {
+    content: "";
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid var(--color-cream);
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .contato :global(.contato__textarea) {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .contato :global(.contato__error) {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    color: #f87171;
+  }
+
+  /* --- Submit --- */
+
+  .contato :global(.contato__submit) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.9rem 2rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background-color: var(--color-cream);
+    color: var(--color-purple);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition:
+      background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .contato :global(.contato__submit):hover {
+    background-color: white;
+    transform: translateX(6px);
+  }
+
+  .contato :global(.contato__submit):disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* --- Success state --- */
+
+  .contato :global(.contato__success) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    text-align: center;
+    padding: 2rem 0;
+  }
+
+  .contato :global(.contato__success-text) {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--color-cream);
+  }
+
+  /* --- Feedback --- */
+
+  .contato :global(.contato__feedback) {
+    min-height: 1.5rem;
+  }
+
+  .contato :global(.contato__feedback--error) {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    color: #f87171;
+  }
+
+  /* --- WhatsApp floating button --- */
+
+  .contato :global(.contato__whatsapp) {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 50;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #25d366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    transition:
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: whatsappFadeIn 0.3s ease;
+  }
+
+  .contato :global(.contato__whatsapp):hover {
+    transform: scale(1.1);
+  }
+
+  @keyframes whatsappFadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* --- Info block --- */
+
+  .contato__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    opacity: 0;
+  }
+
+  .contato__info-title {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-cream);
+    margin-bottom: 0.75rem;
+  }
+
+  .contato__info-text {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-cream);
+    opacity: 0.85;
+  }
+
+  /* --- Map link --- */
+
+  .contato__map-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--color-cream);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(240, 237, 232, 0.4);
+    padding-bottom: 2px;
+    transition:
+      border-color 0.3s ease,
+      opacity 0.3s ease;
+  }
+
+  .contato__map-link:hover {
+    border-color: var(--color-cream);
+    opacity: 0.8;
+  }
+
+  .contato__map-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* --- Social links --- */
+
+  .contato__social-links {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .contato__social-link {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(240, 237, 232, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-cream);
+    transition:
+      border-color 0.3s ease,
+      background-color 0.3s ease;
+  }
+
+  .contato__social-link:hover {
+    border-color: rgba(240, 237, 232, 0.5);
+    background-color: rgba(240, 237, 232, 0.1);
+  }
+
+  .contato__social-link svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* ============================
+     Tablet (max-width: 1024px)
+     ============================ */
+
+  @media (max-width: 1024px) {
+    .contato {
+      padding: 5rem 2rem;
+    }
+
+    .contato__grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+
+  /* ============================
+     Mobile (max-width: 768px)
+     ============================ */
+
+  @media (max-width: 768px) {
+    .contato {
+      padding: 4rem 1.5rem;
+    }
+
+    .contato__social-links {
+      justify-content: flex-start;
+    }
+
+    .contato :global(.contato__whatsapp) {
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 50px;
+      height: 50px;
+    }
+
+    .contato :global(.contato__whatsapp) svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  /* ============================
+     Reduced motion
+     ============================ */
+
+  @media (prefers-reduced-motion: reduce) {
+    .contato :global(.contato__submit),
+    .contato :global(.contato__whatsapp),
+    .contato__social-link,
+    .contato__map-link {
+      transition: none;
+    }
+
+    .contato :global(.contato__whatsapp) {
+      animation: none;
+    }
+  }
+</style>
