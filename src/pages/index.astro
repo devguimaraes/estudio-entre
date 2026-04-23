@@ -4,6 +4,7 @@ import Hero from "@/components/sections/Hero.astro";
 import Sobre from "@/components/sections/Sobre.astro";
 import Eixos from "@/components/sections/Eixos.astro";
 import Agenda from "@/components/sections/Agenda.astro";
+import Espaco from "@/components/sections/Espaco.astro";
 import { eventosQuery } from "@/sanity/queries/evento";
 import { sanityClient } from "sanity:client";
 import type { EventoCard } from "@/types/evento";
@@ -21,4 +22,5 @@ try {
   <Sobre />
   <Eixos />
   <Agenda eventos={eventos} />
+  <Espaco />
 </BaseLayout>
