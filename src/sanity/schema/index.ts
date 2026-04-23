@@ -1,2 +1,4 @@
-// Schemas do Sanity CMS serão adicionados aqui
-export const schemaTypes = [];
+import { evento } from "../schemas/evento";
+import { configuracao } from "../schemas/configuracao";
+
+export const schemaTypes = [evento, configuracao];

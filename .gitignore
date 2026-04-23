@@ -81,6 +81,10 @@ node_modules/.cache/
 .gemini/
 skills-lock.json
 
+# Git worktrees
+.worktrees/
+worktrees/
+
 # macOS
 .AppleDouble
 .LSOverride
@@ -122,3 +126,12 @@ studio/node_modules/
 *.ai
 *.sketch
 .figma
+
+# Mockups temporários de referência
+mockups/
+mockups-hero/
+
+# Playwright test artifacts
+.playwright-mcp/
+sobre-*.png
+eixos-*.png

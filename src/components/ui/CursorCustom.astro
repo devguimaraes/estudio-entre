@@ -1,0 +1,74 @@
+---
+// CursorCustom.astro — Cursor personalizado com ícone da marca
+// Desktop only. Oculto em touch devices e reduced-motion.
+---
+
+<div class="cursor" aria-hidden="true">
+  <div class="cursor__inner">
+    <img src="/icons/spark.svg" alt="" class="cursor__icon" width="16" height="16" />
+  </div>
+  <span class="cursor__label"></span>
+</div>
+
+<style>
+  .cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    mix-blend-mode: difference;
+    will-change: transform;
+  }
+
+  .cursor__inner {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(240, 237, 232, 0.15);
+    border: 1px solid rgba(240, 237, 232, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+    will-change: transform;
+  }
+
+  .cursor__icon {
+    width: 20px;
+    height: auto;
+    filter: brightness(0) invert(1);
+  }
+
+  .cursor__label {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 8px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-cream);
+    white-space: nowrap;
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+
+  /* Touch devices: ocultar completamente */
+  @media (pointer: coarse) {
+    .cursor {
+      display: none;
+    }
+  }
+
+  /* Reduced motion: ocultar */
+  @media (prefers-reduced-motion: reduce) {
+    .cursor {
+      display: none;
+    }
+  }
+</style>

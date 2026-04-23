@@ -1,17 +1,30 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import Hero from "@/components/sections/Hero.astro";
+import Sobre from "@/components/sections/Sobre.astro";
+import Eixos from "@/components/sections/Eixos.astro";
+import Agenda from "@/components/sections/Agenda.astro";
+import Espaco from "@/components/sections/Espaco.astro";
+import Contato from "@/components/sections/Contato.astro";
+import Footer from "@/components/sections/Footer.astro";
+import { eventosQuery } from "@/sanity/queries/evento";
+import { sanityClient } from "sanity:client";
+import type { EventoCard } from "@/types/evento";
+
+let eventos: EventoCard[] = [];
+try {
+  eventos = await sanityClient.fetch(eventosQuery);
+} catch {
+  console.error("Falha ao buscar eventos do Sanity");
+}
 ---
 
 <BaseLayout title="Estúdio Entre — Hub Cultural no Méier, RJ">
-  <main class="min-h-screen flex flex-col items-center justify-center px-6 text-center">
-    <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl tracking-tight mb-6">
-      Estúdio Entre
-    </h1>
-    <p class="text-xl md:text-2xl max-w-2xl opacity-90 mb-8">
-      Entre livros, vozes e beats.
-    </p>
-    <p class="text-sm opacity-60">
-      Hub cultural e criativo independente — Méier, Rio de Janeiro
-    </p>
-  </main>
+  <Hero />
+  <Sobre />
+  <Eixos />
+  <Agenda eventos={eventos} />
+  <Espaco />
+  <Contato />
+  <Footer />
 </BaseLayout>
