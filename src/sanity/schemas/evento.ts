@@ -30,9 +30,11 @@ export const evento = defineType({
           { title: "Show", value: "show" },
           { title: "Oficina", value: "oficina" },
           { title: "Roda de Conversa", value: "roda-de-conversa" },
-          { title: "Lancamento", value: "lancamento" },
+          { title: "Lançamento", value: "lancamento" },
           { title: "Sarau", value: "sarau" },
-          { title: "Exposicao", value: "exposicao" },
+          { title: "Exposição", value: "exposicao" },
+          { title: "Biblioterapia", value: "biblioterapia" },
+          { title: "DJ Session", value: "dj-session" },
         ],
         layout: "radio",
       },
@@ -56,12 +58,21 @@ export const evento = defineType({
       rows: 4,
     }),
     defineField({
-      name: "imagemCapa",
-      title: "Imagem de Capa",
-      type: "image",
-      options: {
-        hotspot: true,
-      },
+      name: "imagens",
+      title: "Imagens",
+      type: "array",
+      of: [
+        defineField({
+          name: "imagem",
+          title: "Imagem",
+          type: "image",
+          options: {
+            hotspot: true,
+          },
+        }),
+      ],
+      validation: (rule) => rule.min(1).max(3),
+      description: "Até 3 imagens (formato Instagram ~960x768). A primeira será a capa.",
     }),
     defineField({
       name: "valor",
@@ -90,7 +101,7 @@ export const evento = defineType({
     select: {
       title: "titulo",
       subtitle: "categoria",
-      media: "imagemCapa",
+      media: "imagens.0",
     },
   },
 });

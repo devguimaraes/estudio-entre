@@ -12,7 +12,7 @@ export const eventosQuery = defineQuery(
     descricao,
     valor,
     linkCompra,
-    "imagemCapa": imagemCapa.asset->url
+    "imagens": imagens[].asset->url
   }`,
 );
 
@@ -28,7 +28,7 @@ export const eventoBySlugQuery = defineQuery(
     valor,
     linkCompra,
     ativo,
-    "imagemCapa": imagemCapa.asset->url
+    "imagens": imagens[].asset->url
   }`,
 );
 
