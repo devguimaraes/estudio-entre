@@ -1,0 +1,260 @@
+/* ============================
+   EventCard — 3D Flip
+   Proporção Instagram: 960x768 (5:4)
+   ============================ */
+
+.card {
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+}
+
+.card--destaque {
+  grid-column: span 2;
+}
+
+/* Altura proporcional ao width: 5:4.5 = imagem + faixa de info */
+.flipper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 4.5;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+
+.card:hover .flipper,
+.card:focus-within .flipper {
+  transform: rotateY(180deg);
+}
+
+.front,
+.back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: var(--color-near-black);
+}
+
+/* --- Front: flex column (imagem flex:1 + info fixo) --- */
+
+.front {
+  display: flex;
+  flex-direction: column;
+}
+
+.imageWrapper {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.3rem 0.75rem;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 3px;
+  color: var(--color-cream);
+}
+
+/* --- Image dots --- */
+
+.dots {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.4rem;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background-color: rgba(240, 237, 232, 0.4);
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.dot:hover {
+  background-color: rgba(240, 237, 232, 0.7);
+}
+
+.dot--active {
+  background-color: var(--color-cream);
+  transform: scale(1.25);
+}
+
+/* --- Info (faixa fixa no fundo da frente) --- */
+
+.info {
+  flex-shrink: 0;
+  padding: 0.9rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1rem;
+  line-height: 1.2;
+  color: var(--color-cream);
+}
+
+.card--destaque .title {
+  font-size: 1.15rem;
+}
+
+.date {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--color-cream);
+  opacity: 0.7;
+}
+
+.local {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--color-cream);
+  opacity: 0.5;
+}
+
+/* --- Back --- */
+
+.back {
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  gap: 1.25rem;
+}
+
+.description {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-cream);
+  opacity: 0.85;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.price {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-amber);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  background-color: var(--color-orange);
+  color: var(--color-cream);
+  border-radius: 4px;
+  transition:
+    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  align-self: flex-start;
+}
+
+.cta:hover {
+  background-color: var(--color-orange-dark);
+  transform: translateX(4px);
+}
+
+/* ============================
+   Mobile — stacked, no flip
+   ============================ */
+
+@media (max-width: 768px) {
+  .card--destaque {
+    grid-column: span 1;
+  }
+}
+
+@media (hover: none) {
+  .flipper {
+    transform-style: flat;
+    -webkit-transform-style: flat;
+    aspect-ratio: auto;
+    flex-direction: column;
+  }
+
+  .front,
+  .back {
+    position: relative;
+    transform: none;
+    backface-visibility: visible;
+    -webkit-backface-visibility: visible;
+  }
+
+  .imageWrapper {
+    aspect-ratio: 5 / 4;
+  }
+
+  .front {
+    border-radius: 6px 6px 0 0;
+  }
+
+  .back {
+    border-radius: 0 0 6px 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* ============================
+   Reduced motion
+   ============================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .flipper {
+    transition: none;
+  }
+
+  .image {
+    transition: none;
+  }
+
+  .dot {
+    transition: none;
+  }
+
+  .cta {
+    transition: none;
+  }
+}
