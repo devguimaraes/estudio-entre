@@ -23,6 +23,7 @@ const sections: SectionColor[] = [
   { selector: ".agenda", bg: "#8e8100", text: "#f0ede8", navTheme: "light" },
   { selector: ".espaco", bg: "#f0ede8", text: "#1a1612", navTheme: "dark" },
   { selector: ".contato", bg: "#6B5FBF", text: "#f0ede8", navTheme: "light" },
+  { selector: ".footer", bg: "#1a1612", text: "#f0ede8", navTheme: "light" },
 ];
 
 export function initColorTransition(): void {
