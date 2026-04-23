@@ -3,10 +3,22 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Hero from "@/components/sections/Hero.astro";
 import Sobre from "@/components/sections/Sobre.astro";
 import Eixos from "@/components/sections/Eixos.astro";
+import Agenda from "@/components/sections/Agenda.astro";
+import { eventosQuery } from "@/sanity/queries/evento";
+import { sanityClient } from "sanity:client";
+import type { EventoCard } from "@/types/evento";
+
+let eventos: EventoCard[] = [];
+try {
+  eventos = await sanityClient.fetch(eventosQuery);
+} catch {
+  console.error("Falha ao buscar eventos do Sanity");
+}
 ---
 
 <BaseLayout title="Estúdio Entre — Hub Cultural no Méier, RJ">
   <Hero />
   <Sobre />
   <Eixos />
+  <Agenda eventos={eventos} />
 </BaseLayout>

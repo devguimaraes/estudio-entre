@@ -20,6 +20,7 @@ const sections: SectionColor[] = [
   { selector: ".hero", bg: "#ec6838", text: "#f0ede8", navTheme: "light" },
   { selector: ".sobre", bg: "#f0ede8", text: "#1a1612", navTheme: "dark" },
   { selector: ".eixos", bg: "#1a1612", text: "#f0ede8", navTheme: "light" },
+  { selector: ".agenda", bg: "#8e8100", text: "#f0ede8", navTheme: "light" },
 ];
 
 export function initColorTransition(): void {
