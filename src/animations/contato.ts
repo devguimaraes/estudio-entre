@@ -16,6 +16,10 @@ export function animateContato(): void {
   if (prefersReducedMotion) {
     if (header) gsap.set(header, { opacity: 1 });
     if (info) gsap.set(info, { opacity: 1 });
+    const formWrapper = document.querySelector<HTMLElement>(
+      ".contato__form-wrapper",
+    );
+    if (formWrapper) gsap.set(formWrapper, { opacity: 1 });
     return;
   }
 
