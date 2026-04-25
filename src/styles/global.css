@@ -28,7 +28,7 @@
   --color-beige: #f0dcb4;
 
   /* Cores de seção */
-  --color-purple: #6B5FBF;
+  --color-purple: #6b5fbf;
   --color-purple-dark: #5548a5;
 
   /* Cores base */
@@ -66,6 +66,20 @@ body {
   overflow-x: hidden;
   transition: background-color 0.8s var(--ease-editorial);
   cursor: none !important; /* Force custom cursor */
+}
+
+body.is-loading {
+  overflow: hidden;
+}
+
+body.is-loading .navbar,
+body.is-loading .cursor-wrapper {
+  opacity: 0;
+}
+
+body.is-loaded .navbar,
+body.is-loaded .cursor-wrapper {
+  opacity: 1;
 }
 
 /* Cursor Contextual Styles */

@@ -1,0 +1,121 @@
+---
+// Preloader.astro - cinematic opening layer for Estudio Entre
+---
+
+<div class="preloader" id="site-preloader" aria-hidden="true">
+  <div class="preloader__texture"></div>
+  <div class="preloader__mark-wrap">
+    <img class="preloader__mark" src="/icons/olho.svg" alt="" />
+  </div>
+  <div class="preloader__meta">
+    <span>Estudio Entre</span>
+    <span>Meier, RJ</span>
+  </div>
+  <div class="preloader__progress" aria-hidden="true">
+    <span class="preloader__progress-fill"></span>
+  </div>
+</div>
+
+<style>
+  .preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: var(--color-near-black);
+    color: var(--color-cream);
+    pointer-events: none;
+    clip-path: inset(0 0 0 0);
+  }
+
+  .preloader__texture {
+    position: absolute;
+    inset: 0;
+    background-image: url("/textures/paper-texture-optimized.webp");
+    background-repeat: repeat;
+    opacity: 0.08;
+    mix-blend-mode: screen;
+  }
+
+  .preloader__mark-wrap {
+    position: relative;
+    width: clamp(7rem, 18vw, 15rem);
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(240, 237, 232, 0.2);
+    border-radius: 999px;
+  }
+
+  .preloader__mark-wrap::before,
+  .preloader__mark-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 14%;
+    border: 1px solid rgba(236, 104, 56, 0.32);
+    border-radius: inherit;
+  }
+
+  .preloader__mark-wrap::after {
+    inset: 28%;
+    border-color: rgba(240, 237, 232, 0.28);
+  }
+
+  .preloader__mark {
+    position: relative;
+    width: 42%;
+    height: auto;
+    filter: brightness(0) invert(1);
+  }
+
+  .preloader__meta {
+    position: absolute;
+    left: clamp(1.5rem, 5vw, 4rem);
+    right: clamp(1.5rem, 5vw, 4rem);
+    bottom: clamp(1.5rem, 5vw, 3.5rem);
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.625rem;
+    font-weight: 800;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    opacity: 0.72;
+  }
+
+  .preloader__progress {
+    position: absolute;
+    left: clamp(1.5rem, 5vw, 4rem);
+    right: clamp(1.5rem, 5vw, 4rem);
+    bottom: clamp(4rem, 8vw, 6rem);
+    height: 1px;
+    overflow: hidden;
+    background: rgba(240, 237, 232, 0.16);
+  }
+
+  .preloader__progress-fill {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--color-orange);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  @media (max-width: 640px) {
+    .preloader__meta {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      letter-spacing: 0.2em;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .preloader {
+      display: none;
+    }
+  }
+</style>
