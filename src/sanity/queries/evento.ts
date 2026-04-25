@@ -1,7 +1,7 @@
 import { defineQuery } from "groq";
 
 export const eventosQuery = defineQuery(
-  `*[_type == "evento" && ativo == true && dataHora > now()]
+  `*[_type == "evento" && ativo == true]
     | order(dataHora asc){
     _id,
     titulo,
@@ -12,7 +12,7 @@ export const eventosQuery = defineQuery(
     descricao,
     valor,
     linkCompra,
-    "imagens": coalesce(imagens[].asset->url, imagemCapa.asset->url != null => [imagemCapa.asset->url], [])
+    "imagens": imagens[].asset->url
   }`,
 );
 
@@ -28,7 +28,7 @@ export const eventoBySlugQuery = defineQuery(
     valor,
     linkCompra,
     ativo,
-    "imagens": coalesce(imagens[].asset->url, imagemCapa.asset->url != null => [imagemCapa.asset->url], [])
+    "imagens": imagens[].asset->url
   }`,
 );
 

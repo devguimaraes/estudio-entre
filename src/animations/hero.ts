@@ -1,94 +1,71 @@
 import gsap from "gsap";
 
 /**
- * Animações de entrada da seção Hero
- * Timing cinematográfico (1.5-2s por elemento)
- *
- * Usa gsap.fromTo() porque os elementos começam com opacity: 0 no CSS.
- * gsap.from() animaria DE 0 PARA 0 (sem efeito).
+ * Editorial Hero Entrance Animation
+ * Sequência cinematográfica com revelação de camadas.
  */
 export function animateHero(): void {
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const eyebrow = document.querySelector<HTMLElement>(".hero__eyebrow");
-  const logo = document.querySelector<HTMLElement>(".hero__logo");
-  const words = document.querySelectorAll<HTMLElement>(".hero__word");
-  const ctas = document.querySelector<HTMLElement>(".hero__ctas");
-  const scrollIndicator = document.querySelector<HTMLElement>(
-    ".hero__scroll-indicator",
-  );
-  const key = document.querySelector<HTMLElement>(".hero__key");
-
-  if (!logo || !ctas) return;
-
-  const ease = "power2.out";
-
-  // Reduced motion: mostrar tudo sem animação
   if (prefersReducedMotion) {
-    const all = [eyebrow, logo, ctas, scrollIndicator];
-    for (const el of all) {
-      if (el) gsap.set(el, { opacity: 1 });
-    }
-    for (const w of words) {
-      gsap.set(w, { opacity: 1 });
-    }
+    gsap.set(".hero__symbol, .hero__logo, .hero__reveal-word, .hero__ctas, .hero__scroll", { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1 
+    });
     return;
   }
 
-  // 1. Eyebrow
-  if (eyebrow) {
-    gsap.fromTo(
-      eyebrow,
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 1.5, ease, delay: 0.3 },
-    );
-  }
+  const tl = gsap.timeline({
+    defaults: { ease: "power4.out", duration: 1.5 }
+  });
 
-  // 2. Logo principal
-  gsap.fromTo(
-    logo,
-    { opacity: 0, y: 30 },
-    { opacity: 1, y: 0, duration: 1.8, ease, delay: 0.6 },
-  );
+  tl.to(".hero__symbol", {
+    opacity: 0.1,
+    scale: 1.2,
+    duration: 3,
+    ease: "expo.out"
+  })
+  .to(".hero__logo", {
+    opacity: 1,
+    y: 0,
+    duration: 1.8,
+    delay: -2.5
+  })
+  .to(".hero__reveal-word", {
+    y: 0,
+    stagger: 0.15,
+    duration: 1.8,
+    delay: -1.5
+  })
+  .to(".hero__ctas", {
+    opacity: 1,
+    y: 0,
+    duration: 1.2,
+    delay: -1
+  })
+  .to(".hero__scroll", {
+    opacity: 1,
+    duration: 1,
+    delay: -0.5
+  })
+  .to(".hero__scroll-line", {
+    x: 0,
+    duration: 1.5,
+    ease: "expo.inOut"
+  }, "-=1");
 
-  // 4. Tagline (palavra por palavra)
-  gsap.fromTo(
-    words,
-    { opacity: 0, y: 20 },
-    { opacity: 1, y: 0, duration: 0.9, stagger: 0.3, ease, delay: 1.6 },
-  );
+  // Mouse parallax sutil no símbolo
+  window.addEventListener("mousemove", (e) => {
+    const { clientX, clientY } = e;
+    const xPos = (clientX / window.innerWidth - 0.5) * 30;
+    const yPos = (clientY / window.innerHeight - 0.5) * 30;
 
-  // 5. CTAs
-  gsap.fromTo(
-    ctas,
-    { opacity: 0, y: 30 },
-    { opacity: 1, y: 0, duration: 1.8, ease, delay: 3.1 },
-  );
-
-  // 6. Scroll indicator
-  if (scrollIndicator) {
-    gsap.fromTo(
-      scrollIndicator,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 1.5, ease, delay: 3.5 },
-    );
-  }
-
-  // 7. Parallax da chave (desktop apenas)
-  if (key && window.innerWidth > 1024) {
-    let ticking = false;
-
-    window.addEventListener("scroll", () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const scrolled = window.pageYOffset;
-          key.style.transform = `translateX(-15%) translateY(${scrolled * 0.12}px)`;
-          ticking = false;
-        });
-        ticking = true;
-      }
+    gsap.to(".hero__symbol", {
+      x: xPos,
+      y: yPos,
+      duration: 1.5,
+      ease: "power2.out"
     });
-  }
+  });
 }

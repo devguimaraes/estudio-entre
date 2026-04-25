@@ -1,62 +1,50 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+gsap.registerPlugin(ScrollTrigger);
+
 /**
- * Transição de cor de background conforme o scroll entre seções.
- * Cada seção define sua cor de fundo e cor de texto.
- * A transição é animada via gsap.to() com duration 0.8s.
- *
- * Integra-se com Lenis via ScrollTrigger.update() (já configurado em init.ts).
+ * Editorial Color Transition System
+ * Morpha o background do body conforme o scroll atinge cada seção.
  */
+export function initColorTransitions(): void {
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion) return;
 
-interface SectionColor {
-  selector: string;
-  bg: string;
-  text: string;
-  navTheme: "light" | "dark";
-}
+  const sections = [
+    { trigger: ".hero", color: "#ec6838", theme: "light" },
+    { trigger: ".sobre", color: "#f0ede8", theme: "dark" },
+    { trigger: ".eixos", color: "#1a1612", theme: "light" },
+    { trigger: ".agenda", color: "#8e8100", theme: "light" },
+    { trigger: ".espaco", color: "#3d1020", theme: "light" },
+    { trigger: ".contato", color: "#1a1612", theme: "light" }
+  ];
 
-const sections: SectionColor[] = [
-  { selector: ".hero", bg: "#ec6838", text: "#f0ede8", navTheme: "light" },
-  { selector: ".sobre", bg: "#f0ede8", text: "#1a1612", navTheme: "dark" },
-  { selector: ".eixos", bg: "#1a1612", text: "#f0ede8", navTheme: "light" },
-  { selector: ".agenda", bg: "#8e8100", text: "#f0ede8", navTheme: "light" },
-  { selector: ".espaco", bg: "#f0ede8", text: "#1a1612", navTheme: "dark" },
-  { selector: ".contato", bg: "#6B5FBF", text: "#f0ede8", navTheme: "light" },
-  { selector: ".footer", bg: "#1a1612", text: "#f0ede8", navTheme: "light" },
-];
+  const nav = document.querySelector(".navbar");
 
-export function initColorTransition(): void {
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
-
-  for (const section of sections) {
-    const el = document.querySelector<HTMLElement>(section.selector);
+  for (const { trigger, color, theme } of sections) {
+    const el = document.querySelector(trigger);
     if (!el) continue;
+
+    const updateTheme = () => {
+      gsap.to("body", { backgroundColor: color, duration: 1.2, ease: "power2.inOut" });
+      if (nav) {
+        if (theme === "dark") {
+          nav.classList.remove("navbar--light");
+          nav.classList.add("navbar--dark");
+        } else {
+          nav.classList.remove("navbar--dark");
+          nav.classList.add("navbar--light");
+        }
+      }
+    };
 
     ScrollTrigger.create({
       trigger: el,
-      start: "top 50%",
-      end: "bottom 50%",
-      onEnter: () => applyColors(section, prefersReducedMotion),
-      onEnterBack: () => applyColors(section, prefersReducedMotion),
+      start: "top center",
+      end: "bottom center",
+      onEnter: updateTheme,
+      onEnterBack: updateTheme,
     });
-  }
-}
-
-function applyColors(section: SectionColor, instant: boolean): void {
-  gsap.to("body", {
-    backgroundColor: section.bg,
-    color: section.text,
-    duration: instant ? 0 : 0.8,
-    ease: "power2.out",
-    overwrite: "auto",
-  });
-
-  const navbar = document.querySelector<HTMLElement>(".navbar");
-  if (navbar) {
-    navbar.classList.remove("navbar--light", "navbar--dark");
-    navbar.classList.add(`navbar--${section.navTheme}`);
   }
 }

@@ -88,16 +88,18 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     />
   </head>
   <body>
-    <Navbar />
     <CursorCustom />
+    <Navbar />
     <slot />
 
     <script>
-      import { initAnimations } from "@/animations/init";
-      import { initColorTransition } from "@/animations/colorTransition";
+      import { initGlobalAnimations } from "@/animations/init";
+      import { initColorTransitions } from "@/animations/colorTransition";
       import { initCursor } from "@/animations/cursor";
-      initAnimations();
-      initColorTransition();
+      
+      // Initialize in order
+      initGlobalAnimations();
+      initColorTransitions();
       initCursor();
     </script>
   </body>
