@@ -15,11 +15,11 @@ export function animateFooter(): void {
   const credit = section.querySelector<HTMLElement>(".footer__credit");
 
   if (prefersReducedMotion) {
-    gsap.set([socialLinks, meta, signature, credit], {
+    gsap.set([socialLinks, meta, credit], {
       opacity: 1,
       y: 0,
-      scale: 1,
     });
+    gsap.set(signature, { opacity: 0.08, scale: 1, y: 0 });
     return;
   }
 

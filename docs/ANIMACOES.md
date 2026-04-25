@@ -10,6 +10,9 @@ Sistema de animações global do site Estúdio Entre usando GSAP 3 + Lenis smoot
 src/animations/
 ├── init.ts              # Inicialização do Lenis e ScrollTrigger
 ├── preloader.ts         # Abertura cinematica com simbolo da marca
+├── colorTransition.ts   # Transicoes de cor entre estados visuais
+├── cursor.ts            # Cursor customizado
+├── navbar.ts            # Comportamento animado da navegacao
 ├── sectionWipes.ts      # Wipes cromaticos entre secoes
 ├── hero.ts              # Entrada do Hero apos o preloader
 ├── sobre.ts             # Parallax + reveal editorial
