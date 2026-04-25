@@ -31,6 +31,30 @@ export function onPreloaderComplete(callback: () => void): void {
 export function initPreloader(): Promise<void> {
   if (window.__estudioPreloaderPromise) return window.__estudioPreloaderPromise;
 
+  const preloaderAlreadyFinished =
+    window.__estudioPreloaderDone ||
+    document.body.classList.contains("preloader-failed") ||
+    document.body.classList.contains("is-loaded");
+
+  if (preloaderAlreadyFinished) {
+    window.__estudioPreloaderPromise = new Promise((resolve) => {
+      const preloader = document.querySelector<HTMLElement>("#site-preloader");
+
+      if (window.__estudioPreloaderHardFallback) {
+        window.clearTimeout(window.__estudioPreloaderHardFallback);
+        window.__estudioPreloaderHardFallback = undefined;
+      }
+
+      document.body.classList.remove("is-loading");
+      document.body.classList.add("is-loaded");
+      if (preloader) gsap.set(preloader, { autoAlpha: 0, display: "none" });
+      completePreloader();
+      resolve();
+    });
+
+    return window.__estudioPreloaderPromise;
+  }
+
   window.__estudioPreloaderPromise = new Promise((resolve) => {
     const preloader = document.querySelector<HTMLElement>("#site-preloader");
     const markWrap = document.querySelector<HTMLElement>(".preloader__mark-wrap");

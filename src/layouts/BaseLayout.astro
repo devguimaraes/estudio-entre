@@ -97,6 +97,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
         document.body.classList.remove("is-loading");
         document.body.classList.add("is-loaded", "preloader-failed");
+        window.__estudioPreloaderDone = true;
 
         const preloader = document.querySelector("#site-preloader");
         if (preloader instanceof HTMLElement) preloader.style.display = "none";
