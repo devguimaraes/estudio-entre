@@ -92,6 +92,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <script is:inline>
       document.body.classList.remove("no-js");
       document.body.classList.add("js");
+      window.__estudioPreloaderHardFallback = window.setTimeout(() => {
+        if (!document.body.classList.contains("is-loading")) return;
+
+        document.body.classList.remove("is-loading");
+        document.body.classList.add("is-loaded", "preloader-failed");
+
+        const preloader = document.querySelector("#site-preloader");
+        if (preloader instanceof HTMLElement) preloader.style.display = "none";
+
+        document.dispatchEvent(new CustomEvent("estudio:preloader-complete"));
+      }, 5000);
     </script>
     <Preloader />
     <CursorCustom />

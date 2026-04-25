@@ -5,6 +5,7 @@ export const PRELOADER_COMPLETE_EVENT = "estudio:preloader-complete";
 declare global {
   interface Window {
     __estudioPreloaderDone?: boolean;
+    __estudioPreloaderHardFallback?: number;
     __estudioPreloaderPromise?: Promise<void>;
   }
 }
@@ -47,6 +48,10 @@ export function initPreloader(): Promise<void> {
       if (isFinished) return;
 
       isFinished = true;
+      if (window.__estudioPreloaderHardFallback) {
+        window.clearTimeout(window.__estudioPreloaderHardFallback);
+        window.__estudioPreloaderHardFallback = undefined;
+      }
       window.clearTimeout(failsafeTimeout);
       if (preloader) gsap.set(preloader, { autoAlpha: 0, display: "none" });
       completePreloader();
