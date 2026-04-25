@@ -88,7 +88,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       rel="stylesheet"
     />
   </head>
-  <body class="is-loading">
+  <body class="no-js is-loading">
+    <script is:inline>
+      document.body.classList.remove("no-js");
+      document.body.classList.add("js");
+    </script>
     <Preloader />
     <CursorCustom />
     <Navbar />

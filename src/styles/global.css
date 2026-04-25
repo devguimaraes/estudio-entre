@@ -68,18 +68,22 @@ body {
   cursor: none !important; /* Force custom cursor */
 }
 
-body.is-loading {
+body.js.is-loading {
   overflow: hidden;
 }
 
-body.is-loading .navbar,
-body.is-loading .cursor-wrapper {
+body.js.is-loading .navbar,
+body.js.is-loading .cursor-wrapper {
   opacity: 0;
 }
 
 body.is-loaded .navbar,
-body.is-loaded .cursor-wrapper {
+body.no-js .navbar {
   opacity: 1;
+}
+
+body.no-js .preloader {
+  display: none;
 }
 
 /* Cursor Contextual Styles */

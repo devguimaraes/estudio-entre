@@ -40,7 +40,15 @@ export function initPreloader(): Promise<void> {
 
     document.body.classList.add("is-loading");
 
+    let isFinished = false;
+    const failsafeTimeout = window.setTimeout(() => finish(), 4500);
+
     const finish = () => {
+      if (isFinished) return;
+
+      isFinished = true;
+      window.clearTimeout(failsafeTimeout);
+      if (preloader) gsap.set(preloader, { autoAlpha: 0, display: "none" });
       completePreloader();
       resolve();
     };
