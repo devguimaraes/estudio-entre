@@ -2,20 +2,44 @@
 // Servicos.astro — Layout editorial com SVGs da marca
 // Expansão para 6 tópicos detalhados.
 const servicos = [
-  { icon: "/icons/olho.svg", title: "Oficinas Criativas", desc: "Espaços de troca e aprendizado prático que unem arte, tecnologia e subjetividade." },
-  { icon: "/icons/microfone.svg", title: "Palestras & Rodas", desc: "Diálogos profundos sobre cultura contemporânea, bem-estar e o fazer criativo." },
-  { icon: "/icons/calendario.svg", title: "Mentoria", desc: "Acompanhamento personalizado para projetos culturais em fase de desenvolvimento." },
-  { icon: "/icons/play.svg", title: "Laboratório Audiovisual", desc: "Imersão técnica em captação, edição e narrativa para novos criadores." },
-  { icon: "/icons/pin.svg", title: "Residência Artística", desc: "Tempo e espaço dedicado para artistas desenvolverem suas poéticas no território." },
-  { icon: "/icons/spark.svg", title: "Circuito de Ideias", desc: "Encontros trimestrais fomentando a economia criativa e parcerias locais." }
+  {
+    icon: "/icons/olho.svg",
+    title: "Oficinas Criativas",
+    desc: "Espaços de troca e aprendizado prático que unem arte, tecnologia e subjetividade.",
+  },
+  {
+    icon: "/icons/microfone.svg",
+    title: "Palestras & Rodas",
+    desc: "Diálogos profundos sobre cultura contemporânea, bem-estar e o fazer criativo.",
+  },
+  {
+    icon: "/icons/calendario.svg",
+    title: "Mentoria",
+    desc: "Acompanhamento personalizado para projetos culturais em fase de desenvolvimento.",
+  },
+  {
+    icon: "/icons/play.svg",
+    title: "Laboratório Audiovisual",
+    desc: "Imersão técnica em captação, edição e narrativa para novos criadores.",
+  },
+  {
+    icon: "/icons/pin.svg",
+    title: "Residência Artística",
+    desc: "Tempo e espaço dedicado para artistas desenvolverem suas poéticas no território.",
+  },
+  {
+    icon: "/icons/spark.svg",
+    title: "Circuito de Ideias",
+    desc: "Encontros trimestrais fomentando a economia criativa e parcerias locais.",
+  },
 ];
 ---
 
 <section class="servicos section-padding bg-cream text-near-black" id="servicos">
   <div class="servicos__inner max-w-7xl mx-auto px-6">
-    <header class="mb-20">
-      <span class="text-[10px] uppercase tracking-[0.4em] text-near-black/50 block mb-4">Núcleo de Criação</span>
-      <h2 class="text-6xl md:text-8xl font-display italic font-black uppercase leading-none">
+    <header class="servicos__header mb-20">
+      <span class="servicos__eyebrow mb-4 block text-[10px] uppercase tracking-[0.4em] text-near-black/50">Núcleo de Criação</span>
+      <h2 class="servicos__title font-display text-6xl font-black uppercase italic leading-none md:text-8xl">
         Oficinas &<br/> Palestras
       </h2>
     </header>
@@ -49,23 +73,7 @@ const servicos = [
 </style>
 
 <script>
-  import gsap from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-  
-  gsap.registerPlugin(ScrollTrigger);
-  
-  gsap.fromTo(".servicos__card", 
-    { opacity: 0, y: 50 },
-    { 
-      opacity: 1, 
-      y: 0, 
-      duration: 1, 
-      stagger: 0.15, 
-      ease: "power4.out",
-      scrollTrigger: {
-        trigger: ".servicos",
-        start: "top 60%"
-      }
-    }
-  );
+  import { animateServicos } from "@/animations/servicos";
+
+  animateServicos();
 </script>
