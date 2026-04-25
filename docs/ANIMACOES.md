@@ -8,8 +8,17 @@ Sistema de animações global do site Estúdio Entre usando GSAP 3 + Lenis smoot
 
 ```
 src/animations/
-├── init.ts    # Inicialização do Lenis e ScrollTrigger
-└── utils.ts   # Utilitários de animação reutilizáveis
+├── init.ts              # Inicialização do Lenis e ScrollTrigger
+├── preloader.ts         # Abertura cinematica com simbolo da marca
+├── sectionWipes.ts      # Wipes cromaticos entre secoes
+├── hero.ts              # Entrada do Hero apos o preloader
+├── sobre.ts             # Parallax + reveal editorial
+├── servicos.ts          # Reveal dos cards de servicos
+├── eixos.ts             # Entrada teatral das blades
+├── agenda.ts            # Reveal da agenda
+├── espaco.ts            # Galeria com parallax desktop
+├── contato.ts           # Reveal do formulario
+└── footer.ts            # Assinatura final
 ```
 
 ---
@@ -17,6 +26,8 @@ src/animations/
 ## Inicialização
 
 O sistema é inicializado automaticamente no `BaseLayout.astro`:
+
+O `preloader.ts` dispara o evento `estudio:preloader-complete`. O Hero aguarda esse evento antes de iniciar sua timeline, garantindo que a abertura e a primeira dobra parecam uma unica sequencia dirigida.
 
 ```astro
 <script>

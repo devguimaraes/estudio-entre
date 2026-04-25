@@ -1,84 +1,46 @@
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export function animateContato(): void {
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const section = document.querySelector<HTMLElement>(".contato");
-  const header = document.querySelector<HTMLElement>(".contato__header");
-  const info = document.querySelector<HTMLElement>(".contato__info");
-
   if (!section) return;
 
-  const ease = "power2.out";
+  const headerItems = section.querySelectorAll<HTMLElement>(".contato__eyebrow, .contato__title");
+  const fields = section.querySelectorAll<HTMLElement>(".contato__field");
+  const submit = section.querySelector<HTMLElement>(".contato__submit");
 
   if (prefersReducedMotion) {
-    if (header) gsap.set(header, { opacity: 1 });
-    if (info) gsap.set(info, { opacity: 1 });
-    const formWrapper = document.querySelector<HTMLElement>(
-      ".contato__form-wrapper",
-    );
-    if (formWrapper) gsap.set(formWrapper, { opacity: 1 });
+    gsap.set([headerItems, fields, submit], { opacity: 1, y: 0 });
     return;
   }
 
-  if (header) {
-    gsap.fromTo(
-      header,
-      { opacity: 0, y: 40 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1.5,
-        ease,
-        scrollTrigger: {
-          trigger: section,
-          start: "top 75%",
-          toggleActions: "play none none reverse",
-        },
-      },
-    );
-  }
-
-  if (info) {
-    gsap.fromTo(
-      info,
-      { opacity: 0, x: -40 },
-      {
-        opacity: 1,
-        x: 0,
-        duration: 1.2,
-        ease,
-        scrollTrigger: {
-          trigger: section,
-          start: "top 60%",
-          toggleActions: "play none none reverse",
-        },
-      },
-    );
-  }
-
-  window.addEventListener(
-    "contato:hydrated",
-    () => {
-      const formWrapper = document.querySelector<HTMLElement>(
-        ".contato__form-wrapper",
-      );
-      if (!formWrapper) return;
-
-      gsap.fromTo(
-        formWrapper,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease,
-          overwrite: "auto",
-        },
-      );
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: "top 76%",
+      toggleActions: "play none none reverse",
     },
-    { once: true },
-  );
+  });
+
+  tl.fromTo(
+    headerItems,
+    { opacity: 0, y: 30 },
+    { opacity: 1, y: 0, duration: 1, stagger: 0.12, ease: "expo.out" },
+  )
+    .fromTo(
+      fields,
+      { opacity: 0, y: 24 },
+      { opacity: 1, y: 0, duration: 0.75, stagger: 0.09, ease: "power2.out" },
+      "-=0.45",
+    )
+    .fromTo(
+      submit,
+      { opacity: 0, y: 18 },
+      { opacity: 1, y: 0, duration: 0.65, ease: "power2.out" },
+      "-=0.25",
+    );
 }
