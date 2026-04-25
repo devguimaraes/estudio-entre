@@ -3,6 +3,7 @@ import "@/styles/global.css";
 import CursorCustom from "@/components/ui/CursorCustom.astro";
 import Navbar from "@/components/ui/Navbar.astro";
 import Preloader from "@/components/ui/Preloader.astro";
+import SectionWipes from "@/components/ui/SectionWipes.astro";
 
 interface Props {
   title: string;
@@ -106,6 +107,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       }, 5000);
     </script>
     <Preloader />
+    <SectionWipes />
     <CursorCustom />
     <Navbar />
     <slot />
@@ -115,11 +117,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       import { initColorTransitions } from "@/animations/colorTransition";
       import { initCursor } from "@/animations/cursor";
       import { initPreloader } from "@/animations/preloader";
+      import { initSectionWipes } from "@/animations/sectionWipes";
 
       // Initialize in order
       initPreloader();
       initGlobalAnimations();
       initColorTransitions();
+      initSectionWipes();
       initCursor();
     </script>
   </body>

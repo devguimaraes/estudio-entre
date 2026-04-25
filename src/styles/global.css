@@ -196,3 +196,27 @@ img {
     scroll-behavior: auto !important;
   }
 }
+
+.section-wipes {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.section-wipes__panel {
+  display: block;
+  min-width: 100%;
+  height: 100%;
+  transform: translateX(-110%);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-wipes {
+    display: none;
+  }
+}
