@@ -18,10 +18,9 @@ export function animateEspaco(): void {
 
   gsap.fromTo(
     items,
-    { opacity: 0, y: 42, scale: 0.98 },
+    { opacity: 0, scale: 0.98 },
     {
       opacity: 1,
-      y: 0,
       scale: 1,
       duration: 1,
       stagger: 0.14,

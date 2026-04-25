@@ -12,8 +12,10 @@ export function animateAgenda(): void {
 
   if (!section) return;
 
+  const targets = [header, content].filter(Boolean);
+
   if (prefersReducedMotion) {
-    gsap.set([header, content], { opacity: 1, y: 0 });
+    gsap.set(targets, { opacity: 1, y: 0 });
     return;
   }
 
@@ -25,14 +27,16 @@ export function animateAgenda(): void {
     },
   });
 
-  tl.fromTo(
-    header,
-    { opacity: 0, y: 34 },
-    { opacity: 1, y: 0, duration: 1.2, ease: "expo.out" },
-  ).fromTo(
-    content,
-    { opacity: 0, y: 28 },
-    { opacity: 1, y: 0, duration: 0.95, ease: "power2.out" },
-    "-=0.55",
-  );
+  if (header) {
+    tl.fromTo(header, { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 1.2, ease: "expo.out" });
+  }
+
+  if (content) {
+    tl.fromTo(
+      content,
+      { opacity: 0, y: 28 },
+      { opacity: 1, y: 0, duration: 0.95, ease: "power2.out" },
+      "-=0.55",
+    );
+  }
 }
