@@ -33,14 +33,9 @@ export function animateContato(): void {
   )
     .fromTo(
       fields,
-      { opacity: 0, y: 24 },
-      { opacity: 1, y: 0, duration: 0.75, stagger: 0.09, ease: "power2.out" },
+      { y: 18 },
+      { y: 0, duration: 0.75, stagger: 0.09, ease: "power2.out" },
       "-=0.45",
     )
-    .fromTo(
-      submit,
-      { opacity: 0, y: 18 },
-      { opacity: 1, y: 0, duration: 0.65, ease: "power2.out" },
-      "-=0.25",
-    );
+    .fromTo(submit, { y: 12 }, { y: 0, duration: 0.65, ease: "power2.out" }, "-=0.25");
 }

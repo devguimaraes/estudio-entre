@@ -34,7 +34,14 @@ export function animateFooter(): void {
   tl.fromTo(
     socialLinks,
     { opacity: 0, y: 18 },
-    { opacity: 0.4, y: 0, duration: 0.75, stagger: 0.08, ease: "power2.out" },
+    {
+      opacity: 0.4,
+      y: 0,
+      duration: 0.75,
+      stagger: 0.08,
+      ease: "power2.out",
+      onComplete: () => gsap.set(socialLinks, { clearProps: "opacity" }),
+    },
   )
     .fromTo(
       meta,

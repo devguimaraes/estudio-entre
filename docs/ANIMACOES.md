@@ -34,8 +34,8 @@ O `preloader.ts` dispara o evento `estudio:preloader-complete`. O Hero aguarda e
 
 ```astro
 <script>
-  import { initAnimations } from "../animations/init";
-  initAnimations();
+  import { initGlobalAnimations } from "../animations/init";
+  initGlobalAnimations();
 </script>
 ```
 
@@ -191,7 +191,7 @@ Otimizações aplicadas:
 
 ### Animações não funcionam
 
-1. Verifique se `initAnimations()` foi chamado no BaseLayout
+1. Verifique se `initGlobalAnimations()` foi chamado no BaseLayout
 2. Confirme que GSAP e Lenis estão instalados
 3. Veja o console do navegador para erros
 
