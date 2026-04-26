@@ -79,7 +79,7 @@ body.js.is-loading {
 
 body.js.is-loading .navbar,
 body.js.is-loading .cursor-wrapper {
-  opacity: 0;
+  opacity: 0 !important;
 }
 
 body.is-loaded .navbar,
@@ -89,6 +89,26 @@ body.no-js .navbar {
 
 body.no-js .preloader {
   display: none;
+}
+
+body.no-js .hero__symbol {
+  opacity: 0.9 !important;
+  transform: scale(1) !important;
+}
+
+body.no-js .hero__logo,
+body.no-js .hero__ctas,
+body.no-js .hero__scroll {
+  opacity: 1 !important;
+  transform: translate(0, 0) scale(1) !important;
+}
+
+body.no-js .hero__reveal-word {
+  transform: translateY(0) !important;
+}
+
+body.no-js .hero__scroll-line {
+  transform: translateX(0) scaleY(1) !important;
 }
 
 /* Cursor Contextual Styles */
