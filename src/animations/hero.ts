@@ -1,10 +1,8 @@
-import gsap from "gsap";
 import { onPreloaderComplete } from "@/animations/preloader";
+import gsap from "gsap";
 
 export function animateHero(): void {
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   const revealTargets =
