@@ -5,7 +5,7 @@ export function animateHero(): void {
   const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   const revealTargets =
-    ".hero__symbol, .hero__logo, .hero__reveal-word, .hero__ctas, .hero__scroll";
+    ".hero__symbol, .hero__logo, .hero__description, .hero__ctas, .hero__scroll";
 
   if (prefersReducedMotion) {
     gsap.set(revealTargets, {
@@ -27,7 +27,7 @@ export function animateHero(): void {
     });
 
     tl.set(".hero__symbol", { opacity: 1, scale: 0.8 });
-    tl.set(".hero__logo, .hero__tagline, .hero__ctas, .hero__scroll", { opacity: 0 });
+    tl.set(".hero__logo, .hero__description, .hero__ctas, .hero__scroll", { opacity: 0 });
 
     tl.to(".hero__symbol", {
       scale: 25,
@@ -37,16 +37,15 @@ export function animateHero(): void {
     })
       .fromTo(
         ".hero__logo",
-        { opacity: 0, scale: 0.8 },
+        { opacity: 0, scale: 0.9 },
         { opacity: 1, scale: 1, duration: 1.2 },
-        "-=1.2",
+        "-=1.1",
       )
-      .to(".hero__tagline", { opacity: 1, duration: 0.01 }, "-=1.05")
       .fromTo(
-        ".hero__reveal-word",
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.15, duration: 1.2 },
-        "-=0.8",
+        ".hero__description",
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.2 },
+        "-=0.7",
       )
       .to(".hero__ctas", { opacity: 1, y: 0, duration: 1 }, "-=0.6")
       .to(".hero__scroll", { opacity: 1, y: 0, duration: 0.8 }, "-=0.4");
