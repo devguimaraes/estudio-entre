@@ -23,60 +23,33 @@ export function animateHero(): void {
 
   const runHeroTimeline = () => {
     const tl = gsap.timeline({
-      defaults: { ease: "power4.out", duration: 1.35 },
+      defaults: { ease: "power4.out", duration: 1.5 },
     });
 
+    tl.set(".hero__symbol", { opacity: 1, scale: 0.8 });
+    tl.set(".hero__logo, .hero__tagline, .hero__ctas, .hero__scroll", { opacity: 0 });
+
     tl.to(".hero__symbol", {
-      opacity: 0.12,
-      scale: 1.14,
-      duration: 2.4,
-      ease: "expo.out",
+      scale: 25,
+      opacity: 0,
+      duration: 1.8,
+      ease: "expo.inOut",
     })
-      .to(
+      .fromTo(
         ".hero__logo",
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.45,
-        },
-        "-=2.05",
-      )
-      .to(
-        ".hero__reveal-word",
-        {
-          y: 0,
-          stagger: 0.13,
-          duration: 1.45,
-        },
+        { opacity: 0, scale: 0.8 },
+        { opacity: 1, scale: 1, duration: 1.2 },
         "-=1.2",
       )
-      .to(
-        ".hero__ctas",
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-        },
-        "-=0.75",
-      )
-      .to(
-        ".hero__scroll",
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.9,
-        },
-        "-=0.55",
-      )
-      .to(
-        ".hero__scroll-line",
-        {
-          x: 0,
-          duration: 1.25,
-          ease: "expo.inOut",
-        },
+      .to(".hero__tagline", { opacity: 1, duration: 0.01 }, "-=1.05")
+      .fromTo(
+        ".hero__reveal-word",
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, stagger: 0.15, duration: 1.2 },
         "-=0.8",
-      );
+      )
+      .to(".hero__ctas", { opacity: 1, y: 0, duration: 1 }, "-=0.6")
+      .to(".hero__scroll", { opacity: 1, y: 0, duration: 0.8 }, "-=0.4");
   };
 
   onPreloaderComplete(runHeroTimeline);
