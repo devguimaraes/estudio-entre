@@ -13,7 +13,7 @@ import logoClaro from "@/assets/logos/Logo_Estudio Entre - Claro 2.png";
   
   <!-- Layer 1: The Portal Symbol (Chave) -->
   <div class="hero__symbol-container absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-    <img src="/icons/olho.svg" class="hero__symbol w-[200px] h-auto opacity-0" alt="" />
+    <img src="/icons/fechadura.svg" class="hero__symbol w-[200px] h-auto opacity-0" alt="" />
   </div>
 
   <!-- Layer 2: Content -->
@@ -62,6 +62,10 @@ import logoClaro from "@/assets/logos/Logo_Estudio Entre - Claro 2.png";
 </section>
 
 <style>
+  .hero__symbol {
+    filter: brightness(0) invert(1);
+  }
+
   .hero__halftone {
     background-image: radial-gradient(rgba(0, 0, 0, 0.2) 1.5px, transparent 1.5px);
     background-size: 10px 10px;
