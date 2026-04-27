@@ -64,7 +64,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  transition: background-color 0.8s var(--ease-editorial);
 }
 
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
@@ -73,23 +72,6 @@ body {
   }
 }
 
-body.js.is-loading {
-  overflow: hidden;
-}
-
-body.js.is-loading .navbar,
-body.js.is-loading .cursor-wrapper {
-  opacity: 0 !important;
-}
-
-body.is-loaded .navbar,
-body.no-js .navbar {
-  opacity: 1;
-}
-
-body.no-js .preloader {
-  display: none;
-}
 
 body.no-js .hero__symbol {
   opacity: 0.9 !important;
@@ -220,7 +202,7 @@ img {
 .section-wipes {
   position: fixed;
   inset: 0;
-  z-index: 90;
+  z-index: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   pointer-events: none;
@@ -233,6 +215,11 @@ img {
   height: 100%;
   transform: translateX(-110%);
   will-change: transform;
+}
+
+.page-content {
+  position: relative;
+  z-index: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
