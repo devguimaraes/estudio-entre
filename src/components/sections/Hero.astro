@@ -5,14 +5,15 @@ import logoClaro from "@/assets/logos/Logo_Estudio Entre - Claro 2.png";
 ---
 
 <section class="hero h-screen relative bg-orange overflow-hidden" role="banner" aria-label="Estúdio Entre — Hub Cultural no Méier, RJ">
-  <!-- Layer 0: Texture -->
-  <div class="hero__texture absolute inset-0 opacity-10 mix-blend-multiply pointer-events-none z-0">
-    <div class="absolute inset-0 bg-[url('/textures/paper-texture-optimized.webp')] bg-repeat opacity-20"></div>
+  <!-- Layer 0: Texture (Halftone) -->
+  <div class="hero__texture absolute inset-0 pointer-events-none z-0">
+    <div class="absolute inset-0 hero__halftone opacity-15"></div>
+    <div class="absolute inset-0 bg-[url('/textures/paper-texture-optimized.webp')] bg-repeat opacity-10 mix-blend-multiply"></div>
   </div>
   
-  <!-- Layer 1: The Giant Key Symbol -->
-  <div class="hero__symbol-container absolute inset-0 flex items-center justify-center z-1 pointer-events-none">
-    <img src="/icons/olho.svg" class="hero__symbol w-[120vh] h-auto opacity-0" alt="" />
+  <!-- Layer 1: The Portal Symbol (Chave) -->
+  <div class="hero__symbol-container absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+    <img src="/icons/olho.svg" class="hero__symbol w-[200px] h-auto opacity-0" alt="" />
   </div>
 
   <!-- Layer 2: Content -->
@@ -58,6 +59,11 @@ import logoClaro from "@/assets/logos/Logo_Estudio Entre - Claro 2.png";
 </section>
 
 <style>
+  .hero__halftone {
+    background-image: radial-gradient(rgba(0, 0, 0, 0.2) 1.5px, transparent 1.5px);
+    background-size: 10px 10px;
+  }
+
   .hero {
     perspective: 1000px;
   }
