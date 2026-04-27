@@ -2,7 +2,6 @@
 import "@/styles/global.css";
 import CursorCustom from "@/components/ui/CursorCustom.astro";
 import Navbar from "@/components/ui/Navbar.astro";
-import Preloader from "@/components/ui/Preloader.astro";
 import SectionWipes from "@/components/ui/SectionWipes.astro";
 
 interface Props {
@@ -89,38 +88,25 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       rel="stylesheet"
     />
   </head>
-  <body class="no-js is-loading">
+  <body class="no-js">
     <script is:inline>
       document.body.classList.remove("no-js");
       document.body.classList.add("js");
-      window.__estudioPreloaderHardFallback = window.setTimeout(() => {
-        if (!document.body.classList.contains("is-loading")) return;
-
-        document.body.classList.remove("is-loading");
-        document.body.classList.add("is-loaded", "preloader-failed");
-        window.__estudioPreloaderDone = true;
-
-        const preloader = document.querySelector("#site-preloader");
-        if (preloader instanceof HTMLElement) preloader.style.display = "none";
-
-        document.dispatchEvent(new CustomEvent("estudio:preloader-complete"));
-      }, 5000);
     </script>
-    <Preloader />
     <SectionWipes />
     <CursorCustom />
     <Navbar />
-    <slot />
+    <div class="page-content">
+      <slot />
+    </div>
 
     <script>
       import { initGlobalAnimations } from "@/animations/init";
       import { initColorTransitions } from "@/animations/colorTransition";
       import { initCursor } from "@/animations/cursor";
-      import { initPreloader } from "@/animations/preloader";
       import { initSectionWipes } from "@/animations/sectionWipes";
 
       // Initialize in order
-      initPreloader();
       initGlobalAnimations();
       initColorTransitions();
       initSectionWipes();
