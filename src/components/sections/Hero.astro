@@ -18,23 +18,26 @@ import logoClaro from "@/assets/logos/Logo_Estudio Entre - Claro 2.png";
 
   <!-- Layer 2: Content -->
   <div class="hero__layer-content relative z-10 h-full flex flex-col justify-center items-center text-center px-6">
-    <div class="hero__logo-wrap overflow-hidden mb-12">
+    <div class="hero__logo-wrap mb-10">
        <Image 
          src={logoClaro} 
-         class="hero__logo opacity-0 translate-y-full w-full max-w-[400px] h-auto" 
+         class="hero__logo opacity-0 w-full max-w-[280px] sm:max-w-[480px] h-auto" 
          alt="Estúdio Entre"
          loading="eager"
          fetchpriority="high"
        />
     </div>
     
-    <h1 class="hero__tagline font-display text-[clamp(4rem,15vw,10rem)] leading-[0.85] italic uppercase text-cream pointer-events-none font-black">
-       <span class="block overflow-hidden"><span class="hero__reveal-word inline-block">Entre</span></span>
-       <span class="block overflow-hidden"><span class="hero__reveal-word inline-block">Vozes</span></span>
-       <span class="block overflow-hidden"><span class="hero__reveal-word inline-block">& Beats</span></span>
-    </h1>
+    <div class="hero__description text-cream pointer-events-none opacity-0">
+      <p class="font-display text-[10px] sm:text-xs uppercase tracking-[0.4em] mb-3">
+        Espaço cultural independente
+      </p>
+      <p class="font-display italic text-lg sm:text-2xl opacity-90">
+        encontros, palavra e som.
+      </p>
+    </div>
 
-    <div class="hero__ctas mt-16 flex translate-y-6 flex-col gap-6 opacity-0 sm:flex-row">
+    <div class="hero__ctas mt-12 flex translate-y-6 flex-col gap-6 opacity-0 sm:flex-row">
         <a href="#agenda" class="hero__cta hero__cta--primary px-8 py-4 bg-cream text-orange font-bold uppercase tracking-widest text-sm rounded-sm" data-cursor="EXPLORAR">
           Próximos encontros
         </a>
