@@ -1,4 +1,3 @@
-import { onPreloaderComplete } from "@/animations/preloader";
 import gsap from "gsap";
 
 export function animateHero(): void {
@@ -24,6 +23,7 @@ export function animateHero(): void {
   const runHeroTimeline = () => {
     const tl = gsap.timeline({
       defaults: { ease: "power4.out", duration: 1.5 },
+      delay: 0.3,
     });
 
     tl.set(".hero__symbol", { opacity: 1, scale: 0.8 });
@@ -52,7 +52,7 @@ export function animateHero(): void {
       .to(".hero__scroll", { opacity: 1, y: 0, duration: 0.8 }, "-=0.4");
   };
 
-  onPreloaderComplete(runHeroTimeline);
+  runHeroTimeline();
 
   if (!canHover) return;
 
