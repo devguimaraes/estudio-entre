@@ -1,40 +1,62 @@
 ---
-// Footer.astro — Minimal Signature Footer
-import { Image } from "astro:assets";
-import logoPreto from "@/assets/logos/Logo_Estudio Entre - Preto 1.png";
+import Decorative from "@/components/ui/Decorative.astro";
 ---
 
-<footer class="footer bg-cream py-40 px-6 overflow-hidden">
-  <div class="max-w-7xl mx-auto flex flex-col items-center">
-    
+<footer class="footer relative bg-cream py-40 px-6 overflow-hidden">
+  <div class="absolute top-[20%] right-[10%] opacity-10">
+    <Decorative variant="ray" color="#1a1612" size={40} />
+  </div>
+  <div class="absolute bottom-[30%] left-[5%] opacity-10">
+    <Decorative variant="star" color="#1a1612" size={30} />
+  </div>
+  <div class="absolute top-[10%] left-[15%] opacity-10">
+    <Decorative variant="dots" color="#1a1612" size={50} />
+  </div>
+
+  <div class="max-w-7xl mx-auto flex flex-col items-center relative z-10">
     <div class="footer__social flex gap-12 mb-32">
-        <a href="https://instagram.com/estudioentre" target="_blank" class="footer__social-link opacity-40 hover:opacity-100 transition-opacity" data-cursor="INSTAGRAM">
-            <img src="/icons/spark.svg" class="w-6 h-6" alt="Instagram" />
-        </a>
-        <a href="https://tiktok.com/@estudioentre" target="_blank" class="footer__social-link opacity-40 hover:opacity-100 transition-opacity" data-cursor="TIKTOK">
-            <img src="/icons/tiktok.svg" class="w-6 h-6" alt="TikTok" />
-        </a>
-        <a href="#" class="footer__social-link opacity-40 hover:opacity-100 transition-opacity" data-cursor="WHATSAPP">
-            <img src="/icons/whatsapp.svg" class="w-6 h-6" alt="WhatsApp" />
-        </a>
+      <a
+        href="https://instagram.com/estudioentre"
+        target="_blank"
+        class="footer__social-link opacity-40 hover:opacity-100 transition-opacity"
+        data-cursor="INSTAGRAM"
+      >
+        <img src="/icons/spark.svg" class="w-6 h-6" alt="Instagram" />
+      </a>
+      <a
+        href="https://tiktok.com/@estudioentre"
+        target="_blank"
+        class="footer__social-link opacity-40 hover:opacity-100 transition-opacity"
+        data-cursor="TIKTOK"
+      >
+        <img src="/icons/tiktok.svg" class="w-6 h-6" alt="TikTok" />
+      </a>
+      <a
+        href="#"
+        class="footer__social-link opacity-40 hover:opacity-100 transition-opacity"
+        data-cursor="WHATSAPP"
+      >
+        <img src="/icons/whatsapp.svg" class="w-6 h-6" alt="WhatsApp" />
+      </a>
     </div>
 
     <div class="footer__signature w-full relative">
-       <div class="footer__meta absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full mb-10 text-[10px] uppercase tracking-[0.5em] text-near-black/30">
-          Estúdio Entre &copy; 2026
-       </div>
-       <h2 class="text-[20vw] font-display font-black italic uppercase leading-none text-near-black text-center select-none pointer-events-none opacity-[0.08]">
-          eNTRE
-       </h2>
+      <div
+        class="footer__meta absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full mb-10 text-[10px] uppercase tracking-[0.5em] text-near-black/30"
+      >
+        Estúdio Entre &copy; 2026
+      </div>
+      <h2
+        class="text-[20vw] font-display font-black italic uppercase leading-none text-near-black text-center select-none pointer-events-none opacity-[0.08]"
+      >
+        eNTRE
+      </h2>
     </div>
 
-    <div class="footer__credit mt-20 text-[10px] uppercase tracking-widest text-near-black/40">
-        Criado com intelecto e afeto no Rio de Janeiro.
+    <div
+      class="footer__credit mt-20 text-[10px] uppercase tracking-widest text-near-black/40"
+    >
+      Criado com intelecto e afeto no Rio de Janeiro.
     </div>
   </div>
-  <script>
-    import { animateFooter } from "@/animations/footer";
-
-    animateFooter();
-  </script>
 </footer>
