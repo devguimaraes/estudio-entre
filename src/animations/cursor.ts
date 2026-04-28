@@ -16,12 +16,12 @@ export function initCursor(): void {
   if (!cursor || !label) return;
 
   // Reset inicial
-  gsap.set(cursor, { 
-    opacity: 0, 
-    xPercent: -50, 
+  gsap.set(cursor, {
+    opacity: 0,
+    xPercent: -50,
     yPercent: -50,
     x: window.innerWidth / 2,
-    y: window.innerHeight / 2
+    y: window.innerHeight / 2,
   });
 
   const xTo = gsap.quickTo(cursor, "x", { duration: 0.2, ease: "power3.out" });
@@ -52,20 +52,28 @@ export function initCursor(): void {
   };
 
   // Delegar eventos para melhor performance e lidar com conteúdo dinâmico
-  document.addEventListener("mouseenter", (e) => {
-    const target = e.target as HTMLElement;
-    if (target?.hasAttribute?.("data-cursor")) {
-      updateCursor(target);
-    } else {
-      const parentWithCursor = target?.closest?.("[data-cursor]") as HTMLElement;
-      if (parentWithCursor) updateCursor(parentWithCursor);
-    }
-  }, true);
+  document.addEventListener(
+    "mouseenter",
+    (e) => {
+      const target = e.target as HTMLElement;
+      if (target?.hasAttribute?.("data-cursor")) {
+        updateCursor(target);
+      } else {
+        const parentWithCursor = target?.closest?.("[data-cursor]") as HTMLElement;
+        if (parentWithCursor) updateCursor(parentWithCursor);
+      }
+    },
+    true,
+  );
 
-  document.addEventListener("mouseleave", (e) => {
-    const target = e.target as HTMLElement;
-    if (target?.hasAttribute?.("data-cursor") || target?.closest?.("[data-cursor]")) {
-      resetCursor();
-    }
-  }, true);
+  document.addEventListener(
+    "mouseleave",
+    (e) => {
+      const target = e.target as HTMLElement;
+      if (target?.hasAttribute?.("data-cursor") || target?.closest?.("[data-cursor]")) {
+        resetCursor();
+      }
+    },
+    true,
+  );
 }

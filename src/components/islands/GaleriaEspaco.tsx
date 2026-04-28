@@ -1,17 +1,57 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import gsap from "gsap";
 import type { FotoEspaco } from "@/types/foto";
+import gsap from "gsap";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Lightbox from "./Lightbox";
 
 const FOTOS: FotoEspaco[] = [
-  { id: "1", titulo: null, legenda: "Onde as palavras ganham eco", imagem: "https://picsum.photos/seed/entre1/960/768" },
-  { id: "2", titulo: null, legenda: "Entre livros e vozes", imagem: "https://picsum.photos/seed/entre2/960/768" },
-  { id: "3", titulo: null, legenda: "Cada canto um convite", imagem: "https://picsum.photos/seed/entre3/960/768" },
-  { id: "4", titulo: null, legenda: "A obra segue viva", imagem: "https://picsum.photos/seed/entre4/960/768" },
-  { id: "5", titulo: null, legenda: "O som que preenche o silêncio", imagem: "https://picsum.photos/seed/entre5/960/768" },
-  { id: "6", titulo: null, legenda: "Um lugar para estar", imagem: "https://picsum.photos/seed/entre6/960/768" },
-  { id: "7", titulo: null, legenda: "Luz que conta histórias", imagem: "https://picsum.photos/seed/entre7/960/768" },
-  { id: "8", titulo: null, legenda: "O espaço que nos escolheu", imagem: "https://picsum.photos/seed/entre8/960/768" },
+  {
+    id: "1",
+    titulo: null,
+    legenda: "Onde as palavras ganham eco",
+    imagem: "https://picsum.photos/seed/entre1/960/768",
+  },
+  {
+    id: "2",
+    titulo: null,
+    legenda: "Entre livros e vozes",
+    imagem: "https://picsum.photos/seed/entre2/960/768",
+  },
+  {
+    id: "3",
+    titulo: null,
+    legenda: "Cada canto um convite",
+    imagem: "https://picsum.photos/seed/entre3/960/768",
+  },
+  {
+    id: "4",
+    titulo: null,
+    legenda: "A obra segue viva",
+    imagem: "https://picsum.photos/seed/entre4/960/768",
+  },
+  {
+    id: "5",
+    titulo: null,
+    legenda: "O som que preenche o silêncio",
+    imagem: "https://picsum.photos/seed/entre5/960/768",
+  },
+  {
+    id: "6",
+    titulo: null,
+    legenda: "Um lugar para estar",
+    imagem: "https://picsum.photos/seed/entre6/960/768",
+  },
+  {
+    id: "7",
+    titulo: null,
+    legenda: "Luz que conta histórias",
+    imagem: "https://picsum.photos/seed/entre7/960/768",
+  },
+  {
+    id: "8",
+    titulo: null,
+    legenda: "O espaço que nos escolheu",
+    imagem: "https://picsum.photos/seed/entre8/960/768",
+  },
 ];
 
 const DRAG_THRESHOLD = 5;
@@ -38,25 +78,28 @@ export default function GaleriaEspaco() {
     setProgress(maxScroll > 0 ? el.scrollLeft / maxScroll : 0);
   }, []);
 
-  const startInertia = useCallback((initialVelocity: number) => {
-    const el = scrollRef.current;
-    if (!el) return;
+  const startInertia = useCallback(
+    (initialVelocity: number) => {
+      const el = scrollRef.current;
+      if (!el) return;
 
-    let vel = initialVelocity;
+      let vel = initialVelocity;
 
-    const animate = () => {
-      const ds = dragState.current;
-      el.scrollLeft -= vel;
-      vel *= INERTIA_FRICTION;
-      updateProgress();
+      const animate = () => {
+        const ds = dragState.current;
+        el.scrollLeft -= vel;
+        vel *= INERTIA_FRICTION;
+        updateProgress();
 
-      if (Math.abs(vel) > 0.5) {
-        ds.animationId = requestAnimationFrame(animate);
-      }
-    };
+        if (Math.abs(vel) > 0.5) {
+          ds.animationId = requestAnimationFrame(animate);
+        }
+      };
 
-    dragState.current.animationId = requestAnimationFrame(animate);
-  }, [updateProgress]);
+      dragState.current.animationId = requestAnimationFrame(animate);
+    },
+    [updateProgress],
+  );
 
   const handlePointerDown = (e: React.PointerEvent) => {
     const el = scrollRef.current;
@@ -97,7 +140,7 @@ export default function GaleriaEspaco() {
     const now = Date.now();
     const dt = now - ds.lastTime;
     if (dt > 0) {
-      ds.velocity = (ds.lastX - e.clientX) / dt * 16;
+      ds.velocity = ((ds.lastX - e.clientX) / dt) * 16;
     }
     ds.lastX = e.clientX;
     ds.lastTime = now;
@@ -127,9 +170,7 @@ export default function GaleriaEspaco() {
   useEffect(() => {
     if (lightboxIndex !== null) return;
 
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) return;
 
     const items = scrollRef.current?.querySelectorAll<HTMLElement>("[data-foto-item]");
@@ -180,25 +221,30 @@ export default function GaleriaEspaco() {
                   fetchPriority={i === 0 ? "high" : "low"}
                 />
                 <div className="espaco__foto-halftone" aria-hidden="true">
-                  <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <svg
+                    width="100%"
+                    height="100%"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
                     <filter id={`halftone-${foto.id}`}>
-                      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+                      <feTurbulence
+                        type="fractalNoise"
+                        baseFrequency="0.65"
+                        numOctaves="3"
+                        stitchTiles="stitch"
+                      />
                     </filter>
                     <rect width="100%" height="100%" filter={`url(#halftone-${foto.id})`} />
                   </svg>
                 </div>
               </div>
-              {foto.legenda && (
-                <span className="espaco__foto-legenda">{foto.legenda}</span>
-              )}
+              {foto.legenda && <span className="espaco__foto-legenda">{foto.legenda}</span>}
             </button>
           ))}
         </div>
         <div className="espaco__progress">
-          <div
-            className="espaco__progress-bar"
-            style={{ transform: `scaleX(${progress})` }}
-          />
+          <div className="espaco__progress-bar" style={{ transform: `scaleX(${progress})` }} />
         </div>
       </div>
 

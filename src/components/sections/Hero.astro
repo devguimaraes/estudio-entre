@@ -1,58 +1,103 @@
 ---
-// Hero.astro — Editorial Premium Cinematic Entrance
 import { Image } from "astro:assets";
 import logoClaro from "@/assets/logos/Logo_Estudio Entre - Claro 2.png";
+import Decorative from "@/components/ui/Decorative.astro";
+import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 ---
 
-<section class="hero h-screen relative bg-orange overflow-hidden" role="banner" aria-label="Estúdio Entre — Hub Cultural no Méier, RJ">
-  <!-- Layer 0: Texture (Halftone) -->
-  <div class="hero__texture absolute inset-0 pointer-events-none z-0">
-    <div class="absolute inset-0 hero__halftone opacity-15"></div>
-    <div class="absolute inset-0 bg-[url('/textures/paper-texture-optimized.webp')] bg-repeat opacity-10 mix-blend-multiply"></div>
+<section
+  class="hero h-screen relative bg-orange overflow-hidden"
+  role="banner"
+  aria-label="Estúdio Entre — Hub Cultural no Méier, RJ"
+>
+  <!-- Layer 0: Halftone Texture -->
+  <HalftoneTexture
+    density={12}
+    dotSize={1.8}
+    color="0,0,0"
+    opacity={0.12}
+    class="z-0"
+  />
+  <div
+    class="absolute inset-0 bg-[url('/textures/paper-texture-optimized.webp')] bg-repeat opacity-10 mix-blend-multiply z-0 pointer-events-none"
+  >
   </div>
-  
+
+  <!-- Floating decorative elements -->
+  <div class="absolute top-[15%] left-[8%] z-10 opacity-60 animate-float-slow">
+    <Decorative variant="ray" color="#dec72c" size={60} />
+  </div>
+  <div class="absolute top-[25%] right-[12%] z-10 opacity-40 animate-float">
+    <Decorative variant="star" color="#f0ede8" size={30} />
+  </div>
+  <div class="absolute bottom-[30%] left-[15%] z-10 opacity-30 animate-float-delayed">
+    <Decorative variant="star" color="#dec72c" size={20} />
+  </div>
+  <div class="absolute top-[60%] right-[8%] z-10 opacity-25 animate-float">
+    <Decorative variant="dots" color="#f0ede8" size={40} />
+  </div>
+
   <!-- Layer 1: The Portal Symbol (Chave) -->
-  <div class="hero__symbol-container absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-    <img src="/icons/fechadura.svg" class="hero__symbol w-[200px] h-auto opacity-0" alt="" />
+  <div
+    class="hero__symbol-container absolute inset-0 flex items-center justify-center z-20 pointer-events-none"
+  >
+    <img
+      src="/icons/chave.svg"
+      class="hero__symbol w-[180px] md:w-[240px] h-auto opacity-0"
+      alt=""
+    />
   </div>
 
   <!-- Layer 2: Content -->
-  <div class="hero__layer-content relative z-10 h-full flex flex-col justify-center items-center text-center px-6">
+  <div
+    class="hero__layer-content relative z-30 h-full flex flex-col justify-center items-center text-center px-6"
+  >
     <div class="hero__logo-wrap mb-10">
-       <Image 
-         src={logoClaro} 
-         class="hero__logo opacity-0 w-full max-w-[280px] sm:max-w-[480px] h-auto" 
-         alt="Estúdio Entre"
-         loading="eager"
-         fetchpriority="high"
-       />
+      <Image
+        src={logoClaro}
+        class="hero__logo opacity-0 w-full max-w-[280px] sm:max-w-[480px] h-auto"
+        alt="Estúdio Entre"
+        loading="eager"
+        fetchpriority="high"
+      />
     </div>
-    
+
     <div class="hero__description text-cream pointer-events-none opacity-0">
       <p class="font-display text-[10px] sm:text-xs uppercase tracking-[0.4em] mb-3">
-        Espaço cultural independente
+        Hub Cultural Independente
       </p>
       <p class="font-display italic text-lg sm:text-2xl opacity-90">
-        encontros, palavra e som.
+        onde a palavra vira encontro.
       </p>
     </div>
 
-    <div class="hero__ctas mt-12 flex translate-y-6 flex-col gap-6 opacity-0 sm:flex-row">
-        <a href="#agenda" class="hero__cta hero__cta--primary px-8 py-4 bg-cream text-orange font-bold uppercase tracking-widest text-sm rounded-sm" data-cursor="EXPLORAR">
-          Próximos encontros
-        </a>
-        <a href="#espaco" class="hero__cta hero__cta--secondary px-8 py-4 border-2 border-cream text-cream font-bold uppercase tracking-widest text-sm rounded-sm" data-cursor="ENTRAR">
-          Conheça o espaço
-        </a>
+    <div
+      class="hero__ctas mt-12 flex translate-y-6 flex-col gap-6 opacity-0 sm:flex-row"
+    >
+      <a
+        href="#agenda"
+        class="hero__cta hero__cta--primary px-8 py-4 bg-cream text-orange font-bold uppercase tracking-widest text-sm rounded-full"
+        data-cursor="EXPLORAR"
+      >
+        Próximos encontros
+      </a>
+      <a
+        href="#espaco"
+        class="hero__cta hero__cta--secondary px-8 py-4 border-2 border-cream text-cream font-bold uppercase tracking-widest text-sm rounded-full"
+        data-cursor="ENTRAR"
+      >
+        Conheça o espaço
+      </a>
     </div>
   </div>
 
   <!-- Scroll indicator -->
-  <div class="hero__scroll absolute bottom-10 left-10 flex items-center gap-4 opacity-0">
+  <div class="hero__scroll absolute bottom-10 left-10 flex items-center gap-4 opacity-0 z-30">
     <span class="text-[10px] uppercase tracking-[0.3em] text-cream/50">Scroll</span>
     <div class="w-12 h-[1px] bg-cream/30 relative overflow-hidden">
-        <div class="hero__scroll-line absolute inset-0 bg-cream -translate-x-full"></div>
+      <div class="hero__scroll-line absolute inset-0 bg-cream -translate-x-full"></div>
     </div>
+    <Decorative variant="arrow" color="rgba(240,237,232,0.5)" size={24} />
   </div>
 
   <script>
@@ -66,21 +111,20 @@ import logoClaro from "@/assets/logos/Logo_Estudio Entre - Claro 2.png";
     filter: brightness(0) invert(1);
   }
 
-  .hero__halftone {
-    background-image: radial-gradient(rgba(0, 0, 0, 0.2) 1.5px, transparent 1.5px);
-    background-size: 10px 10px;
-  }
-
   .hero {
     perspective: 1000px;
   }
-  
+
   .hero__cta {
-    transition: transform 0.4s var(--ease-editorial), background-color 0.4s var(--ease-editorial);
+    transition:
+      transform 0.4s var(--ease-editorial),
+      background-color 0.4s var(--ease-editorial),
+      box-shadow 0.4s var(--ease-editorial);
   }
 
   .hero__cta:hover {
     transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
   }
 
   .hero__cta--primary:hover {
@@ -89,5 +133,42 @@ import logoClaro from "@/assets/logos/Logo_Estudio Entre - Claro 2.png";
 
   .hero__cta--secondary:hover {
     background-color: rgba(240, 237, 232, 0.1);
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-12px) rotate(5deg);
+    }
+  }
+  @keyframes float-slow {
+    0%,
+    100% {
+      transform: translateY(0) rotate(-5deg);
+    }
+    50% {
+      transform: translateY(-8px) rotate(0deg);
+    }
+  }
+  @keyframes float-delayed {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-10px) rotate(-3deg);
+    }
+  }
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+  .animate-float-slow {
+    animation: float-slow 6s ease-in-out infinite;
+  }
+  .animate-float-delayed {
+    animation: float-delayed 5s ease-in-out infinite 1s;
   }
 </style>

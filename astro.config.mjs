@@ -1,8 +1,8 @@
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
+import vercel from "@astrojs/vercel";
 import sanity from "@sanity/astro";
 import tailwindcss from "@tailwindcss/vite";
-import vercel from "@astrojs/vercel";
 import { defineConfig } from "astro/config";
 import { loadEnv } from "vite";
 

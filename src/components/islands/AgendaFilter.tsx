@@ -1,8 +1,8 @@
-import { useState, useEffect, useMemo, useRef } from "react";
-import gsap from "gsap";
-import type { EventoCard, CategoriaEvento } from "@/types/evento";
-import { CATEGORIAS } from "@/utils/categorias";
 import { urlFor } from "@/sanity/image";
+import type { CategoriaEvento, EventoCard } from "@/types/evento";
+import { CATEGORIAS } from "@/utils/categorias";
+import gsap from "gsap";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const TODOS_STYLE = { "--pill-color": "#f0ede8", "--pill-text": "#8e8100" };
 
@@ -27,9 +27,7 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
 
   const filteredEvents = useMemo(
     () =>
-      activeFilter === "todos"
-        ? eventos
-        : eventos.filter((e) => e.categoria === activeFilter),
+      activeFilter === "todos" ? eventos : eventos.filter((e) => e.categoria === activeFilter),
     [eventos, activeFilter],
   );
 
@@ -54,7 +52,7 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
     if (hoveredEvent) {
       window.addEventListener("mousemove", handleMouseMove);
     }
-    
+
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [hoveredEvent]);
 
@@ -62,10 +60,11 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
   useEffect(() => {
     if (!listRef.current) return;
     const items = listRef.current.querySelectorAll("li");
-    
-    gsap.fromTo(items, 
+
+    gsap.fromTo(
+      items,
       { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 1, stagger: 0.05, ease: "power4.out", overwrite: "auto" }
+      { opacity: 1, y: 0, duration: 1, stagger: 0.05, ease: "power4.out", overwrite: "auto" },
     );
   }, []); // list depends on filteredEvents, but we re-animate on change via activeFilter if we want, Biome says activeFilter is not needed here if it's already triggered by filter change.
 
@@ -85,7 +84,11 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
             key={cat.value}
             type="button"
             className={`agenda__pill px-6 py-2 rounded-full border border-cream/20 text-xs uppercase tracking-widest transition-all ${activeFilter === cat.value ? "agenda__pill--active" : "hover:border-cream/50"}`}
-            style={activeFilter === cat.value ? { backgroundColor: cat.color, color: cat.textColor, borderColor: cat.color } : undefined}
+            style={
+              activeFilter === cat.value
+                ? { backgroundColor: cat.color, color: cat.textColor, borderColor: cat.color }
+                : undefined
+            }
             onClick={() => setActiveFilter(cat.value)}
           >
             {cat.label}
@@ -99,7 +102,7 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
       ) : (
         <ul ref={listRef} className="agenda__list border-t border-cream/10">
           {filteredEvents.map((evento) => (
-            <li 
+            <li
               key={evento._id}
               className="agenda__item group relative flex flex-col md:flex-row md:items-center justify-between py-10 border-b border-cream/10 cursor-none"
               onMouseEnter={() => setHoveredEvent(evento)}
@@ -108,19 +111,29 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
             >
               <div className="flex flex-col gap-2">
                 <span className="text-[10px] uppercase tracking-[0.3em] opacity-40">
-                  {new Date(evento.dataInicio).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).replace('.', '')} — {new Date(evento.dataInicio).getHours()}h
+                  {new Date(evento.dataInicio)
+                    .toLocaleDateString("pt-BR", { day: "2-digit", month: "short" })
+                    .replace(".", "")}{" "}
+                  — {new Date(evento.dataInicio).getHours()}h
                 </span>
                 <h3 className="text-3xl md:text-5xl font-display italic leading-none group-hover:translate-x-4 transition-transform duration-500">
                   {evento.titulo}
                 </h3>
               </div>
-              
+
               <div className="mt-4 md:mt-0 flex items-center gap-6">
                 <span className="text-[10px] uppercase tracking-widest opacity-60 border border-cream/20 px-3 py-1 rounded-sm">
                   {CATEGORIAS[evento.categoria as CategoriaEvento]?.label}
                 </span>
-                <a href={`/eventos/${evento.slug.current}`} className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:block">
-                   <img src="/icons/play.svg" className="w-8 h-8 invert opacity-50 hover:opacity-100 transition-opacity" alt="Ver detalhes" />
+                <a
+                  href={`/eventos/${evento.slug.current}`}
+                  className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:block"
+                >
+                  <img
+                    src="/icons/play.svg"
+                    className="w-8 h-8 invert opacity-50 hover:opacity-100 transition-opacity"
+                    alt="Ver detalhes"
+                  />
                 </a>
               </div>
             </li>
@@ -129,13 +142,13 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
       )}
 
       {/* Preview Flutuante */}
-      <div 
+      <div
         ref={previewRef}
-        className={`fixed top-0 left-0 w-64 aspect-square pointer-events-none z-50 overflow-hidden rounded-sm transition-all duration-500 ${hoveredEvent ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}
+        className={`fixed top-0 left-0 w-64 aspect-square pointer-events-none z-50 overflow-hidden rounded-sm transition-all duration-500 ${hoveredEvent ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}
       >
         {hoveredEvent?.imagem && (
-          <img 
-            src={urlFor(hoveredEvent.imagem).width(400).height(400).url()} 
+          <img
+            src={urlFor(hoveredEvent.imagem).width(400).height(400).url()}
             className="w-full h-full object-cover"
             alt=""
           />

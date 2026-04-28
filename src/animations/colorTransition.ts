@@ -14,10 +14,11 @@ export function initColorTransitions(): void {
   const sections = [
     { trigger: ".hero", color: "#ec6838", theme: "light" },
     { trigger: ".sobre", color: "#f0ede8", theme: "dark" },
-    { trigger: ".eixos", color: "#1a1612", theme: "light" },
+    { trigger: ".servicos", color: "#f0ede8", theme: "dark" },
     { trigger: ".agenda", color: "#8e8100", theme: "light" },
     { trigger: ".espaco", color: "#3d1020", theme: "light" },
-    { trigger: ".contato", color: "#1a1612", theme: "light" }
+    { trigger: ".contato", color: "#1a1612", theme: "light" },
+    { trigger: ".footer", color: "#f0ede8", theme: "dark" },
   ];
 
   const nav = document.querySelector(".navbar");

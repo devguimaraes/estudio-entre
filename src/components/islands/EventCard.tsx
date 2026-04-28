@@ -1,6 +1,6 @@
-import { useState } from "react";
 import type { EventoCard } from "@/types/evento";
 import { CATEGORIAS } from "@/utils/categorias";
+import { useState } from "react";
 import styles from "./EventCard.module.css";
 
 function formatDate(iso: string): string {
@@ -26,10 +26,7 @@ export default function EventCard({ evento, destaque = false }: EventCardProps) 
   const hasMultiple = imagens.length > 1;
 
   return (
-    <div
-      data-event-card
-      className={`${styles.card} ${destaque ? styles["card--destaque"] : ""}`}
-    >
+    <div data-event-card className={`${styles.card} ${destaque ? styles["card--destaque"] : ""}`}>
       <div className={styles.flipper}>
         {/* Frente */}
         <div className={styles.front}>
@@ -44,10 +41,7 @@ export default function EventCard({ evento, destaque = false }: EventCardProps) 
                 height={768}
               />
             )}
-            <span
-              className={styles.badge}
-              style={{ backgroundColor: cat.color }}
-            >
+            <span className={styles.badge} style={{ backgroundColor: cat.color }}>
               {cat.label}
             </span>
             {hasMultiple && (
@@ -76,9 +70,7 @@ export default function EventCard({ evento, destaque = false }: EventCardProps) 
 
         {/* Verso */}
         <div className={styles.back}>
-          {evento.descricao && (
-            <p className={styles.description}>{evento.descricao}</p>
-          )}
+          {evento.descricao && <p className={styles.description}>{evento.descricao}</p>}
           {evento.valor && <p className={styles.price}>{evento.valor}</p>}
           {evento.linkCompra && (
             <a

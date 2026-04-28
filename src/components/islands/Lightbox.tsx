@@ -1,5 +1,5 @@
-import { useEffect, useRef, useCallback } from "react";
 import type { FotoEspaco } from "@/types/foto";
+import { useCallback, useEffect, useRef } from "react";
 
 interface LightboxProps {
   fotos: FotoEspaco[];
@@ -8,12 +8,7 @@ interface LightboxProps {
   onChangeIndex: (index: number) => void;
 }
 
-export default function Lightbox({
-  fotos,
-  activeIndex,
-  onClose,
-  onChangeIndex,
-}: LightboxProps) {
+export default function Lightbox({ fotos, activeIndex, onClose, onChangeIndex }: LightboxProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
   const foto = fotos[activeIndex];
@@ -92,8 +87,12 @@ export default function Lightbox({
           fontFamily: "var(--font-body)",
           lineHeight: 1,
         }}
-        onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
-        onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.7"; }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.opacity = "1";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.opacity = "0.7";
+        }}
       >
         &times;
       </button>
@@ -116,22 +115,28 @@ export default function Lightbox({
             opacity: 0.5,
             transition: "opacity 0.3s ease",
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.5"; }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = "1";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = "0.5";
+          }}
         >
           &#8249;
         </button>
       )}
 
-      <div style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: "1.5rem",
-        maxWidth: "90vw",
-        maxHeight: "85vh",
-        padding: "0 4rem",
-      }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "1.5rem",
+          maxWidth: "90vw",
+          maxHeight: "85vh",
+          padding: "0 4rem",
+        }}
+      >
         {foto && (
           <>
             <img
@@ -145,23 +150,27 @@ export default function Lightbox({
               }}
             />
             {foto.legenda && (
-              <p style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "1.125rem",
-                color: "#f0ede8",
-                opacity: 0.8,
-                textAlign: "center",
-                fontStyle: "italic",
-              }}>
+              <p
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "1.125rem",
+                  color: "#f0ede8",
+                  opacity: 0.8,
+                  textAlign: "center",
+                  fontStyle: "italic",
+                }}
+              >
                 {foto.legenda}
               </p>
             )}
-            <span style={{
-              fontFamily: "var(--font-body)",
-              fontSize: "0.8rem",
-              color: "#f0ede8",
-              opacity: 0.4,
-            }}>
+            <span
+              style={{
+                fontFamily: "var(--font-body)",
+                fontSize: "0.8rem",
+                color: "#f0ede8",
+                opacity: 0.4,
+              }}
+            >
               {activeIndex + 1} / {fotos.length}
             </span>
           </>
@@ -186,8 +195,12 @@ export default function Lightbox({
             opacity: 0.5,
             transition: "opacity 0.3s ease",
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.5"; }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = "1";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = "0.5";
+          }}
         >
           &#8250;
         </button>

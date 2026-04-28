@@ -17,9 +17,7 @@ export function initNavbar(): void {
   if (!hamburger || !drawer || !overlay) return;
 
   let isOpen = false;
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // Set initial state for GSAP
   gsap.set(drawer, { xPercent: -100 });
