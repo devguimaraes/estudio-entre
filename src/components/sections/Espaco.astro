@@ -1,17 +1,11 @@
 ---
-import { Image } from "astro:assets";
-import img1 from "@/assets/images/Avatar_Estúdio Entre-1.webp";
-import img3 from "@/assets/images/Avatar_Estúdio Entre-3.webp";
-import img5 from "@/assets/images/Avatar_Estúdio Entre-5.webp";
-import img2 from "@/assets/images/brand/apresentacao-estudio-entre-2.jpg";
-import img4 from "@/assets/images/brand/apresentacao-estudio-entre-3.jpg";
 import BlobMask from "@/components/ui/BlobMask.astro";
 import Decorative from "@/components/ui/Decorative.astro";
 import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 
 const imagens = [
   {
-    src: img1,
+    src: "/images/brand/apresentacao-estudio-entre.jpg",
     label: "01. Perspectiva",
     variant: 1 as const,
     top: "0%",
@@ -21,7 +15,7 @@ const imagens = [
     speed: 0.8,
   },
   {
-    src: img2,
+    src: "/images/brand/apresentacao-estudio-entre-2.jpg",
     label: "02. Thayná",
     variant: 2 as const,
     top: "20%",
@@ -31,7 +25,7 @@ const imagens = [
     speed: 1.2,
   },
   {
-    src: img3,
+    src: "/images/brand/apresentacao-estudio-entre-3.jpg",
     label: "03. Encontros",
     variant: 3 as const,
     top: "50%",
@@ -41,7 +35,7 @@ const imagens = [
     speed: 0.6,
   },
   {
-    src: img4,
+    src: "/images/brand/apresentacao-estudio-entre-4.jpg",
     label: "04. Valdete",
     variant: 4 as const,
     top: "70%",
@@ -51,7 +45,7 @@ const imagens = [
     speed: 1.4,
   },
   {
-    src: img5,
+    src: "/images/brand/apresentacao-estudio-entre-5.jpg",
     label: "05. Detalhes",
     variant: 1 as const,
     top: "90%",
@@ -104,7 +98,7 @@ const imagens = [
         >
           <div class="relative" data-cursor="VER">
             <BlobMask variant={img.variant} class="aspect-square">
-              <Image
+              <img
                 src={img.src}
                 alt={img.label}
                 class="w-full h-full object-cover"

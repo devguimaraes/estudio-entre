@@ -25,6 +25,6 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   image: {
-    service: { entrypoint: "astro/assets/services/sharp" },
+    service: { entrypoint: "astro/assets/services/noop" },
   },
 });

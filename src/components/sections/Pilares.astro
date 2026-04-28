@@ -1,10 +1,4 @@
 ---
-import { Image } from "astro:assets";
-import imgEncontros from "@/assets/images/brand/apresentacao-estudio-entre-4.jpg";
-import imgOficinas from "@/assets/images/brand/onde-a-palavra-vira-encontro.jpg";
-import imgBiblioterapia from "@/assets/images/brand/sobre-estudio-entre-2.jpg";
-import imgPalestras from "@/assets/images/brand/sobre-estudio-entre-3.jpg";
-import imgEstudio from "@/assets/images/brand/sobre-estudio-entre.jpg";
 import BlobMask from "@/components/ui/BlobMask.astro";
 
 const pilares = [
@@ -17,7 +11,7 @@ const pilares = [
     color: "#9e4b2d",
     textColor: "#f0ede8",
     icon: "/icons/olho.svg",
-    image: imgBiblioterapia,
+    image: "/images/brand/sobre-estudio-entre-2.jpg",
     imageAlt: "Livro aberto — símbolo da biblioterapia",
   },
   {
@@ -29,7 +23,7 @@ const pilares = [
     color: "#bdb2dd",
     textColor: "#1a1612",
     icon: "/icons/spark.svg",
-    image: imgOficinas,
+    image: "/images/brand/onde-a-palavra-vira-encontro.jpg",
     imageAlt: "Onde a palavra vira encontro",
   },
   {
@@ -41,7 +35,7 @@ const pilares = [
     color: "#b9e4eb",
     textColor: "#1a1612",
     icon: "/icons/microfone.svg",
-    image: imgPalestras,
+    image: "/images/brand/sobre-estudio-entre-3.jpg",
     imageAlt: "Microfone e notas — símbolo das palestras",
   },
   {
@@ -53,7 +47,7 @@ const pilares = [
     color: "#dec72c",
     textColor: "#1a1612",
     icon: "/icons/play.svg",
-    image: imgEstudio,
+    image: "/images/brand/sobre-estudio-entre.jpg",
     imageAlt: "Sofá do estúdio — espaço de criação",
   },
   {
@@ -65,7 +59,7 @@ const pilares = [
     color: "#ec6838",
     textColor: "#f0ede8",
     icon: "/icons/pin.svg",
-    image: imgEncontros,
+    image: "/images/brand/apresentacao-estudio-entre-4.jpg",
     imageAlt: "Estante de livros do espaço",
   },
 ];
@@ -80,7 +74,7 @@ const pilares = [
         data-color={pilar.color}
         data-theme={pilar.textColor === "#f0ede8" ? "light" : "dark"}
       >
-        <!-- Halftone textura sutil -->
+        {/* Halftone textura sutil */}
         <div
           class="absolute inset-0 pointer-events-none opacity-10"
           style={`background-image: radial-gradient(${pilar.textColor} 1.2px, transparent 1.2px); background-size: 12px 12px;`}
@@ -88,11 +82,9 @@ const pilares = [
 
         <div class="max-w-7xl mx-auto relative z-10">
           <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
-            <!-- Lado esquerdo: número + título -->
+            {/* Lado esquerdo: número + título */}
             <div class="flex items-start gap-6 lg:flex-1">
-              <span
-                class="text-[10px] uppercase tracking-[0.4em] opacity-50 mt-2"
-              >
+              <span class="text-[10px] uppercase tracking-[0.4em] opacity-50 mt-2">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <div>
@@ -105,15 +97,18 @@ const pilares = [
               </div>
             </div>
 
-            <!-- Centro: descrição -->
+            {/* Centro: descrição */}
             <p class="pilar__desc max-w-sm text-sm md:text-base leading-relaxed opacity-80 lg:text-center">
               {pilar.description}
             </p>
 
-            <!-- Direita: imagem com máscara orgânica -->
+            {/* Direita: imagem com máscara orgânica */}
             <div class="lg:w-[200px] xl:w-[240px] flex-shrink-0">
-              <BlobMask variant={((i % 4) + 1) as 1 | 2 | 3 | 4} class="aspect-square">
-                <Image
+              <BlobMask
+                variant={((i % 4) + 1) as 1 | 2 | 3 | 4}
+                class="aspect-square"
+              >
+                <img
                   src={pilar.image}
                   alt={pilar.imageAlt}
                   class="w-full h-full object-cover"

@@ -1,7 +1,4 @@
 ---
-import { Image } from "astro:assets";
-import fotoFundadoras from "@/assets/images/brand/apresentacao-estudio-entre.jpg";
-import fotoInterrogacao from "@/assets/images/brand/sobre-estudio-entre-4.jpg";
 import BlobMask from "@/components/ui/BlobMask.astro";
 import Decorative from "@/components/ui/Decorative.astro";
 import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
@@ -68,8 +65,8 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
           <!-- Imagem das fundadoras com recorte orgânico -->
           <div class="sobre__image-reveal relative" data-cursor="VER ESPAÇO">
             <BlobMask variant={3} class="aspect-[4/5]">
-              <Image
-                src={fotoFundadoras}
+              <img
+                src="/images/brand/apresentacao-estudio-entre.jpg"
                 alt="Thayná e Valdete — fundadoras do Estúdio Entre"
                 class="w-full h-full object-cover"
               />
@@ -97,8 +94,8 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
           <!-- Imagem secundária de curiosidade -->
           <div class="relative max-w-xs ml-auto">
             <BlobMask variant={2} class="aspect-square">
-              <Image
-                src={fotoInterrogacao}
+              <img
+                src="/images/brand/sobre-estudio-entre-4.jpg"
                 alt="Afinal, o que é o Estúdio Entre?"
                 class="w-full h-full object-cover"
               />
