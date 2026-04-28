@@ -1,24 +1,55 @@
 ---
-// Sobre.astro — Editorial Narrative Section
 import { Image } from "astro:assets";
-import placeholder1 from "@/assets/images/estudio-entre-3.png";
+import fotoFundadoras from "@/assets/images/brand/apresentacao-estudio-entre.jpg";
+import fotoInterrogacao from "@/assets/images/brand/sobre-estudio-entre-4.jpg";
+import BlobMask from "@/components/ui/BlobMask.astro";
+import Decorative from "@/components/ui/Decorative.astro";
+import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 ---
 
-<section class="sobre relative py-40 px-6 md:px-20 bg-cream text-near-black overflow-hidden" id="sobre">
+<section
+  class="sobre relative py-40 px-6 md:px-20 bg-cream text-near-black overflow-hidden"
+  id="sobre"
+>
+  <!-- Textura pontilhada sutil no fundo -->
+  <HalftoneTexture
+    density={16}
+    dotSize={1.2}
+    color="158,75,45"
+    opacity={0.06}
+    class="z-0"
+  />
+
+  <!-- Elementos decorativos -->
+  <div class="absolute top-[10%] right-[5%] opacity-30 z-10">
+    <Decorative variant="star" color="#9e4b2d" size={50} />
+  </div>
+  <div class="absolute bottom-[20%] left-[3%] opacity-20 z-10">
+    <Decorative variant="dots" color="#3d1020" size={60} />
+  </div>
+  <div class="absolute top-[40%] left-[2%] opacity-15 z-10">
+    <Decorative variant="ray" color="#dec72c" size={40} />
+  </div>
+
   <!-- Monumental Watermark -->
-  <div class="sobre__watermark absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-[60vw] font-black opacity-[0.02] pointer-events-none select-none z-0">
+  <div
+    class="sobre__watermark absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-[60vw] font-black opacity-[0.02] pointer-events-none select-none z-0"
+  >
     E
   </div>
 
   <div class="max-w-7xl mx-auto relative z-10">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
-      
       <!-- Sticky Title Side -->
       <div class="lg:col-span-5">
         <div class="sobre__sticky-wrap lg:sticky lg:top-40">
-          <p class="text-[10px] uppercase tracking-[0.4em] text-bordo mb-8">Nossa Essência</p>
-          <h2 class="sobre__title text-5xl md:text-7xl font-display font-black italic uppercase leading-[0.9] text-bordo">
-            Uma mãe,<br/> uma filha<br/> e um sonho.
+          <p class="text-[10px] uppercase tracking-[0.4em] text-bordo mb-8">
+            Nossa Essência
+          </p>
+          <h2
+            class="sobre__title text-5xl md:text-7xl font-display font-black italic uppercase leading-[0.9] text-bordo"
+          >
+            Uma mãe,<br /> uma filha<br /> e um sonho.
           </h2>
         </div>
       </div>
@@ -27,29 +58,60 @@ import placeholder1 from "@/assets/images/estudio-entre-3.png";
       <div class="lg:col-span-7 pt-10 lg:pt-0">
         <div class="sobre__text-block space-y-12">
           <p class="sobre__text text-xl md:text-2xl leading-relaxed font-medium">
-            O Estúdio Entre é um <span class="text-orange italic">hub cultural multidisciplinar</span>, cuja missão é promover encontros significativos entre cultura, conhecimento e bem-estar. Um espaço plural e acolhedor, onde arte, palavra e cuidado se entrelaçam.
+            O Estúdio Entre é um <span class="text-orange italic"
+              >hub cultural multidisciplinar</span
+            >, cuja missão é promover encontros significativos entre cultura,
+            conhecimento e bem-estar. Um espaço plural e acolhedor, onde arte,
+            palavra e cuidado se entrelaçam.
           </p>
-          
-          <div class="sobre__image-reveal relative aspect-[4/5] overflow-hidden rounded-sm" data-cursor="VER ESPAÇO">
-            <Image src={placeholder1} alt="Ambiente Estúdio Entre" class="w-full h-full object-cover" />
-            <div class="absolute inset-0 bg-bordo/10 mix-blend-multiply"></div>
+
+          <!-- Imagem das fundadoras com recorte orgânico -->
+          <div class="sobre__image-reveal relative" data-cursor="VER ESPAÇO">
+            <BlobMask variant={3} class="aspect-[4/5]">
+              <Image
+                src={fotoFundadoras}
+                alt="Thayná e Valdete — fundadoras do Estúdio Entre"
+                class="w-full h-full object-cover"
+              />
+            </BlobMask>
+            <div
+              class="absolute inset-0 bg-bordo/5 mix-blend-multiply pointer-events-none"
+            >
+            </div>
           </div>
 
           <div class="space-y-8 text-lg opacity-80 leading-relaxed max-w-xl">
             <p class="sobre__text">
-              Por meio de experiências que unem literatura, comunicação e práticas integrativas, estimulamos a escuta, a criação e o acesso à expressão cultural em suas diversas formas — fortalecendo o vínculo entre pessoas, gerações e modos de existir.
+              Por meio de experiências que unem literatura, comunicação e
+              práticas integrativas, estimulamos a escuta, a criação e o acesso
+              à expressão cultural em suas diversas formas — fortalecendo o
+              vínculo entre pessoas, gerações e modos de existir.
             </p>
             <p class="sobre__text">
-              O hub reúne rodas de biblioterapia, oficinas, palestras e encontros culturais, além de disponibilizar um estúdio profissional para gravação de podcasts e videocasts.
+              O hub reúne rodas de biblioterapia, oficinas, palestras e
+              encontros culturais, além de disponibilizar um estúdio
+              profissional para gravação de podcasts e videocasts.
             </p>
           </div>
 
-          <p class="sobre__signature text-2xl md:text-3xl font-display italic text-bordo pt-10 border-t border-bordo/10">
+          <!-- Imagem secundária de curiosidade -->
+          <div class="relative max-w-xs ml-auto">
+            <BlobMask variant={2} class="aspect-square">
+              <Image
+                src={fotoInterrogacao}
+                alt="Afinal, o que é o Estúdio Entre?"
+                class="w-full h-full object-cover"
+              />
+            </BlobMask>
+          </div>
+
+          <p
+            class="sobre__signature text-2xl md:text-3xl font-display italic text-bordo pt-10 border-t border-bordo/10"
+          >
             Entre palavras, entre pessoas — é só entrar.
           </p>
         </div>
       </div>
-
     </div>
   </div>
 
