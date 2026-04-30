@@ -9,11 +9,20 @@ export function animateFooter(): void {
 
   const cols = document.querySelectorAll(".footer__col");
 
-  gsap.fromTo(cols,
+  gsap.fromTo(
+    cols,
     { opacity: 0, y: 24 },
     {
-      opacity: 1, y: 0, duration: 0.8, stagger: 0.12, ease: "power3.out",
-      scrollTrigger: { trigger: ".footer", start: "top 85%", toggleActions: "play none none reverse" },
-    }
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      stagger: 0.12,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: ".footer",
+        start: "top 85%",
+        toggleActions: "play none none reverse",
+      },
+    },
   );
 }

@@ -9,11 +9,20 @@ export function animateGaleria(): void {
 
   const items = document.querySelectorAll(".galeria__item");
 
-  gsap.fromTo(items,
+  gsap.fromTo(
+    items,
     { opacity: 0, y: 30 },
     {
-      opacity: 1, y: 0, duration: 0.7, stagger: 0.06, ease: "power3.out",
-      scrollTrigger: { trigger: ".galeria", start: "top 80%", toggleActions: "play none none reverse" },
-    }
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      stagger: 0.06,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: ".galeria",
+        start: "top 80%",
+        toggleActions: "play none none reverse",
+      },
+    },
   );
 }
