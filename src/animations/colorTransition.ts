@@ -8,13 +8,14 @@ export function initColorTransitions(): void {
   if (prefersReducedMotion) return;
 
   const sections = [
-    { trigger: ".hero", color: "#ec6838", theme: "light" },
+    { trigger: ".hero", color: "#3d1020", theme: "light" },
     { trigger: ".sobre", color: "#f0ede8", theme: "dark" },
-    { trigger: ".pilares", color: "#9e4b2d", theme: "light" },
-    { trigger: ".agenda", color: "#8e8100", theme: "light" },
-    { trigger: ".espaco", color: "#3d1020", theme: "light" },
-    { trigger: ".contato", color: "#1a1612", theme: "light" },
-    { trigger: ".footer", color: "#f0ede8", theme: "dark" },
+    { trigger: ".pilares", color: "#1a1612", theme: "light" },
+    { trigger: ".agenda", color: "#1d432c", theme: "light" },
+    { trigger: ".galeria", color: "#b9e4eb", theme: "dark" },
+    { trigger: ".voo-literario", color: "#1d432c", theme: "light" },
+    { trigger: ".contato", color: "#777bde", theme: "dark" },
+    { trigger: ".footer", color: "#1a1612", theme: "light" },
   ];
 
   const nav = document.querySelector(".navbar");
