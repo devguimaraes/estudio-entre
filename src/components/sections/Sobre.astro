@@ -1,48 +1,25 @@
 ---
-import BlobMask from "@/components/ui/BlobMask.astro";
-import Decorative from "@/components/ui/Decorative.astro";
-import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+const imagens = [
+  { src: "/images/brand/apresentacao-estudio-entre.jpg", alt: "Espaço do Estúdio Entre" },
+  { src: "/images/brand/apresentacao-estudio-entre-2.jpg", alt: "Thayná no Estúdio Entre" },
+  { src: "/images/brand/apresentacao-estudio-entre-3.jpg", alt: "Encontros no Estúdio Entre" },
+  { src: "/images/brand/apresentacao-estudio-entre-4.jpg", alt: "Valdete no Estúdio Entre" },
+  { src: "/images/brand/apresentacao-estudio-entre-5.jpg", alt: "Detalhes do Estúdio Entre" },
+];
 ---
 
 <section
-  class="sobre relative py-32 md:py-40 px-6 md:px-16 overflow-hidden"
+  class="sobre relative py-24 md:py-32 px-6 md:px-16 overflow-hidden"
   style="background-color: #f0ede8; color: #1a1612;"
   id="sobre"
 >
-  <!-- Halftone texture -->
-  <HalftoneTexture
-    density={16}
-    dotSize={1.2}
-    color="61,16,32"
-    opacity={0.05}
-    class="z-0"
-  />
-
-  <!-- Decorative elements -->
-  <div class="absolute top-[10%] right-[8%] opacity-25 z-10">
-    <Decorative variant="star" color="#9e4b2d" size={45} />
-  </div>
-  <div class="absolute bottom-[15%] left-[4%] opacity-15 z-10">
-    <Decorative variant="dots" color="#3d1020" size={55} />
-  </div>
-
-  <!-- Watermark "e" -->
-  <div
-    class="sobre__watermark absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-[50vw] font-black opacity-[0.02] pointer-events-none select-none z-0"
-    style="color: #3d1020;"
-  >
-    e
-  </div>
-
-  <div class="max-w-6xl mx-auto relative z-10">
-    <!-- Eyebrow -->
-    <p class="sobre__eyebrow text-[10px] uppercase tracking-[0.4em] mb-10 opacity-0" style="color: #3d1020;">
-      Nossa Essência
-    </p>
-
-    <!-- Title + Photo row -->
-    <div class="flex flex-col lg:flex-row lg:items-start gap-12 lg:gap-20 mb-16">
-      <div class="lg:w-[55%]">
+  <div class="max-w-7xl mx-auto relative z-10">
+    <!-- Header -->
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12 md:mb-16">
+      <div class="lg:max-w-xl">
+        <p class="sobre__eyebrow text-[10px] uppercase tracking-[0.4em] mb-6 opacity-0" style="color: #3d1020;">
+          Nossa Essência
+        </p>
         <h2
           class="sobre__title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black italic uppercase leading-[0.9] opacity-0"
           style="color: #3d1020;"
@@ -51,62 +28,104 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
         </h2>
       </div>
 
-      <div class="lg:w-[45%] flex justify-center lg:justify-end lg:pt-8">
-        <div class="sobre__image-main w-[240px] md:w-[280px] opacity-0">
-          <BlobMask variant={3} class="aspect-[4/5]">
-            <img
-              src="/images/brand/apresentacao-estudio-entre.jpg"
-              alt="Thayná e Valdete — fundadoras do Estúdio Entre"
-              class="w-full h-full object-cover"
-            />
-          </BlobMask>
-        </div>
+      <p class="sobre__lead text-lg md:text-xl lg:text-2xl font-medium leading-relaxed lg:max-w-md lg:text-right opacity-0">
+        O Estúdio Entre é um <span class="italic" style="color: #ec6838;">hub cultural multidisciplinar</span>,
+        cuja missão é promover encontros significativos.
+      </p>
+    </div>
+
+    <!-- Carousel -->
+    <div class="sobre__carousel relative mb-16 md:mb-20 opacity-0">
+      <div class="sobre__track flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide">
+        {imagens.map((img, i) => (
+          <div class="sobre__slide flex-shrink-0 snap-center w-[75vw] md:w-[55vw] lg:w-[45vw]">
+            <div class="relative aspect-[4/3] overflow-hidden bg-stone-200">
+              <img
+                src={img.src}
+                alt={img.alt}
+                class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                loading="lazy"
+              />
+            </div>
+            <span class="block mt-3 text-[10px] uppercase tracking-widest" style="color: rgba(61,16,32,0.35);">
+              {String(i + 1).padStart(2, "0")} / {String(imagens.length).padStart(2, "0")}
+            </span>
+          </div>
+        ))}
       </div>
+
+      <!-- Nav arrows -->
+      <button
+        class="sobre__prev absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 md:-translate-x-6 w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 z-20"
+        style="background-color: #3d1020; color: #f0ede8;"
+        aria-label="Imagem anterior"
+      >
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <button
+        class="sobre__next absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 md:translate-x-6 w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 z-20"
+        style="background-color: #3d1020; color: #f0ede8;"
+        aria-label="Próxima imagem"
+      >
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
     </div>
 
     <!-- Body text -->
-    <div class="max-w-2xl mb-20">
-      <p class="sobre__lead text-xl md:text-2xl leading-relaxed font-medium mb-8 opacity-0">
-        O Estúdio Entre é um <span class="italic" style="color: #ec6838;">hub cultural multidisciplinar</span>,
-        cuja missão é promover encontros significativos entre cultura, conhecimento e bem-estar.
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 max-w-5xl">
+      <p class="sobre__text text-base md:text-lg leading-relaxed opacity-0" style="color: rgba(26,22,18,0.75);">
+        Um espaço plural e acolhedor, onde arte, palavra e cuidado se entrelaçam. Por meio de
+        experiências que unem literatura, comunicação e práticas integrativas, estimulamos a
+        escuta, a criação e o acesso à expressão cultural.
       </p>
-
-      <div class="space-y-6 text-base md:text-lg opacity-80 leading-relaxed">
-        <p class="sobre__text opacity-0">
-          Um espaço plural e acolhedor, onde arte, palavra e cuidado se entrelaçam. Por meio de
-          experiências que unem literatura, comunicação e práticas integrativas, estimulamos a
-          escuta, a criação e o acesso à expressão cultural.
-        </p>
-        <p class="sobre__text opacity-0">
-          O hub reúne rodas de biblioterapia, oficinas, palestras e encontros culturais, além de
-          disponibilizar um estúdio profissional para gravação de podcasts e videocasts.
-        </p>
-      </div>
-    </div>
-
-    <!-- Secondary image + signature -->
-    <div class="flex flex-col md:flex-row md:items-end gap-12 md:gap-20">
-      <div class="sobre__image-secondary w-[180px] md:w-[200px] opacity-0">
-        <BlobMask variant={2} class="aspect-square">
-          <img
-            src="/images/brand/sobre-estudio-entre-4.jpg"
-            alt="Afinal, o que é o Estúdio Entre?"
-            class="w-full h-full object-cover"
-          />
-        </BlobMask>
-      </div>
-
-      <p
-        class="sobre__signature text-xl md:text-2xl lg:text-3xl font-display italic md:flex-1 opacity-0"
-        style="color: #3d1020;"
-      >
-        Entre palavras, entre pessoas — é só entrar.
+      <p class="sobre__text text-base md:text-lg leading-relaxed opacity-0" style="color: rgba(26,22,18,0.75);">
+        O hub reúne rodas de biblioterapia, oficinas, palestras e encontros culturais, além de
+        disponibilizar um estúdio profissional para gravação de podcasts e videocasts.
       </p>
     </div>
+
+    <!-- Signature -->
+    <p
+      class="sobre__signature mt-16 md:mt-20 text-xl md:text-2xl lg:text-3xl font-display italic text-center md:text-left opacity-0"
+      style="color: #3d1020;"
+    >
+      Entre palavras, entre pessoas — é só entrar.
+    </p>
   </div>
 
   <script>
     import { animateSobre } from "@/animations/sobre";
     animateSobre();
+
+    // Carousel navigation
+    const track = document.querySelector(".sobre__track");
+    const prevBtn = document.querySelector(".sobre__prev");
+    const nextBtn = document.querySelector(".sobre__next");
+
+    if (track && prevBtn && nextBtn) {
+      const scrollAmount = () => track.clientWidth * 0.6;
+
+      prevBtn.addEventListener("click", () => {
+        track.scrollBy({ left: -scrollAmount(), behavior: "smooth" });
+      });
+
+      nextBtn.addEventListener("click", () => {
+        track.scrollBy({ left: scrollAmount(), behavior: "smooth" });
+      });
+    }
   </script>
 </section>
+
+<style>
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+</style>
