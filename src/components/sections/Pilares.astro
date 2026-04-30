@@ -1,128 +1,128 @@
 ---
-import BlobMask from "@/components/ui/BlobMask.astro";
-
 const pilares = [
   {
     id: "biblioterapia",
     title: "Biblioterapia",
     subtitle: "Leitura como cura",
-    description:
-      "Rodas de leitura que usam a literatura como ferramenta de autoconhecimento, escuta e transformação social.",
+    description: "Rodas de leitura que usam a literatura como ferramenta de autoconhecimento, escuta e transformação social.",
     color: "#9e4b2d",
     textColor: "#f0ede8",
     icon: "/icons/olho.svg",
-    image: "/images/brand/sobre-estudio-entre-2.jpg",
-    imageAlt: "Livro aberto — símbolo da biblioterapia",
   },
   {
     id: "oficinas",
     title: "Oficinas",
     subtitle: "Criação coletiva",
-    description:
-      "Espaços de troca e aprendizado prático que unem arte, tecnologia e subjetividade para criar novas possibilidades.",
+    description: "Espaços de troca e aprendizado prático que unem arte, tecnologia e subjetividade.",
     color: "#bdb2dd",
     textColor: "#1a1612",
     icon: "/icons/spark.svg",
-    image: "/images/brand/onde-a-palavra-vira-encontro.jpg",
-    imageAlt: "Onde a palavra vira encontro",
   },
   {
     id: "palestras",
     title: "Palestras",
     subtitle: "Diálogos profundos",
-    description:
-      "Encontros com pensadores, artistas e educadores para expandir horizontes e fortalecer a comunidade.",
+    description: "Encontros com pensadores, artistas e educadores para expandir horizontes.",
     color: "#b9e4eb",
     textColor: "#1a1612",
     icon: "/icons/microfone.svg",
-    image: "/images/brand/sobre-estudio-entre-3.jpg",
-    imageAlt: "Microfone e notas — símbolo das palestras",
   },
   {
     id: "estudio",
     title: "Estúdio",
     subtitle: "Produção e áudio",
-    description:
-      "Estrutura profissional para gravação de podcasts, videocasts, sets e experimentações sonoras.",
+    description: "Estrutura profissional para gravação de podcasts, videocasts e experimentações sonoras.",
     color: "#dec72c",
     textColor: "#1a1612",
     icon: "/icons/play.svg",
-    image: "/images/brand/sobre-estudio-entre.jpg",
-    imageAlt: "Sofá do estúdio — espaço de criação",
   },
   {
     id: "encontros",
     title: "Encontros",
     subtitle: "Conexão real",
-    description:
-      "Saraus, rodas de conversa e celebrações que fortalecem os laços entre pessoas e gerações.",
+    description: "Saraus, rodas de conversa e celebrações que fortalecem os laços entre pessoas e gerações.",
     color: "#ec6838",
     textColor: "#f0ede8",
     icon: "/icons/pin.svg",
-    image: "/images/brand/apresentacao-estudio-entre-4.jpg",
-    imageAlt: "Estante de livros do espaço",
   },
 ];
 ---
 
-<section class="pilares relative" id="pilares">
-  {
-    pilares.map((pilar, i) => (
-      <div
-        class="pilar__strip relative py-20 md:py-28 px-6 md:px-20 overflow-hidden transition-colors duration-700"
-        style={`background-color: ${pilar.color}; color: ${pilar.textColor};`}
-        data-color={pilar.color}
-        data-theme={pilar.textColor === "#f0ede8" ? "light" : "dark"}
-      >
-        {/* Halftone textura sutil */}
-        <div
-          class="absolute inset-0 pointer-events-none opacity-10"
-          style={`background-image: radial-gradient(${pilar.textColor} 1.2px, transparent 1.2px); background-size: 12px 12px;`}
-        />
+<section class="pilares relative py-24 md:py-32 px-6 md:px-16 overflow-hidden" style="background-color: #1a1612;" id="pilares">
+  <div class="max-w-6xl mx-auto relative z-10">
+    <p class="pilares__eyebrow text-[10px] uppercase tracking-[0.4em] mb-12 opacity-0" style="color: rgba(240,237,232,0.4);">
+      O que fazemos
+    </p>
 
-        <div class="max-w-7xl mx-auto relative z-10">
-          <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10">
-            {/* Lado esquerdo: número + título */}
-            <div class="flex items-start gap-6 lg:flex-1">
-              <span class="text-[10px] uppercase tracking-[0.4em] opacity-50 mt-2">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <h3 class="pilar__title text-4xl md:text-6xl lg:text-7xl font-display font-black italic uppercase leading-tight">
-                  {pilar.title}
-                </h3>
-                <p class="pilar__subtitle text-lg md:text-xl font-display italic opacity-70 mt-2">
-                  {pilar.subtitle}
-                </p>
-              </div>
+    <!-- Bento Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
+      {pilares.map((pilar, i) => (
+        <div
+          class:list={[
+            "pilar__cell relative overflow-hidden rounded-2xl p-8 md:p-10 transition-transform duration-300 cursor-default group",
+            i === 3 ? "md:col-span-2" : "",
+            i === 4 ? "md:col-span-3" : "",
+          ]}
+          style={`background-color: ${pilar.color}; color: ${pilar.textColor};`}
+          data-index={i}
+        >
+          {/* Halftone overlay */}
+          <div
+            class="absolute inset-0 pointer-events-none opacity-[0.08]"
+            style={`background-image: radial-gradient(${pilar.textColor} 1.2px, transparent 1.2px); background-size: 12px 12px;`}
+          />
+
+          <div class="relative z-10">
+            {/* Icon circle */}
+            <div
+              class="pilar__icon-wrap w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[15deg]"
+              style={`background-color: ${pilar.textColor}15`}
+            >
+              <img
+                src={pilar.icon}
+                alt=""
+                class="w-8 h-8 md:w-10 md:h-10"
+                style={pilar.textColor === "#f0ede8" ? "filter: brightness(0) invert(1)" : ""}
+              />
             </div>
 
-            {/* Centro: descrição */}
-            <p class="pilar__desc max-w-sm text-sm md:text-base leading-relaxed opacity-80 lg:text-center">
-              {pilar.description}
+            {/* Number */}
+            <span class="text-[10px] uppercase tracking-[0.4em] opacity-40 mb-3 block">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+
+            {/* Title */}
+            <h3 class="pilar__title text-3xl md:text-4xl lg:text-5xl font-display font-black italic uppercase leading-tight mb-2">
+              {pilar.title}
+            </h3>
+
+            {/* Subtitle */}
+            <p class="pilar__subtitle text-base md:text-lg font-display italic opacity-60 mb-4">
+              {pilar.subtitle}
             </p>
 
-            {/* Direita: imagem com máscara orgânica */}
-            <div class="lg:w-[200px] xl:w-[240px] flex-shrink-0">
-              <BlobMask
-                variant={((i % 4) + 1) as 1 | 2 | 3 | 4}
-                class="aspect-square"
-              >
-                <img
-                  src={pilar.image}
-                  alt={pilar.imageAlt}
-                  class="w-full h-full object-cover"
-                />
-              </BlobMask>
-            </div>
+            {/* Description */}
+            <p class="pilar__desc text-sm md:text-base leading-relaxed opacity-70 max-w-sm">
+              {pilar.description}
+            </p>
           </div>
         </div>
-      </div>
-    ))
-  }
+      ))}
+    </div>
+  </div>
 
   <script>
     import { animatePilares } from "@/animations/pilares";
     animatePilares();
   </script>
 </section>
+
+<style>
+  .pilar__cell {
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+  }
+  .pilar__cell:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  }
+</style>
