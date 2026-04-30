@@ -39,7 +39,7 @@ const imagens = [
       <div class="sobre__track flex gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide">
         {imagens.map((img, i) => (
           <div class="sobre__slide flex-shrink-0 snap-center w-[75vw] md:w-[55vw] lg:w-[45vw]">
-            <div class="relative aspect-[4/3] overflow-hidden bg-stone-200">
+            <div class="relative aspect-[3/4] overflow-hidden bg-stone-200">
               <img
                 src={img.src}
                 alt={img.alt}
@@ -107,7 +107,9 @@ const imagens = [
     const nextBtn = document.querySelector(".sobre__next");
 
     if (track && prevBtn && nextBtn) {
-      const scrollAmount = () => track.clientWidth * 0.6;
+      const slide = track.querySelector(".sobre__slide");
+      const gap = 24;
+      const scrollAmount = () => (slide?.clientWidth || track.clientWidth * 0.4) + gap;
 
       prevBtn.addEventListener("click", () => {
         track.scrollBy({ left: -scrollAmount(), behavior: "smooth" });
