@@ -8,7 +8,7 @@ export function initColorTransitions(): void {
   if (prefersReducedMotion) return;
 
   const sections = [
-    { trigger: ".hero", color: "#3d1020", theme: "light" },
+    { trigger: ".hero", color: "#ec6838", theme: "light" },
     { trigger: ".sobre", color: "#f0ede8", theme: "dark" },
     { trigger: ".pilares", color: "#1a1612", theme: "light" },
     { trigger: ".agenda", color: "#1d432c", theme: "light" },
