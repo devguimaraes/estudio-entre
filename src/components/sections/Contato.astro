@@ -1,99 +1,104 @@
 ---
 import Decorative from "@/components/ui/Decorative.astro";
-import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 ---
 
 <section
-  class="contato relative py-40 px-6 md:px-20 bg-near-black text-cream overflow-hidden"
+  class="contato relative py-24 md:py-32 px-6 md:px-16 overflow-hidden"
   id="contato"
+  style="background-color: #777bde;"
 >
-  <HalftoneTexture
-    density={20}
-    dotSize={1}
-    color="236,104,56"
-    opacity={0.05}
-    class="z-0"
-  />
-
-  <div class="absolute top-[15%] left-[5%] opacity-15 z-10">
-    <Decorative variant="star" color="#ec6838" size={60} />
+  <div class="absolute top-[12%] left-[5%] opacity-10 z-0">
+    <Decorative variant="star" color="#3d1020" size={50} />
   </div>
-  <div class="absolute bottom-[20%] right-[8%] opacity-10 z-10">
-    <Decorative variant="dots" color="#f0ede8" size={50} />
-  </div>
-  <div class="absolute top-[50%] right-[3%] opacity-10 z-10">
-    <Decorative variant="ray" color="#dec72c" size={35} />
+  <div class="absolute bottom-[15%] right-[6%] opacity-10 z-0">
+    <Decorative variant="dots" color="#3d1020" size={40} />
   </div>
 
-  <div class="max-w-4xl mx-auto text-center md:text-left relative z-10">
-    <p
-      class="contato__eyebrow text-[10px] uppercase tracking-[0.4em] opacity-50 mb-12"
-    >
-      Conexão
-    </p>
-    <h2
-      class="contato__title text-5xl md:text-8xl font-display font-black italic uppercase leading-[0.9] text-orange mb-20"
-    >
-      O que você quer <br />
-      <span class="text-cream">criar entre nós?</span>
-    </h2>
-
-    <form class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
-      <div class="contato__field group relative">
-        <label
-          class="text-[10px] uppercase tracking-widest opacity-40 group-focus-within:opacity-100 transition-opacity"
-        >
-          Seu Nome
-        </label>
-        <input
-          type="text"
-          placeholder="Como te chamamos?"
-          class="w-full bg-transparent border-b border-cream/20 py-4 focus:outline-none focus:border-orange transition-colors"
-        />
-      </div>
-
-      <div class="contato__field group relative">
-        <label
-          class="text-[10px] uppercase tracking-widest opacity-40 group-focus-within:opacity-100 transition-opacity"
-        >
-          Seu E-mail
-        </label>
-        <input
-          type="email"
-          placeholder="Para mantermos contato"
-          class="w-full bg-transparent border-b border-cream/20 py-4 focus:outline-none focus:border-orange transition-colors"
-        />
-      </div>
-
-      <div class="contato__field md:col-span-2 group relative">
-        <label
-          class="text-[10px] uppercase tracking-widest opacity-40 group-focus-within:opacity-100 transition-opacity"
-        >
-          Sua Ideia
-        </label>
-        <textarea
-          rows="4"
-          placeholder="Conte-nos o que você imagina..."
-          class="w-full bg-transparent border-b border-cream/20 py-4 focus:outline-none focus:border-orange transition-colors resize-none"
-        ></textarea>
-      </div>
-
-      <div class="contato__submit md:col-span-2">
-        <button
-          type="submit"
-          class="group flex items-center gap-6 text-2xl font-display italic uppercase hover:text-orange transition-colors"
-          data-cursor="ENVIAR"
-        >
-          Enviar Mensagem
+  <div class="max-w-6xl mx-auto relative z-10">
+    <div class="flex flex-col md:flex-row md:items-center gap-12 md:gap-20">
+      <!-- Left: Key graphic -->
+      <div class="contato__graphic md:w-[35%] flex justify-center md:justify-start">
+        <div class="relative">
           <img
-            src="/icons/play.svg"
-            class="w-12 h-12 invert opacity-20 group-hover:opacity-100 transition-opacity"
+            src="/icons/chave.svg"
             alt=""
+            class="w-32 h-32 md:w-48 md:h-48 opacity-80"
+            style="filter: brightness(0) saturate(100%);"
           />
-        </button>
+          <div class="absolute inset-0 rounded-full blur-3xl -z-10" style="background-color: rgba(61,16,32,0.1);"></div>
+        </div>
       </div>
-    </form>
+
+      <!-- Right: Form -->
+      <div class="md:w-[65%]">
+        <p class="contato__eyebrow text-[10px] uppercase tracking-[0.4em] mb-8 opacity-0" style="color: rgba(61,16,32,0.5);">
+          Conexão
+        </p>
+        <h2
+          class="contato__title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black italic uppercase leading-[0.9] mb-14 opacity-0"
+          style="color: #3d1020;"
+        >
+          O que você quer <br />
+          <span style="color: #f0ede8;">criar entre nós?</span>
+        </h2>
+
+        <form class="space-y-10" onsubmit="event.preventDefault();">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div class="contato__field group relative opacity-0">
+              <label class="text-[10px] uppercase tracking-widest transition-colors block mb-2" style="color: rgba(61,16,32,0.4);">
+                Seu Nome
+              </label>
+              <input
+                type="text"
+                placeholder="Como te chamamos?"
+                class="w-full bg-transparent border-b-2 py-3 placeholder:text-[rgba(61,16,32,0.3)] focus:outline-none transition-colors text-base"
+                style="border-color: rgba(61,16,32,0.2); color: #3d1020;"
+              />
+            </div>
+
+            <div class="contato__field group relative opacity-0">
+              <label class="text-[10px] uppercase tracking-widest transition-colors block mb-2" style="color: rgba(61,16,32,0.4);">
+                Seu E-mail
+              </label>
+              <input
+                type="email"
+                placeholder="Para mantermos contato"
+                class="w-full bg-transparent border-b-2 py-3 placeholder:text-[rgba(61,16,32,0.3)] focus:outline-none transition-colors text-base"
+                style="border-color: rgba(61,16,32,0.2); color: #3d1020;"
+              />
+            </div>
+          </div>
+
+          <div class="contato__field group relative opacity-0">
+            <label class="text-[10px] uppercase tracking-widest transition-colors block mb-2" style="color: rgba(61,16,32,0.4);">
+              Sua Ideia
+            </label>
+            <textarea
+              rows="3"
+              placeholder="Conte-nos o que você imagina..."
+              class="w-full bg-transparent border-b-2 py-3 placeholder:text-[rgba(61,16,32,0.3)] focus:outline-none transition-colors resize-none text-base"
+              style="border-color: rgba(61,16,32,0.2); color: #3d1020;"
+            ></textarea>
+          </div>
+
+          <div class="contato__submit opacity-0">
+            <button
+              type="submit"
+              class="group inline-flex items-center gap-4 px-8 py-4 font-bold uppercase tracking-widest text-sm rounded-full transition-colors duration-300"
+              style="background-color: #3d1020; color: #f0ede8;"
+              data-cursor="ENVIAR"
+            >
+              Enviar Mensagem
+              <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
+
   <script>
     import { animateContato } from "@/animations/contato";
     animateContato();
