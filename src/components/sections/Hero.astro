@@ -1,12 +1,11 @@
 ---
-import { Image } from "astro:assets";
-import logoClaro from "@/assets/logos/Logo_Estudio Entre - Claro 2.png";
 import Decorative from "@/components/ui/Decorative.astro";
 import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 ---
 
 <section
-  class="hero h-screen relative bg-orange overflow-hidden"
+  class="hero h-screen relative overflow-hidden"
+  style="background-color: #3d1020;"
   role="banner"
   aria-label="Estúdio Entre — Hub Cultural no Méier, RJ"
 >
@@ -14,88 +13,107 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
   <HalftoneTexture
     density={12}
     dotSize={1.8}
-    color="0,0,0"
-    opacity={0.12}
+    color="236,104,56"
+    opacity={0.08}
     class="z-0"
   />
+
+  <!-- Layer 1: Decorative floating elements -->
+  <div class="absolute top-[12%] left-[6%] z-10 opacity-50 animate-float-slow">
+    <Decorative variant="ray" color="#dec72c" size={50} />
+  </div>
+  <div class="absolute top-[20%] right-[10%] z-10 opacity-30 animate-float">
+    <Decorative variant="star" color="#f0ede8" size={28} />
+  </div>
+  <div class="absolute bottom-[35%] left-[12%] z-10 opacity-25 animate-float-delayed">
+    <Decorative variant="star" color="#dec72c" size={18} />
+  </div>
+  <div class="absolute top-[55%] right-[6%] z-10 opacity-20 animate-float">
+    <Decorative variant="dots" color="#f0ede8" size={36} />
+  </div>
+
+  <!-- Layer 2: Giant "E" watermark -->
   <div
-    class="absolute inset-0 bg-[url('/textures/paper-texture-optimized.webp')] bg-repeat opacity-10 mix-blend-multiply z-0 pointer-events-none"
+    class="hero__watermark absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-[55vw] font-black opacity-[0.03] pointer-events-none select-none z-0"
+    style="color: #f0ede8;"
   >
+    E
   </div>
 
-  <!-- Floating decorative elements -->
-  <div class="absolute top-[15%] left-[8%] z-10 opacity-60 animate-float-slow">
-    <Decorative variant="ray" color="#dec72c" size={60} />
-  </div>
-  <div class="absolute top-[25%] right-[12%] z-10 opacity-40 animate-float">
-    <Decorative variant="star" color="#f0ede8" size={30} />
-  </div>
-  <div class="absolute bottom-[30%] left-[15%] z-10 opacity-30 animate-float-delayed">
-    <Decorative variant="star" color="#dec72c" size={20} />
-  </div>
-  <div class="absolute top-[60%] right-[8%] z-10 opacity-25 animate-float">
-    <Decorative variant="dots" color="#f0ede8" size={40} />
-  </div>
-
-  <!-- Layer 1: The Portal Symbol (Chave) -->
+  <!-- Layer 3: The Key Symbol (parallax) -->
   <div
-    class="hero__symbol-container absolute inset-0 flex items-center justify-center z-20 pointer-events-none"
+    class="hero__symbol-container absolute top-[8%] left-[5%] z-20 pointer-events-none"
   >
     <img
       src="/icons/chave.svg"
-      class="hero__symbol w-[180px] md:w-[240px] h-auto opacity-0"
+      class="hero__symbol w-[160px] md:w-[220px] h-auto opacity-0"
+      style="filter: brightness(0) invert(1);"
       alt=""
     />
   </div>
 
-  <!-- Layer 2: Content -->
+  <!-- Layer 4: Main content grid -->
   <div
-    class="hero__layer-content relative z-30 h-full flex flex-col justify-center items-center text-center px-6"
+    class="hero__layer-content relative z-30 h-full flex flex-col md:flex-row items-center justify-center px-6 md:px-16 gap-8 md:gap-16"
   >
-    <div class="hero__logo-wrap mb-10">
-      <Image
-        src={logoClaro}
-        class="hero__logo opacity-0 w-full max-w-[280px] sm:max-w-[480px] h-auto"
-        alt="Estúdio Entre"
-        loading="eager"
-        fetchpriority="high"
-      />
-    </div>
-
-    <div class="hero__description text-cream pointer-events-none opacity-0">
-      <p class="font-display text-[10px] sm:text-xs uppercase tracking-[0.4em] mb-3">
+    <!-- Left: Text content -->
+    <div class="hero__text-col flex flex-col items-start text-left max-w-xl">
+      <p class="hero__eyebrow text-[10px] uppercase tracking-[0.4em] opacity-0 mb-6" style="color: rgba(240,237,232,0.6);">
         Hub Cultural Independente
       </p>
-      <p class="font-display italic text-lg sm:text-2xl opacity-90">
+
+      <h1 class="hero__logo font-display font-black leading-[0.9] opacity-0" style="color: #f0ede8;">
+        <span class="block text-6xl sm:text-7xl md:text-8xl lg:text-[96px]">ESTÚDIO</span>
+        <span class="block text-6xl sm:text-7xl md:text-8xl lg:text-[96px]">eNTRE</span>
+      </h1>
+
+      <p class="hero__tagline font-display italic text-lg sm:text-xl md:text-2xl opacity-0 mt-6" style="color: rgba(240,237,232,0.8);">
         onde a palavra vira encontro.
       </p>
+
+      <div
+        class="hero__ctas mt-10 flex flex-col sm:flex-row gap-4 opacity-0"
+      >
+        <a
+          href="#agenda"
+          class="hero__cta hero__cta--primary px-8 py-4 font-bold uppercase tracking-widest text-sm rounded-full"
+          style="background-color: #f0ede8; color: #3d1020;"
+          data-cursor="EXPLORAR"
+        >
+          Próximos encontros
+        </a>
+        <a
+          href="#galeria"
+          class="hero__cta hero__cta--secondary px-8 py-4 border-2 font-bold uppercase tracking-widest text-sm rounded-full"
+          style="border-color: #f0ede8; color: #f0ede8;"
+          data-cursor="ENTRAR"
+        >
+          Conheça o espaço
+        </a>
+      </div>
     </div>
 
-    <div
-      class="hero__ctas mt-12 flex translate-y-6 flex-col gap-6 opacity-0 sm:flex-row"
-    >
-      <a
-        href="#agenda"
-        class="hero__cta hero__cta--primary px-8 py-4 bg-cream text-orange font-bold uppercase tracking-widest text-sm rounded-full"
-        data-cursor="EXPLORAR"
-      >
-        Próximos encontros
-      </a>
-      <a
-        href="#espaco"
-        class="hero__cta hero__cta--secondary px-8 py-4 border-2 border-cream text-cream font-bold uppercase tracking-widest text-sm rounded-full"
-        data-cursor="ENTRAR"
-      >
-        Conheça o espaço
-      </a>
+    <!-- Right: Photo in BlobMask -->
+    <div class="hero__photo-col hidden md:block relative w-[340px] lg:w-[400px] flex-shrink-0 opacity-0">
+      <div class="relative aspect-[4/5] overflow-hidden" style="border-radius: 40% 60% 55% 45% / 55% 45% 60% 40%;">
+        <img
+          src="/images/brand/apresentacao-estudio-entre.jpg"
+          alt="Espaço do Estúdio Entre"
+          class="w-full h-full object-cover"
+          loading="eager"
+        />
+        <div class="absolute inset-0 mix-blend-multiply pointer-events-none" style="background-color: rgba(61,16,32,0.1);"></div>
+      </div>
+      <!-- Decorative ring -->
+      <div class="absolute -bottom-4 -right-4 w-24 h-24 border-2 rounded-full" style="border-color: rgba(240,237,232,0.2);"></div>
     </div>
   </div>
 
   <!-- Scroll indicator -->
   <div class="hero__scroll absolute bottom-10 left-10 flex items-center gap-4 opacity-0 z-30">
-    <span class="text-[10px] uppercase tracking-[0.3em] text-cream/50">Scroll</span>
-    <div class="w-12 h-[1px] bg-cream/30 relative overflow-hidden">
-      <div class="hero__scroll-line absolute inset-0 bg-cream -translate-x-full"></div>
+    <span class="text-[10px] uppercase tracking-[0.3em]" style="color: rgba(240,237,232,0.5);">Scroll</span>
+    <div class="w-12 h-[1px] relative overflow-hidden" style="background-color: rgba(240,237,232,0.3);">
+      <div class="hero__scroll-line absolute inset-0 -translate-x-full" style="background-color: #f0ede8;"></div>
     </div>
     <Decorative variant="arrow" color="rgba(240,237,232,0.5)" size={24} />
   </div>
@@ -107,24 +125,20 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 </section>
 
 <style>
-  .hero__symbol {
-    filter: brightness(0) invert(1);
-  }
-
   .hero {
     perspective: 1000px;
   }
 
   .hero__cta {
     transition:
-      transform 0.4s var(--ease-editorial),
-      background-color 0.4s var(--ease-editorial),
-      box-shadow 0.4s var(--ease-editorial);
+      transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      background-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .hero__cta:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
   }
 
   .hero__cta--primary:hover {
@@ -136,31 +150,16 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
   }
 
   @keyframes float {
-    0%,
-    100% {
-      transform: translateY(0) rotate(0deg);
-    }
-    50% {
-      transform: translateY(-12px) rotate(5deg);
-    }
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(5deg); }
   }
   @keyframes float-slow {
-    0%,
-    100% {
-      transform: translateY(0) rotate(-5deg);
-    }
-    50% {
-      transform: translateY(-8px) rotate(0deg);
-    }
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-8px) rotate(0deg); }
   }
   @keyframes float-delayed {
-    0%,
-    100% {
-      transform: translateY(0) rotate(0deg);
-    }
-    50% {
-      transform: translateY(-10px) rotate(-3deg);
-    }
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(-3deg); }
   }
   .animate-float {
     animation: float 4s ease-in-out infinite;
