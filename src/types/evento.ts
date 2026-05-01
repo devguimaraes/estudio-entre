@@ -11,12 +11,12 @@ export type CategoriaEvento =
 export interface EventoCard {
   _id: string;
   titulo: string;
-  slug: string;
+  slug: { current: string };
   categoria: CategoriaEvento;
   dataHora: string;
   local: string | null;
   descricao: string | null;
   valor: string | null;
   linkCompra: string | null;
-  imagens: string[] | null;
+  imagens: unknown[] | null;
 }

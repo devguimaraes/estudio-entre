@@ -8,14 +8,14 @@ export function initColorTransitions(): void {
   if (prefersReducedMotion) return;
 
   const sections = [
-    { trigger: ".hero", color: "#ec6838", theme: "light" },
-    { trigger: ".sobre", color: "#f0ede8", theme: "dark" },
-    { trigger: ".pilares", color: "#1a1612", theme: "light" },
-    { trigger: ".agenda", color: "#1d432c", theme: "light" },
-    { trigger: ".galeria", color: "#b9e4eb", theme: "dark" },
-    { trigger: ".voo-literario", color: "#1d432c", theme: "light" },
-    { trigger: ".contato", color: "#777bde", theme: "dark" },
-    { trigger: ".footer", color: "#1a1612", theme: "light" },
+    { trigger: ".hero", color: "#3D1020", theme: "light" }, // Bordô
+    { trigger: ".sobre", color: "#f0ede8", theme: "dark" }, // Creme
+    { trigger: ".pilares", color: "#1a1612", theme: "light" }, // Near Black
+    { trigger: ".agenda", color: "#1d432c", theme: "light" }, // Verde Floresta
+    { trigger: ".galeria", color: "#b9e4eb", theme: "dark" }, // Ciano
+    { trigger: ".voo-literario", color: "#1d432c", theme: "light" }, // Verde Floresta
+    { trigger: ".contato", color: "#777bde", theme: "dark" }, // Lilás
+    { trigger: ".footer", color: "#1a1612", theme: "light" }, // Near Black
   ];
 
   const nav = document.querySelector(".navbar");

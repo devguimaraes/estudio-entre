@@ -4,103 +4,116 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 ---
 
 <section
-  class="hero h-screen relative overflow-hidden"
-  style="background-color: #ec6838;"
+  class="hero relative h-screen overflow-hidden"
+  style="background-color: #ec6838;" 
   role="banner"
-  aria-label="Estúdio Entre — Hub Cultural no Méier, RJ"
+  aria-label="Estúdio Entre — Hub Cultural Independente"
 >
-  <!-- Layer 0: Halftone Texture -->
+  <!-- Layer 1: Watermark "E" gigante -->
+  <div 
+    class="hero__watermark absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none opacity-[0.03]"
+    aria-hidden="true"
+  >
+    <span class="font-display font-black text-[60vw] leading-none text-cream select-none">E</span>
+  </div>
+
+  <!-- Layer 2: Halftone texture overlay -->
   <HalftoneTexture
     density={12}
     dotSize={1.8}
     color="240,237,232"
-    opacity={0.08}
-    class="z-0"
+    opacity={0.18}
+    class="z-[1]"
   />
 
-  <!-- Layer 1: Decorative floating elements -->
-  <div class="absolute top-[12%] left-[6%] z-10 opacity-40 animate-float-slow">
-    <Decorative variant="ray" color="#dec72c" size={50} />
-  </div>
-  <div class="absolute top-[20%] right-[10%] z-10 opacity-30 animate-float">
-    <Decorative variant="star" color="#f0ede8" size={28} />
-  </div>
-  <div class="absolute bottom-[35%] left-[12%] z-10 opacity-20 animate-float-delayed">
-    <Decorative variant="star" color="#dec72c" size={18} />
-  </div>
-  <div class="absolute top-[55%] right-[6%] z-10 opacity-15 animate-float">
-    <Decorative variant="dots" color="#f0ede8" size={36} />
-  </div>
-
-  <!-- Layer 2: Giant "E" watermark -->
+  <!-- Layer 3: The Portal — Fechadura expansion -->
   <div
-    class="hero__watermark absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-[55vw] font-black opacity-[0.04] pointer-events-none select-none z-0"
-    style="color: #f0ede8;"
-  >
-    E
-  </div>
-
-  <!-- Layer 3: The Key Symbol (parallax) -->
-  <div
-    class="hero__symbol-container absolute top-[8%] left-[5%] z-20 pointer-events-none"
+    class="hero__portal absolute inset-0 z-50 flex items-center justify-center pointer-events-none"
+    aria-hidden="true"
   >
     <img
-      src="/icons/chave.svg"
-      class="hero__symbol w-[160px] md:w-[220px] h-auto opacity-0"
+      src="/icons/fechadura.svg"
+      class="hero__keyhole w-[80px] md:w-[120px] h-auto"
       style="filter: brightness(0) invert(1);"
       alt=""
     />
   </div>
 
-  <!-- Layer 4: Main content — centered -->
-  <div
-    class="hero__layer-content relative z-30 h-full flex flex-col items-center justify-center px-6 md:px-16 text-center"
-  >
-    <p class="hero__eyebrow text-[10px] uppercase tracking-[0.4em] opacity-0 mb-8" style="color: rgba(240,237,232,0.7);">
-      Hub Cultural Independente
-    </p>
-
-    <!-- Logo PNG -->
-    <div class="hero__logo opacity-0 mb-8">
-      <img
-        src="/logos/Logo_Estudio Entre - Claro 2.png"
-        alt="Estúdio Entre"
-        class="w-[320px] sm:w-[420px] md:w-[560px] lg:w-[720px] xl:w-[800px] h-auto mx-auto"
-        loading="eager"
-      />
+  <!-- Layer 4: Floating Decoratives -->
+  <div class="absolute inset-0 z-[2] pointer-events-none overflow-hidden">
+    <div class="hero__decor hero__decor--1 absolute top-[15%] left-[10%] opacity-0">
+      <Decorative type="star" size={24} color="#3D1020" />
     </div>
-
-    <p class="hero__tagline font-display italic text-lg sm:text-xl md:text-2xl opacity-0" style="color: rgba(240,237,232,0.9);">
-      onde a palavra vira encontro.
-    </p>
-
-    <div class="hero__ctas mt-10 flex flex-col sm:flex-row gap-4 opacity-0">
-      <a
-        href="#agenda"
-        class="hero__cta hero__cta--primary px-8 py-4 font-bold uppercase tracking-widest text-sm rounded-full"
-        style="background-color: #f0ede8; color: #3d1020;"
-        data-cursor="EXPLORAR"
-      >
-        Próximos encontros
-      </a>
-      <a
-        href="#galeria"
-        class="hero__cta hero__cta--secondary px-8 py-4 border-2 font-bold uppercase tracking-widest text-sm rounded-full"
-        style="border-color: #f0ede8; color: #f0ede8;"
-        data-cursor="ENTRAR"
-      >
-        Conheça o espaço
-      </a>
+    <div class="hero__decor hero__decor--2 absolute bottom-[20%] left-[15%] opacity-0">
+      <Decorative type="dots" size={40} color="#F0EDE8" />
+    </div>
+    <div class="hero__decor hero__decor--3 absolute top-[25%] right-[15%] opacity-0">
+      <Decorative type="ray" size={60} color="#3D1020" />
     </div>
   </div>
 
-  <!-- Scroll indicator -->
-  <div class="hero__scroll absolute bottom-10 left-10 flex items-center gap-4 opacity-0 z-30">
-    <span class="text-[10px] uppercase tracking-[0.3em]" style="color: rgba(240,237,232,0.5);">Scroll</span>
-    <div class="w-12 h-[1px] relative overflow-hidden" style="background-color: rgba(240,237,232,0.3);">
-      <div class="hero__scroll-line absolute inset-0 -translate-x-full" style="background-color: #f0ede8;"></div>
+  <!-- Layer 5: Main Editorial Content (Collage) -->
+  <div class="hero__container relative z-[5] w-full h-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 flex items-center">
+    
+    <!-- Left Side: Typography & Text -->
+    <div class="hero__text-col w-full lg:w-3/5 flex flex-col justify-center">
+      <div class="hero__eyebrow-wrap overflow-hidden mb-6">
+        <p class="hero__eyebrow font-display font-bold text-[10px] uppercase tracking-[0.4em] text-cream/80 opacity-0">
+          Hub Cultural Independente · Méier, RJ
+        </p>
+      </div>
+
+      <h1 class="hero__logo-text mb-6 flex flex-col">
+        <img
+          src="/logos/Logo_Estudio Entre - Claro 2.png"
+          alt="Estúdio Entre"
+          class="hero__logo w-[60vw] sm:w-[50vw] md:w-[40vw] lg:w-[35vw] h-auto opacity-0"
+        />
+      </h1>
+
+      <div class="hero__tagline-wrap mb-10 overflow-hidden">
+        <p class="hero__tagline font-display italic font-regular text-[clamp(1.25rem,3vw,1.75rem)] text-cream/90 opacity-0">
+          onde a palavra vira encontro.
+        </p>
+      </div>
+
+      <div class="hero__ctas flex flex-wrap gap-4 opacity-0">
+        <a
+          href="#agenda"
+          class="hero__cta-primary group flex items-center gap-3 font-display font-bold uppercase tracking-widest text-[11px] px-8 py-4 rounded-full bg-cream text-orange transition-all duration-500 hover:bg-bordo hover:text-cream"
+        >
+          Próximos encontros
+          <img src="/icons/spark.svg" class="w-3 h-3 transition-transform duration-500 group-hover:rotate-45" alt="" />
+        </a>
+        <a
+          href="#sobre"
+          class="hero__cta-secondary group flex items-center gap-3 font-display font-bold uppercase tracking-widest text-[11px] px-8 py-4 rounded-full border-2 border-cream text-cream bg-transparent transition-all duration-500 hover:bg-cream/10"
+        >
+          Conheça o estúdio
+        </a>
+      </div>
     </div>
-    <Decorative variant="arrow" color="rgba(240,237,232,0.5)" size={24} />
+
+    <!-- Right Side: Imagery (Asymmetric Collage) -->
+    <div class="hero__image-col hidden lg:flex w-2/5 justify-end relative h-[60vh]">
+      <div class="hero__image-wrap relative w-full flex justify-end overflow-hidden">
+        <img 
+          src="/images/brand/estudio-entre-hero.jpg" 
+          alt="Espaço Estúdio Entre" 
+          class="hero__image w-[28vw] h-full object-cover opacity-0 scale-95"
+          style="clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);"
+        />
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero__scroll absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-[10] opacity-0">
+    <span class="text-[8px] uppercase tracking-[0.3em] text-cream/40">rolar</span>
+    <div class="w-[1px] h-8 bg-cream/20 overflow-hidden">
+      <div class="hero__scroll-line w-full h-full bg-cream origin-top" />
+    </div>
   </div>
 
   <script>
@@ -110,49 +123,21 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 </section>
 
 <style>
-  .hero {
-    perspective: 1000px;
+  .hero__scroll-line {
+    animation: scrollLine 2.5s cubic-bezier(0.85, 0, 0.15, 1) infinite;
   }
 
-  .hero__cta {
-    transition:
-      transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-      background-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-      box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    45% { transform: scaleY(1); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
   }
 
-  .hero__cta:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
-  }
-
-  .hero__cta--primary:hover {
-    background-color: white;
-  }
-
-  .hero__cta--secondary:hover {
-    background-color: rgba(240, 237, 232, 0.1);
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-12px) rotate(5deg); }
-  }
-  @keyframes float-slow {
-    0%, 100% { transform: translateY(0) rotate(-5deg); }
-    50% { transform: translateY(-8px) rotate(0deg); }
-  }
-  @keyframes float-delayed {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-10px) rotate(-3deg); }
-  }
-  .animate-float {
-    animation: float 4s ease-in-out infinite;
-  }
-  .animate-float-slow {
-    animation: float-slow 6s ease-in-out infinite;
-  }
-  .animate-float-delayed {
-    animation: float-delayed 5s ease-in-out infinite 1s;
+  /* Portal reveal state */
+  section:not(.is-ready) .hero__container,
+  section:not(.is-ready) .hero__decor,
+  section:not(.is-ready) .hero__watermark {
+    visibility: hidden;
   }
 </style>

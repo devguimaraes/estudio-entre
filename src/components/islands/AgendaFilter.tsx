@@ -4,19 +4,20 @@ import { CATEGORIAS } from "@/utils/categorias";
 import gsap from "gsap";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const TODOS_STYLE = { "--pill-color": "#f0ede8", "--pill-text": "#8e8100" };
-
 interface AgendaFilterProps {
   eventos: EventoCard[];
 }
 
+const CLIPS = {
+  1: "ellipse(45% 48% at 50% 50%)",
+  2: "polygon(20% 0%, 80% 5%, 100% 40%, 95% 80%, 60% 100%, 10% 90%, 0% 50%)",
+  3: "polygon(15% 10%, 60% 0%, 90% 20%, 100% 60%, 85% 95%, 40% 100%, 5% 80%, 0% 40%)",
+  4: "polygon(25% 5%, 70% 0%, 95% 30%, 90% 75%, 60% 100%, 15% 90%, 0% 55%, 10% 20%)",
+};
+
 export default function AgendaFilter({ eventos }: AgendaFilterProps) {
   const [activeFilter, setActiveFilter] = useState<string>("todos");
-  const [hoveredEvent, setHoveredEvent] = useState<EventoCard | null>(null);
-  const listRef = useRef<HTMLUListElement>(null);
-  const previewRef = useRef<HTMLDivElement>(null);
-  const xTo = useRef<((value: number) => void) | null>(null);
-  const yTo = useRef<((value: number) => void) | null>(null);
+  const listRef = useRef<HTMLDivElement>(null);
 
   const availableCategories = useMemo(() => {
     const cats = new Set(eventos.map((e) => e.categoria));
@@ -31,50 +32,38 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
     [eventos, activeFilter],
   );
 
-  // Inicializar otimizações GSAP
-  useEffect(() => {
-    if (previewRef.current) {
-      gsap.set(previewRef.current, { xPercent: -50, yPercent: -50 });
-      xTo.current = gsap.quickTo(previewRef.current, "x", { duration: 0.6, ease: "power3.out" });
-      yTo.current = gsap.quickTo(previewRef.current, "y", { duration: 0.6, ease: "power3.out" });
-    }
-  }, []);
-
-  // Mouse tracking para o preview flutuante
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (hoveredEvent && xTo.current && yTo.current) {
-        xTo.current(e.clientX);
-        yTo.current(e.clientY);
-      }
-    };
-
-    if (hoveredEvent) {
-      window.addEventListener("mousemove", handleMouseMove);
-    }
-
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [hoveredEvent]);
-
-  // Animação de entrada da lista
+  // Animação ao trocar filtro e no mount inicial
   useEffect(() => {
     if (!listRef.current) return;
-    const items = listRef.current.querySelectorAll("li");
+    const cards = listRef.current.querySelectorAll(".agenda__card");
 
     gsap.fromTo(
-      items,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 1, stagger: 0.05, ease: "power4.out", overwrite: "auto" },
+      cards,
+      { opacity: 0, y: 30, scale: 0.95 },
+      { 
+        opacity: 1, 
+        y: 0, 
+        scale: 1, 
+        duration: 0.8, 
+        stagger: 0.1, 
+        ease: "power3.out", 
+        overwrite: "auto",
+        clearProps: "all",
+      },
     );
-  }, []); // list depends on filteredEvents, but we re-animate on change via activeFilter if we want, Biome says activeFilter is not needed here if it's already triggered by filter change.
+  }, [filteredEvents]);
 
   return (
     <div className="agenda__content relative">
-      {/* Filtros */}
-      <nav className="agenda__filters flex justify-center gap-4 mb-16" aria-label="Filtrar eventos">
+      {/* Filtros Editoriais */}
+      <nav className="agenda__filters flex flex-wrap justify-center gap-3 mb-6" aria-label="Filtrar eventos">
         <button
           type="button"
-          className={`agenda__pill px-6 py-2 rounded-full border border-cream/20 text-xs uppercase tracking-widest transition-all ${activeFilter === "todos" ? "bg-cream text-olive border-cream" : "hover:border-cream/50"}`}
+          className={`px-8 py-3 rounded-full border text-[10px] uppercase tracking-[0.2em] transition-all duration-500 ${
+            activeFilter === "todos" 
+              ? "bg-cream text-forest border-cream font-bold" 
+              : "border-cream/20 text-cream/60 hover:border-cream/50"
+          }`}
           onClick={() => setActiveFilter("todos")}
         >
           Todos
@@ -83,7 +72,9 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
           <button
             key={cat.value}
             type="button"
-            className={`agenda__pill px-6 py-2 rounded-full border border-cream/20 text-xs uppercase tracking-widest transition-all ${activeFilter === cat.value ? "agenda__pill--active" : "hover:border-cream/50"}`}
+            className={`px-8 py-3 rounded-full border text-[10px] uppercase tracking-[0.2em] transition-all duration-500 ${
+              activeFilter === cat.value ? "font-bold" : "border-cream/20 text-cream/60 hover:border-cream/50"
+            }`}
             style={
               activeFilter === cat.value
                 ? { backgroundColor: cat.color, color: cat.textColor, borderColor: cat.color }
@@ -96,63 +87,78 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
         ))}
       </nav>
 
-      {/* Lista Editorial */}
-      {filteredEvents.length === 0 ? (
-        <div className="text-center py-20 opacity-50">Nenhum evento encontrado.</div>
-      ) : (
-        <ul ref={listRef} className="agenda__list border-t border-cream/10">
-          {filteredEvents.map((evento) => (
-            <li
-              key={evento._id}
-              className="agenda__item group relative flex flex-col md:flex-row md:items-center justify-between py-10 border-b border-cream/10 cursor-none"
-              onMouseEnter={() => setHoveredEvent(evento)}
-              onMouseLeave={() => setHoveredEvent(null)}
-              data-cursor="VER"
-            >
-              <div className="flex flex-col gap-2">
-                <span className="text-[10px] uppercase tracking-[0.3em] opacity-40">
-                  {new Date(evento.dataInicio)
-                    .toLocaleDateString("pt-BR", { day: "2-digit", month: "short" })
-                    .replace(".", "")}{" "}
-                  — {new Date(evento.dataInicio).getHours()}h
-                </span>
-                <h3 className="text-3xl md:text-5xl font-display italic leading-none group-hover:translate-x-4 transition-transform duration-500">
-                  {evento.titulo}
-                </h3>
-              </div>
+      {/* Grid de Cards Editoriais */}
+      <div ref={listRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+        {filteredEvents.map((evento, i) => {
+          const cat = CATEGORIAS[evento.categoria as CategoriaEvento];
+          const clipVariant = (((i % 4) + 1) as 1 | 2 | 3 | 4);
+          const imagemPrincipal = evento.imagens && evento.imagens.length > 0 ? (evento.imagens[0] as any) : null;
 
-              <div className="mt-4 md:mt-0 flex items-center gap-6">
-                <span className="text-[10px] uppercase tracking-widest opacity-60 border border-cream/20 px-3 py-1 rounded-sm">
-                  {CATEGORIAS[evento.categoria as CategoriaEvento]?.label}
-                </span>
-                <a
-                  href={`/eventos/${evento.slug.current}`}
-                  className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:block"
+          return (
+            <div key={evento._id} className="agenda__card group flex flex-col">
+              {/* Image Container with BlobMask */}
+              <div className="relative mb-8 aspect-[4/5] overflow-hidden group-hover:scale-[1.02] transition-transform duration-700 ease-editorial">
+                <a 
+                  href={`/eventos/${evento.slug.current}`} 
+                  className="block w-full h-full"
+                  style={{ clipPath: CLIPS[clipVariant] }}
                 >
-                  <img
-                    src="/icons/play.svg"
-                    className="w-8 h-8 invert opacity-50 hover:opacity-100 transition-opacity"
-                    alt="Ver detalhes"
-                  />
+                  {imagemPrincipal ? (
+                    <img
+                      src={urlFor(imagemPrincipal).width(600).height(750).url()}
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                      alt={evento.titulo}
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-cream/10 flex items-center justify-center">
+                       <img src="/icons/chave.svg" className="w-20 opacity-10" alt="" />
+                    </div>
+                  )}
                 </a>
+                
+                {/* Category Tag */}
+                <div 
+                  className="absolute top-6 left-6 px-4 py-1.5 rounded-sm text-[9px] uppercase tracking-widest font-bold shadow-xl"
+                  style={{ backgroundColor: cat.color, color: cat.textColor }}
+                >
+                  {cat.label}
+                </div>
               </div>
-            </li>
-          ))}
-        </ul>
-      )}
 
-      {/* Preview Flutuante */}
-      <div
-        ref={previewRef}
-        className={`fixed top-0 left-0 w-64 aspect-square pointer-events-none z-50 overflow-hidden rounded-sm transition-all duration-500 ${hoveredEvent ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}
-      >
-        {hoveredEvent?.imagem && (
-          <img
-            src={urlFor(hoveredEvent.imagem).width(400).height(400).url()}
-            className="w-full h-full object-cover"
-            alt=""
-          />
-        )}
+              {/* Info Container */}
+              <div className="flex flex-col flex-1 px-2">
+                <span className="text-[10px] uppercase tracking-[0.3em] text-cream/40 mb-3">
+                  {new Date(evento.dataHora).toLocaleDateString("pt-BR", { 
+                    day: "2-digit", 
+                    month: "long",
+                    year: "numeric"
+                  })} 
+                  <span className="mx-2">·</span>
+                  {new Date(evento.dataHora).toLocaleTimeString("pt-BR", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                  })}
+                </span>
+                
+                <h3 className="text-3xl font-display font-black italic uppercase leading-none mb-6 group-hover:text-orange transition-colors duration-500">
+                  <a href={`/eventos/${evento.slug.current}`}>
+                    {evento.titulo}
+                  </a>
+                </h3>
+
+                <div className="mt-auto">
+                  <a 
+                    href={`/eventos/${evento.slug.current}`}
+                    className="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-cream/60 hover:text-cream transition-colors group/btn"
+                  >
+                    Ver detalhes
+                    <img src="/icons/play.svg" className="w-4 h-4 invert opacity-40 group-hover/btn:translate-x-1 transition-transform" alt="" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

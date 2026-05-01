@@ -8,20 +8,19 @@ export function animateSobre(): void {
   const section = document.querySelector<HTMLElement>(".sobre");
   if (!section) return;
 
-  const eyebrow = section.querySelector<HTMLElement>(".sobre__eyebrow");
-  const title = section.querySelector<HTMLElement>(".sobre__title");
-  const lead = section.querySelector<HTMLElement>(".sobre__lead");
-  const carousel = section.querySelector<HTMLElement>(".sobre__carousel");
-  const texts = section.querySelectorAll<HTMLElement>(".sobre__text");
-  const signature = section.querySelector<HTMLElement>(".sobre__signature");
-
   if (prefersReducedMotion) {
-    gsap.set([eyebrow, title, lead, carousel, signature, ...texts], {
-      opacity: 1,
-      x: 0,
-      y: 0,
-      scale: 1,
-    });
+    gsap.set(
+      [
+        ".sobre__eyebrow",
+        ".sobre__title-word",
+        ".sobre__text",
+        ".sobre__blob-1",
+        ".sobre__blob-2",
+        ".sobre__signature",
+        ".sobre__watermark",
+      ],
+      { opacity: 1, y: 0, scale: 1, visibility: "visible" },
+    );
     return;
   }
 
@@ -33,51 +32,74 @@ export function animateSobre(): void {
     },
   });
 
-  if (eyebrow) {
-    tl.fromTo(
-      eyebrow,
-      { opacity: 0, y: 12 },
-      { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
-    );
-  }
-  if (title) {
-    tl.fromTo(
-      title,
-      { opacity: 0, x: -40 },
-      { opacity: 1, x: 0, duration: 1.2, ease: "expo.out" },
-      "-=0.5",
-    );
-  }
-  if (lead) {
-    tl.fromTo(
-      lead,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 1.0, ease: "power3.out" },
-      "-=0.8",
-    );
-  }
-  if (carousel) {
-    tl.fromTo(
-      carousel,
-      { opacity: 0, y: 40 },
-      { opacity: 1, y: 0, duration: 1.2, ease: "expo.out" },
-      "-=0.6",
-    );
-  }
-  if (texts.length > 0) {
-    tl.fromTo(
-      texts,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.9, stagger: 0.14, ease: "power3.out" },
-      "-=0.5",
-    );
-  }
-  if (signature) {
-    tl.fromTo(
-      signature,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.9, ease: "power2.out" },
-      "-=0.4",
-    );
-  }
+  // 1) Watermark reveal
+  tl.fromTo(
+    ".sobre__watermark",
+    { opacity: 0, scale: 0.95 },
+    { opacity: 0.03, scale: 1, duration: 2, ease: "power2.out" },
+  );
+
+  // 2) Eyebrow & Title reveal
+  tl.fromTo(".sobre__eyebrow", { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.8 }, "-=1.5");
+
+  tl.fromTo(
+    ".sobre__title-word",
+    { opacity: 0, y: "105%" },
+    { opacity: 1, y: "0%", duration: 1.2, stagger: 0.1, ease: "expo.out" },
+    "-=0.7",
+  );
+
+  // 3) Body text reveal
+  tl.fromTo(
+    ".sobre__text",
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: "power3.out" },
+    "-=0.9",
+  );
+
+  // 4) Images reveal - Opacity & Scale only to preserve clipPath
+  tl.fromTo(
+    ".sobre__blob-1",
+    { opacity: 0, scale: 0.96 },
+    { opacity: 1, scale: 1, duration: 1.6, ease: "expo.out" },
+    "-=1.2",
+  );
+
+  tl.fromTo(
+    ".sobre__blob-2",
+    { opacity: 0, scale: 0.9 },
+    { opacity: 1, scale: 1, duration: 1.4, ease: "expo.out" },
+    "-=1.0",
+  );
+
+  // 5) Signature reveal
+  tl.fromTo(
+    ".sobre__signature",
+    { opacity: 0, y: 24 },
+    { opacity: 1, y: 0, duration: 1, ease: "power2.out" },
+    "-=0.8",
+  );
+
+  // --- Scroll Parallax for Watermark ---
+  gsap.to(".sobre__watermark", {
+    y: -80,
+    rotate: -5,
+    scrollTrigger: {
+      trigger: section,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: 1.5,
+    },
+  });
+
+  // Parallax for images
+  gsap.to(".sobre__image-sub", {
+    y: -40,
+    scrollTrigger: {
+      trigger: section,
+      start: "top center",
+      end: "bottom top",
+      scrub: 2,
+    },
+  });
 }

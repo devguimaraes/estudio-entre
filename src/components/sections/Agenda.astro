@@ -12,47 +12,55 @@ const { eventos } = Astro.props;
 ---
 
 <section
-  class="agenda relative py-24 md:py-32 px-6 md:px-16 overflow-hidden"
+  class="agenda relative py-20 md:py-28 px-6 md:px-16 overflow-hidden"
   style="background-color: #1d432c; color: #f0ede8;"
   id="agenda"
   aria-label="Agenda de encontros"
 >
+  <!-- Background Elements -->
   <HalftoneTexture
-    density={14}
+    density={16}
     dotSize={1.5}
     color="240,237,232"
-    opacity={0.08}
+    opacity={0.06}
     class="z-0"
   />
 
-  <div class="absolute top-[10%] right-[8%] opacity-20 z-10">
-    <Decorative variant="star" color="#dec72c" size={40} />
+  <div class="absolute top-[15%] right-[10%] opacity-20 z-0">
+    <Decorative type="star" color="#DEC72C" size={40} />
   </div>
-  <div class="absolute bottom-[15%] left-[5%] opacity-15 z-10">
-    <Decorative variant="ray" color="#f0ede8" size={30} />
-  </div>
-
-  <div
-    class="agenda__header max-w-6xl mx-auto mb-16 text-center md:text-left relative z-10"
-  >
-    <p class="text-[10px] uppercase tracking-[0.4em] opacity-50 mb-6">
-      Encontros
-    </p>
-    <h2
-      class="text-5xl md:text-7xl lg:text-8xl font-display font-black italic uppercase leading-[0.9]"
-    >
-      Agenda <br />
-      <span class="md:ml-16 lg:ml-24">Cultural</span>
-    </h2>
+  <div class="absolute bottom-[20%] left-[5%] opacity-15 z-0">
+    <Decorative type="dots" color="#F0EDE8" size={50} />
   </div>
 
-  <div class="max-w-6xl mx-auto relative z-10">
+  <div class="max-w-[1300px] mx-auto relative z-10">
+    <!-- Header Editorial -->
+    <div class="agenda__header mb-6 md:mb-12">
+      <div class="overflow-hidden mb-6">
+        <p class="agenda__eyebrow font-display font-bold text-[10px] uppercase tracking-[0.4em] text-cream/40 opacity-0">
+          Encontros & Vivências
+        </p>
+      </div>
+      
+      <h2 class="agenda__title flex flex-col md:flex-row md:items-end md:flex-wrap gap-x-8 gap-y-2">
+        <span class="agenda__title-line block font-display font-black text-[clamp(2rem,5.5vw,5rem)] leading-[0.9] uppercase opacity-0">
+          Próximos
+        </span>
+        <span class="agenda__title-line block font-display font-black italic text-[clamp(2rem,5.5vw,5rem)] leading-[0.9] uppercase text-orange opacity-0">
+          Encontros
+        </span>
+      </h2>
+    </div>
+
     {
       eventos.length > 0 ? (
         <AgendaFilter client:visible eventos={eventos} />
       ) : (
-        <div class="py-20 text-center opacity-40 italic">
-          Silêncio criativo por enquanto. Em breve, novos encontros.
+        <div class="py-32 text-center">
+          <p class="font-display italic text-2xl opacity-40">
+            Silêncio criativo por enquanto.<br />
+            Em breve, novos mundos se abrem.
+          </p>
         </div>
       )
     }
@@ -63,3 +71,9 @@ const { eventos } = Astro.props;
     animateAgenda();
   </script>
 </section>
+
+<style>
+  .agenda__title-line {
+    will-change: transform, opacity;
+  }
+</style>

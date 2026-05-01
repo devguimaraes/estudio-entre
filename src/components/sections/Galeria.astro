@@ -1,65 +1,58 @@
 ---
+import BlobMask from "@/components/ui/BlobMask.astro";
+
 const imagens = [
-  { src: "/images/brand/apresentacao-estudio-entre.jpg", label: "Perspectiva" },
-  { src: "/images/brand/apresentacao-estudio-entre-2.jpg", label: "Thayná" },
-  { src: "/images/brand/apresentacao-estudio-entre-3.jpg", label: "Encontros" },
-  { src: "/images/brand/apresentacao-estudio-entre-4.jpg", label: "Valdete" },
-  { src: "/images/brand/apresentacao-estudio-entre-5.jpg", label: "Detalhes" },
-  { src: "/images/brand/sobre-estudio-entre.jpg", label: "Espaço" },
-  { src: "/images/brand/sobre-estudio-entre-2.jpg", label: "Livros" },
-  { src: "/images/brand/sobre-estudio-entre-3.jpg", label: "Roda" },
-  { src: "/images/brand/sobre-estudio-entre-4.jpg", label: "Café" },
-  { src: "/images/brand/onde-a-palavra-vira-encontro.jpg", label: "Palavra" },
+  { src: "/images/brand/apresentacao-estudio-entre.jpg", alt: "Espaço do Estúdio Entre" },
+  { src: "/images/brand/apresentacao-estudio-entre-2.jpg", alt: "Thayná no Estúdio Entre" },
+  { src: "/images/brand/apresentacao-estudio-entre-3.jpg", alt: "Encontros no Estúdio Entre" },
+  { src: "/images/brand/apresentacao-estudio-entre-4.jpg", alt: "Valdete no Estúdio Entre" },
+  { src: "/images/brand/apresentacao-estudio-entre-5.jpg", alt: "Detalhes do Estúdio Entre" },
+  { src: "/images/brand/sobre-estudio-entre.jpg", alt: "Espaço" },
+  { src: "/images/brand/sobre-estudio-entre-2.jpg", alt: "Livros" },
+  { src: "/images/brand/sobre-estudio-entre-3.jpg", alt: "Roda" },
+  { src: "/images/brand/sobre-estudio-entre-4.jpg", alt: "Café" },
+  { src: "/images/brand/onde-a-palavra-vira-encontro.jpg", alt: "Palavra" },
 ];
+
+// Duplicar para o marquee infinito
+const marqueeImages = [...imagens, ...imagens];
 ---
 
 <section
-  class="galeria relative py-20 md:py-28 overflow-hidden"
+  class="galeria relative py-24 md:py-40 overflow-hidden"
   id="galeria"
   style="background-color: #b9e4eb;"
 >
-  <div class="max-w-6xl mx-auto px-6 md:px-16 mb-10 relative z-10">
-    <p class="text-[10px] uppercase tracking-[0.4em] mb-4" style="color: rgba(61,16,32,0.5);">O Lugar</p>
-    <h2 class="text-4xl md:text-6xl lg:text-7xl font-display font-black italic uppercase leading-[0.9]" style="color: #3d1020;">
-      Nosso Espaço
+  <div class="max-w-[1300px] mx-auto px-6 md:px-16 mb-20 relative z-10">
+    <div class="overflow-hidden">
+      <p class="galeria__eyebrow font-display font-bold text-[10px] uppercase tracking-[0.4em] text-bordo/50 opacity-0">
+        O Lugar
+      </p>
+    </div>
+    <h2 class="galeria__title font-display font-black text-[clamp(2.5rem,8vw,6rem)] text-bordo leading-none uppercase mt-6 opacity-0">
+      Nosso<br />Espaço
     </h2>
   </div>
 
-  <!-- Marquee container -->
-  <div class="galeria__marquee relative overflow-hidden py-8">
-    <div class="galeria__track flex gap-6 w-max">
-      <!-- First set -->
-      {imagens.map((img, i) => (
-        <div class="galeria__item flex-shrink-0 w-[280px] md:w-[340px] lg:w-[400px]">
-          <div class="relative aspect-[4/5] overflow-hidden" style="border-radius: 45% 55% 50% 50% / 50% 45% 55% 50%;">
-            <img
-              src={img.src}
-              alt={img.label}
-              class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-              loading="lazy"
-            />
-            <div class="absolute inset-0 mix-blend-multiply pointer-events-none" style="background-color: rgba(61,16,32,0.05);"></div>
+  <!-- Marquee Container -->
+  <div class="galeria__marquee-wrapper relative flex overflow-hidden py-10">
+    <div class="galeria__marquee flex gap-8 md:gap-12 animate-marquee hover:pause whitespace-nowrap">
+      {marqueeImages.map((img, i) => (
+        <div class="galeria__item w-[280px] md:w-[400px] flex-shrink-0">
+          <div class="relative group">
+            <BlobMask variant={((i % 4) + 1) as any} class="aspect-[4/5]">
+               <img 
+                src={img.src} 
+                alt={img.alt} 
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+              />
+            </BlobMask>
+            <div class="absolute inset-x-0 -bottom-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+               <span class="font-display italic text-[10px] uppercase tracking-widest text-bordo bg-cream/80 px-4 py-1 rounded-full">
+                0{ (i % imagens.length) + 1 }. { img.alt }
+               </span>
+            </div>
           </div>
-          <span class="block mt-3 text-[10px] uppercase tracking-widest" style="color: rgba(61,16,32,0.4);">
-            {String(i + 1).padStart(2, "0")}. {img.label}
-          </span>
-        </div>
-      ))}
-      <!-- Duplicate set for seamless loop -->
-      {imagens.map((img, i) => (
-        <div class="galeria__item flex-shrink-0 w-[280px] md:w-[340px] lg:w-[400px]">
-          <div class="relative aspect-[4/5] overflow-hidden" style="border-radius: 45% 55% 50% 50% / 50% 45% 55% 50%;">
-            <img
-              src={img.src}
-              alt={img.label}
-              class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-              loading="lazy"
-            />
-            <div class="absolute inset-0 mix-blend-multiply pointer-events-none" style="background-color: rgba(61,16,32,0.05);"></div>
-          </div>
-          <span class="block mt-3 text-[10px] uppercase tracking-widest" style="color: rgba(61,16,32,0.4);">
-            {String(i + 1).padStart(2, "0")}. {img.label}
-          </span>
         </div>
       ))}
     </div>
@@ -72,19 +65,23 @@ const imagens = [
 </section>
 
 <style>
-  .galeria__track {
-    animation: marquee 40s linear infinite;
+  .animate-marquee {
+    animation: marquee 60s linear infinite;
   }
-  .galeria__marquee:hover .galeria__track {
+
+  .hover\:pause:hover {
     animation-play-state: paused;
   }
+
   @keyframes marquee {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
   }
+
   @media (prefers-reduced-motion: reduce) {
-    .galeria__track {
+    .animate-marquee {
       animation: none;
+      overflow-x: auto;
     }
   }
 </style>
