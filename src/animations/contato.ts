@@ -9,15 +9,13 @@ export function animateContato(): void {
   if (!section) return;
 
   if (prefersReducedMotion) {
-    gsap.set(
-      [
-        ".contato__eyebrow",
-        ".contato__title",
-        ".contato__info",
-        ".contato__map",
-      ],
-      { opacity: 1, y: 0, x: 0, scale: 1, visibility: "visible" },
-    );
+    gsap.set([".contato__eyebrow", ".contato__title", ".contato__info", ".contato__map"], {
+      opacity: 1,
+      y: 0,
+      x: 0,
+      scale: 1,
+      visibility: "visible",
+    });
     return;
   }
 
@@ -26,15 +24,14 @@ export function animateContato(): void {
       trigger: section,
       start: "top 72%",
       toggleActions: "play none none reverse",
+      onComplete: () => {
+        section.classList.add("is-ready");
+      },
     },
   });
 
   // 1) Header reveal
-  tl.fromTo(
-    ".contato__eyebrow",
-    { opacity: 0, y: 15 },
-    { opacity: 0.4, y: 0, duration: 0.8 },
-  );
+  tl.fromTo(".contato__eyebrow", { opacity: 0, y: 15 }, { opacity: 0.4, y: 0, duration: 0.8 });
 
   tl.fromTo(
     ".contato__title",

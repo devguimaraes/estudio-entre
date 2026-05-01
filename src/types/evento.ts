@@ -18,5 +18,11 @@ export interface EventoCard {
   descricao: string | null;
   valor: string | null;
   linkCompra: string | null;
-  imagens: unknown[] | null;
+  imagens: SanityImageRef[] | null;
+}
+
+export interface SanityImageRef {
+  _type: "image";
+  asset: { _ref: string; _type: "reference" };
+  alt?: string;
 }

@@ -41,7 +41,7 @@ import Decorative from "@/components/ui/Decorative.astro";
             Endereço
           </p>
           <p class="text-lg font-display text-bordo leading-relaxed">
-            Rua Dias da Cruz, 123<br />
+            Rua Dias da Cruz, 630 — Sala 301<br />
             Méier, Rio de Janeiro — RJ<br />
             CEP 20720-011
           </p>
@@ -67,8 +67,8 @@ import Decorative from "@/components/ui/Decorative.astro";
             <a href="mailto:contato@estudioentre.com.br" class="hover:text-orange transition-colors">
               contato@estudioentre.com.br
             </a><br />
-            <a href="https://wa.me/5521999999999" class="hover:text-orange transition-colors">
-              (21) 99999-9999
+            <a href="https://wa.me/5521988001234" class="hover:text-orange transition-colors">
+              (21) 98800-1234
             </a>
           </p>
         </div>
@@ -97,11 +97,10 @@ import Decorative from "@/components/ui/Decorative.astro";
     </div>
   </div>
 
-  <script>
-    import { animateContato } from "@/animations/contato";
-    animateContato();
+  <script is:inline>
+    if (window.__contatoMapInitialized) return;
+    window.__contatoMapInitialized = true;
 
-    // Leaflet Map
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
@@ -125,8 +124,21 @@ import Decorative from "@/components/ui/Decorative.astro";
 
       L.control.zoom({ position: 'topright' }).addTo(map);
 
-      // Fix map size after animation
-      setTimeout(() => map.invalidateSize(), 1500);
+      // Fix map size after GSAP animation completes
+      const observer = new MutationObserver(() => {
+        const section = document.querySelector('.contato');
+        if (section && section.classList.contains('is-ready')) {
+          map.invalidateSize();
+          observer.disconnect();
+        }
+      });
+      observer.observe(document.querySelector('.contato') || document.body, {
+        attributes: true,
+        attributeFilter: ['class'],
+      });
+
+      // Fallback
+      setTimeout(() => map.invalidateSize(), 2000);
     };
     document.head.appendChild(script);
   </script>
