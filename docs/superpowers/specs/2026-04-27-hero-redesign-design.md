@@ -1,7 +1,7 @@
 # Design Spec: Redesign do Hero "Portal de Entrada" — Estúdio Entre
 
-**Data:** 2026-04-27  
-**Status:** Aprovado pelo Usuário  
+**Data:** 2026-04-27
+**Status:** Aprovado pelo Usuário
 **Tópico:** Refinação visual e animação do Hero da Home Institucional baseado no Guia de Identidade Visual.
 
 ---
@@ -13,7 +13,7 @@ Transformar a entrada do site em uma experiência cinematográfica e impactante 
 
 ### 2.1 Cores e Texturas
 - **Fundo:** `#EC6838` (Laranja Primário).
-- **Textura:** Overlay de padrão **Halftone** (pontilhado). 
+- **Textura:** Overlay de padrão **Halftone** (pontilhado).
     - Implementação: CSS `mask-image` ou um `div` absoluto com padrão de gradiente radial repetido.
     - Opacidade: 15%.
 - **Conteúdo (Logo/Texto):** `#F0EDE8` (Creme).
@@ -21,7 +21,7 @@ Transformar a entrada do site em uma experiência cinematográfica e impactante 
 ### 2.2 Elementos Gráficos
 - **Símbolo:** Usar a "Cabeça da Chave" (ícone do olho/bússola) como elemento central de portal.
 - **Logo:** `Logo_Estudio Entre - Claro 2.png`.
-- **Tipografia:** 
+- **Tipografia:**
     - Tagline: `Buvera Black` (ou Extrabold como fallback).
     - Botões: `Buvera Bold` com tracking espaçado.
 

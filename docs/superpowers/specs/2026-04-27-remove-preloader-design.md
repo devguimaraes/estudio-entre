@@ -1,7 +1,7 @@
 # Design Spec: Remoção do Preloader e Ajuste de Entrada do Hero
 
-**Data:** 2026-04-27  
-**Status:** Em Revisão  
+**Data:** 2026-04-27
+**Status:** Em Revisão
 **Tópico:** Remoção da tela de carregamento (loader) e transição direta para a animação do Hero.
 
 ---

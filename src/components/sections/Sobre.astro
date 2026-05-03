@@ -10,7 +10,7 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
   id="sobre"
 >
   <!-- Watermark: Letra "e" cursiva gigante -->
-  <div 
+  <div
     class="sobre__watermark absolute -bottom-20 -right-20 z-0 pointer-events-none opacity-[0.03] select-none"
     aria-hidden="true"
   >
@@ -27,10 +27,10 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
   />
 
   <div class="max-w-[1200px] mx-auto relative z-10">
-    
+
     <!-- Top Row: Editorial Asymmetric Layout -->
     <div class="flex flex-col lg:flex-row gap-12 lg:gap-24 mb-24 md:mb-32">
-      
+
       <!-- Text Column -->
       <div class="w-full lg:w-3/5 order-2 lg:order-1">
         <div class="sobre__eyebrow-wrap overflow-hidden mb-8">
@@ -77,13 +77,13 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
             variant={2}
             class="sobre__blob-1 opacity-0"
           >
-            <img 
-              src="/images/brand/apresentacao-estudio-entre.jpg" 
+            <img
+              src="/images/brand/apresentacao-estudio-entre.jpg"
               alt="Thayná e Valdete — Fundadoras do Estúdio Entre"
               class="w-full h-full object-cover"
             />
           </BlobMask>
-          
+
           <!-- Secondary Overlapping Image -->
           <div class="sobre__image-sub absolute -bottom-24 -left-16 w-[150px] md:w-[180px] z-10">
             <BlobMask
@@ -91,8 +91,8 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
               class="sobre__blob-2 opacity-0"
               style="transform: scaleX(-1);"
             >
-              <img 
-                src={sobreSubImg.src} 
+              <img
+                src={sobreSubImg.src}
                 alt="Detalhe do espaço Estúdio Entre"
                 class="w-full h-full object-cover object-center"
                 style="transform: scaleX(-1);"

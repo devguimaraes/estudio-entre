@@ -182,7 +182,7 @@ Use this full file:
       letter-spacing: 0.2em;
     }
   }
-  
+
   @media (prefers-reduced-motion: reduce) {
     .preloader {
       display: none;

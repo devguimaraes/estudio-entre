@@ -20,9 +20,9 @@
 ```astro
 <!-- src/components/sections/Hero.astro -->
 <!-- Update Logo Image classes -->
-<Image 
-  src={logoClaro} 
-  class="hero__logo opacity-0 w-full max-w-[280px] sm:max-w-[420px] h-auto" 
+<Image
+  src={logoClaro}
+  class="hero__logo opacity-0 w-full max-w-[280px] sm:max-w-[420px] h-auto"
   alt="Estúdio Entre"
   loading="eager"
   fetchpriority="high"
@@ -64,7 +64,7 @@ git commit -m "style(hero): destacar logo e atualizar para nova descrição inst
   tl.set(".hero__logo, .hero__description, .hero__ctas, .hero__scroll", { opacity: 0 });
 
   // ... after symbol zoom ...
-  .fromTo(".hero__logo", 
+  .fromTo(".hero__logo",
     { opacity: 0, scale: 0.95 },
     { opacity: 1, scale: 1, duration: 1.2 },
     "-=1.0"

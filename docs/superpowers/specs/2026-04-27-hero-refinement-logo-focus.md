@@ -1,7 +1,7 @@
 # Design Spec: Refino do Hero — Foco no Logo e Nova Tagline
 
-**Data:** 2026-04-27  
-**Status:** Aprovado pelo Usuário  
+**Data:** 2026-04-27
+**Status:** Aprovado pelo Usuário
 **Tópico:** Ajuste de escala do Hero para destacar o Logo e atualizar a mensagem institucional.
 
 ---
@@ -19,7 +19,7 @@ Ajustar as proporções do Hero para que o Logo seja o protagonista visual, redu
 ### 2.2 Tagline (Nova)
 - **Texto:** "Espaço cultural independente: encontros, palavra e som."
 - **Tipografia:** Buvera.
-- **Estilo:** 
+- **Estilo:**
     - Parte 1 ("Espaço cultural independente"): Regular ou Medium, uppercase, tracking alto.
     - Parte 2 ("encontros, palavra e som"): Italic, case normal ou lowercase, para um ar mais poético.
 - **Escala:** `text-sm` a `text-base` (muito mais discreta que a anterior).

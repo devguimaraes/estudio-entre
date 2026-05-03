@@ -26,7 +26,7 @@
     <div class="absolute inset-0 hero__halftone opacity-15"></div>
     <div class="absolute inset-0 bg-[url('/textures/paper-texture-optimized.webp')] bg-repeat opacity-10 mix-blend-multiply"></div>
   </div>
-  
+
   <!-- Layer 1: The Portal Symbol (Chave) -->
   <div class="hero__symbol-container absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
     <img src="/icons/olho.svg" class="hero__symbol w-[200px] h-auto opacity-0" alt="" />
@@ -46,7 +46,7 @@
     background-image: radial-gradient(rgba(0, 0, 0, 0.2) 1.5px, transparent 1.5px);
     background-size: 10px 10px;
   }
-  
+
   .hero {
     perspective: 1000px;
   }
@@ -91,7 +91,7 @@ git commit -m "feat(hero): atualizar estrutura para suporte ao portal e textura 
       ease: "expo.inOut",
     })
     // 3. Content Reveal: Logo and Tagline appear from depth
-    .fromTo(".hero__logo", 
+    .fromTo(".hero__logo",
       { opacity: 0, scale: 0.8 },
       { opacity: 1, scale: 1, duration: 1.2 },
       "-=1.2"

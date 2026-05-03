@@ -41,9 +41,9 @@ const marqueeImages = [...imagens, ...imagens];
         <div class="galeria__item w-[280px] md:w-[400px] flex-shrink-0">
           <div class="relative group">
             <BlobMask variant={((i % 4) + 1) as any} class="aspect-[4/5]">
-               <img 
-                src={img.src} 
-                alt={img.alt} 
+               <img
+                src={img.src}
+                alt={img.alt}
                 class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
               />
             </BlobMask>
