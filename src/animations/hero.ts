@@ -112,27 +112,88 @@ export function animateHero(): void {
     "-=1.0",
   );
 
-  // 4) Image Frame Reveal
+  // 1) Logo Block Reveal
   tl.to(
-    ".hero__image-frame",
-    {
-      opacity: 1,
-      x: 0,
-      duration: 1.5,
-      ease: "expo.out",
-    },
-    "-=1.2",
-  );
-
-  tl.to(
-    ".hero__image",
+    ".hero__logo-wrapper",
     {
       opacity: 1,
       scale: 1,
-      duration: 1.8,
+      duration: 1.5,
+      ease: "expo.out",
+    },
+    "-=0.5",
+  );
+
+  tl.to(
+    ".hero__badge",
+    {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "back.out(1.7)",
+    },
+    "-=1.0",
+  );
+
+  tl.to(
+    ".hero__spark",
+    {
+      opacity: 1,
+      scale: 1,
+      rotate: 0,
+      duration: 1.2,
+      ease: "elastic.out(1, 0.5)",
+    },
+    "-=0.8",
+  );
+
+  // 2) Tagline & Divider
+  tl.to(
+    ".hero__divider",
+    {
+      opacity: 0.4,
+      width: 48,
+      duration: 1.2,
+      ease: "power4.out",
+    },
+    "-=0.6",
+  );
+
+  tl.to(
+    ".hero__tagline",
+    {
+      opacity: 1,
+      y: 0,
+      duration: 1.2,
+      ease: "power3.out",
+    },
+    "-=1.0",
+  );
+
+  // 3) Corner Info Reveal
+  tl.to(
+    ".hero__corner-info",
+    {
+      opacity: 1,
+      y: 0,
+      stagger: 0.1,
+      duration: 1.0,
       ease: "power2.out",
     },
-    "-=1.3",
+    "-=0.8",
+  );
+
+  // 4) Decoratives
+  tl.to(
+    ".hero__decor",
+    {
+      opacity: 1,
+      scale: 1,
+      stagger: 0.15,
+      duration: 1.2,
+      ease: "power2.out",
+    },
+    "-=0.6",
   );
 
   // 5) CTAs & Scroll
@@ -141,10 +202,10 @@ export function animateHero(): void {
     {
       opacity: 1,
       y: 0,
-      stagger: 0.15,
       duration: 1.0,
+      ease: "power2.out",
     },
-    "-=1.0",
+    "-=0.8",
   );
 
   tl.to(
@@ -153,21 +214,29 @@ export function animateHero(): void {
       opacity: 1,
       duration: 0.8,
     },
-    "-=0.5",
+    "-=0.4",
   );
 
   // --- Parallax & Interactions ---
 
-  // Mouse Parallax suave para o frame de papel
+  // Infinite Dot Grid Move & Mouse Interaction
   window.addEventListener("mousemove", (e) => {
     const { clientX, clientY } = e;
-    const xPos = (clientX / window.innerWidth - 0.5) * 30;
-    const yPos = (clientY / window.innerHeight - 0.5) * 30;
+    const xPos = (clientX / window.innerWidth - 0.5) * 40;
+    const yPos = (clientY / window.innerHeight - 0.5) * 40;
 
-    gsap.to(".hero__image-frame", {
-      x: xPos * 0.4,
-      y: yPos * 0.4,
-      rotate: 1 + xPos * 0.05,
+    gsap.to(".hero__dot-grid", {
+      x: xPos * 0.5,
+      y: yPos * 0.5,
+      duration: 2,
+      ease: "power2.out",
+    });
+
+    gsap.to(".hero__logo-block", {
+      x: xPos * 0.2,
+      y: yPos * 0.2,
+      rotateX: -yPos * 0.1,
+      rotateY: xPos * 0.1,
       duration: 2,
       ease: "power2.out",
     });
@@ -181,7 +250,7 @@ export function animateHero(): void {
     });
   });
 
-  // Scroll Parallax Diferencial
+  // Scroll Parallax
   const heroParallaxTl = gsap.timeline({
     scrollTrigger: {
       trigger: ".hero",
@@ -192,8 +261,8 @@ export function animateHero(): void {
   });
 
   heroParallaxTl
-    .to(".hero__watermark", { y: -150, x: -50, scale: 1.2, ease: "none" }, 0)
-    .to(".hero__image-col", { y: -80, ease: "none" }, 0)
-    .to(".hero__text-col", { y: 50, ease: "none" }, 0)
-    .to(".hero__decor", { y: -200, stagger: 0.1, ease: "none" }, 0);
+    .to(".hero__watermark", { y: -200, x: -100, scale: 1.2, ease: "none" }, 0)
+    .to(".hero__logo-block", { y: -100, scale: 0.95, ease: "none" }, 0)
+    .to(".hero__dot-grid", { y: -150, ease: "none" }, 0)
+    .to(".hero__corner-info", { y: -100, stagger: 0.05, ease: "none" }, 0);
 }

@@ -1,118 +1,117 @@
 ---
 import Decorative from "@/components/ui/Decorative.astro";
 import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
-import TornPaperFrame from "@/components/ui/TornPaperFrame.astro";
 ---
 
 <section
-  class="hero relative h-screen overflow-hidden"
+  class="hero relative h-screen overflow-hidden flex items-center justify-center"
   style="background-color: #ec6838;"
   role="banner"
   aria-label="Estúdio Entre — Hub Cultural Independente"
 >
-  <!-- Layer 1: Watermark "E" gigante reposicionada -->
+  <!-- Layer 1: Dot Grid (Mathematical Background) -->
+  <div 
+    class="hero__dot-grid absolute inset-0 z-0 opacity-20 pointer-events-none"
+    style="background-image: radial-gradient(rgba(255,255,255,0.8) 1.5px, transparent 1.5px); background-size: 50px 50px;"
+  ></div>
+
+  <!-- Layer 2: Massive Watermark "E" (Organic depth) -->
   <div
-    class="hero__watermark absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none opacity-[0.04]"
+    class="hero__watermark absolute -bottom-[10%] -right-[5%] z-[1] pointer-events-none opacity-[0.04]"
     aria-hidden="true"
   >
-    <span class="font-display font-black text-[70vw] leading-none text-cream select-none italic">E</span>
+    <span class="font-display font-black text-[70vw] leading-none text-cream select-none italic">e</span>
   </div>
 
-  <!-- Layer 2: Halftone texture overlay -->
-  <HalftoneTexture
-    density={12}
-    dotSize={1.8}
-    color="240,237,232"
-    opacity={0.18}
-    class="z-[1]"
-  />
-
-  <!-- Layer 3: The Portal — Fechadura expansion -->
-  <div
-    class="hero__portal absolute inset-0 z-50 flex items-center justify-center pointer-events-none"
-    aria-hidden="true"
-  >
-    <img
-      src="/icons/fechadura.svg"
-      class="hero__keyhole w-[80px] md:w-[120px] h-auto"
-      style="filter: brightness(0) invert(1);"
-      alt=""
-    />
+  <!-- Layer 3: Corner Technical Branding (Swiss Framework) -->
+  <div class="absolute inset-0 z-10 pointer-events-none p-6 md:p-12 lg:p-16 flex flex-col justify-between">
+    <div class="flex justify-between items-start">
+      <div class="hero__corner-info opacity-0">
+        <span class="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.4em] text-cream">
+          [ HUB CULTURAL INDEPENDENTE ]
+        </span>
+      </div>
+      <div class="hero__corner-info opacity-0 text-right">
+        <span class="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.4em] text-cream">
+          MÉIER_RJ // 2026_EDITION
+        </span>
+      </div>
+    </div>
+    <div class="flex justify-between items-end">
+      <div class="hero__corner-info opacity-0">
+        <span class="font-display italic text-[12px] md:text-[14px] text-cream opacity-60">
+          A arte do encontro.
+        </span>
+      </div>
+      <div class="hero__corner-info opacity-0 text-right">
+        <span class="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.4em] text-cream">
+          SCROLL_TO_ENTER
+        </span>
+      </div>
+    </div>
   </div>
 
   <!-- Layer 4: Floating Decoratives -->
   <div class="absolute inset-0 z-[2] pointer-events-none overflow-hidden">
-    <div class="hero__decor hero__decor--1 absolute top-[15%] left-[10%] opacity-0">
+    <div class="hero__decor hero__decor--1 absolute top-[25%] left-[15%] opacity-0">
       <Decorative variant="star" size={32} color="#3D1020" />
     </div>
-    <div class="hero__decor hero__decor--2 absolute bottom-[25%] left-[45%] opacity-0">
+    <div class="hero__decor hero__decor--2 absolute bottom-[30%] right-[10%] opacity-0">
       <Decorative variant="dots" size={50} color="#F0EDE8" />
     </div>
-    <div class="hero__decor hero__decor--3 absolute top-[25%] right-[35%] opacity-0">
+    <div class="hero__decor hero__decor--3 absolute top-[15%] right-[25%] opacity-0">
       <Decorative variant="ray" size={80} color="#3D1020" />
     </div>
   </div>
 
-  <!-- Layer 5: Main Editorial Content (70/30 Collage) -->
-  <div class="hero__container relative z-[5] w-full h-full max-w-[1600px] mx-auto px-6 md:px-16 lg:px-24 flex items-center">
-
-    <!-- Left Side: Typography & Text (Ampliado) -->
-    <div class="hero__text-col w-full lg:w-[65%] flex flex-col justify-center relative z-20">
-      <div class="hero__eyebrow-wrap overflow-hidden mb-8">
-        <p class="hero__eyebrow font-display font-bold text-[12px] md:text-[14px] uppercase tracking-[0.5em] text-cream opacity-0">
-          Hub Cultural Independente · Méier, RJ
-        </p>
+  <!-- Layer 5: Central Totem (The Branding Heart) -->
+  <div class="hero__container relative z-20 flex flex-col items-center text-center px-6">
+    
+    <!-- Logo Block -->
+    <div class="hero__logo-block relative mb-12">
+      <!-- Logo Badge -->
+      <div class="hero__badge absolute -top-5 left-8 z-30 opacity-0">
+        <span class="font-mono text-[9px] font-bold bg-bordo text-cream px-3 py-1 rounded-sm tracking-widest uppercase shadow-lg">
+          CULTURA_INDEPENDENTE
+        </span>
       </div>
-
-      <h1 class="hero__logo-text mb-8 flex flex-col">
+      
+      <!-- Main Logo Wrapper -->
+      <div class="hero__logo-wrapper bg-cream/95 p-8 md:p-12 lg:p-16 shadow-[0_40px_100px_rgba(0,0,0,0.15)] rounded-sm opacity-0 scale-95">
         <img
           src="/logos/Logo_Estudio Entre - Claro 2.png"
           alt="Estúdio Entre"
-          class="hero__logo w-[70vw] sm:w-[60vw] md:w-[50vw] lg:w-[45vw] h-auto opacity-0"
+          class="hero__logo w-[70vw] sm:w-[50vw] md:w-[40vw] lg:w-[35vw] h-auto invert brightness-0"
         />
-      </h1>
-
-      <div class="hero__tagline-wrap mb-14 overflow-hidden">
-        <p class="hero__tagline font-display italic font-regular text-[clamp(1.5rem,4vw,2.5rem)] text-cream leading-tight opacity-0">
-          onde a palavra vira encontro.
-        </p>
       </div>
 
-      <div class="hero__ctas flex flex-wrap gap-6 opacity-0">
-        <a
-          href="#agenda"
-          class="hero__cta-primary group flex items-center gap-4 font-display font-bold uppercase tracking-widest text-[12px] px-10 py-5 rounded-full bg-cream text-orange transition-all duration-500 hover:bg-bordo hover:text-cream shadow-lg hover:shadow-xl"
-        >
-          Próximos encontros
-          <img src="/icons/spark.svg" class="w-4 h-4 transition-transform duration-500 group-hover:rotate-45" alt="" />
-        </a>
-        <a
-          href="#sobre"
-          class="hero__cta-secondary group flex items-center gap-4 font-display font-bold uppercase tracking-widest text-[12px] px-10 py-5 rounded-full border-2 border-cream text-cream bg-transparent transition-all duration-500 hover:bg-cream/10"
-        >
-          Conheça o estúdio
-        </a>
+      <!-- Sparkle -->
+      <div class="hero__spark absolute -top-10 -right-10 opacity-0 rotate-12">
+        <Decorative variant="star" size={60} color="#3D1020" />
       </div>
     </div>
 
-    <!-- Right Side: Narrow Vertical Photo Strip (Torn Paper Style) -->
-    <div class="hero__image-col hidden lg:flex lg:w-[35%] justify-end relative h-full pt-20 pb-20">
-      <div class="hero__image-wrap relative w-full h-full flex justify-end">
-        <TornPaperFrame 
-          variant={1} 
-          rotation="1deg" 
-          class="hero__image-frame w-full max-w-[400px] h-full shadow-2xl"
-        >
-          <img
-            src="/images/espaco/estudio-entre-salao.webp"
-            alt="Salão Principal Estúdio Entre"
-            class="hero__image w-full h-full object-cover opacity-0 scale-105"
-          />
-        </TornPaperFrame>
-      </div>
+    <!-- Tagline (Refined & Smaller) -->
+    <div class="hero__tagline-wrap max-w-2xl overflow-hidden mb-16">
+      <div class="hero__divider w-12 h-[1px] bg-cream mx-auto mb-8 opacity-0"></div>
+      <p class="hero__tagline font-display italic font-regular text-[clamp(1.25rem,2.5vw,2rem)] text-cream leading-tight opacity-0">
+        onde a palavra vira encontro.
+      </p>
+    </div>
+
+    <!-- CTA -->
+    <div class="hero__ctas opacity-0">
+      <a
+        href="#agenda"
+        class="hero__cta-primary group flex items-center gap-4 font-display font-bold uppercase tracking-widest text-[11px] px-10 py-5 rounded-full bg-cream text-orange transition-all duration-500 hover:bg-bordo hover:text-cream shadow-xl hover:-translate-y-1"
+      >
+        Próximos encontros
+        <img src="/icons/spark.svg" class="w-4 h-4 transition-transform duration-500 group-hover:rotate-45" alt="" />
+      </a>
     </div>
 
   </div>
+</section>
 
   <!-- Scroll indicator -->
   <div class="hero__scroll absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-[10] opacity-0">
