@@ -1,6 +1,7 @@
 ---
 import Decorative from "@/components/ui/Decorative.astro";
 import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+import TornPaperFrame from "@/components/ui/TornPaperFrame.astro";
 ---
 
 <section
@@ -9,12 +10,12 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
   role="banner"
   aria-label="Estúdio Entre — Hub Cultural Independente"
 >
-  <!-- Layer 1: Watermark "E" gigante -->
+  <!-- Layer 1: Watermark "E" gigante reposicionada -->
   <div
-    class="hero__watermark absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none opacity-[0.03]"
+    class="hero__watermark absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 z-0 pointer-events-none opacity-[0.04]"
     aria-hidden="true"
   >
-    <span class="font-display font-black text-[60vw] leading-none text-cream select-none">E</span>
+    <span class="font-display font-black text-[70vw] leading-none text-cream select-none italic">E</span>
   </div>
 
   <!-- Layer 2: Halftone texture overlay -->
@@ -42,67 +43,72 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
   <!-- Layer 4: Floating Decoratives -->
   <div class="absolute inset-0 z-[2] pointer-events-none overflow-hidden">
     <div class="hero__decor hero__decor--1 absolute top-[15%] left-[10%] opacity-0">
-      <Decorative type="star" size={24} color="#3D1020" />
+      <Decorative variant="star" size={32} color="#3D1020" />
     </div>
-    <div class="hero__decor hero__decor--2 absolute bottom-[20%] left-[15%] opacity-0">
-      <Decorative type="dots" size={40} color="#F0EDE8" />
+    <div class="hero__decor hero__decor--2 absolute bottom-[25%] left-[45%] opacity-0">
+      <Decorative variant="dots" size={50} color="#F0EDE8" />
     </div>
-    <div class="hero__decor hero__decor--3 absolute top-[25%] right-[15%] opacity-0">
-      <Decorative type="ray" size={60} color="#3D1020" />
+    <div class="hero__decor hero__decor--3 absolute top-[25%] right-[35%] opacity-0">
+      <Decorative variant="ray" size={80} color="#3D1020" />
     </div>
   </div>
 
-  <!-- Layer 5: Main Editorial Content (Collage) -->
-  <div class="hero__container relative z-[5] w-full h-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 flex items-center">
+  <!-- Layer 5: Main Editorial Content (70/30 Collage) -->
+  <div class="hero__container relative z-[5] w-full h-full max-w-[1600px] mx-auto px-6 md:px-16 lg:px-24 flex items-center">
 
-    <!-- Left Side: Typography & Text -->
-    <div class="hero__text-col w-full lg:w-3/5 flex flex-col justify-center">
-      <div class="hero__eyebrow-wrap overflow-hidden mb-6">
-        <p class="hero__eyebrow font-display font-bold text-[10px] uppercase tracking-[0.4em] text-cream/80 opacity-0">
+    <!-- Left Side: Typography & Text (Ampliado) -->
+    <div class="hero__text-col w-full lg:w-[65%] flex flex-col justify-center relative z-20">
+      <div class="hero__eyebrow-wrap overflow-hidden mb-8">
+        <p class="hero__eyebrow font-display font-bold text-[12px] md:text-[14px] uppercase tracking-[0.5em] text-cream opacity-0">
           Hub Cultural Independente · Méier, RJ
         </p>
       </div>
 
-      <h1 class="hero__logo-text mb-6 flex flex-col">
+      <h1 class="hero__logo-text mb-8 flex flex-col">
         <img
           src="/logos/Logo_Estudio Entre - Claro 2.png"
           alt="Estúdio Entre"
-          class="hero__logo w-[60vw] sm:w-[50vw] md:w-[40vw] lg:w-[35vw] h-auto opacity-0"
+          class="hero__logo w-[70vw] sm:w-[60vw] md:w-[50vw] lg:w-[45vw] h-auto opacity-0"
         />
       </h1>
 
-      <div class="hero__tagline-wrap mb-10 overflow-hidden">
-        <p class="hero__tagline font-display italic font-regular text-[clamp(1.25rem,3vw,1.75rem)] text-cream/90 opacity-0">
+      <div class="hero__tagline-wrap mb-14 overflow-hidden">
+        <p class="hero__tagline font-display italic font-regular text-[clamp(1.5rem,4vw,2.5rem)] text-cream leading-tight opacity-0">
           onde a palavra vira encontro.
         </p>
       </div>
 
-      <div class="hero__ctas flex flex-wrap gap-4 opacity-0">
+      <div class="hero__ctas flex flex-wrap gap-6 opacity-0">
         <a
           href="#agenda"
-          class="hero__cta-primary group flex items-center gap-3 font-display font-bold uppercase tracking-widest text-[11px] px-8 py-4 rounded-full bg-cream text-orange transition-all duration-500 hover:bg-bordo hover:text-cream"
+          class="hero__cta-primary group flex items-center gap-4 font-display font-bold uppercase tracking-widest text-[12px] px-10 py-5 rounded-full bg-cream text-orange transition-all duration-500 hover:bg-bordo hover:text-cream shadow-lg hover:shadow-xl"
         >
           Próximos encontros
-          <img src="/icons/spark.svg" class="w-3 h-3 transition-transform duration-500 group-hover:rotate-45" alt="" />
+          <img src="/icons/spark.svg" class="w-4 h-4 transition-transform duration-500 group-hover:rotate-45" alt="" />
         </a>
         <a
           href="#sobre"
-          class="hero__cta-secondary group flex items-center gap-3 font-display font-bold uppercase tracking-widest text-[11px] px-8 py-4 rounded-full border-2 border-cream text-cream bg-transparent transition-all duration-500 hover:bg-cream/10"
+          class="hero__cta-secondary group flex items-center gap-4 font-display font-bold uppercase tracking-widest text-[12px] px-10 py-5 rounded-full border-2 border-cream text-cream bg-transparent transition-all duration-500 hover:bg-cream/10"
         >
           Conheça o estúdio
         </a>
       </div>
     </div>
 
-    <!-- Right Side: Imagery (Asymmetric Collage) -->
-    <div class="hero__image-col hidden lg:flex w-2/5 justify-end relative h-[60vh]">
-      <div class="hero__image-wrap relative w-full flex justify-end overflow-hidden">
-        <img
-          src="/images/brand/estudio-entre-hero.jpg"
-          alt="Espaço Estúdio Entre"
-          class="hero__image w-[28vw] h-full object-cover opacity-0 scale-95"
-          style="clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);"
-        />
+    <!-- Right Side: Narrow Vertical Photo Strip (Torn Paper Style) -->
+    <div class="hero__image-col hidden lg:flex lg:w-[35%] justify-end relative h-full pt-20 pb-20">
+      <div class="hero__image-wrap relative w-full h-full flex justify-end">
+        <TornPaperFrame 
+          variant={1} 
+          rotation="1deg" 
+          class="hero__image-frame w-full max-w-[400px] h-full shadow-2xl"
+        >
+          <img
+            src="/images/espaco/estudio-entre-salao.webp"
+            alt="Salão Principal Estúdio Entre"
+            class="hero__image w-full h-full object-cover opacity-0 scale-105"
+          />
+        </TornPaperFrame>
       </div>
     </div>
 

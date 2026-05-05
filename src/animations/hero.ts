@@ -112,16 +112,27 @@ export function animateHero(): void {
     "-=1.0",
   );
 
-  // 4) Image Reveal
+  // 4) Image Frame Reveal
+  tl.to(
+    ".hero__image-frame",
+    {
+      opacity: 1,
+      x: 0,
+      duration: 1.5,
+      ease: "expo.out",
+    },
+    "-=1.2",
+  );
+
   tl.to(
     ".hero__image",
     {
       opacity: 1,
       scale: 1,
-      duration: 1.5,
-      ease: "expo.out",
+      duration: 1.8,
+      ease: "power2.out",
     },
-    "-=1.2",
+    "-=1.3",
   );
 
   // 5) CTAs & Scroll
@@ -130,10 +141,10 @@ export function animateHero(): void {
     {
       opacity: 1,
       y: 0,
-      stagger: 0.1,
-      duration: 0.8,
+      stagger: 0.15,
+      duration: 1.0,
     },
-    "-=0.8",
+    "-=1.0",
   );
 
   tl.to(
@@ -147,21 +158,30 @@ export function animateHero(): void {
 
   // --- Parallax & Interactions ---
 
-  // Mouse Parallax for the floating key
+  // Mouse Parallax suave para o frame de papel
   window.addEventListener("mousemove", (e) => {
     const { clientX, clientY } = e;
-    const xPos = (clientX / window.innerWidth - 0.5) * 40;
-    const yPos = (clientY / window.innerHeight - 0.5) * 40;
+    const xPos = (clientX / window.innerWidth - 0.5) * 30;
+    const yPos = (clientY / window.innerHeight - 0.5) * 30;
 
-    gsap.to(".hero__image", {
-      x: xPos * 0.3,
-      y: yPos * 0.3,
-      duration: 1.5,
+    gsap.to(".hero__image-frame", {
+      x: xPos * 0.4,
+      y: yPos * 0.4,
+      rotate: 1 + xPos * 0.05,
+      duration: 2,
+      ease: "power2.out",
+    });
+
+    gsap.to(".hero__decor", {
+      x: xPos * 1.5,
+      y: yPos * 1.5,
+      stagger: 0.05,
+      duration: 2.5,
       ease: "power2.out",
     });
   });
 
-  // Scroll Parallax
+  // Scroll Parallax Diferencial
   const heroParallaxTl = gsap.timeline({
     scrollTrigger: {
       trigger: ".hero",
@@ -172,7 +192,8 @@ export function animateHero(): void {
   });
 
   heroParallaxTl
-    .to(".hero__watermark", { y: -100, scale: 1.1, ease: "none" }, 0)
-    .to(".hero__image-wrap", { y: -50, ease: "none" }, 0)
-    .to(".hero__text-col", { y: 30, ease: "none" }, 0);
+    .to(".hero__watermark", { y: -150, x: -50, scale: 1.2, ease: "none" }, 0)
+    .to(".hero__image-col", { y: -80, ease: "none" }, 0)
+    .to(".hero__text-col", { y: 50, ease: "none" }, 0)
+    .to(".hero__decor", { y: -200, stagger: 0.1, ease: "none" }, 0);
 }
