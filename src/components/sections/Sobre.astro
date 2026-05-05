@@ -4,11 +4,11 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 
 const imagensSobre = [
   {
-    src: "/images/brand/fundadora-thayna.jpg",
-    label: "Thayná",
-    variant: 5 as const,
-    width: "220px",
-    mdWidth: "300px",
+    src: "/images/brand/fundadoras-encontro.jpg",
+    label: "Uma mãe, uma filha e um sonho",
+    variant: 7 as const,
+    width: "240px",
+    mdWidth: "320px",
   },
   {
     src: "/images/brand/fundadora-valdete.jpg",
@@ -18,25 +18,18 @@ const imagensSobre = [
     mdWidth: "280px",
   },
   {
-    src: "/images/brand/fundadoras-encontro.jpg",
-    label: "O Encontro",
-    variant: 7 as const,
-    width: "240px",
-    mdWidth: "320px",
-  },
-  {
-    src: "/images/brand/fundadora-detalhe.jpg",
-    label: "Essência",
+    src: "/images/brand/fundadora-thayna.jpg",
+    label: "Thayná",
     variant: 5 as const,
-    width: "180px",
-    mdWidth: "250px",
+    width: "220px",
+    mdWidth: "300px",
   },
   {
-    src: "/images/brand/detalhe-afeto.jpg",
-    label: "Afeto",
-    variant: 6 as const,
-    width: "150px",
-    mdWidth: "200px",
+    src: "/images/brand/espaco-hub.jpg",
+    label: "Hub Cultural",
+    variant: 5 as const,
+    width: "220px",
+    mdWidth: "300px",
   },
 ];
 ---
@@ -96,7 +89,7 @@ const imagensSobre = [
 
         <div class="sobre__body-wrap max-w-[580px]">
           <p class="sobre__text text-lg md:text-xl leading-relaxed mb-8 opacity-0">
-            O Estúdio Entre é um <span class="text-orange font-bold">hub cultural independente</span> localizado no Méier, cuja mission é promover encontros significativos entre cultura, conhecimento e bem-estar.
+            O Estúdio Entre é um <span class="text-orange font-bold">hub cultural independente</span> localizado no Méier, cuja missão é promover encontros significativos entre cultura, conhecimento e bem-estar.
           </p>
           <p class="sobre__text text-base md:text-lg leading-relaxed text-near-black/70 mb-8 opacity-0">
             Um espaço plural e acolhedor, onde arte, palavra e cuidado se entrelaçam. Por meio de experiências que unem literatura, comunicação e práticas integrativas, estimulamos a escuta, a criação e o acesso à expressão cultural.
@@ -115,8 +108,8 @@ const imagensSobre = [
       </div>
 
       <!-- Gallery Column (Carousel 3D) -->
-      <div class="w-full lg:w-1/2 relative min-h-[600px] lg:min-h-[800px] flex items-center justify-center sobre__carousel-container">
-        <div class="sobre__carousel-wheel relative w-[280px] h-[380px] preserve-3d">
+      <div class="w-full lg:w-1/2 relative min-h-[500px] lg:min-h-[800px] flex items-center justify-center sobre__carousel-container">
+        <div class="sobre__carousel-wheel relative w-[240px] md:w-[280px] h-[320px] md:h-[380px] preserve-3d">
           {
             imagensSobre.map((img, index) => (
               <div
@@ -166,9 +159,8 @@ const imagensSobre = [
   }
 
   .sobre__carousel-item {
-    /* 5 itens: 360 / 5 = 72 graus de separação */
-    /* O translateZ deve ser calculado com base no tamanho do card para formar o círculo */
-    transform: rotateX(calc(var(--index) * 72deg)) translateZ(300px);
+    /* 4 itens: 360 / 4 = 90 graus de separação */
+    transform: rotateX(calc(var(--index) * 90deg)) translateZ(250px);
   }
 
   @media (max-width: 1023px) {
@@ -176,12 +168,12 @@ const imagensSobre = [
       perspective: none;
       min-height: auto;
       display: block;
-      margin-top: 3rem;
+      margin-top: 4rem;
     }
     .sobre__carousel-wheel {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
       width: 100%;
       height: auto;
       transform: none !important;
@@ -191,6 +183,7 @@ const imagensSobre = [
       position: relative !important;
       transform: none !important;
       width: 100% !important;
+      height: 400px !important;
     }
   }
 </style>
