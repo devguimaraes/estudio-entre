@@ -43,18 +43,18 @@ const marqueeImages = [...imagens, ...imagens];
   <div class="galeria__marquee-wrapper relative flex overflow-hidden py-10">
     <div class="galeria__marquee flex gap-8 md:gap-12 animate-marquee hover:pause whitespace-nowrap">
       {marqueeImages.map((img, i) => (
-        <div class="galeria__item w-[280px] md:w-[400px] flex-shrink-0">
-          <div class="relative group">
-            <BlobMask variant={((i % 4) + 1) as any} class="aspect-[4/5]">
+        <div class="galeria__item w-[300px] md:w-[450px] flex-shrink-0">
+          <div class="relative group h-[400px] md:h-[600px]">
+            <BlobMask variant={((i % 3) + 5) as any} class="w-full h-full">
                <img
                 src={img.src}
                 alt={img.alt}
-                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-[1.05]"
               />
             </BlobMask>
-            <div class="absolute inset-x-0 -bottom-4 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-               <span class="font-display italic text-[10px] uppercase tracking-widest text-bordo bg-cream/80 px-4 py-1 rounded-full">
-                0{ (i % imagens.length) + 1 }. { img.alt }
+            <div class="absolute inset-x-0 -bottom-8 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">
+               <span class="font-display italic text-[10px] uppercase tracking-widest text-bordo bg-cream/90 px-4 py-2 rounded-full shadow-sm">
+                { (i % imagens.length) + 1 }. { img.alt }
                </span>
             </div>
           </div>
