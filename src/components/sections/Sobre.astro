@@ -185,5 +185,10 @@ const imagensSobre = [
       width: 100% !important;
       height: 400px !important;
     }
+
+    /* Exibir apenas a primeira e a última imagem no mobile */
+    .sobre__carousel-item:not(:first-child):not(:last-child) {
+      display: none;
+    }
   }
 </style>
