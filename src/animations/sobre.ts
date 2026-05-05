@@ -57,45 +57,72 @@ export function animateSobre(): void {
     "-=0.9",
   );
 
-  // 4) Carousel 3D Animation
+  // 4) Carousel 3D Animation (Cinematic Drum Effect)
   const container = document.querySelector<HTMLElement>(".sobre__carousel-container");
   const wheel = document.querySelector<HTMLElement>(".sobre__carousel-wheel");
   const carouselItems = document.querySelectorAll<HTMLElement>(".sobre__carousel-item");
 
   if (container && wheel && carouselItems.length > 0) {
-    // Posicionamento radial via GSAP (mais robusto que CSS para evitar conflitos)
+    const radius = 500; // Raio maior para evitar clipping e dar elegância
     const angleStep = 360 / carouselItems.length;
-    
+
+    // Configuração inicial dos itens no espaço 3D
     gsap.set(carouselItems, {
+      transformOrigin: `50% 50% -${radius}px`,
       rotationX: (i) => i * angleStep,
-      z: 250,
-      opacity: 0
+      z: radius,
+      opacity: 0,
     });
 
-    // Revelação inicial suave
-    tl.to(carouselItems, {
-      opacity: 1,
-      duration: 1,
-      stagger: 0.1,
-      ease: "power2.out"
-    }, "-=1.2");
+    // Revelação inicial
+    tl.to(
+      carouselItems,
+      {
+        opacity: 1,
+        duration: 1.5,
+        stagger: 0.2,
+        ease: "power3.out",
+      },
+      "-=1.2",
+    );
 
-    // Rotação contínua do wheel
+    // Rotação principal com lógica de profundidade dinâmica
     const rotation = gsap.to(wheel, {
       rotationX: "-=360",
-      duration: 25,
+      duration: 30,
       repeat: -1,
       ease: "none",
       paused: false,
+      onUpdate: function () {
+        // Lógica para cada item: quanto mais longe do centro (Z), menor a opacidade e maior o blur
+        const wheelRotation = gsap.getProperty(wheel, "rotationX") as number;
+
+        carouselItems.forEach((item, i) => {
+          const itemRotation = (i * angleStep + wheelRotation) % 360;
+          // Normalizar ângulo para -180 a 180
+          const normalizedAngle = ((itemRotation + 180) % 360) - 180;
+          
+          // Fator de proximidade (1 no topo/frente, 0 no fundo)
+          const factor = Math.cos(normalizedAngle * (Math.PI / 180));
+          const distanceFactor = (factor + 1) / 2; // 0 a 1
+
+          gsap.set(item, {
+            opacity: 0.1 + distanceFactor * 0.9,
+            scale: 0.8 + distanceFactor * 0.2,
+            filter: `blur(${(1 - distanceFactor) * 4}px)`,
+            zIndex: Math.round(distanceFactor * 100),
+          });
+        });
+      },
     });
 
-    // Pause on Hover
+    // Pause on Hover com desaceleração (Inertia feeling)
     container.addEventListener("mouseenter", () => {
-      gsap.to(rotation, { timeScale: 0, duration: 0.8, ease: "power2.out" });
+      gsap.to(rotation, { timeScale: 0.05, duration: 1.5, ease: "power2.out" });
     });
 
     container.addEventListener("mouseleave", () => {
-      gsap.to(rotation, { timeScale: 1, duration: 1.2, ease: "power2.in" });
+      gsap.to(rotation, { timeScale: 1, duration: 2, ease: "power2.inOut" });
     });
   }
 
