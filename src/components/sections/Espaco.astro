@@ -5,8 +5,8 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 
 const imagens = [
   {
-    src: "/images/brand/espaco-salao.jpg",
-    label: "01. Salão Principal",
+    src: "/images/espaco/img_0811.webp",
+    label: "01. Conexões",
     variant: 1 as const,
     top: "0%",
     left: "10%",
@@ -15,44 +15,144 @@ const imagens = [
     speed: 0.8,
   },
   {
-    src: "/images/brand/espaco-hub.jpg",
-    label: "02. Conexões",
+    src: "/images/espaco/img_0876.webp",
+    label: "02. Vivências",
     variant: 2 as const,
-    top: "20%",
+    top: "15%",
     right: "15%",
     width: "250px",
     mdWidth: "350px",
     speed: 1.2,
   },
   {
-    src: "/images/brand/espaco-estudio.jpg",
-    label: "03. Estúdio de Som",
+    src: "/images/espaco/apresentacao-estudio-entre.webp",
+    label: "03. Boas-vindas",
     variant: 3 as const,
-    top: "50%",
+    top: "30%",
     left: "20%",
     width: "280px",
     mdWidth: "380px",
     speed: 0.6,
   },
   {
-    src: "/images/brand/espaco-sala.jpg",
-    label: "04. Sala de Vivências",
+    src: "/images/espaco/apresentacao-no-estudio-entre.webp",
+    label: "04. Acolhimento",
     variant: 4 as const,
-    top: "70%",
+    top: "45%",
     right: "5%",
     width: "320px",
     mdWidth: "420px",
     speed: 1.4,
   },
   {
-    src: "/images/brand/espaco-detalhe-arte.jpg",
-    label: "05. Detalhes de Arte",
+    src: "/images/espaco/art-logo-estudio-entre.webp",
+    label: "05. Detalhes",
     variant: 1 as const,
-    top: "90%",
+    top: "60%",
     left: "5%",
     width: "220px",
     mdWidth: "320px",
     speed: 0.9,
+  },
+  {
+    src: "/images/espaco/entre-palavras-e-afeto-estudio-entre.webp",
+    label: "06. Inspiração",
+    variant: 2 as const,
+    top: "75%",
+    right: "20%",
+    width: "260px",
+    mdWidth: "360px",
+    speed: 1.1,
+  },
+  {
+    src: "/images/espaco/estudio-entre-salao.webp",
+    label: "07. O Hub",
+    variant: 3 as const,
+    top: "90%",
+    left: "15%",
+    width: "300px",
+    mdWidth: "400px",
+    speed: 0.7,
+  },
+  {
+    src: "/images/espaco/exposicao-estudio-entre.webp",
+    label: "08. Exposição",
+    variant: 4 as const,
+    top: "105%",
+    right: "10%",
+    width: "280px",
+    mdWidth: "380px",
+    speed: 1.3,
+  },
+  {
+    src: "/images/espaco/exposicao-tapecaria-estudio-entre.webp",
+    label: "09. Arte",
+    variant: 1 as const,
+    top: "120%",
+    left: "25%",
+    width: "240px",
+    mdWidth: "340px",
+    speed: 0.8,
+  },
+  {
+    src: "/images/espaco/exposiçao2-estudio-entre.webp",
+    label: "10. Texturas",
+    variant: 2 as const,
+    top: "135%",
+    right: "18%",
+    width: "270px",
+    mdWidth: "370px",
+    speed: 1.0,
+  },
+  {
+    src: "/images/espaco/sala-estudio-entre.webp",
+    label: "11. Ambiente",
+    variant: 3 as const,
+    top: "150%",
+    left: "10%",
+    width: "290px",
+    mdWidth: "390px",
+    speed: 0.9,
+  },
+  {
+    src: "/images/espaco/salao-estudio-entre.webp",
+    label: "12. Salão",
+    variant: 4 as const,
+    top: "165%",
+    right: "8%",
+    width: "310px",
+    mdWidth: "410px",
+    speed: 1.2,
+  },
+  {
+    src: "/images/espaco/som-estudio-entre.webp",
+    label: "13. Estúdio de Som",
+    variant: 1 as const,
+    top: "180%",
+    left: "20%",
+    width: "260px",
+    mdWidth: "360px",
+    speed: 0.8,
+  },
+  {
+    src: "/images/espaco/tapecaria-logo-estudio-entre.webp",
+    label: "14. Identidade",
+    variant: 2 as const,
+    top: "195%",
+    right: "25%",
+    width: "230px",
+    mdWidth: "330px",
+    speed: 1.1,
+  },
+  {
+    src: "/images/espaco/tapecaria-logo-vertical-estudio-entre.webp",
+    label: "15. Detalhe Vertical",
+    variant: 3 as const,
+    top: "210%",
+    left: "5%",
+    width: "200px",
+    mdWidth: "300px",
+    speed: 0.7,
   },
 ];
 ---
@@ -72,7 +172,7 @@ const imagens = [
   <div class="absolute top-[5%] right-[5%] opacity-20 z-10">
     <Decorative variant="ray" color="#dec72c" size={50} />
   </div>
-  <div class="absolute bottom-[10%] left-[3%] opacity-15 z-10">
+  <div class="absolute bottom-[5%] left-[3%] opacity-15 z-10">
     <Decorative variant="star" color="#f0ede8" size={35} />
   </div>
 
@@ -88,7 +188,7 @@ const imagens = [
     </h2>
   </div>
 
-  <div class="espaco__gallery relative min-h-[120vh] max-w-[1600px] mx-auto">
+  <div class="espaco__gallery relative min-h-[250vh] max-w-[1600px] mx-auto">
     {
       imagens.map((img) => (
         <div
