@@ -1,35 +1,27 @@
 ---
-import BlobMask from "@/components/ui/BlobMask.astro";
+import TornPaperFrame from "@/components/ui/TornPaperFrame.astro";
 import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 
 const imagensSobre = [
   {
     src: "/images/brand/fundadoras-mae-filha.jpg",
     label: "Uma mãe, uma filha e um sonho",
-    variant: 7 as const,
-    width: "240px",
-    mdWidth: "320px",
+    variant: 1 as const,
   },
   {
     src: "/images/brand/fundadora-valdete.jpg",
     label: "Valdete",
-    variant: 6 as const,
-    width: "200px",
-    mdWidth: "280px",
+    variant: 2 as const,
   },
   {
     src: "/images/brand/fundadora-thayna.jpg",
     label: "Thayná",
-    variant: 5 as const,
-    width: "220px",
-    mdWidth: "300px",
+    variant: 3 as const,
   },
   {
     src: "/images/brand/espaco-hub.jpg",
     label: "Hub Cultural",
-    variant: 5 as const,
-    width: "220px",
-    mdWidth: "300px",
+    variant: 4 as const,
   },
 ];
 ---
@@ -117,13 +109,13 @@ const imagensSobre = [
                 style={`--index: ${index};`}
               >
                 <div class="relative group cursor-pointer h-full">
-                  <BlobMask variant={img.variant} class="h-full">
+                  <TornPaperFrame variant={img.variant} class="h-full">
                     <img
                       src={img.src}
                       alt={img.label}
                       class="w-full h-full object-cover"
                     />
-                  </BlobMask>
+                  </TornPaperFrame>
                 </div>
               </div>
             ))
