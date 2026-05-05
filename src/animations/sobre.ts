@@ -63,7 +63,7 @@ export function animateSobre(): void {
   const carouselItems = document.querySelectorAll<HTMLElement>(".sobre__carousel-item");
 
   if (container && wheel && carouselItems.length > 0) {
-    const radius = 500; // Raio maior para evitar clipping e dar elegância
+    const radius = 300; // Raio reduzido para aproximar as imagens
     const angleStep = 360 / carouselItems.length;
 
     // Configuração inicial dos itens no espaço 3D
