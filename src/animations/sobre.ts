@@ -108,7 +108,7 @@ export function animateSobre(): void {
 
           gsap.set(item, {
             opacity: 0.1 + distanceFactor * 0.9,
-            scale: 0.8 + distanceFactor * 0.2,
+            scale: 0.85 + distanceFactor * 0.25,
             filter: `blur(${(1 - distanceFactor) * 4}px)`,
             zIndex: Math.round(distanceFactor * 100),
           });
