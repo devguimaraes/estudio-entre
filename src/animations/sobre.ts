@@ -5,10 +5,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function animateSobre(): void {
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
   const section = document.querySelector<HTMLElement>(".sobre");
   if (!section) return;
 
-  if (prefersReducedMotion) {
+  if (prefersReducedMotion || !isDesktop) {
     gsap.set(
       [
         ".sobre__eyebrow",
@@ -62,15 +63,24 @@ export function animateSobre(): void {
   const carouselItems = document.querySelectorAll<HTMLElement>(".sobre__carousel-item");
 
   if (container && wheel && carouselItems.length > 0) {
-    // Revelação inicial
-    tl.fromTo(
-      carouselItems,
-      { opacity: 0, scale: 0.8 },
-      { opacity: 1, scale: 1, duration: 1, stagger: 0.1, ease: "back.out(1.7)" },
-      "-=1.2",
-    );
+    // Posicionamento radial via GSAP (mais robusto que CSS para evitar conflitos)
+    const angleStep = 360 / carouselItems.length;
+    
+    gsap.set(carouselItems, {
+      rotationX: (i) => i * angleStep,
+      z: 250,
+      opacity: 0
+    });
 
-    // Rotação contínua
+    // Revelação inicial suave
+    tl.to(carouselItems, {
+      opacity: 1,
+      duration: 1,
+      stagger: 0.1,
+      ease: "power2.out"
+    }, "-=1.2");
+
+    // Rotação contínua do wheel
     const rotation = gsap.to(wheel, {
       rotationX: "-=360",
       duration: 25,
@@ -79,7 +89,7 @@ export function animateSobre(): void {
       paused: false,
     });
 
-    // Pause on Hover com suavidade
+    // Pause on Hover
     container.addEventListener("mouseenter", () => {
       gsap.to(rotation, { timeScale: 0, duration: 0.8, ease: "power2.out" });
     });

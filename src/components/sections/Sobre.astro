@@ -159,8 +159,7 @@ const imagensSobre = [
   }
 
   .sobre__carousel-item {
-    /* 4 itens: 360 / 4 = 90 graus de separação */
-    transform: rotateX(calc(var(--index) * 90deg)) translateZ(250px);
+    /* Posicionamento radial agora é feito via GSAP para evitar conflitos de transform */
   }
 
   @media (max-width: 1023px) {
