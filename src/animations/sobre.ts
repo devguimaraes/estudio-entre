@@ -67,7 +67,7 @@ export function animateSobre(): void {
       carouselItems,
       { opacity: 0, scale: 0.8 },
       { opacity: 1, scale: 1, duration: 1, stagger: 0.1, ease: "back.out(1.7)" },
-      "-=1.2"
+      "-=1.2",
     );
 
     // Rotação contínua
@@ -76,7 +76,7 @@ export function animateSobre(): void {
       duration: 25,
       repeat: -1,
       ease: "none",
-      paused: false
+      paused: false,
     });
 
     // Pause on Hover com suavidade
