@@ -14,8 +14,7 @@ export function animateSobre(): void {
         ".sobre__eyebrow",
         ".sobre__title-word",
         ".sobre__text",
-        ".sobre__blob-1",
-        ".sobre__blob-2",
+        ".sobre__carousel-item",
         ".sobre__signature",
         ".sobre__watermark",
       ],
@@ -57,20 +56,38 @@ export function animateSobre(): void {
     "-=0.9",
   );
 
-  // 4) Images reveal - Opacity & Scale only to preserve clipPath
-  tl.fromTo(
-    ".sobre__blob-1",
-    { opacity: 0, scale: 0.96 },
-    { opacity: 1, scale: 1, duration: 1.6, ease: "expo.out" },
-    "-=1.2",
-  );
+  // 4) Carousel 3D Animation
+  const container = document.querySelector<HTMLElement>(".sobre__carousel-container");
+  const wheel = document.querySelector<HTMLElement>(".sobre__carousel-wheel");
+  const carouselItems = document.querySelectorAll<HTMLElement>(".sobre__carousel-item");
 
-  tl.fromTo(
-    ".sobre__blob-2",
-    { opacity: 0, scale: 0.9 },
-    { opacity: 1, scale: 1, duration: 1.4, ease: "expo.out" },
-    "-=1.0",
-  );
+  if (container && wheel && carouselItems.length > 0) {
+    // Revelação inicial
+    tl.fromTo(
+      carouselItems,
+      { opacity: 0, scale: 0.8 },
+      { opacity: 1, scale: 1, duration: 1, stagger: 0.1, ease: "back.out(1.7)" },
+      "-=1.2"
+    );
+
+    // Rotação contínua
+    const rotation = gsap.to(wheel, {
+      rotationX: "-=360",
+      duration: 25,
+      repeat: -1,
+      ease: "none",
+      paused: false
+    });
+
+    // Pause on Hover com suavidade
+    container.addEventListener("mouseenter", () => {
+      gsap.to(rotation, { timeScale: 0, duration: 0.8, ease: "power2.out" });
+    });
+
+    container.addEventListener("mouseleave", () => {
+      gsap.to(rotation, { timeScale: 1, duration: 1.2, ease: "power2.in" });
+    });
+  }
 
   // 5) Signature reveal
   tl.fromTo(
@@ -89,17 +106,6 @@ export function animateSobre(): void {
       start: "top bottom",
       end: "bottom top",
       scrub: 1.5,
-    },
-  });
-
-  // Parallax for images
-  gsap.to(".sobre__image-sub", {
-    y: -40,
-    scrollTrigger: {
-      trigger: section,
-      start: "top center",
-      end: "bottom top",
-      scrub: 2,
     },
   });
 }
