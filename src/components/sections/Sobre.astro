@@ -1,7 +1,59 @@
 ---
-import sobreSubImg from "@/assets/images/Stories_Destaques_2_Estudio_Entre.webp";
 import BlobMask from "@/components/ui/BlobMask.astro";
 import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+
+const imagensSobre = [
+  {
+    src: "/images/brand/fundadora-thayna.jpg",
+    label: "Thayná",
+    variant: 1 as const,
+    top: "5%",
+    right: "10%",
+    width: "220px",
+    mdWidth: "300px",
+    speed: 1.1,
+  },
+  {
+    src: "/images/brand/fundadora-valdete.jpg",
+    label: "Valdete",
+    variant: 2 as const,
+    top: "25%",
+    right: "25%",
+    width: "200px",
+    mdWidth: "280px",
+    speed: 0.9,
+  },
+  {
+    src: "/images/brand/fundadoras-encontro.jpg",
+    label: "O Encontro",
+    variant: 3 as const,
+    top: "55%",
+    right: "5%",
+    width: "240px",
+    mdWidth: "320px",
+    speed: 1.3,
+  },
+  {
+    src: "/images/brand/fundadora-detalhe.jpg",
+    label: "Essência",
+    variant: 4 as const,
+    top: "75%",
+    right: "20%",
+    width: "180px",
+    mdWidth: "250px",
+    speed: 0.7,
+  },
+  {
+    src: "/images/brand/detalhe-afeto.jpg",
+    label: "Afeto",
+    variant: 1 as const,
+    top: "10%",
+    left: "55%",
+    width: "150px",
+    mdWidth: "200px",
+    speed: 1.5,
+  },
+];
 ---
 
 <section
@@ -28,11 +80,11 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 
   <div class="max-w-[1200px] mx-auto relative z-10">
 
-    <!-- Top Row: Editorial Asymmetric Layout -->
-    <div class="flex flex-col lg:flex-row gap-12 lg:gap-24 mb-24 md:mb-32">
+    <!-- Content Row -->
+    <div class="flex flex-col lg:flex-row gap-12 lg:gap-24">
 
       <!-- Text Column -->
-      <div class="w-full lg:w-3/5 order-2 lg:order-1">
+      <div class="w-full lg:w-1/2 relative z-20">
         <div class="sobre__eyebrow-wrap overflow-hidden mb-8">
           <p class="sobre__eyebrow font-display font-bold text-[10px] uppercase tracking-[0.4em] text-bordo opacity-0">
             Nossa Essência
@@ -59,7 +111,7 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 
         <div class="sobre__body-wrap max-w-[580px]">
           <p class="sobre__text text-lg md:text-xl leading-relaxed mb-8 opacity-0">
-            O Estúdio Entre é um <span class="text-orange font-bold">hub cultural independente</span> localizado no Méier, cuja missão é promover encontros significativos entre cultura, conhecimento e bem-estar.
+            O Estúdio Entre é um <span class="text-orange font-bold">hub cultural independente</span> localizado no Méier, cuja mission é promover encontros significativos entre cultura, conhecimento e bem-estar.
           </p>
           <p class="sobre__text text-base md:text-lg leading-relaxed text-near-black/70 mb-8 opacity-0">
             Um espaço plural e acolhedor, onde arte, palavra e cuidado se entrelaçam. Por meio de experiências que unem literatura, comunicação e práticas integrativas, estimulamos a escuta, a criação e o acesso à expressão cultural.
@@ -68,48 +120,41 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
             O hub reúne rodas de <span class="italic font-medium">biblioterapia</span>, oficinas, palestras e encontros culturais, além de disponibilizar um estúdio profissional para gravação de podcasts e audições.
           </p>
         </div>
+
+        <!-- Signature -->
+        <div class="flex justify-center md:justify-start pt-12">
+          <p class="sobre__signature font-display italic font-regular text-[clamp(1.5rem,3vw,2rem)] text-bordo opacity-0">
+            "Entre palavras, entre pessoas — é só entrar."
+          </p>
+        </div>
       </div>
 
-      <!-- Main Image Column -->
-      <div class="w-full lg:w-2/5 order-1 lg:order-2 flex justify-center lg:justify-end items-start pt-12">
-        <div class="sobre__image-main relative w-full max-w-[380px]">
-          <BlobMask
-            variant={2}
-            class="sobre__blob-1 opacity-0"
-          >
-            <img
-              src="/images/brand/apresentacao-estudio-entre.jpg"
-              alt="Thayná e Valdete — Fundadoras do Estúdio Entre"
-              class="w-full h-full object-cover"
-            />
-          </BlobMask>
-
-          <!-- Secondary Overlapping Image -->
-          <div class="sobre__image-sub absolute -bottom-24 -left-16 w-[150px] md:w-[180px] z-10">
-            <BlobMask
-              variant={2}
-              class="sobre__blob-2 opacity-0"
-              style="transform: scaleX(-1);"
-            >
-              <img
-                src={sobreSubImg.src}
-                alt="Detalhe do espaço Estúdio Entre"
-                class="w-full h-full object-cover object-center"
-                style="transform: scaleX(-1);"
-              />
-            </BlobMask>
-          </div>
+      <!-- Gallery Column (Carousel 3D) -->
+      <div class="w-full lg:w-1/2 relative min-h-[600px] lg:min-h-[800px] flex items-center justify-center sobre__carousel-container">
+        <div class="sobre__carousel-wheel relative w-[280px] h-[380px] preserve-3d">
+          {
+            imagensSobre.map((img, index) => (
+              <div
+                class="sobre__carousel-item absolute inset-0 backface-hidden"
+                style={`--index: ${index};`}
+              >
+                <div class="relative group cursor-pointer h-full">
+                  <BlobMask variant={img.variant} class="h-full">
+                    <img
+                      src={img.src}
+                      alt={img.label}
+                      class="w-full h-full object-cover"
+                    />
+                  </BlobMask>
+                </div>
+              </div>
+            ))
+          }
         </div>
       </div>
 
     </div>
 
-    <!-- Bottom Row: Signature -->
-    <div class="flex justify-center md:justify-start pt-12 md:pt-0">
-      <p class="sobre__signature font-display italic font-regular text-[clamp(1.5rem,4vw,2.5rem)] text-bordo opacity-0">
-        "Entre palavras, entre pessoas — é só entrar."
-      </p>
-    </div>
   </div>
 
   <script>
@@ -121,5 +166,44 @@ import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 <style>
   .sobre__title-word {
     will-change: transform, opacity;
+  }
+
+  .sobre__carousel-container {
+    perspective: 1200px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  .sobre__carousel-item {
+    /* 5 itens: 360 / 5 = 72 graus de separação */
+    /* O translateZ deve ser calculado com base no tamanho do card para formar o círculo */
+    transform: rotateX(calc(var(--index) * 72deg)) translateZ(300px);
+  }
+
+  @media (max-width: 1023px) {
+    .sobre__carousel-container {
+      perspective: none;
+      min-height: auto;
+    }
+    .sobre__carousel-wheel {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      width: 100%;
+      height: auto;
+      transform: none !important;
+      transform-style: flat;
+    }
+    .sobre__carousel-item {
+      position: relative !important;
+      transform: none !important;
+      width: 100% !important;
+    }
   }
 </style>
