@@ -41,7 +41,7 @@ const getRotation = (i: number) => {
         <div class="galeria__item w-[280px] md:w-[420px] flex-shrink-0">
           <div class="relative group h-[380px] md:h-[580px]">
             <TornPaperFrame 
-              variant={((i % 4) + 1) as any} 
+              variant={(((i % 4) + 1) as 1 | 2 | 3 | 4)} 
               rotation={getRotation(i)}
               class="w-full h-full"
             >

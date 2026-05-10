@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 export function animateVisitacao(): void {
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const section = document.querySelector(".visitacao-cta");
   const eyebrow = document.querySelector(".visitacao__eyebrow");
   const title = document.querySelector(".visitacao__title");
@@ -12,6 +13,12 @@ export function animateVisitacao(): void {
   const decors = document.querySelectorAll(".visitacao__decor");
 
   if (!section) return;
+
+  if (prefersReducedMotion) {
+    gsap.set([eyebrow, title, infoBox, buttonReveal], { opacity: 1, y: 0, scale: 1 });
+    for (const d of decors) gsap.set(d, { opacity: 0.2, scale: 1, rotation: 0 });
+    return;
+  }
 
   const tl = gsap.timeline({
     scrollTrigger: {

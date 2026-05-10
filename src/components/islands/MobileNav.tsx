@@ -10,9 +10,13 @@ const links = [
 ];
 
 const socials = [
-  { href: "https://instagram.com/estudioentre", icon: "/icons/spark.svg", label: "Instagram" },
-  { href: "https://tiktok.com/@estudioentre", icon: "/icons/tiktok.svg", label: "TikTok" },
-  { href: "#", icon: "/icons/whatsapp.svg", label: "WhatsApp" },
+  {
+    href: "https://instagram.com/entrenoestudio",
+    icon: "/icons/instagram.svg",
+    label: "Instagram",
+  },
+  { href: "https://tiktok.com/@entrenoestudio", icon: "/icons/tiktok.svg", label: "TikTok" },
+  { href: "https://wa.me/5521973101451", icon: "/icons/whatsapp.svg", label: "WhatsApp" },
 ];
 
 export default function MobileNav() {
@@ -35,7 +39,7 @@ export default function MobileNav() {
         {/* Logo */}
         <div className="mb-10 pt-4">
           <img
-            src="/logos/Logo_Estudio Entre - Claro 2.png"
+            src="/logos/logo-estudio-entre-claro.png"
             alt="Estúdio Entre"
             className="w-40 h-auto"
           />

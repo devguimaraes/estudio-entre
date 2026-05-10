@@ -40,7 +40,9 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
 
   useEffect(() => {
     if (!listRef.current) return;
+    void filteredEvents;
     const cards = listRef.current.querySelectorAll(".agenda__card");
+    if (cards.length === 0) return;
 
     gsap.fromTo(
       cards,
