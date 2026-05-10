@@ -19,12 +19,11 @@ async function optimizeImages() {
       file.toLowerCase().endsWith(".png")
     ) {
       const inputPath = path.join(inputFolder, file);
-      const outputName =
-        path
-          .parse(file)
-          .name.toLowerCase()
-          .replace(/\s+/g, "-")
-          .replace(/[^\w-]/g, "") + ".webp";
+      const outputName = `${path
+        .parse(file)
+        .name.toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[^\w-]/g, "")}.webp`;
       const outputPath = path.join(outputFolder, outputName);
 
       console.log(`Otimizando e Corrigindo Rotação: ${file} -> ${outputName}`);
