@@ -63,7 +63,7 @@ export function animateSobre(): void {
   const carouselItems = document.querySelectorAll<HTMLElement>(".sobre__carousel-item");
 
   if (container && wheel && carouselItems.length > 0) {
-    const radius = 300; // Raio reduzido para aproximar as imagens
+    const radius = 400; // Espaçamento ajustado para 5 imagens
     const angleStep = 360 / carouselItems.length;
 
     // Configuração inicial dos itens no espaço 3D
@@ -93,7 +93,7 @@ export function animateSobre(): void {
       repeat: -1,
       ease: "none",
       paused: false,
-      onUpdate: function () {
+      onUpdate: () => {
         // Lógica para cada item: quanto mais longe do centro (Z), menor a opacidade e maior o blur
         const wheelRotation = gsap.getProperty(wheel, "rotationX") as number;
 
@@ -101,7 +101,7 @@ export function animateSobre(): void {
           const itemRotation = (i * angleStep + wheelRotation) % 360;
           // Normalizar ângulo para -180 a 180
           const normalizedAngle = ((itemRotation + 180) % 360) - 180;
-          
+
           // Fator de proximidade (1 no topo/frente, 0 no fundo)
           const factor = Math.cos(normalizedAngle * (Math.PI / 180));
           const distanceFactor = (factor + 1) / 2; // 0 a 1

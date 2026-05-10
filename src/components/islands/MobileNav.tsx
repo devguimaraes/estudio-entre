@@ -6,7 +6,7 @@ const links = [
   { href: "#pilares", label: "Pilares" },
   { href: "#agenda", label: "Agenda" },
   { href: "#galeria", label: "Espaço" },
-  { href: "#contato", label: "Contato" },
+  { href: "#agendar-visita", label: "Agendar Visita" },
 ];
 
 const socials = [

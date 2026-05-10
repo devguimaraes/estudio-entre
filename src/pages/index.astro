@@ -7,7 +7,7 @@ import Galeria from "@/components/sections/Galeria.astro";
 import Hero from "@/components/sections/Hero.astro";
 import Pilares from "@/components/sections/Pilares.astro";
 import Sobre from "@/components/sections/Sobre.astro";
-import VooLiterario from "@/components/sections/VooLiterario.astro";
+import VisitacaoCTA from "@/components/sections/VisitacaoCTA.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { eventosQuery } from "@/sanity/queries/evento";
 import type { EventoCard } from "@/types/evento";
@@ -26,7 +26,7 @@ try {
   <Pilares />
   <Agenda eventos={eventos} />
   <Galeria />
-  <VooLiterario />
+  <VisitacaoCTA />
   <Contato />
   <Footer />
 </BaseLayout>

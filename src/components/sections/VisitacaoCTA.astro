@@ -1,0 +1,78 @@
+---
+import VisitacaoCard from "@/components/islands/VisitacaoCard";
+import Decorative from "@/components/ui/Decorative.astro";
+import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+---
+
+<section
+  class="visitacao-cta relative py-32 md:py-48 bg-bordo overflow-hidden"
+  id="agendar-visita"
+>
+  <!-- Assets: Texturas e Elementos Decorativos -->
+  <HalftoneTexture
+    density={15}
+    dotSize={1.2}
+    color="240,237,232"
+    opacity={0.08}
+    class="z-0"
+  />
+
+  <!-- Floating Decorative Icons -->
+  <div class="visitacao__decor absolute top-[15%] left-[10%] opacity-20 z-10 hidden md:block">
+    <Decorative variant="star" color="#f0ede8" size={80} />
+  </div>
+  <div class="visitacao__decor absolute bottom-[20%] right-[12%] opacity-15 z-10 hidden md:block">
+    <Decorative variant="ray" color="#ec6838" size={100} />
+  </div>
+  <div class="visitacao__decor absolute top-[40%] right-[8%] opacity-10 z-10">
+    <Decorative variant="dots" color="#f0ede8" size={50} />
+  </div>
+
+  <div class="max-w-5xl mx-auto px-6 text-center relative z-20">
+    <!-- Intro text -->
+    <div class="visitacao__reveal overflow-hidden mb-6">
+      <p class="visitacao__eyebrow font-display font-bold text-[10px] md:text-[12px] uppercase tracking-[0.5em] text-orange opacity-0">
+        Venha nos conhecer
+      </p>
+    </div>
+
+    <!-- Main Title -->
+    <div class="visitacao__reveal overflow-hidden mb-12">
+      <h2 class="visitacao__title font-display font-black text-5xl md:text-8xl text-cream uppercase leading-[0.85] italic opacity-0">
+        Abra as portas <br /> 
+        <span class="text-orange">para o novo</span>
+      </h2>
+    </div>
+
+    <!-- Info Box: High Contrast -->
+    <div class="visitacao__info-box opacity-0 scale-95 max-w-2xl mx-auto mb-16">
+      <VisitacaoCard client:visible />
+    </div>
+
+    <!-- CTA Button -->
+    <div class="visitacao__reveal opacity-0 translate-y-8">
+      <a
+        href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1Bz-jHECZ5xwuy54rjp7tWskG334TA1hZ2nhVdiHEF95oiUmFYkbJXeirsKMVFsNBxH7drQg4t"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="visitacao__button group relative inline-flex items-center gap-6 bg-orange text-bordo font-display font-black uppercase tracking-widest text-[12px] px-14 py-7 rounded-full overflow-hidden transition-all duration-500 hover:scale-105 active:scale-95 shadow-[0_20px_50px_rgba(236,104,56,0.3)]"
+      >
+        <span class="relative z-10">Agendar minha visita</span>
+        <div class="absolute inset-0 bg-cream translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-expo"></div>
+        <Decorative variant="arrow" size={20} class="relative z-10 transition-transform duration-500 group-hover:translate-x-2" />
+      </a>
+    </div>
+  </div>
+
+  <script>
+    import { animateVisitacao } from "@/animations/visitacao";
+    animateVisitacao();
+  </script>
+</section>
+
+<style>
+  .visitacao-cta {
+    /* Gradiente sutil para dar profundidade ao bordo */
+    background: radial-gradient(circle at center, #4a1628 0%, #3d1020 100%);
+  }
+</style>

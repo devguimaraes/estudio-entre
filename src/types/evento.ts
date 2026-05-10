@@ -11,7 +11,7 @@ export type CategoriaEvento =
 export interface EventoCard {
   _id: string;
   titulo: string;
-  slug: { current: string };
+  slug: string;
   categoria: CategoriaEvento;
   dataHora: string;
   local: string | null;
@@ -22,7 +22,7 @@ export interface EventoCard {
 }
 
 export interface SanityImageRef {
-  _type: "image";
+  _type: string;
   asset: { _ref: string; _type: "reference" };
   alt?: string;
 }

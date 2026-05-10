@@ -2,22 +2,28 @@ import { urlFor } from "@/sanity/image";
 import type { CategoriaEvento, EventoCard, SanityImageRef } from "@/types/evento";
 import { CATEGORIAS } from "@/utils/categorias";
 import gsap from "gsap";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 interface AgendaFilterProps {
   eventos: EventoCard[];
 }
 
-const CLIPS = {
-  1: "ellipse(45% 48% at 50% 50%)",
-  2: "polygon(20% 0%, 80% 5%, 100% 40%, 95% 80%, 60% 100%, 10% 90%, 0% 50%)",
-  3: "polygon(15% 10%, 60% 0%, 90% 20%, 100% 60%, 85% 95%, 40% 100%, 5% 80%, 0% 40%)",
-  4: "polygon(25% 5%, 70% 0%, 95% 30%, 90% 75%, 60% 100%, 15% 90%, 0% 55%, 10% 20%)",
-};
-
 export default function AgendaFilter({ eventos }: AgendaFilterProps) {
   const [activeFilter, setActiveFilter] = useState<string>("todos");
+  const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
   const listRef = useRef<HTMLDivElement>(null);
+
+  const toggleCard = useCallback((id: string) => {
+    setExpandedCards((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  }, []);
 
   const availableCategories = useMemo(() => {
     const cats = new Set(eventos.map((e) => e.categoria));
@@ -32,7 +38,6 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
     [eventos, activeFilter],
   );
 
-  // Animação ao trocar filtro e no mount inicial
   useEffect(() => {
     if (!listRef.current) return;
     const cards = listRef.current.querySelectorAll(".agenda__card");
@@ -55,7 +60,6 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
 
   return (
     <div className="agenda__content relative">
-      {/* Filtros Editoriais */}
       <nav
         className="agenda__filters flex flex-wrap justify-center gap-3 mb-6"
         aria-label="Filtrar eventos"
@@ -92,37 +96,30 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
         ))}
       </nav>
 
-      {/* Grid de Cards Editoriais */}
       <div
         ref={listRef}
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16"
       >
-        {filteredEvents.map((evento, i) => {
+        {filteredEvents.map((evento) => {
           const cat = CATEGORIAS[evento.categoria as CategoriaEvento];
-          const clipVariant = ((i % 4) + 1) as 1 | 2 | 3 | 4;
           const imagemPrincipal = (evento.imagens?.[0] as SanityImageRef | undefined) ?? null;
+          const isExpanded = expandedCards.has(evento._id);
 
           return (
             <div key={evento._id} className="agenda__card group flex flex-col">
-              {/* Image Container with BlobMask */}
-              <div className="relative mb-8 aspect-[4/5] overflow-hidden group-hover:scale-[1.02] transition-transform duration-700 ease-editorial">
-                <a
-                  href={`/eventos/${evento.slug.current}`}
-                  className="block w-full h-full"
-                  style={{ clipPath: CLIPS[clipVariant] }}
-                >
-                  {imagemPrincipal ? (
-                    <img
-                      src={urlFor(imagemPrincipal).width(600).height(750).url()}
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                      alt={evento.titulo}
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-cream/10 flex items-center justify-center">
-                      <img src="/icons/chave.svg" className="w-20 opacity-10" alt="" />
-                    </div>
-                  )}
-                </a>
+              {/* Image Container */}
+              <div className="relative mb-8 aspect-[4/5] overflow-hidden rounded-2xl border border-cream/10 group-hover:scale-[1.02] transition-transform duration-700 ease-editorial">
+                {imagemPrincipal ? (
+                  <img
+                    src={urlFor(imagemPrincipal).width(600).height(750).url()}
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                    alt={evento.titulo}
+                  />
+                ) : (
+                  <div className="w-full h-full bg-cream/10 flex items-center justify-center">
+                    <img src="/icons/chave.svg" className="w-20 opacity-10" alt="" />
+                  </div>
+                )}
 
                 {/* Category Tag */}
                 <div
@@ -148,22 +145,69 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
                   })}
                 </span>
 
-                <h3 className="text-3xl font-display font-black italic uppercase leading-none mb-6 group-hover:text-orange transition-colors duration-500">
-                  <a href={`/eventos/${evento.slug.current}`}>{evento.titulo}</a>
+                <h3 className="text-3xl font-display font-black italic uppercase leading-none mb-4 text-cream">
+                  {evento.titulo}
                 </h3>
 
+                {/* Expandable Details */}
+                <div
+                  className={`overflow-hidden transition-all duration-500 ease-editorial ${
+                    isExpanded ? "max-h-[2000px] opacity-100 mb-6" : "max-h-0 opacity-0"
+                  }`}
+                >
+                  {evento.local && (
+                    <p className="text-xs uppercase tracking-[0.2em] text-cream/50 mb-3">
+                      {evento.local}
+                    </p>
+                  )}
+
+                  {evento.descricao && (
+                    <p className="text-sm leading-relaxed text-cream/70 mb-5 whitespace-pre-line">
+                      {evento.descricao}
+                    </p>
+                  )}
+
+                  <div className="flex items-end justify-between gap-4">
+                    {evento.valor && (
+                      <span className="text-sm font-display font-bold text-orange uppercase tracking-wider">
+                        {evento.valor}
+                      </span>
+                    )}
+
+                    {evento.linkCompra && (
+                      <a
+                        href={evento.linkCompra}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold px-5 py-3 rounded-full border border-cream/30 text-cream hover:bg-cream hover:text-forest transition-all duration-500 group/btn"
+                      >
+                        Garantir vaga
+                        <img
+                          src="/icons/play.svg"
+                          className="w-3.5 h-3.5 invert opacity-60 group-hover/btn:translate-x-1 transition-transform"
+                          alt=""
+                        />
+                      </a>
+                    )}
+                  </div>
+                </div>
+
+                {/* Toggle Button */}
                 <div className="mt-auto">
-                  <a
-                    href={`/eventos/${evento.slug.current}`}
+                  <button
+                    type="button"
+                    onClick={() => toggleCard(evento._id)}
                     className="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-cream/60 hover:text-cream transition-colors group/btn"
                   >
-                    Ver detalhes
+                    {isExpanded ? "Ver menos" : "Ver mais"}
                     <img
                       src="/icons/play.svg"
-                      className="w-4 h-4 invert opacity-40 group-hover/btn:translate-x-1 transition-transform"
+                      className={`w-3.5 h-3.5 invert opacity-40 group-hover/btn:translate-x-1 transition-all duration-300 ${
+                        isExpanded ? "-rotate-90" : ""
+                      }`}
                       alt=""
                     />
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>

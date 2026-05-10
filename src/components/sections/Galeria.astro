@@ -2,27 +2,10 @@
 import TornPaperFrame from "@/components/ui/TornPaperFrame.astro";
 
 const imagens = [
-  { src: "/images/espaco/2.webp", alt: "Encontro" },
-  { src: "/images/espaco/4.webp", alt: "Ambiente" },
-  { src: "/images/espaco/5.webp", alt: "Detalhes" },
-  { src: "/images/espaco/6.webp", alt: "Arte" },
-  { src: "/images/espaco/7.webp", alt: "Vivência" },
-  { src: "/images/espaco/8.webp", alt: "Conexão" },
-  { src: "/images/espaco/apresentacao-estudio-entre.webp", alt: "Boas-vindas" },
-  { src: "/images/espaco/apresentacao-no-estudio-entre.webp", alt: "Acolhimento" },
-  { src: "/images/espaco/art-logo-estudio-entre.webp", alt: "Identidade" },
-  { src: "/images/espaco/entre-palavras-e-afeto-estudio-entre.webp", alt: "Inspiração" },
+  { src: "/images/espaco/v2-meier-02.webp", alt: "Acesso e Acolhimento" },
+  { src: "/images/espaco/v2-meier-03.webp", alt: "Nossa Estrutura" },
+  { src: "/images/espaco/v2-meier-04.webp", alt: "Arte no Méier" },
   { src: "/images/espaco/estudio-entre-salao.webp", alt: "O Hub" },
-  { src: "/images/espaco/exposicao-estudio-entre.webp", alt: "Exposição" },
-  { src: "/images/espaco/exposicao-tapecaria-estudio-entre.webp", alt: "Tapeçaria" },
-  { src: "/images/espaco/exposicao2-estudio-entre.webp", alt: "Texturas" },
-  { src: "/images/espaco/img_0811.webp", alt: "Registro" },
-  { src: "/images/espaco/img_0876.webp", alt: "Movimento" },
-  { src: "/images/espaco/sala-estudio-entre.webp", alt: "Sala de Vivências" },
-  { src: "/images/espaco/salao-estudio-entre.webp", alt: "Salão Principal" },
-  { src: "/images/espaco/som-estudio-entre.webp", alt: "Estúdio de Som" },
-  { src: "/images/espaco/tapecaria-logo-estudio-entre.webp", alt: "Logo Arte" },
-  { src: "/images/espaco/tapecaria-logo-vertical-estudio-entre.webp", alt: "Perspectiva" },
 ];
 
 // Duplicar para o marquee infinito
@@ -30,7 +13,7 @@ const marqueeImages = [...imagens, ...imagens];
 
 // Função para rotação aleatória leve e orgânica
 const getRotation = (i: number) => {
-  const angles = ["-1.2deg", "0.8deg", "-0.5deg", "1.5deg", "-1.8deg", "0.4deg"];
+  const angles = ["-1.2deg", "0.8deg", "-0.5deg", "1.5deg"];
   return angles[i % angles.length];
 };
 ---
