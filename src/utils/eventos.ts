@@ -3,13 +3,21 @@ import { CATEGORIAS } from "@/utils/categorias";
 
 const COLLATOR_LOCALE = "pt-BR";
 
+export const EVENT_TIME_ZONE = "America/Sao_Paulo";
+
 export function isCategoriaEvento(value: unknown): value is CategoriaEvento {
   return typeof value === "string" && Object.prototype.hasOwnProperty.call(CATEGORIAS, value);
 }
 
 export function getMesKey(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: EVENT_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+  }).formatToParts(date);
+  const year = parts.find((part) => part.type === "year")?.value;
+  const month = parts.find((part) => part.type === "month")?.value;
+
   return `${year}-${month}`;
 }
 

@@ -1,7 +1,12 @@
 import { urlFor } from "@/sanity/image";
 import type { CategoriaEvento, EventoNormalizado, SanityImageRef } from "@/types/evento";
 import { CATEGORIAS } from "@/utils/categorias";
-import { formatMonthLabel, getAvailableMonthKeys, normalizeSearch } from "@/utils/eventos";
+import {
+  EVENT_TIME_ZONE,
+  formatMonthLabel,
+  getAvailableMonthKeys,
+  normalizeSearch,
+} from "@/utils/eventos";
 import { useEffect, useMemo, useState } from "react";
 
 interface AgendaPageFilterProps {
@@ -13,20 +18,55 @@ function getEventoDate(evento: EventoNormalizado) {
 }
 
 function formatDay(date: Date) {
-  return new Intl.DateTimeFormat("pt-BR", { day: "2-digit" }).format(date);
+  return new Intl.DateTimeFormat("pt-BR", { timeZone: EVENT_TIME_ZONE, day: "2-digit" }).format(
+    date,
+  );
 }
 
 function formatWeekday(date: Date) {
-  return new Intl.DateTimeFormat("pt-BR", { weekday: "long" }).format(date);
+  return new Intl.DateTimeFormat("pt-BR", { timeZone: EVENT_TIME_ZONE, weekday: "long" }).format(
+    date,
+  );
 }
 
 function formatHour(date: Date) {
-  return new Intl.DateTimeFormat("pt-BR", { hour: "2-digit", minute: "2-digit" }).format(date);
+  return new Intl.DateTimeFormat("pt-BR", {
+    timeZone: EVENT_TIME_ZONE,
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(date);
+}
+
+function getEventoDayKey(evento: EventoNormalizado): string {
+  const date = getEventoDate(evento);
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: EVENT_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const year = parts.find((p) => p.type === "year")?.value;
+  const month = parts.find((p) => p.type === "month")?.value;
+  const day = parts.find((p) => p.type === "day")?.value;
+
+  return `${year}-${month}-${day}`;
+}
+
+function getCurrentMesKey(): string {
+  const now = new Date();
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: EVENT_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+  }).formatToParts(now);
+  const year = parts.find((p) => p.type === "year")?.value;
+  const month = parts.find((p) => p.type === "month")?.value;
+
+  return `${year}-${month}`;
 }
 
 function getInitialMonth(eventos: EventoNormalizado[]) {
-  const currentMonth = new Date();
-  const currentKey = `${currentMonth.getFullYear()}-${String(currentMonth.getMonth() + 1).padStart(2, "0")}`;
+  const currentKey = getCurrentMesKey();
   const months = getAvailableMonthKeys(eventos);
 
   return months.includes(currentKey) ? currentKey : (months[0] ?? currentKey);
@@ -69,7 +109,7 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
     const groups = new Map<string, EventoNormalizado[]>();
 
     for (const evento of visibleEvents) {
-      const key = evento.dataHora.slice(0, 10);
+      const key = getEventoDayKey(evento);
       const group = groups.get(key) ?? [];
       group.push(evento);
       groups.set(key, group);
@@ -78,8 +118,9 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
     return Array.from(groups.entries()).map(([key, group]) => ({ key, eventos: group }));
   }, [visibleEvents]);
 
-  const firstResultInAnotherMonth = matchingEvents.find(
-    (evento) => evento.mesKey !== selectedMonth,
+  const firstResultInAnotherMonth = useMemo(
+    () => matchingEvents.find((evento) => evento.mesKey !== selectedMonth),
+    [matchingEvents, selectedMonth],
   );
   const selectedMonthIndex = monthKeys.indexOf(selectedMonth);
   const previousMonth = selectedMonthIndex > 0 ? monthKeys[selectedMonthIndex - 1] : null;
@@ -88,9 +129,12 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
       ? monthKeys[selectedMonthIndex + 1]
       : null;
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: intentionally reset expanded cards when filters change
   useEffect(() => {
     setExpandedCards(new Set());
+    // Referenced for dependency tracking — reset expanded state on filter change
+    void selectedMonth;
+    void activeCategory;
+    void search;
   }, [selectedMonth, activeCategory, search]);
 
   function toggleCard(id: string) {
@@ -171,6 +215,7 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
         <nav className="mt-6 flex flex-wrap gap-3" aria-label="Filtrar eventos por categoria">
           <button
             type="button"
+            aria-pressed={activeCategory === "todos"}
             onClick={() => setActiveCategory("todos")}
             className={`rounded-full border px-5 py-3 text-[10px] font-bold uppercase tracking-[0.18em] transition-all ${
               activeCategory === "todos"
@@ -184,6 +229,7 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
             <button
               key={category.value}
               type="button"
+              aria-pressed={activeCategory === category.value}
               onClick={() => setActiveCategory(category.value)}
               className="rounded-full border px-5 py-3 text-[10px] font-bold uppercase tracking-[0.18em] transition-transform hover:-translate-y-0.5"
               style={
