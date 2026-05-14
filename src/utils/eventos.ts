@@ -4,7 +4,7 @@ import { CATEGORIAS } from "@/utils/categorias";
 const COLLATOR_LOCALE = "pt-BR";
 
 export function isCategoriaEvento(value: unknown): value is CategoriaEvento {
-  return typeof value === "string" && value in CATEGORIAS;
+  return typeof value === "string" && Object.prototype.hasOwnProperty.call(CATEGORIAS, value);
 }
 
 export function getMesKey(date: Date): string {
