@@ -1,9 +1,5 @@
-import { useState, useEffect } from "react";
-import {
-  INTERESSE_OPTIONS,
-  EMAIL_REGEX,
-  type Interesse,
-} from "@/types/contato";
+import { EMAIL_REGEX, INTERESSE_OPTIONS, type Interesse } from "@/types/contato";
+import { useEffect, useState } from "react";
 
 type FormState = "idle" | "loading" | "success" | "error";
 
@@ -27,8 +23,7 @@ function validate(data: ContatoFormData): FormErrors {
   const errors: FormErrors = {};
   if (!data.nome || data.nome.trim().length < 2)
     errors.nome = "Nome deve ter pelo menos 2 caracteres.";
-  if (!data.email || !EMAIL_REGEX.test(data.email))
-    errors.email = "Email inválido.";
+  if (!data.email || !EMAIL_REGEX.test(data.email)) errors.email = "Email inválido.";
   if (!data.interesse) errors.interesse = "Selecione uma opção.";
   if (!data.mensagem || data.mensagem.trim().length < 10)
     errors.mensagem = "Mensagem deve ter pelo menos 10 caracteres.";
@@ -50,17 +45,14 @@ export default function ContatoForm() {
   }, []);
 
   const showWhatsApp =
-    formData.interesse === "Gravação de Podcast" ||
-    formData.interesse === "Produção de Áudio";
+    formData.interesse === "Gravação de Podcast" || formData.interesse === "Produção de Áudio";
 
   const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
     `Olá! Gostaria de saber mais sobre ${formData.interesse} no Estúdio Entre.`,
   )}`;
 
   function handleChange(
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >,
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -102,14 +94,8 @@ export default function ContatoForm() {
   if (formState === "success") {
     return (
       <output className="contato__success">
-        <p className="contato__success-text">
-          Mensagem enviada! Entraremos em contato em breve.
-        </p>
-        <button
-          type="button"
-          className="contato__submit"
-          onClick={() => setFormState("idle")}
-        >
+        <p className="contato__success-text">Mensagem enviada! Entraremos em contato em breve.</p>
+        <button type="button" className="contato__submit" onClick={() => setFormState("idle")}>
           Enviar outra mensagem
         </button>
       </output>
@@ -215,17 +201,11 @@ export default function ContatoForm() {
 
         <output className="contato__feedback">
           {formState === "error" && (
-            <p className="contato__feedback--error">
-              Erro ao enviar. Tente novamente.
-            </p>
+            <p className="contato__feedback--error">Erro ao enviar. Tente novamente.</p>
           )}
         </output>
 
-        <button
-          type="submit"
-          className="contato__submit"
-          disabled={formState === "loading"}
-        >
+        <button type="submit" className="contato__submit" disabled={formState === "loading"}>
           {formState === "loading" ? "Enviando..." : "Enviar mensagem"}
         </button>
       </form>

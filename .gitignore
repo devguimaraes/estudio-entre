@@ -79,6 +79,7 @@ node_modules/.cache/
 .agents/
 .claude/
 .gemini/
+.superpowers/
 skills-lock.json
 
 # Git worktrees

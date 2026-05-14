@@ -1,122 +1,56 @@
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-/**
- * Animações da seção Eixos
- * - Bloco reveal lateral (esquerda/direita) via ScrollTrigger
- * - Cards stagger com fade up
- * - Suporte a prefers-reduced-motion
- */
+gsap.registerPlugin(ScrollTrigger);
+
 export function animateEixos(): void {
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
-
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const section = document.querySelector<HTMLElement>(".eixos");
-  const blocoCultura = document.querySelector<HTMLElement>(
-    ".eixos__bloco--cultura",
-  );
-  const blocoProducao = document.querySelector<HTMLElement>(
-    ".eixos__bloco--producao",
-  );
-  const cardsCultura =
-    document.querySelectorAll<HTMLElement>(
-      ".eixos__bloco--cultura .eixos__card",
-    );
-  const cardsProducao =
-    document.querySelectorAll<HTMLElement>(
-      ".eixos__bloco--producao .eixos__card",
-    );
+  const blades = document.querySelectorAll<HTMLElement>(".eixos__blade");
 
-  if (!section) return;
+  if (!section || blades.length === 0) return;
 
-  const ease = "power2.out";
-
-  // Reduced motion: mostrar tudo sem animação
   if (prefersReducedMotion) {
-    const all = [blocoCultura, blocoProducao];
-    for (const el of all) {
-      if (el) gsap.set(el, { opacity: 1 });
-    }
-    const allCards = [...Array.from(cardsCultura), ...Array.from(cardsProducao)];
-    for (const c of allCards) {
-      gsap.set(c, { opacity: 1 });
-    }
+    gsap.set(".eixos__blade, .eixos__image, .eixos__eyebrow, .eixos__title", {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      scale: 1,
+    });
+    gsap.set(".eixos__body, .eixos__cta", { opacity: 1, y: 0 });
     return;
   }
 
-  // 1. Bloco reveal lateral
-  if (blocoCultura) {
-    gsap.fromTo(
-      blocoCultura,
-      { opacity: 0, x: -60 },
-      {
-        opacity: 1,
-        x: 0,
-        duration: 1.5,
-        ease,
-        scrollTrigger: {
-          trigger: section,
-          start: "top 75%",
-          toggleActions: "play none none reverse",
-        },
-      },
-    );
-  }
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: "top 68%",
+      toggleActions: "play none none reverse",
+    },
+  });
 
-  if (blocoProducao) {
-    gsap.fromTo(
-      blocoProducao,
-      { opacity: 0, x: 60 },
-      {
-        opacity: 1,
-        x: 0,
-        duration: 1.5,
-        ease,
-        scrollTrigger: {
-          trigger: section,
-          start: "top 75%",
-          toggleActions: "play none none reverse",
-        },
-      },
+  tl.fromTo(
+    blades,
+    { opacity: 0, y: 52, scale: 0.97 },
+    {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      duration: 1.35,
+      stagger: 0.14,
+      ease: "expo.out",
+    },
+  )
+    .fromTo(
+      ".eixos__image",
+      { scale: 1.08 },
+      { scale: 1, duration: 1.6, stagger: 0.08, ease: "power3.out" },
+      "-=1.1",
+    )
+    .fromTo(
+      ".eixos__eyebrow, .eixos__title",
+      { opacity: 0, y: 24 },
+      { opacity: 1, y: 0, duration: 0.9, stagger: 0.08, ease: "power2.out" },
+      "-=0.9",
     );
-  }
-
-  // 2. Cards stagger (fade up)
-  if (cardsCultura.length) {
-    gsap.fromTo(
-      cardsCultura,
-      { opacity: 0, y: 20 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease,
-        scrollTrigger: {
-          trigger: section,
-          start: "top 65%",
-          toggleActions: "play none none reverse",
-        },
-      },
-    );
-  }
-
-  if (cardsProducao.length) {
-    gsap.fromTo(
-      cardsProducao,
-      { opacity: 0, y: 20 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease,
-        scrollTrigger: {
-          trigger: section,
-          start: "top 65%",
-          toggleActions: "play none none reverse",
-        },
-      },
-    );
-  }
 }

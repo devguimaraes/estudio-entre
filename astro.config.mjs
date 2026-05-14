@@ -1,8 +1,8 @@
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
+import vercel from "@astrojs/vercel";
 import sanity from "@sanity/astro";
 import tailwindcss from "@tailwindcss/vite";
-import vercel from "@astrojs/vercel";
 import { defineConfig } from "astro/config";
 import { loadEnv } from "vite";
 
@@ -15,8 +15,8 @@ export default defineConfig({
     react(),
     sitemap(),
     sanity({
-      projectId: env.SANITY_PROJECT_ID,
-      dataset: env.SANITY_DATASET,
+      projectId: env.SANITY_PROJECT_ID || "7a0ee11t",
+      dataset: env.SANITY_DATASET || "production",
       useCdn: false,
       studioBasePath: "/studio",
     }),
@@ -25,6 +25,6 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   image: {
-    service: { entrypoint: "astro/assets/services/sharp" },
+    service: { entrypoint: "astro/assets/services/noop" },
   },
 });

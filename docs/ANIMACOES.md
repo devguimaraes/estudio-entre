@@ -8,8 +8,20 @@ Sistema de animações global do site Estúdio Entre usando GSAP 3 + Lenis smoot
 
 ```
 src/animations/
-├── init.ts    # Inicialização do Lenis e ScrollTrigger
-└── utils.ts   # Utilitários de animação reutilizáveis
+├── init.ts              # Inicialização do Lenis e ScrollTrigger
+├── preloader.ts         # Abertura cinematica com simbolo da marca
+├── colorTransition.ts   # Transicoes de cor entre estados visuais
+├── cursor.ts            # Cursor customizado
+├── navbar.ts            # Comportamento animado da navegacao
+├── sectionWipes.ts      # Wipes cromaticos entre secoes
+├── hero.ts              # Entrada do Hero apos o preloader
+├── sobre.ts             # Parallax + reveal editorial
+├── servicos.ts          # Reveal dos cards de servicos
+├── eixos.ts             # Entrada teatral das blades
+├── agenda.ts            # Reveal da agenda
+├── espaco.ts            # Galeria com parallax desktop
+├── contato.ts           # Reveal do formulario
+└── footer.ts            # Assinatura final
 ```
 
 ---
@@ -18,10 +30,12 @@ src/animations/
 
 O sistema é inicializado automaticamente no `BaseLayout.astro`:
 
+O `preloader.ts` dispara o evento `estudio:preloader-complete`. O Hero aguarda esse evento antes de iniciar sua timeline, garantindo que a abertura e a primeira dobra parecam uma unica sequencia dirigida.
+
 ```astro
 <script>
-  import { initAnimations } from "../animations/init";
-  initAnimations();
+  import { initGlobalAnimations } from "../animations/init";
+  initGlobalAnimations();
 </script>
 ```
 
@@ -177,7 +191,7 @@ Otimizações aplicadas:
 
 ### Animações não funcionam
 
-1. Verifique se `initAnimations()` foi chamado no BaseLayout
+1. Verifique se `initGlobalAnimations()` foi chamado no BaseLayout
 2. Confirme que GSAP e Lenis estão instalados
 3. Veja o console do navegador para erros
 

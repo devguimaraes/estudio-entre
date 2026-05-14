@@ -1,62 +1,52 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-/**
- * Transição de cor de background conforme o scroll entre seções.
- * Cada seção define sua cor de fundo e cor de texto.
- * A transição é animada via gsap.to() com duration 0.8s.
- *
- * Integra-se com Lenis via ScrollTrigger.update() (já configurado em init.ts).
- */
+gsap.registerPlugin(ScrollTrigger);
 
-interface SectionColor {
-  selector: string;
-  bg: string;
-  text: string;
-  navTheme: "light" | "dark";
-}
+export function initColorTransitions(): void {
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion) return;
 
-const sections: SectionColor[] = [
-  { selector: ".hero", bg: "#ec6838", text: "#f0ede8", navTheme: "light" },
-  { selector: ".sobre", bg: "#f0ede8", text: "#1a1612", navTheme: "dark" },
-  { selector: ".eixos", bg: "#1a1612", text: "#f0ede8", navTheme: "light" },
-  { selector: ".agenda", bg: "#8e8100", text: "#f0ede8", navTheme: "light" },
-  { selector: ".espaco", bg: "#f0ede8", text: "#1a1612", navTheme: "dark" },
-  { selector: ".contato", bg: "#6B5FBF", text: "#f0ede8", navTheme: "light" },
-  { selector: ".footer", bg: "#1a1612", text: "#f0ede8", navTheme: "light" },
-];
+  const sections = [
+    { trigger: ".hero", color: "#3D1020", theme: "light" }, // Bordô
+    { trigger: ".sobre", color: "#f0ede8", theme: "dark" }, // Creme
+    { trigger: ".pilares", color: "#1a1612", theme: "light" }, // Near Black
+    { trigger: ".agenda", color: "#1d432c", theme: "light" }, // Verde Floresta
+    { trigger: ".galeria", color: "#b9e4eb", theme: "dark" }, // Ciano
+    { trigger: ".voo-literario", color: "#1d432c", theme: "light" }, // Verde Floresta
+    { trigger: ".contato", color: "#777bde", theme: "dark" }, // Lilás
+    { trigger: ".footer", color: "#1a1612", theme: "light" }, // Near Black
+  ];
 
-export function initColorTransition(): void {
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
+  const nav = document.querySelector(".navbar");
 
-  for (const section of sections) {
-    const el = document.querySelector<HTMLElement>(section.selector);
+  for (const { trigger, color, theme } of sections) {
+    const el = document.querySelector(trigger);
     if (!el) continue;
+
+    const updateTheme = () => {
+      gsap.to("body", {
+        backgroundColor: color,
+        duration: 1.2,
+        ease: "power2.inOut",
+      });
+      if (nav) {
+        if (theme === "dark") {
+          nav.classList.remove("navbar--light");
+          nav.classList.add("navbar--dark");
+        } else {
+          nav.classList.remove("navbar--dark");
+          nav.classList.add("navbar--light");
+        }
+      }
+    };
 
     ScrollTrigger.create({
       trigger: el,
-      start: "top 50%",
-      end: "bottom 50%",
-      onEnter: () => applyColors(section, prefersReducedMotion),
-      onEnterBack: () => applyColors(section, prefersReducedMotion),
+      start: "top center",
+      end: "bottom center",
+      onEnter: updateTheme,
+      onEnterBack: updateTheme,
     });
-  }
-}
-
-function applyColors(section: SectionColor, instant: boolean): void {
-  gsap.to("body", {
-    backgroundColor: section.bg,
-    color: section.text,
-    duration: instant ? 0 : 0.8,
-    ease: "power2.out",
-    overwrite: "auto",
-  });
-
-  const navbar = document.querySelector<HTMLElement>(".navbar");
-  if (navbar) {
-    navbar.classList.remove("navbar--light", "navbar--dark");
-    navbar.classList.add(`navbar--${section.navTheme}`);
   }
 }

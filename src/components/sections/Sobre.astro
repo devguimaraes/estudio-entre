@@ -1,58 +1,135 @@
 ---
-// Sobre.astro — Seção editorial do Estúdio Entre
-// Astro puro com CSS scoped. Animações GSAP via módulo separado.
+import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+import TornPaperFrame from "@/components/ui/TornPaperFrame.astro";
+
+const imagensSobre = [
+  {
+    src: "/images/brand/apresentacao-estudio-entre.jpg",
+    label: "Apresentação 01",
+    variant: 1 as const,
+  },
+  {
+    src: "/images/brand/apresentacao-estudio-entre-2.jpg",
+    label: "Apresentação 02",
+    variant: 2 as const,
+  },
+  {
+    src: "/images/brand/apresentacao-estudio-entre-3.jpg",
+    label: "Apresentação 03",
+    variant: 3 as const,
+  },
+  {
+    src: "/images/brand/apresentacao-estudio-entre-4.jpg",
+    label: "Apresentação 04",
+    variant: 4 as const,
+  },
+  {
+    src: "/images/brand/apresentacao-estudio-entre-5.jpg",
+    label: "Apresentação 05",
+    variant: 1 as const,
+  },
+];
 ---
 
-<section class="sobre" id="sobre" aria-label="Sobre o Estúdio Entre">
-  <!-- Textura papel -->
-  <div class="sobre__texture-paper" aria-hidden="true"></div>
-
-  <!-- Grid de conteúdo -->
-  <div class="sobre__grid">
-    <!-- Lado do texto (esquerda, 60%) -->
-    <div class="sobre__content">
-      <p class="sobre__eyebrow">Nossa História</p>
-      <h2 class="sobre__title">Uma mãe, uma filha e um sonho.</h2>
-      <p class="sobre__text">
-        O Estúdio Entre é um hub cultural multidisciplinar, cuja missão é promover encontros significativos entre cultura, conhecimento e bem-estar. Um espaço plural e acolhedor, onde arte, palavra e cuidado se entrelaçam para inspirar conexões.
-      </p>
-      <p class="sobre__text">
-        Por meio de experiências que unem literatura, comunicação e práticas integrativas, estimula a escuta, a criação e o acesso à expressão cultural em suas diversas formas — fortalecendo o vínculo entre pessoas, gerações e modos de existir.
-      </p>
-      <p class="sobre__text">
-        O hub reúne rodas de biblioterapia, oficinas, palestras e encontros culturais, além de disponibilizar um estúdio com estrutura profissional para gravação de sets, podcasts e videocasts.
-      </p>
-      <p class="sobre__signature">
-        Assim nasce o Estúdio Entre: entre palavras, entre pessoas — é só entrar.
-      </p>
-    </div>
-
-    <!-- Lado da foto (direita, 40%) -->
-    <div class="sobre__photo-side">
-      <div class="sobre__photo-wrapper" data-cursor="VER DE PERTO">
-        <img
-          class="sobre__photo"
-          src="/images/sobre-placeholder-1.webp"
-          alt="Espaço do Estúdio Entre — hub cultural no Méier"
-          width="600"
-          height="800"
-          loading="lazy"
-        />
-        <div class="sobre__photo-halftone" aria-hidden="true">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <filter id="halftone-sobre">
-              <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
-            </filter>
-            <rect width="100%" height="100%" filter="url(#halftone-sobre)" />
-          </svg>
-        </div>
-      </div>
-    </div>
+<section
+  class="sobre relative py-24 md:py-40 px-6 md:px-16 overflow-hidden"
+  style="background-color: #f0ede8; color: #1a1612;"
+  id="sobre"
+>
+  <!-- Watermark: Letra "e" cursiva gigante -->
+  <div
+    class="sobre__watermark absolute -bottom-20 -right-20 z-0 pointer-events-none opacity-[0.03] select-none"
+    aria-hidden="true"
+  >
+    <span class="font-display font-black text-[70vw] leading-none text-bordo italic">e</span>
   </div>
 
-  <!-- Decoração flutuante (olho/chave) -->
-  <div class="sobre__decoration" aria-hidden="true">
-    <img src="/icons/olho.svg" alt="" width="120" height="83" />
+  <!-- Layer: Halftone texture bordô sutil -->
+  <HalftoneTexture
+    density={16}
+    dotSize={1.2}
+    color="61,16,32"
+    opacity={0.06}
+    class="z-[1]"
+  />
+
+  <div class="max-w-[1200px] mx-auto relative z-10">
+
+    <!-- Content Row -->
+    <div class="flex flex-col lg:flex-row gap-12 lg:gap-24">
+
+      <!-- Text Column -->
+      <div class="w-full lg:w-1/2 relative z-20">
+        <div class="sobre__eyebrow-wrap overflow-hidden mb-8">
+          <p class="sobre__eyebrow font-display font-bold text-[10px] uppercase tracking-[0.4em] text-bordo opacity-0">
+            Nossa Essência
+          </p>
+        </div>
+
+        <h2 class="sobre__title mb-12 flex flex-col">
+          <span class="sobre__title-line overflow-hidden">
+            <span class="sobre__title-word block font-display font-black text-[clamp(2.5rem,7vw,5rem)] leading-[0.9] text-bordo uppercase opacity-0">
+              Uma mãe,
+            </span>
+          </span>
+          <span class="sobre__title-line overflow-hidden">
+            <span class="sobre__title-word block font-display font-black text-[clamp(2.5rem,7vw,5rem)] leading-[0.9] text-bordo uppercase opacity-0">
+              uma filha
+            </span>
+          </span>
+          <span class="sobre__title-line overflow-hidden">
+            <span class="sobre__title-word block font-display font-black text-[clamp(2.5rem,7vw,5rem)] leading-[0.9] text-bordo uppercase opacity-0">
+              e um sonho.
+            </span>
+          </span>
+        </h2>
+
+        <div class="sobre__body-wrap max-w-[580px]">
+          <p class="sobre__text text-lg md:text-xl leading-relaxed mb-8 opacity-0">
+            O Estúdio Entre é um <span class="text-orange font-bold">hub cultural independente</span> localizado no Méier, cuja missão é promover encontros significativos entre cultura, conhecimento e bem-estar.
+          </p>
+          <p class="sobre__text text-base md:text-lg leading-relaxed text-near-black/70 mb-8 opacity-0">
+            Um espaço plural e acolhedor, onde arte, palavra e cuidado se entrelaçam. Por meio de experiências que unem literatura, comunicação e práticas integrativas, estimulamos a escuta, a criação e o acesso à expressão cultural.
+          </p>
+          <p class="sobre__text text-base md:text-lg leading-relaxed text-near-black/70 opacity-0">
+            O hub reúne rodas de <span class="italic font-medium">biblioterapia</span>, oficinas, palestras e encontros culturais, além de disponibilizar um estúdio profissional para gravação de podcasts e audições.
+          </p>
+        </div>
+
+        <!-- Signature -->
+        <div class="flex justify-center md:justify-start pt-12">
+          <p class="sobre__signature font-display italic font-regular text-[clamp(1.5rem,3vw,2rem)] text-bordo opacity-0">
+            "Entre palavras, entre pessoas — é só entrar."
+          </p>
+        </div>
+      </div>
+
+      <!-- Gallery Column (Carousel 3D) -->
+      <div class="w-full lg:w-1/2 relative min-h-[500px] lg:min-h-[800px] flex items-center justify-center sobre__carousel-container">
+        <div class="sobre__carousel-wheel relative w-[240px] md:w-[320px] h-[320px] md:h-[440px] preserve-3d">
+          {
+            imagensSobre.map((img, index) => (
+              <div
+                class="sobre__carousel-item absolute inset-0 backface-hidden"
+                style={`--index: ${index};`}
+              >
+                <div class="relative group cursor-pointer h-full">
+                  <TornPaperFrame variant={img.variant} class="h-full">
+                    <img
+                      src={img.src}
+                      alt={img.label}
+                      class="w-full h-full object-cover"
+                    />
+                  </TornPaperFrame>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+    </div>
+
   </div>
 
   <script>
@@ -62,210 +139,52 @@
 </section>
 
 <style>
-  /* ============================
-     Sobre — BEM scoped styles
-     ============================ */
-
-  .sobre {
-    position: relative;
-    background-color: var(--color-cream);
-    color: var(--color-near-black);
-    padding: 8rem 4rem;
-    overflow: hidden;
+  .sobre__title-word {
+    will-change: transform, opacity;
   }
 
-  /* --- Textura papel --- */
-
-  .sobre__texture-paper {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background-image: url("/textures/paper-texture-optimized.webp");
-    background-repeat: repeat;
-    background-size: cover;
-    opacity: 0.08;
+  .sobre__carousel-container {
+    perspective: 2500px;
   }
 
-  /* --- Grid --- */
-
-  .sobre__grid {
-    position: relative;
-    z-index: 2;
-    display: grid;
-    grid-template-columns: 6fr 4fr;
-    gap: 4rem;
-    max-width: 1400px;
-    margin: 0 auto;
-    align-items: center;
+  .preserve-3d {
+    transform-style: preserve-3d;
   }
 
-  /* --- Content side --- */
-
-  .sobre__content {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+  .backface-hidden {
+    backface-visibility: hidden;
   }
 
-  /* --- Eyebrow --- */
-
-  .sobre__eyebrow {
-    font-family: var(--font-body);
-    font-weight: 700;
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.25em;
-    color: var(--color-bordo);
-    opacity: 0;
+  .sobre__carousel-item {
+    /* Posicionamento radial agora é feito via GSAP para evitar conflitos de transform */
   }
 
-  /* --- Title --- */
-
-  .sobre__title {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    line-height: 1.1;
-    color: var(--color-near-black);
-    opacity: 0;
-  }
-
-  /* --- Text paragraphs --- */
-
-  .sobre__text {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: clamp(1rem, 2vw, 1.125rem);
-    line-height: 1.7;
-    color: var(--color-text-muted);
-    max-width: 540px;
-    opacity: 0;
-  }
-
-  /* --- Signature --- */
-
-  .sobre__signature {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-style: italic;
-    font-size: clamp(1.125rem, 2.5vw, 1.375rem);
-    line-height: 1.5;
-    color: var(--color-bordo);
-    margin-top: 1rem;
-    opacity: 0;
-  }
-
-  /* --- Photo side --- */
-
-  .sobre__photo-side {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .sobre__photo-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 480px;
-    aspect-ratio: 3 / 4;
-    overflow: hidden;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  .sobre__photo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  /* --- Halftone overlay --- */
-
-  .sobre__photo-halftone {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    mix-blend-mode: multiply;
-    opacity: 0.7;
-    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .sobre__photo-wrapper:hover .sobre__photo-halftone {
-    opacity: 0;
-  }
-
-  /* --- Floating decoration --- */
-
-  .sobre__decoration {
-    position: absolute;
-    bottom: 5%;
-    left: 5%;
-    z-index: 3;
-    opacity: 0.06;
-    pointer-events: none;
-  }
-
-  .sobre__decoration img {
-    width: 120px;
-    height: auto;
-  }
-
-  /* ============================
-     Tablet (max-width: 1024px)
-     ============================ */
-
-  @media (max-width: 1024px) {
-    .sobre {
-      padding: 5rem 2rem;
+  @media (max-width: 1023px) {
+    .sobre__carousel-container {
+      perspective: none;
+      min-height: auto;
+      display: block;
+      margin-top: 4rem;
     }
-
-    .sobre__grid {
-      grid-template-columns: 1fr;
+    .sobre__carousel-wheel {
+      display: flex;
+      flex-direction: column;
       gap: 3rem;
+      width: 100%;
+      height: auto;
+      transform: none !important;
+      transform-style: flat;
+    }
+    .sobre__carousel-item {
+      position: relative !important;
+      transform: none !important;
+      width: 100% !important;
+      height: 400px !important;
     }
 
-    .sobre__photo-side {
-      order: -1;
-    }
-
-    .sobre__content {
-      align-items: center;
-      text-align: center;
-    }
-
-    .sobre__text {
-      max-width: 100%;
-    }
-  }
-
-  /* ============================
-     Mobile (max-width: 768px)
-     ============================ */
-
-  @media (max-width: 768px) {
-    .sobre {
-      padding: 4rem 1.5rem;
-    }
-
-    .sobre__photo-wrapper {
-      max-width: 100%;
-    }
-
-    .sobre__decoration {
+    /* Exibir apenas a primeira e a última imagem no mobile */
+    .sobre__carousel-item:not(:first-child):not(:last-child) {
       display: none;
-    }
-  }
-
-  /* ============================
-     Reduced motion
-     ============================ */
-
-  @media (prefers-reduced-motion: reduce) {
-    .sobre__photo-halftone {
-      transition: none;
     }
   }
 </style>

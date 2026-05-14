@@ -1,9 +1,5 @@
+import { type ContatoPayload, EMAIL_REGEX, INTERESSE_OPTIONS } from "@/types/contato";
 import type { APIRoute } from "astro";
-import {
-  INTERESSE_OPTIONS,
-  EMAIL_REGEX,
-  type ContatoPayload,
-} from "@/types/contato";
 
 export const prerender = false;
 
@@ -26,24 +22,24 @@ export const POST: APIRoute = async ({ request }) => {
     const { nome, email, interesse, mensagem } = body;
 
     if (!nome || nome.trim().length < 2) {
-      return new Response(
-        JSON.stringify({ error: "Nome deve ter pelo menos 2 caracteres." }),
-        { status: 400, headers: { "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ error: "Nome deve ter pelo menos 2 caracteres." }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     if (!email || !EMAIL_REGEX.test(email)) {
-      return new Response(
-        JSON.stringify({ error: "Email inválido." }),
-        { status: 400, headers: { "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ error: "Email inválido." }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     if (!interesse || !INTERESSE_OPTIONS.includes(interesse)) {
-      return new Response(
-        JSON.stringify({ error: "Selecione uma opção válida de interesse." }),
-        { status: 400, headers: { "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ error: "Selecione uma opção válida de interesse." }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     if (!mensagem || mensagem.trim().length < 10) {
@@ -58,10 +54,11 @@ export const POST: APIRoute = async ({ request }) => {
     const apiKey = process.env.RESEND_API_KEY;
 
     if (!apiKey) {
-      console.warn(
-        "RESEND_API_KEY não configurada — email não enviado.",
-        { nome, email, interesse },
-      );
+      console.warn("RESEND_API_KEY não configurada — email não enviado.", {
+        nome,
+        email,
+        interesse,
+      });
       return new Response(
         JSON.stringify({ success: true, warning: "Email não enviado (API key ausente)." }),
         { status: 200, headers: { "Content-Type": "application/json" } },
@@ -92,10 +89,10 @@ export const POST: APIRoute = async ({ request }) => {
     if (!emailResponse.ok) {
       const errorBody = await emailResponse.text();
       console.error("Erro Resend:", errorBody);
-      return new Response(
-        JSON.stringify({ error: "Erro ao enviar email. Tente novamente." }),
-        { status: 502, headers: { "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ error: "Erro ao enviar email. Tente novamente." }), {
+        status: 502,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     return new Response(JSON.stringify({ success: true }), {
@@ -104,9 +101,9 @@ export const POST: APIRoute = async ({ request }) => {
     });
   } catch (error) {
     console.error("Erro no endpoint de contato:", error);
-    return new Response(
-      JSON.stringify({ error: "Erro interno do servidor." }),
-      { status: 500, headers: { "Content-Type": "application/json" } },
-    );
+    return new Response(JSON.stringify({ error: "Erro interno do servidor." }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 };

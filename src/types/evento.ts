@@ -18,5 +18,17 @@ export interface EventoCard {
   descricao: string | null;
   valor: string | null;
   linkCompra: string | null;
-  imagens: string[] | null;
+  imagens: SanityImageRef[] | null;
+}
+
+export interface EventoNormalizado extends EventoCard {
+  timestamp: number;
+  mesKey: string;
+  buscaTexto: string;
+}
+
+export interface SanityImageRef {
+  _type: string;
+  asset: { _ref: string; _type: "reference" };
+  alt?: string;
 }

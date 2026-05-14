@@ -1,7 +1,8 @@
 ---
 import "@/styles/global.css";
-import Navbar from "@/components/ui/Navbar.astro";
 import CursorCustom from "@/components/ui/CursorCustom.astro";
+import Navbar from "@/components/ui/Navbar.astro";
+import SectionWipes from "@/components/ui/SectionWipes.astro";
 
 interface Props {
   title: string;
@@ -57,25 +58,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Logo preload (LCP critical) -->
+    <!-- Font preloading (critical for LCP and Hero) -->
     <link
       rel="preload"
-      as="image"
-      href="/logos/Logo_Estudio Entre - Claro 2.webp"
-      fetchpriority="high"
-    />
-
-    <!-- Font preloading (critical: Bold + ExtraBold for headings) -->
-    <link
-      rel="preload"
-      href="/fonts/_buvera-bold.woff2"
+      href="/fonts/[PRINCIPAL] Buvera/Buvera-Black.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
     <link
       rel="preload"
-      href="/fonts/_buvera-extrabold.woff2"
+      href="/fonts/[PRINCIPAL] Buvera/Buvera-Bold.woff2"
       as="font"
       type="font/woff2"
       crossorigin
@@ -87,17 +80,28 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       rel="stylesheet"
     />
   </head>
-  <body>
-    <Navbar />
+  <body class="no-js">
+    <script is:inline>
+      document.body.classList.remove("no-js");
+      document.body.classList.add("js");
+    </script>
+    <SectionWipes />
     <CursorCustom />
-    <slot />
+    <Navbar />
+    <div class="page-content">
+      <slot />
+    </div>
 
     <script>
-      import { initAnimations } from "@/animations/init";
-      import { initColorTransition } from "@/animations/colorTransition";
+      import { initGlobalAnimations } from "@/animations/init";
+      import { initColorTransitions } from "@/animations/colorTransition";
       import { initCursor } from "@/animations/cursor";
-      initAnimations();
-      initColorTransition();
+      import { initSectionWipes } from "@/animations/sectionWipes";
+
+      // Initialize in order
+      initGlobalAnimations();
+      initColorTransitions();
+      initSectionWipes();
       initCursor();
     </script>
   </body>

@@ -1,59 +1,54 @@
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export function animateEspaco(): void {
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
-
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const isDesktop = window.matchMedia("(min-width: 769px)").matches;
   const section = document.querySelector<HTMLElement>(".espaco");
-  const header = document.querySelector<HTMLElement>(".espaco__header");
+  const items = document.querySelectorAll<HTMLElement>(".espaco__item");
 
-  if (!section) return;
+  if (!section || items.length === 0) return;
 
-  const ease = "power2.out";
-
-  if (prefersReducedMotion) {
-    if (header) gsap.set(header, { opacity: 1 });
+  if (prefersReducedMotion || !isDesktop) {
+    gsap.set(items, { opacity: 1, y: 0, scale: 1 });
     return;
   }
 
-  if (header) {
+  gsap.fromTo(
+    items,
+    { opacity: 0, scale: 0.98 },
+    {
+      opacity: 1,
+      scale: 1,
+      duration: 1,
+      stagger: 0.14,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: section,
+        start: "top 72%",
+        toggleActions: "play none none reverse",
+      },
+    },
+  );
+
+  for (const item of items) {
+    const speed = Number.parseFloat(item.getAttribute("data-speed") || "1");
+
     gsap.fromTo(
-      header,
-      { opacity: 0, y: 40 },
+      item,
+      { y: 50 },
       {
-        opacity: 1,
-        y: 0,
-        duration: 1.5,
-        ease,
+        y: -120 * speed,
+        ease: "none",
         scrollTrigger: {
-          trigger: section,
-          start: "top 75%",
-          toggleActions: "play none none reverse",
+          trigger: item,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
         },
       },
     );
   }
-
-  window.addEventListener(
-    "espaco:hydrated",
-    () => {
-      const items = document.querySelectorAll<HTMLElement>("[data-foto-item]");
-      if (!items.length) return;
-
-      gsap.fromTo(
-        items,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.1,
-          ease,
-          overwrite: "auto",
-        },
-      );
-    },
-    { once: true },
-  );
 }

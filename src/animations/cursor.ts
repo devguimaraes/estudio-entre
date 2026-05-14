@@ -1,77 +1,79 @@
 import gsap from "gsap";
 
 /**
- * Cursor customizado — ícone da marca (olho) com estados contextuais.
- * Desktop only. Usa gsap.quickTo() para seguir o mouse sem lag.
+ * Editorial Cursor Animation
+ * Smooth tracking with contextual labels and scale transitions.
  */
-
 export function initCursor(): void {
   const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
-  const prefersReducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (isTouchDevice || prefersReducedMotion) return;
 
-  const cursor = document.querySelector<HTMLElement>(".cursor");
-  const cursorInner = document.querySelector<HTMLElement>(".cursor__inner");
-  const label = document.querySelector<HTMLElement>(".cursor__label");
+  const cursor = document.getElementById("custom-cursor");
+  const label = cursor?.querySelector(".cursor__label");
 
-  if (!cursor || !cursorInner || !label) return;
+  if (!cursor || !label) return;
 
-  // Tornar cursor visível após primeira interação
-  cursor.style.opacity = "0";
-
-  const xTo = gsap.quickTo(cursor, "x", {
-    duration: 0.15,
-    ease: "power2.out",
-  });
-  const yTo = gsap.quickTo(cursor, "y", {
-    duration: 0.15,
-    ease: "power2.out",
-  });
-  const rotTo = gsap.quickTo(cursorInner, "rotation", {
-    duration: 0.4,
-    ease: "power2.out",
+  // Reset inicial
+  gsap.set(cursor, {
+    opacity: 0,
+    xPercent: -50,
+    yPercent: -50,
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2,
   });
 
-  let lastX = 0;
+  const xTo = gsap.quickTo(cursor, "x", { duration: 0.2, ease: "power3.out" });
+  const yTo = gsap.quickTo(cursor, "y", { duration: 0.2, ease: "power3.out" });
 
-  window.addEventListener("mousemove", (e) => {
-    if (cursor.style.opacity === "0") {
+  let isVisible = false;
+
+  const onMouseMove = (e: MouseEvent) => {
+    if (!isVisible) {
       gsap.to(cursor, { opacity: 1, duration: 0.3 });
+      isVisible = true;
     }
-    xTo(e.clientX - 20);
-    yTo(e.clientY - 20);
+    xTo(e.clientX);
+    yTo(e.clientY);
+  };
 
-    // Rotação leve baseada na direção horizontal
-    const dx = e.clientX - lastX;
-    rotTo(dx * 0.5);
-    lastX = e.clientX;
-  });
+  window.addEventListener("mousemove", onMouseMove);
 
-  window.addEventListener("mouseleave", () => {
-    gsap.to(cursor, { opacity: 0, duration: 0.3 });
-  });
+  // Lógica de labels e escala
+  const updateCursor = (el: HTMLElement) => {
+    const text = el.getAttribute("data-cursor") || "ENTRAR";
+    label.textContent = text;
+    cursor.classList.add("is-hovering");
+  };
 
-  window.addEventListener("mouseenter", () => {
-    gsap.to(cursor, { opacity: 1, duration: 0.3 });
-  });
+  const resetCursor = () => {
+    cursor.classList.remove("is-hovering");
+  };
 
-  // Hover em elementos interativos
-  const interactives = document.querySelectorAll<HTMLElement>("[data-cursor]");
-  for (const el of interactives) {
-    el.addEventListener("mouseenter", () => {
-      const text = el.dataset.cursor ?? "ENTRAR";
-      label.textContent = text;
-      cursor.classList.add("is-hovering");
-      gsap.to(cursorInner, { scale: 1.6, duration: 0.3, ease: "power2.out" });
-      gsap.to(label, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" });
-    });
-    el.addEventListener("mouseleave", () => {
-      cursor.classList.remove("is-hovering");
-      gsap.to(cursorInner, { scale: 1, duration: 0.3, ease: "power2.out" });
-      gsap.to(label, { opacity: 0, y: 4, duration: 0.3, ease: "power2.out" });
-    });
-  }
+  // Delegar eventos para melhor performance e lidar com conteúdo dinâmico
+  document.addEventListener(
+    "mouseenter",
+    (e) => {
+      const target = e.target as HTMLElement;
+      if (target?.hasAttribute?.("data-cursor")) {
+        updateCursor(target);
+      } else {
+        const parentWithCursor = target?.closest?.("[data-cursor]") as HTMLElement;
+        if (parentWithCursor) updateCursor(parentWithCursor);
+      }
+    },
+    true,
+  );
+
+  document.addEventListener(
+    "mouseleave",
+    (e) => {
+      const target = e.target as HTMLElement;
+      if (target?.hasAttribute?.("data-cursor") || target?.closest?.("[data-cursor]")) {
+        resetCursor();
+      }
+    },
+    true,
+  );
 }

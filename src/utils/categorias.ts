@@ -4,20 +4,16 @@ export const CATEGORIAS: Record<
   CategoriaEvento,
   { label: string; color: string; textColor: string }
 > = {
-  show: { label: "Show", color: "#ec6838", textColor: "#f0ede8" },
-  oficina: { label: "Oficina", color: "#e08d3d", textColor: "#1a1612" },
+  show: { label: "Show", color: "#EC6838", textColor: "#F0EDE8" },
+  oficina: { label: "Oficina", color: "#BDB2DD", textColor: "#1A1612" },
   "roda-de-conversa": {
     label: "Roda de Conversa",
-    color: "#777bde",
-    textColor: "#f0ede8",
+    color: "#777BDE",
+    textColor: "#F0EDE8",
   },
-  lancamento: { label: "Lançamento", color: "#dec72c", textColor: "#1a1612" },
-  sarau: { label: "Sarau", color: "#8e8100", textColor: "#f0ede8" },
-  exposicao: { label: "Exposição", color: "#b9e4eb", textColor: "#1a1612" },
-  biblioterapia: {
-    label: "Biblioterapia",
-    color: "#9e4b2d",
-    textColor: "#f0ede8",
-  },
-  "dj-session": { label: "DJ Session", color: "#1d432c", textColor: "#f0ede8" },
+  lancamento: { label: "Lançamento", color: "#E08D3D", textColor: "#1A1612" },
+  sarau: { label: "Sarau", color: "#8E8100", textColor: "#F0EDE8" },
+  exposicao: { label: "Exposição", color: "#B9E4EB", textColor: "#1A1612" },
+  biblioterapia: { label: "Biblioterapia", color: "#9E4B2D", textColor: "#F0EDE8" },
+  "dj-session": { label: "DJ Session", color: "#1D432C", textColor: "#F0EDE8" },
 };
