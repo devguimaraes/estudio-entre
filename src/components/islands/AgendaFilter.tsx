@@ -1,6 +1,7 @@
 import { urlFor } from "@/sanity/image";
 import type { CategoriaEvento, EventoCard, SanityImageRef } from "@/types/evento";
 import { CATEGORIAS } from "@/utils/categorias";
+import { EVENT_TIME_ZONE } from "@/utils/eventos";
 import gsap from "gsap";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -139,11 +140,13 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
                     day: "2-digit",
                     month: "long",
                     year: "numeric",
+                    timeZone: EVENT_TIME_ZONE,
                   })}
                   <span className="mx-2">·</span>
                   {new Date(evento.dataHora).toLocaleTimeString("pt-BR", {
                     hour: "2-digit",
                     minute: "2-digit",
+                    timeZone: EVENT_TIME_ZONE,
                   })}
                 </span>
 

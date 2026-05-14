@@ -84,12 +84,12 @@ export function getAvailableMonthKeys(eventos: EventoNormalizado[]): string[] {
 
 export function formatMonthLabel(mesKey: string): string {
   const [year, month] = mesKey.split("-").map(Number);
-  const date = new Date(year, month - 1, 1);
 
   return new Intl.DateTimeFormat("pt-BR", {
     month: "long",
     year: "numeric",
-  }).format(date);
+    timeZone: EVENT_TIME_ZONE,
+  }).format(new Date(Date.UTC(year, month - 1, 1)));
 }
 
 export function normalizeSearch(value: string): string {
