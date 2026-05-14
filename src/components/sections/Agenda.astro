@@ -54,13 +54,34 @@ const { eventos } = Astro.props;
 
     {
       eventos.length > 0 ? (
-        <AgendaFilter client:visible eventos={eventos} />
+        <>
+          <AgendaFilter client:visible eventos={eventos} />
+          <div class="mt-16 flex justify-center">
+            <a
+              href="/agenda"
+              class="group inline-flex items-center gap-3 rounded-full border border-cream/30 px-8 py-4 text-[10px] font-bold uppercase tracking-[0.25em] text-cream transition-all duration-500 hover:bg-cream hover:text-forest"
+            >
+              Ver agenda completa
+              <img
+                src="/icons/play.svg"
+                class="h-3.5 w-3.5 invert opacity-60 transition-transform group-hover:translate-x-1 group-hover:invert-0"
+                alt=""
+              />
+            </a>
+          </div>
+        </>
       ) : (
         <div class="py-32 text-center">
           <p class="font-display italic text-2xl opacity-40">
             Silêncio criativo por enquanto.<br />
             Em breve, novos mundos se abrem.
           </p>
+          <a
+            href="/agenda"
+            class="mt-8 inline-flex rounded-full border border-cream/30 px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] text-cream/70 transition-colors hover:text-cream"
+          >
+            Abrir agenda
+          </a>
         </div>
       )
     }
