@@ -20,8 +20,16 @@ export function initNavbar(): void {
     }
 
     for (const link of navLinks) {
-      const href = link.getAttribute("href");
-      if (href === `#${activeId}`) {
+      const href = link.getAttribute("href") ?? "";
+      const isAgendaPage = window.location.pathname === "/agenda";
+      const linkHash = href.startsWith("/#") ? href.slice(1) : href;
+      const isActiveSection = linkHash === `#${activeId}`;
+      const isAgendaLink = href === "/agenda";
+
+      if (
+        (isAgendaPage && isAgendaLink) ||
+        (!isAgendaPage && (isActiveSection || (activeId === "agenda" && isAgendaLink)))
+      ) {
         link.classList.add("is-active");
       } else {
         link.classList.remove("is-active");
