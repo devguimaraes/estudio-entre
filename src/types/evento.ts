@@ -21,6 +21,12 @@ export interface EventoCard {
   imagens: SanityImageRef[] | null;
 }
 
+export interface EventoNormalizado extends EventoCard {
+  timestamp: number;
+  mesKey: string;
+  buscaTexto: string;
+}
+
 export interface SanityImageRef {
   _type: string;
   asset: { _ref: string; _type: "reference" };
