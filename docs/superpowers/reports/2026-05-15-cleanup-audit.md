@@ -514,3 +514,109 @@ bun run build: PASS
 git status --short --branch: limpo (após commit)
 ```
 
+## Maiores arquivos e pastas depois da limpeza
+
+```text
+26M	public
+19M	public/images
+16M	public/images/brand
+15M	src/assets
+14M	docs
+13M	docs/Guia_Estudio Entre.pdf
+9.5M	src/assets/textures
+5.6M	public/textures
+5.5M	public/textures/vertical-banner-social-media-flyers-posters-online-ads-brochures-digital-presentations-etc.webp
+4.2M	src/assets/textures/abstract-grey-concrete-texture-background-top-view.webp
+3.1M	src/assets/textures/dirty-photocopy-gray-paper-texture-background.webp
+2.7M	public/images/brand/espaco-sala.jpg
+2.7M	public/images/brand/espaco-hub.jpg
+2.5M	public/images/brand/espaco-detalhe-arte.jpg
+2.4M	public/images/espaco
+2.3M	public/images/brand/espaco-salao.jpg
+1.9M	src/assets/images
+1.8M	src/assets/logos
+1.5M	src/assets/textures/old-paper-vintage-texture-surface-background-recycle-pale-brown-paper-crumpled-texture.webp
+1.5M	src/assets/fonts
+1.2M	src/assets/fonts/[PRINCIPAL] Buvera
+1.2M	public/images/brand/fundadoras-2026.jpg
+1.1M	public/images/brand/espaco-estudio.jpg
+1.1M	public/images/brand/detalhe-afeto.jpg
+988K	public/logos
+876K	src/assets/textures/industrial-style-white-corrugated-cardboard-texture-background.webp
+732K	src/assets/images/estudio-entre-3.png
+528K	public/fonts
+484K	public/fonts/[PRINCIPAL] Buvera
+456K	src/assets/icons
+408K	docs/superpowers
+348K	public/icons
+280K	public/images/espaco/7.webp
+248K	docs/superpowers/plans
+240K	src/assets/logos/Logo_Estudio Entre - Vinho 1.png
+240K	public/logos/logo-hero.png
+240K	public/logos/logo-hero-vinho.png
+240K	public/logos/logo-estudio-entre-vinho.png
+236K	src/assets/logos/Logo_Estudio Entre - Preto 1.png
+232K	src/assets/logos/Logo_Estudio Entre - Claro 1.png
+196K	src/assets/fonts/Helony - Cursiva do Logo
+192K	src/assets/logos/Logo_Estudio Entre - Vinho 3.png
+192K	src/assets/logos/Logo_Estudio Entre - Preto 3.png
+192K	src/assets/fonts/Helony - Cursiva do Logo/Helony.otf
+188K	src/assets/logos/Logo_Estudio Entre - Claro 3.png
+188K	src/assets/images/Feed_Editorias_Estúdio Entre - Voo Literario.webp
+188K	public/images/sobre-placeholder-1.webp
+184K	src/assets/logos/Logo_Estudio Entre - Vinho 2.png
+180K	src/assets/logos/Logo_Estudio Entre - Preto 2.png
+180K	src/assets/logos/Logo_Estudio Entre - Claro 2.png
+180K	public/logos/logo-estudio-entre-claro.png
+172K	public/images/brand/sobre-estudio-entre-4.jpg
+164K	public/images/espaco/6.webp
+160K	public/images/espaco/img_0876.webp
+156K	public/images/espaco/v2-meier-04.webp
+152K	public/images/brand/fundadoras-mae-filha.jpg
+152K	public/images/brand/estudio-detalhes.jpg
+152K	public/images/brand/apresentacao-estudio-entre.jpg
+152K	public/images/brand/apresentacao-estudio-entre-5.jpg
+148K	public/textures/paper-texture-optimized.webp
+```
+
+## Validação final
+
+```text
+$ bun run check
+  Checked 84 files in 36ms. No fixes applied.
+  Result: PASS
+
+$ bun run build
+  Server built in 38.22s
+  Rotas: /, /agenda, /studio
+  Result: PASS
+```
+
+## Estado git final
+
+```text
+## feature/cleanup-sanitization
+(working tree limpo)
+```
+
+## Resumo de redução de peso
+
+```text
+Categoria               Antes     Depois    Redução
+─────────────────────────────────────────────────────
+src/assets              71 MB     15 MB     ~56 MB (-79%)
+  mockups               49 MB      0 MB     removido integralmente
+  textures              15 MB    9.5 MB     ~5.5 MB (duplicata)
+  images (brand)       3.1 MB    1.9 MB     ~1.2 MB (duplicatas)
+public                  26 MB     26 MB     sem alteração
+docs                    14 MB     14 MB     sem alteração
+
+Total geral            ~111 MB    ~55 MB    ~56 MB (-50%)
+```
+
+A redução concentrou-se em `src/assets/mockups` (arquivos PSD/PNG de mockup sem
+nenhuma referência em código de runtime) e em duplicatas exatas entre
+`src/assets/` e `public/` (textures, brand images). Nenhum asset em uso foi
+removido; a validação de build e lint confirmou que o projeto permanece
+funcional e íntegro.
+
