@@ -8,12 +8,14 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  navTheme?: "light" | "dark";
 }
 
 const {
   title,
   description = "Hub cultural e criativo independente no Méier, Rio de Janeiro. Entre livros, vozes e beats.",
   ogImage = "/og-default.png",
+  navTheme = "light",
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -87,7 +89,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     </script>
     <SectionWipes />
     <CursorCustom />
-    <Navbar />
+    <Navbar theme={navTheme} />
     <div class="page-content">
       <slot />
     </div>
