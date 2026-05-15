@@ -131,6 +131,7 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
       ? monthKeys[selectedMonthIndex + 1]
       : null;
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: re-run card entrance animation when month, category or search changes
   useLayoutEffect(() => {
     if (!containerRef.current) return;
 
@@ -149,7 +150,7 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
         clearProps: "all",
       },
     );
-  }, []);
+  }, [selectedMonth, activeCategory, search]);
 
   useEffect(() => {
     setExpandedCards(new Set());
