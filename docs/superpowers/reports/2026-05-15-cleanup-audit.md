@@ -359,7 +359,7 @@ e9719f2697d26534a9bd3f5866aced776283e1bf3abff62ba9693a565e0e1771  src/assets/ico
 
 ```text
 /home/devguimaraes/Projetos/estudio-entre/estudio-entre                                  7ebac5a [develop]
-/home/devguimaraes/Projetos/estudio-entre/estudio-entre/.worktrees/cleanup-sanitization  b5d3ae8 [feature/cleanup-sanitization]
+/home/devguimaraes/Projetos/estudio-entre/estudio-entre/.worktrees/cleanup-sanitization  bb4e33a [feature/cleanup-sanitization]
 ```
 
 Worktrees removidos:
