@@ -426,6 +426,86 @@ Decisões:
 4. public/images/brand/ NÃO removido — usado em src/ via caminhos públicos /images/brand/.
 ```
 
+## Auditoria de páginas temporárias
+
+### Páginas versionadas em `src/pages/`
+
+```text
+src/pages/index.astro              — Home page (produção)
+src/pages/agenda.astro             — Agenda completa (produção)
+src/pages/test-sanity.astro        — Temporária de teste (REMOVIDA)
+src/pages/studio/index.astro       — Sanity Studio embedded (produção)
+src/pages/api/contato.ts           — API de contato (produção)
+src/pages/api/webhook.ts           — Webhook Sanity (produção)
+```
+
+### Referências a `test-sanity`/`/test-sanity` no repositório
+
+(excluindo `node_modules/`, `dist/`, `.astro/`, o próprio relatório)
+
+```text
+docs/M1-RESUMO.md:
+  Line 96: - `/test-sanity` — Teste de conexão Sanity
+
+docs/superpowers/plans/2026-05-15-limpeza-sanitizacao-projeto.md:
+  Menções ao plano de remoção da página
+
+docs/superpowers/reports/2026-05-15-cleanup-audit.md:
+  (este relatório — excluído da busca)
+```
+
+**Conclusão**: zero referências runtime (nenhuma em `src/`, `public/`, `astro.config.mjs`).
+Apenas referências documentais, já tratadas (M1-RESUMO.md atualizado).
+
+## Componentes aparentemente sem import direto
+
+**AVISO**: Esta lista é apenas informativa. Nenhum componente foi removido — há risco
+de uso dinâmico via Sanity page builder ou cliente, conforme diretriz do plano.
+
+### Sections (`.astro`)
+
+```text
+src/components/sections/Espaco.astro     — sem import em pages/ ou layouts/
+src/components/sections/Eixos.astro      — sem import em pages/ ou layouts/
+src/components/sections/Servicos.astro   — sem import em pages/ ou layouts/
+```
+
+### Islands (`.tsx`)
+
+```text
+src/components/islands/ContatoForm.tsx    — sem import em pages/ ou sections/
+src/components/islands/EventCard.tsx      — sem import direto (tem CSS module)
+src/components/islands/GaleriaEspaco.tsx  — sem import direto (importa Lightbox)
+src/components/islands/GridMotion.tsx     — sem import em pages/ ou sections/
+src/components/islands/SobreCarousel.tsx  — sem import em pages/ ou sections/
+src/components/islands/DotField.tsx       — sem import em pages/ ou sections/
+```
+
+**Decisão**: Manter todos. Podem ser usados por seções dinâmicas do Sanity,
+renderização condicional, ou client islands não mapeados estaticamente.
+
+## Remoções de código morto aplicadas
+
+```text
+$ git status --short
+
+ D src/pages/test-sanity.astro
+ M docs/M1-RESUMO.md
+
+Arquivos removidos:
+  src/pages/test-sanity.astro            — rota temporária de teste
+                                          (~1 KB, 41 linhas)
+                                          Sanity debug page; zero refs runtime
+
+Documentos atualizados:
+  docs/M1-RESUMO.md                      — remove rota /test-sanity da lista
+
+Decisões:
+  1. test-sanity.astro removido — rota de teste, zero imports runtime,
+     apenas referências documentais (atualizadas).
+  2. M1-RESUMO.md atualizado — documentação espelha estado real das rotas.
+```
+
 ## Validação pós-remoção
 
 ```text
