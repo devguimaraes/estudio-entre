@@ -1,0 +1,120 @@
+---
+import { Image } from "astro:assets";
+import texturePaper from "@/assets/textures/old-paper-vintage-texture-surface-background-recycle-pale-brown-paper-crumpled-texture.webp";
+import GaleriaMasonry from "@/components/islands/GaleriaMasonry";
+import Footer from "@/components/sections/Footer.astro";
+import Decorative from "@/components/ui/Decorative.astro";
+import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+import { galeriaImagens } from "@/data/galeriaImagens";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const title = "Galeria — Estúdio Entre — Hub Cultural no Méier, RJ";
+const description =
+  "Conheça nosso espaço físico no Méier: salão, tapeçaria, exposições e detalhes do Estúdio Entre.";
+---
+
+<BaseLayout title={title} description={description} navTheme="dark">
+  <section
+    class="galeria-pagina relative pt-32 md:pt-40 pb-24 md:pb-40 overflow-hidden"
+    style="background-color: #b9e4eb;"
+  >
+    {/* Background Assets */}
+    <div class="absolute inset-0 z-0 opacity-[0.04] pointer-events-none mix-blend-multiply">
+      <Image src={texturePaper} alt="" class="w-full h-full object-cover" />
+    </div>
+
+    <HalftoneTexture
+      density={20}
+      dotSize={1.2}
+      color="61,16,32"
+      opacity={0.06}
+      class="z-[1]"
+    />
+
+    {/* Floating Decor */}
+    <div class="absolute top-[8%] right-[8%] opacity-20 z-10 hidden md:block">
+      <Decorative variant="star" color="#3D1020" size={100} />
+    </div>
+    <div class="absolute bottom-[12%] left-[5%] opacity-15 z-10">
+      <Decorative variant="dots" color="#3D1020" size={60} />
+    </div>
+
+    {/* Header */}
+    <div class="max-w-[1400px] mx-auto px-6 md:px-16 mb-16 md:mb-24 relative z-10">
+      <div class="overflow-hidden">
+        <p class="galeria-pagina__eyebrow font-display font-bold text-[10px] md:text-[12px] uppercase tracking-[0.5em] text-bordo/40">
+          O Lugar
+        </p>
+      </div>
+      <h1 class="galeria-pagina__title font-display font-black text-[clamp(3rem,10vw,8rem)] text-bordo leading-[0.85] uppercase mt-6 md:mt-8">
+        Nosso <br />
+        <span class="italic text-orange md:ml-32">Espaço</span>
+      </h1>
+    </div>
+
+    {/* Masonry Grid */}
+    <div class="relative z-10">
+      <GaleriaMasonry imagens={galeriaImagens} client:visible />
+    </div>
+  </section>
+
+  <Footer />
+
+  {/* Schema.org ImageGallery */}
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ImageGallery",
+    "name": "Galeria do Estúdio Entre",
+    "description": description,
+    "url": "https://estudioentre.com.br/galeria",
+    "image": galeriaImagens.map((img) => ({
+      "@type": "ImageObject",
+      "contentUrl": `https://estudioentre.com.br${img.src}`,
+      "description": img.alt,
+    })),
+  })} />
+
+  <script>
+    import gsap from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (!prefersReducedMotion) {
+      gsap.fromTo(
+        ".galeria-pagina__eyebrow",
+        { opacity: 0, y: 15 },
+        {
+          opacity: 0.5,
+          y: 0,
+          duration: 0.6,
+          scrollTrigger: {
+            trigger: ".galeria-pagina",
+            start: "top 75%",
+            toggleActions: "play none none reverse",
+          },
+        },
+      );
+
+      gsap.fromTo(
+        ".galeria-pagina__title",
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: ".galeria-pagina",
+            start: "top 75%",
+            toggleActions: "play none none reverse",
+          },
+        },
+      );
+    } else {
+      gsap.set([".galeria-pagina__eyebrow", ".galeria-pagina__title"], { opacity: 1, y: 0 });
+    }
+  </script>
+</BaseLayout>
