@@ -3,6 +3,7 @@ import "@/styles/global.css";
 import CursorCustom from "@/components/ui/CursorCustom.astro";
 import Navbar from "@/components/ui/Navbar.astro";
 import SectionWipes from "@/components/ui/SectionWipes.astro";
+import WhatsAppButton from "@/components/ui/WhatsAppButton.astro";
 
 interface Props {
   title: string;
@@ -93,6 +94,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <div class="page-content">
       <slot />
     </div>
+    <WhatsAppButton />
 
     <script>
       import { initGlobalAnimations } from "@/animations/init";

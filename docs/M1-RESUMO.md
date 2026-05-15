@@ -93,7 +93,6 @@ bun run preview  # http://localhost:4321
 ### Rotas disponíveis
 - `/` — Home page
 - `/studio` — Sanity Studio (não indexado)
-- `/test-sanity` — Teste de conexão Sanity
 
 ---
 

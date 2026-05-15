@@ -19,8 +19,8 @@ export default function VisitacaoCard() {
         </h3>
         <div className="w-12 h-[2px] bg-orange mx-auto mb-8" />
         <p className="font-display text-2xl md:text-3xl text-cream/90 leading-relaxed">
-          Quarta a Sábado <br />
-          <span className="text-orange font-bold">10h às 17h30</span>
+          Quarta a Sexta: 10h às 18h <br />
+          Sábado: <span className="text-orange font-bold">10h às 15h</span>
         </p>
         <p className="mt-8 text-sm md:text-base text-cream/60 font-medium max-w-md mx-auto">
           Conheça de perto o hub cultural que está transformando o coração do Méier.

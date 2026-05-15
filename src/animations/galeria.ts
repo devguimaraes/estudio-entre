@@ -21,20 +21,20 @@ export function animateGaleria(): void {
     },
   });
 
-  tl.fromTo(".galeria__eyebrow", { opacity: 0, y: 15 }, { opacity: 0.5, y: 0, duration: 0.8 });
+  tl.fromTo(".galeria__eyebrow", { opacity: 0, y: 15 }, { opacity: 0.5, y: 0, duration: 0.6 });
 
   tl.fromTo(
     ".galeria__title",
     { opacity: 0, y: 40 },
-    { opacity: 1, y: 0, duration: 1.2, ease: "expo.out" },
-    "-=0.5",
+    { opacity: 1, y: 0, duration: 0.8, ease: "expo.out" },
+    "-=0.4",
   );
 
   // Fade in the marquee
   tl.fromTo(
     ".galeria__marquee-wrapper",
     { opacity: 0, scale: 0.98 },
-    { opacity: 1, scale: 1, duration: 1.5, ease: "power2.out" },
-    "-=1.0",
+    { opacity: 1, scale: 1, duration: 1.0, ease: "power2.out" },
+    "-=0.6",
   );
 }

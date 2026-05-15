@@ -131,6 +131,7 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
       ? monthKeys[selectedMonthIndex + 1]
       : null;
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: re-run card entrance animation when month, category or search changes
   useLayoutEffect(() => {
     if (!containerRef.current) return;
 
@@ -183,21 +184,21 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
   }
 
   return (
-    <div className="space-y-16">
-      <section className="bg-white/50 p-6 rounded-[2.5rem] shadow-2xl shadow-forest/5 backdrop-blur-sm md:p-10 border border-white/40">
-        <div className="flex items-center border-b border-forest/10 pb-6 overflow-x-auto no-scrollbar mb-10">
-          <div className="flex gap-10 md:gap-14 min-w-max px-2">
+    <div className="space-y-12">
+      <section className="bg-white/50 p-5 rounded-[2rem] shadow-2xl shadow-forest/5 backdrop-blur-sm md:p-10 md:rounded-[2.5rem] border border-white/40">
+        <div className="flex items-center border-b border-forest/10 pb-5 overflow-x-auto no-scrollbar mb-8 md:mb-10 md:pb-6">
+          <div className="flex gap-6 md:gap-14 min-w-max px-1 md:px-2">
             {monthKeys.map((month) => (
               <button
                 key={month}
                 type="button"
                 onClick={() => setSelectedMonth(month)}
-                className={`group relative pb-4 text-[11px] font-black uppercase tracking-[0.25em] transition-all
-                  ${selectedMonth === month ? "text-forest" : "text-forest/25 hover:text-forest/50"}`}
+                className={`group relative pb-4 text-[11px] md:text-[13px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] transition-all
+                  ${selectedMonth === month ? "text-forest scale-110" : "text-forest/25 hover:text-forest/50"}`}
               >
                 {formatMonthLabel(month)}
                 <div
-                  className={`absolute bottom-[-1px] left-0 h-[2px] w-full bg-orange transition-transform duration-500
+                  className={`absolute bottom-[-1px] left-0 h-[3px] w-full bg-orange transition-transform duration-500
                     ${selectedMonth === month ? "scale-x-100" : "scale-x-0 group-hover:scale-x-30"}`}
                 />
               </button>
@@ -205,82 +206,110 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
           </div>
         </div>
 
-        <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
-          <div className="relative max-w-md">
-            <span className="mb-2 block text-[9px] font-black uppercase tracking-[0.3em] text-forest/40">
+        <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end md:gap-14">
+          <div className="relative w-full max-w-xl">
+            <label
+              htmlFor="search-agenda"
+              className="mb-3 block text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] text-forest/50"
+            >
               Buscar na agenda
-            </span>
-            <input
-              type="search"
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Encontro, local ou detalhes..."
-              className="w-full border-b border-forest/20 bg-transparent py-3 text-sm text-forest outline-none transition-colors placeholder:text-forest/25 focus:border-orange"
-            />
+            </label>
+            <div className="relative group">
+              <input
+                id="search-agenda"
+                type="search"
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="Encontro, local ou detalhes..."
+                className="w-full border-b-2 border-forest/10 bg-forest/[0.03] px-5 py-4 text-base font-medium text-forest outline-none transition-all placeholder:text-forest/30 focus:border-orange focus:bg-white md:py-5 rounded-t-xl"
+              />
+              <div className="absolute right-5 top-1/2 -translate-y-1/2 opacity-20 group-focus-within:opacity-50 transition-opacity">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+              </div>
+            </div>
           </div>
 
-          <nav className="flex flex-wrap gap-2" aria-label="Filtrar eventos por categoria">
-            <button
-              type="button"
-              aria-pressed={activeCategory === "todos"}
-              onClick={() => setActiveCategory("todos")}
-              className={`rounded-full border px-5 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] transition-all ${
-                activeCategory === "todos"
-                  ? "border-forest bg-forest text-cream"
-                  : "border-forest/10 text-forest/40 hover:border-forest/30 hover:text-forest bg-white/50"
-              }`}
-            >
-              Todos
-            </button>
-            {availableCategories.map((category) => (
+          <div className="space-y-4">
+            <span className="block text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] text-forest/50">
+              Categorias
+            </span>
+            <nav className="flex flex-wrap gap-3" aria-label="Filtrar eventos por categoria">
               <button
-                key={category.value}
                 type="button"
-                aria-pressed={activeCategory === category.value}
-                onClick={() => setActiveCategory(category.value)}
-                className="rounded-full border px-5 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:-translate-y-0.5"
-                style={
-                  activeCategory === category.value
-                    ? {
-                        backgroundColor: category.color,
-                        borderColor: category.color,
-                        color: category.textColor,
-                        boxShadow: `0 10px 20px -5px ${category.color}44`,
-                      }
-                    : {
-                        borderColor: "rgb(29 67 44 / 0.08)",
-                        color: "rgb(29 67 44 / 0.4)",
-                        backgroundColor: "rgba(255,255,255,0.5)",
-                      }
-                }
+                aria-pressed={activeCategory === "todos"}
+                onClick={() => setActiveCategory("todos")}
+                className={`rounded-full border-2 px-6 py-3 text-[10px] md:px-8 md:py-3.5 md:text-[11px] font-black uppercase tracking-[0.2em] transition-all shadow-sm ${
+                  activeCategory === "todos"
+                    ? "border-forest bg-forest text-cream shadow-forest/20"
+                    : "border-forest/10 text-forest/60 hover:border-forest/30 hover:text-forest bg-white"
+                }`}
               >
-                {category.label}
+                Todos
               </button>
-            ))}
-          </nav>
+              {availableCategories.map((category) => (
+                <button
+                  key={category.value}
+                  type="button"
+                  aria-pressed={activeCategory === category.value}
+                  onClick={() => setActiveCategory(category.value)}
+                  className="rounded-full border-2 px-6 py-3 text-[10px] md:px-8 md:py-3.5 md:text-[11px] font-black uppercase tracking-[0.2em] transition-all hover:-translate-y-1 shadow-sm"
+                  style={
+                    activeCategory === category.value
+                      ? {
+                          backgroundColor: category.color,
+                          borderColor: category.color,
+                          color: category.textColor,
+                          boxShadow: `0 12px 24px -8px ${category.color}66`,
+                        }
+                      : {
+                          borderColor: "rgb(29 67 44 / 0.1)",
+                          color: "rgb(29 67 44 / 0.6)",
+                          backgroundColor: "white",
+                        }
+                  }
+                >
+                  {category.label}
+                </button>
+              ))}
+            </nav>
+          </div>
         </div>
       </section>
 
       <div ref={containerRef}>
         {groupedEvents.length > 0 ? (
-          <div className="space-y-20">
+          <div className="space-y-12 md:space-y-20">
             {groupedEvents.map(({ key, eventos: dayEvents }) => {
               const date = getEventoDate(dayEvents[0]);
 
               return (
-                <section key={key} className="grid gap-10 md:grid-cols-[140px_1fr]">
-                  <div className="md:sticky md:top-32 md:self-start py-4">
-                    <div className="flex flex-col items-center md:items-start">
-                      <span className="font-display text-7xl font-black leading-none text-forest">
+                <section key={key} className="grid gap-6 md:grid-cols-[140px_1fr] md:gap-10">
+                  <div className="md:sticky md:top-32 md:self-start md:py-4">
+                    <div className="flex items-end gap-3 md:flex-col md:items-start md:gap-0">
+                      <span className="font-display text-6xl md:text-7xl font-black leading-none text-forest">
                         {formatDay(date)}
                       </span>
-                      <span className="mt-3 text-[11px] font-black uppercase tracking-[0.4em] text-forest/35">
+                      <span className="mb-1 md:mb-0 md:mt-3 text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] text-forest/35">
                         {formatWeekday(date)}
                       </span>
                     </div>
                   </div>
 
-                  <div className="space-y-8">
+                  <div className="space-y-6 md:space-y-8">
                     {dayEvents.map((evento) => {
                       const category = CATEGORIAS[evento.categoria];
                       const imagemPrincipal =
@@ -290,9 +319,9 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
                       return (
                         <article
                           key={evento._id}
-                          className="event-card group relative overflow-hidden rounded-[2.5rem] bg-white p-3 shadow-2xl shadow-forest/[0.04] transition-all duration-700 hover:shadow-forest/[0.08] hover:-translate-y-1 md:flex"
+                          className="event-card group relative overflow-hidden rounded-[2rem] bg-white p-2 shadow-2xl shadow-forest/[0.04] transition-all duration-700 hover:shadow-forest/[0.08] hover:-translate-y-1 md:flex md:rounded-[2.5rem] md:p-3"
                         >
-                          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[2rem] md:aspect-auto md:w-[320px] lg:w-[420px] shrink-0">
+                          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[1.5rem] md:aspect-auto md:w-[280px] lg:w-[420px] md:rounded-[2rem] shrink-0">
                             {imagemPrincipal ? (
                               <img
                                 src={urlFor(imagemPrincipal).width(800).height(600).url()}
@@ -306,7 +335,7 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
                               </div>
                             )}
                             <div
-                              className="absolute left-6 top-6 rounded-full px-4 py-1.5 text-[9px] font-black uppercase tracking-[0.2em] shadow-xl backdrop-blur-md"
+                              className="absolute left-4 top-4 md:left-6 md:top-6 rounded-full px-3 py-1 md:px-4 md:py-1.5 text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] shadow-xl backdrop-blur-md"
                               style={{
                                 backgroundColor: `${category.color}ee`,
                                 color: category.textColor,
@@ -316,20 +345,20 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
                             </div>
                           </div>
 
-                          <div className="flex flex-1 flex-col justify-center p-6 md:p-10 lg:p-14">
-                            <div className="flex items-center gap-4">
-                              <span className="text-[11px] font-black uppercase tracking-[0.3em] text-forest/40">
+                          <div className="flex flex-1 flex-col justify-center p-5 md:p-8 lg:p-14">
+                            <div className="flex items-center gap-3 md:gap-4">
+                              <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-forest/40">
                                 {formatHour(getEventoDate(evento))}
                               </span>
-                              <div className="h-px w-8 bg-forest/10" />
+                              <div className="h-px w-6 md:w-8 bg-forest/10" />
                             </div>
 
-                            <h2 className="mt-6 font-display text-4xl font-black uppercase leading-[0.9] text-forest md:text-5xl lg:text-6xl">
+                            <h2 className="mt-4 md:mt-6 font-display text-3xl font-black uppercase leading-[0.95] text-forest md:text-5xl lg:text-6xl">
                               {evento.titulo}
                             </h2>
 
                             {evento.local && (
-                              <p className="mt-5 text-[10px] font-black uppercase tracking-[0.2em] text-forest/50">
+                              <p className="mt-3 md:mt-5 text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-forest/50">
                                 {evento.local}
                               </p>
                             )}
@@ -337,32 +366,55 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
                             <div
                               className={`overflow-hidden transition-all duration-700 ease-in-out ${
                                 isExpanded
-                                  ? "mt-10 max-h-[1200px] opacity-100"
+                                  ? "mt-8 md:mt-10 max-h-[1200px] opacity-100"
                                   : "max-h-0 opacity-0"
                               }`}
                             >
-                              <div className="h-px w-full bg-forest/5 mb-8" />
-                              {evento.descricao && (
-                                <p className="whitespace-pre-line text-sm leading-relaxed text-forest/70 max-w-xl">
-                                  {evento.descricao}
-                                </p>
-                              )}
-                              <div className="mt-10 flex flex-wrap items-center justify-between gap-8">
-                                {evento.valor && (
-                                  <span className="font-display text-xl font-black uppercase tracking-[0.1em] text-orange">
-                                    {evento.valor}
-                                  </span>
+                              <div className="rounded-3xl bg-forest/[0.03] p-6 md:p-10 border border-forest/[0.05]">
+                                {evento.descricao && (
+                                  <p className="whitespace-pre-line text-base md:text-lg leading-relaxed text-forest/80 max-w-2xl">
+                                    {evento.descricao}
+                                  </p>
                                 )}
-                                {evento.linkCompra && (
-                                  <a
-                                    href={evento.linkCompra}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="rounded-full bg-forest px-10 py-4 text-[10px] font-black uppercase tracking-[0.3em] text-cream transition-all hover:bg-orange hover:shadow-2xl hover:shadow-orange/20"
-                                  >
-                                    Garantir vaga
-                                  </a>
-                                )}
+
+                                <div className="mt-10 flex flex-wrap items-center justify-between gap-8 border-t border-forest/10 pt-8">
+                                  {evento.valor && (
+                                    <div className="flex flex-col gap-1">
+                                      <span className="text-[10px] font-black uppercase tracking-widest text-forest/40">
+                                        Investimento
+                                      </span>
+                                      <span className="font-display text-2xl md:text-3xl font-black uppercase tracking-[0.05em] text-orange">
+                                        {evento.valor}
+                                      </span>
+                                    </div>
+                                  )}
+                                  {evento.linkCompra && (
+                                    <a
+                                      href={evento.linkCompra}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="group/btn relative inline-flex items-center gap-4 rounded-full bg-forest px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-cream transition-all hover:bg-orange hover:shadow-2xl hover:shadow-orange/30"
+                                    >
+                                      <span className="relative z-10">Garantir vaga</span>
+                                      <svg
+                                        width="14"
+                                        height="14"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="3"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        className="relative z-10 transition-transform duration-300 group-hover/btn:translate-x-1"
+                                        aria-hidden="true"
+                                        focusable="false"
+                                      >
+                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                        <polyline points="12 5 19 12 12 19" />
+                                      </svg>
+                                    </a>
+                                  )}
+                                </div>
                               </div>
                             </div>
 
@@ -370,10 +422,29 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
                               type="button"
                               aria-expanded={isExpanded}
                               onClick={() => toggleCard(evento._id)}
-                              className="group mt-10 flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.3em] text-forest/40 transition-colors hover:text-forest"
+                              className={`group mt-8 flex items-center justify-center gap-4 rounded-full border-2 px-8 py-4 text-[10px] font-black uppercase tracking-[0.3em] transition-all
+                                ${
+                                  isExpanded
+                                    ? "border-forest bg-forest text-cream"
+                                    : "border-forest/10 text-forest/50 hover:border-forest/40 hover:text-forest hover:bg-white shadow-sm"
+                                }`}
                             >
-                              <span className="h-px w-6 bg-forest/15 transition-all group-hover:w-12 group-hover:bg-forest" />
-                              {isExpanded ? "Ver menos" : "Ver mais detalhes"}
+                              {isExpanded ? "Fechar detalhes" : "Ver mais detalhes"}
+                              <svg
+                                width="12"
+                                height="12"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="3"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className={`transition-transform duration-500 ${isExpanded ? "rotate-180" : ""}`}
+                                aria-hidden="true"
+                                focusable="false"
+                              >
+                                <polyline points="6 9 12 15 18 9" />
+                              </svg>
                             </button>
                           </div>
                         </article>
@@ -385,22 +456,22 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
             })}
           </div>
         ) : (
-          <div className="bg-white/30 rounded-[3rem] px-6 py-24 text-center text-forest backdrop-blur-sm border border-white/20">
-            <p className="font-display text-4xl font-black uppercase leading-none opacity-80">
+          <div className="bg-white/30 rounded-[2.5rem] px-5 py-16 text-center text-forest backdrop-blur-sm border border-white/20 md:rounded-[3rem] md:px-6 md:py-24">
+            <p className="font-display text-3xl md:text-4xl font-black uppercase leading-none opacity-80">
               Nenhum encontro <br />
               <span className="text-orange opacity-100">por enquanto.</span>
             </p>
-            <p className="mx-auto mt-8 max-w-xl text-sm font-medium leading-relaxed text-forest/50">
+            <p className="mx-auto mt-6 md:mt-8 max-w-xl text-sm font-medium leading-relaxed text-forest/50">
               Tente ajustar seus filtros ou explorar outros meses na linha do tempo acima.
             </p>
-            <div className="mt-12 flex flex-wrap justify-center gap-4">
+            <div className="mt-10 md:mt-12 flex flex-wrap justify-center gap-3 md:gap-4">
               <button
                 type="button"
                 onClick={() => {
                   setSearch("");
                   setActiveCategory("todos");
                 }}
-                className="rounded-full border border-forest/20 px-10 py-4 text-[10px] font-black uppercase tracking-[0.3em] text-forest/60 hover:border-forest hover:text-forest transition-all"
+                className="rounded-full border border-forest/20 px-8 py-3.5 text-[9px] md:px-10 md:py-4 md:text-[10px] font-black uppercase tracking-[0.3em] text-forest/60 hover:border-forest hover:text-forest transition-all"
               >
                 Limpar filtros
               </button>
@@ -408,7 +479,7 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
                 <button
                   type="button"
                   onClick={() => setSelectedMonth(firstResultInAnotherMonth.mesKey)}
-                  className="rounded-full bg-forest/5 px-10 py-4 text-[10px] font-black uppercase tracking-[0.3em] text-forest/60 hover:bg-forest/10 hover:text-forest transition-all"
+                  className="rounded-full bg-forest/5 px-8 py-3.5 text-[9px] md:px-10 md:py-4 md:text-[10px] font-black uppercase tracking-[0.3em] text-forest/60 hover:bg-forest/10 hover:text-forest transition-all"
                 >
                   Ir para {formatMonthLabel(firstResultInAnotherMonth.mesKey)}
                 </button>
