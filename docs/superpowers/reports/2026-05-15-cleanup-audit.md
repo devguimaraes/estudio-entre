@@ -366,3 +366,71 @@ Worktrees removidos:
 - `/home/devguimaraes/Projetos/estudio-entre/estudio-entre/.worktrees/m2-hero-sobre-eixos`
 - `/home/devguimaraes/Projetos/estudio-entre/estudio-entre/.worktrees/redesign-layout`
 
+## Arquivos versionados em src/assets/mockups
+
+```text
+src/assets/mockups/Mockup_Agenda.png
+src/assets/mockups/Mockup_Bloquinho.png
+src/assets/mockups/Mockup_Carimbo.png
+src/assets/mockups/Mockup_Cartao de Visitas.png
+src/assets/mockups/Mockup_Placa.png
+src/assets/mockups/Mockup_Sacola de Papel.png
+```
+
+## Referências a mockups no código
+
+```text
+src/: nenhuma referência a Mockup_, src/assets/mockups ou @/assets/mockups
+
+docs/: apenas menções no próprio relatório de auditoria (2026-05-15-cleanup-audit.md)
+       e no plano de implementação (2026-05-15-limpeza-sanitizacao-projeto.md)
+```
+
+## Remoções de assets aplicadas
+
+```text
+Arquivos removidos (git rm):
+
+src/assets/mockups/                          ~49 MB
+  Mockup_Placa.png                            20 MB
+  Mockup_Agenda.png                           15 MB
+  Mockup_Carimbo.png                           6.7 MB
+  Mockup_Bloquinho.png                         3.5 MB
+  Mockup_Cartao de Visitas.png                 3.0 MB
+  Mockup_Sacola de Papel.png                1004 KB
+
+src/assets/textures/                          5.5 MB
+  vertical-banner-social-media-flyers-...      5.5 MB
+  (duplicata exata de public/textures/; sem referência em src/)
+
+src/assets/images/brand/                      1.4 MB (10 arquivos)
+  apresentacao-estudio-entre.jpg              (duplicatas exatas de public/images/brand/)
+  apresentacao-estudio-entre-2.jpg
+  apresentacao-estudio-entre-3.jpg
+  apresentacao-estudio-entre-4.jpg
+  apresentacao-estudio-entre-5.jpg
+  sobre-estudio-entre.jpg
+  sobre-estudio-entre-2.jpg
+  sobre-estudio-entre-3.jpg
+  sobre-estudio-entre-4.jpg
+  onde-a-palavra-vira-encontro.jpg
+  (sem qualquer import/referência @/assets/images/brand em src/)
+
+Total aproximado removido: ~56 MB
+
+Decisões:
+1. mockups removidos — zero referências de runtime em src/.
+2. texture duplicada removida — hash idêntico, sem import em src/.
+3. brand images removidas de src/assets/images/brand/ — duplicatas exatas,
+   sem import em src/; public/images/brand/ mantido (referências via /images/brand/...).
+4. public/images/brand/ NÃO removido — usado em src/ via caminhos públicos /images/brand/.
+```
+
+## Validação pós-remoção
+
+```text
+bun run check: PASS
+bun run build: PASS
+git status --short --branch: limpo (após commit)
+```
+
