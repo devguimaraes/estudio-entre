@@ -1,6 +1,18 @@
 import type { FotoEspaco } from "@/types/foto";
 import { useCallback, useEffect, useRef } from "react";
 
+function getImageSrc(imagem: string, width?: number, height?: number): string {
+  if (imagem.startsWith("http")) {
+    const params = new URLSearchParams();
+    if (width) params.set("w", String(width));
+    if (height) params.set("h", String(height));
+    params.set("fit", "crop");
+    params.set("auto", "format");
+    return `${imagem}?${params.toString()}`;
+  }
+  return imagem;
+}
+
 interface LightboxProps {
   fotos: FotoEspaco[];
   activeIndex: number;
@@ -140,7 +152,7 @@ export default function Lightbox({ fotos, activeIndex, onClose, onChangeIndex }:
         {foto && (
           <>
             <img
-              src={`${foto.imagem}?w=1200&h=900&fit=crop&auto=format`}
+              src={getImageSrc(foto.imagem, 1200, 900)}
               alt={foto.legenda ?? foto.titulo ?? "Foto do espaço"}
               style={{
                 maxWidth: "100%",
