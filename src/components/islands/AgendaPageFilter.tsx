@@ -192,12 +192,12 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
                 key={month}
                 type="button"
                 onClick={() => setSelectedMonth(month)}
-                className={`group relative pb-4 text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] transition-all
-                  ${selectedMonth === month ? "text-forest" : "text-forest/25 hover:text-forest/50"}`}
+                className={`group relative pb-4 text-[11px] md:text-[13px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] transition-all
+                  ${selectedMonth === month ? "text-forest scale-110" : "text-forest/25 hover:text-forest/50"}`}
               >
                 {formatMonthLabel(month)}
                 <div
-                  className={`absolute bottom-[-1px] left-0 h-[2px] w-full bg-orange transition-transform duration-500
+                  className={`absolute bottom-[-1px] left-0 h-[3px] w-full bg-orange transition-transform duration-500
                     ${selectedMonth === month ? "scale-x-100" : "scale-x-0 group-hover:scale-x-30"}`}
                 />
               </button>
@@ -205,59 +205,73 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
           </div>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center md:gap-10">
-          <div className="relative max-w-md">
-            <span className="mb-2 block text-[8px] md:text-[9px] font-black uppercase tracking-[0.3em] text-forest/40">
+        <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end md:gap-14">
+          <div className="relative w-full max-w-xl">
+            <label htmlFor="search-agenda" className="mb-3 block text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] text-forest/50">
               Buscar na agenda
-            </span>
-            <input
-              type="search"
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder="Encontro, local ou detalhes..."
-              className="w-full border-b border-forest/20 bg-transparent py-2 text-sm text-forest outline-none transition-colors placeholder:text-forest/25 focus:border-orange md:py-3"
-            />
+            </label>
+            <div className="relative group">
+              <input
+                id="search-agenda"
+                type="search"
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="Encontro, local ou detalhes..."
+                className="w-full border-b-2 border-forest/10 bg-forest/[0.03] px-5 py-4 text-base font-medium text-forest outline-none transition-all placeholder:text-forest/30 focus:border-orange focus:bg-white md:py-5 rounded-t-xl"
+              />
+              <div className="absolute right-5 top-1/2 -translate-y-1/2 opacity-20 group-focus-within:opacity-50 transition-opacity">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </div>
+            </div>
           </div>
 
-          <nav className="flex flex-wrap gap-2" aria-label="Filtrar eventos por categoria">
-            <button
-              type="button"
-              aria-pressed={activeCategory === "todos"}
-              onClick={() => setActiveCategory("todos")}
-              className={`rounded-full border px-4 py-2 text-[9px] md:px-5 md:py-2.5 md:text-[10px] font-black uppercase tracking-[0.2em] transition-all ${
-                activeCategory === "todos"
-                  ? "border-forest bg-forest text-cream"
-                  : "border-forest/10 text-forest/40 hover:border-forest/30 hover:text-forest bg-white/50"
-              }`}
-            >
-              Todos
-            </button>
-            {availableCategories.map((category) => (
+          <div className="space-y-4">
+            <span className="block text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] text-forest/50">
+              Categorias
+            </span>
+            <nav className="flex flex-wrap gap-3" aria-label="Filtrar eventos por categoria">
               <button
-                key={category.value}
                 type="button"
-                aria-pressed={activeCategory === category.value}
-                onClick={() => setActiveCategory(category.value)}
-                className="rounded-full border px-4 py-2 text-[9px] md:px-5 md:py-2.5 md:text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:-translate-y-0.5"
-                style={
-                  activeCategory === category.value
-                    ? {
-                        backgroundColor: category.color,
-                        borderColor: category.color,
-                        color: category.textColor,
-                        boxShadow: `0 10px 20px -5px ${category.color}44`,
-                      }
-                    : {
-                        borderColor: "rgb(29 67 44 / 0.08)",
-                        color: "rgb(29 67 44 / 0.4)",
-                        backgroundColor: "rgba(255,255,255,0.5)",
-                      }
-                }
+                aria-pressed={activeCategory === "todos"}
+                onClick={() => setActiveCategory("todos")}
+                className={`rounded-full border-2 px-6 py-3 text-[10px] md:px-8 md:py-3.5 md:text-[11px] font-black uppercase tracking-[0.2em] transition-all shadow-sm ${
+                  activeCategory === "todos"
+                    ? "border-forest bg-forest text-cream shadow-forest/20"
+                    : "border-forest/10 text-forest/60 hover:border-forest/30 hover:text-forest bg-white"
+                }`}
               >
-                {category.label}
+                Todos
               </button>
-            ))}
-          </nav>
+              {availableCategories.map((category) => (
+                <button
+                  key={category.value}
+                  type="button"
+                  aria-pressed={activeCategory === category.value}
+                  onClick={() => setActiveCategory(category.value)}
+                  className="rounded-full border-2 px-6 py-3 text-[10px] md:px-8 md:py-3.5 md:text-[11px] font-black uppercase tracking-[0.2em] transition-all hover:-translate-y-1 shadow-sm"
+                  style={
+                    activeCategory === category.value
+                      ? {
+                          backgroundColor: category.color,
+                          borderColor: category.color,
+                          color: category.textColor,
+                          boxShadow: `0 12px 24px -8px ${category.color}66`,
+                        }
+                      : {
+                          borderColor: "rgb(29 67 44 / 0.1)",
+                          color: "rgb(29 67 44 / 0.6)",
+                          backgroundColor: "white",
+                        }
+                  }
+                >
+                  {category.label}
+                </button>
+              ))}
+            </nav>
+          </div>
         </div>
       </section>
 
@@ -339,28 +353,47 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
                                 isExpanded ? "mt-8 md:mt-10 max-h-[1200px] opacity-100" : "max-h-0 opacity-0"
                               }`}
                             >
-                              <div className="h-px w-full bg-forest/5 mb-6 md:mb-8" />
-                              {evento.descricao && (
-                                <p className="whitespace-pre-line text-sm leading-relaxed text-forest/70 max-w-xl">
-                                  {evento.descricao}
-                                </p>
-                              )}
-                              <div className="mt-8 flex flex-wrap items-center justify-between gap-6 md:mt-10 md:gap-8">
-                                {evento.valor && (
-                                  <span className="font-display text-lg md:text-xl font-black uppercase tracking-[0.1em] text-orange">
-                                    {evento.valor}
-                                  </span>
+                              <div className="rounded-3xl bg-forest/[0.03] p-6 md:p-10 border border-forest/[0.05]">
+                                {evento.descricao && (
+                                  <p className="whitespace-pre-line text-base md:text-lg leading-relaxed text-forest/80 max-w-2xl">
+                                    {evento.descricao}
+                                  </p>
                                 )}
-                                {evento.linkCompra && (
-                                  <a
-                                    href={evento.linkCompra}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="rounded-full bg-forest px-8 py-3.5 text-[9px] md:px-10 md:py-4 md:text-[10px] font-black uppercase tracking-[0.3em] text-cream transition-all hover:bg-orange hover:shadow-2xl hover:shadow-orange/20"
-                                  >
-                                    Garantir vaga
-                                  </a>
-                                )}
+                                
+                                <div className="mt-10 flex flex-wrap items-center justify-between gap-8 border-t border-forest/10 pt-8">
+                                  {evento.valor && (
+                                    <div className="flex flex-col gap-1">
+                                      <span className="text-[10px] font-black uppercase tracking-widest text-forest/40">Investimento</span>
+                                      <span className="font-display text-2xl md:text-3xl font-black uppercase tracking-[0.05em] text-orange">
+                                        {evento.valor}
+                                      </span>
+                                    </div>
+                                  )}
+                                  {evento.linkCompra && (
+                                    <a
+                                      href={evento.linkCompra}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="group/btn relative inline-flex items-center gap-4 rounded-full bg-forest px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-cream transition-all hover:bg-orange hover:shadow-2xl hover:shadow-orange/30"
+                                    >
+                                      <span className="relative z-10">Garantir vaga</span>
+                                      <svg 
+                                        width="14" 
+                                        height="14" 
+                                        viewBox="0 0 24 24" 
+                                        fill="none" 
+                                        stroke="currentColor" 
+                                        strokeWidth="3" 
+                                        strokeLinecap="round" 
+                                        strokeLinejoin="round"
+                                        className="relative z-10 transition-transform duration-300 group-hover/btn:translate-x-1"
+                                      >
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12 5 19 12 12 19"></polyline>
+                                      </svg>
+                                    </a>
+                                  )}
+                                </div>
                               </div>
                             </div>
 
@@ -368,10 +401,26 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
                               type="button"
                               aria-expanded={isExpanded}
                               onClick={() => toggleCard(evento._id)}
-                              className="group mt-6 md:mt-10 flex items-center gap-2 md:gap-3 text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-forest/40 transition-colors hover:text-forest"
+                              className={`group mt-8 flex items-center justify-center gap-4 rounded-full border-2 px-8 py-4 text-[10px] font-black uppercase tracking-[0.3em] transition-all
+                                ${isExpanded 
+                                  ? "border-forest bg-forest text-cream" 
+                                  : "border-forest/10 text-forest/50 hover:border-forest/40 hover:text-forest hover:bg-white shadow-sm"
+                                }`}
                             >
-                              <span className="h-px w-4 md:w-6 bg-forest/15 transition-all group-hover:w-8 md:group-hover:w-12 group-hover:bg-forest" />
-                              {isExpanded ? "Ver menos" : "Ver mais detalhes"}
+                              {isExpanded ? "Fechar detalhes" : "Ver mais detalhes"}
+                              <svg 
+                                width="12" 
+                                height="12" 
+                                viewBox="0 0 24 24" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                strokeWidth="3" 
+                                strokeLinecap="round" 
+                                strokeLinejoin="round"
+                                className={`transition-transform duration-500 ${isExpanded ? "rotate-180" : ""}`}
+                              >
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                              </svg>
                             </button>
                           </div>
                         </article>

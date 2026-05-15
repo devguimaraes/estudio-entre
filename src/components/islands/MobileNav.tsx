@@ -2,11 +2,11 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 
 const links = [
-  { href: "/#sobre", label: "Sobre" },
-  { href: "/#pilares", label: "Pilares" },
-  { href: "/agenda", label: "Agenda" },
-  { href: "/#galeria", label: "Espaço" },
-  { href: "/#agendar-visita", label: "Agendar Visita" },
+  { href: "/#galeria", label: "O Lugar" },
+  { href: "/#pilares", label: "Atividades" },
+  { href: "/agenda", label: "Programação" },
+  { href: "/#sobre", label: "O Estúdio" },
+  { href: "/#agendar-visita", label: "Visitação" },
 ];
 
 const socials = [

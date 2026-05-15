@@ -156,62 +156,76 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
 
                 {/* Expandable Details */}
                 <div
-                  className={`overflow-hidden transition-all duration-500 ease-editorial ${
-                    isExpanded ? "max-h-[2000px] opacity-100 mb-6" : "max-h-0 opacity-0"
+                  className={`overflow-hidden transition-all duration-700 ease-editorial ${
+                    isExpanded ? "max-h-[2000px] opacity-100 mb-8 mt-4" : "max-h-0 opacity-0"
                   }`}
                 >
-                  {evento.local && (
-                    <p className="text-xs uppercase tracking-[0.2em] text-cream/50 mb-3">
-                      {evento.local}
-                    </p>
-                  )}
-
-                  {evento.descricao && (
-                    <p className="text-sm leading-relaxed text-cream/70 mb-5 whitespace-pre-line">
-                      {evento.descricao}
-                    </p>
-                  )}
-
-                  <div className="flex items-end justify-between gap-4">
-                    {evento.valor && (
-                      <span className="text-sm font-display font-bold text-orange uppercase tracking-wider">
-                        {evento.valor}
-                      </span>
+                  <div className="rounded-2xl bg-cream/[0.05] p-6 border border-cream/10">
+                    {evento.local && (
+                      <p className="text-[10px] uppercase tracking-[0.3em] text-cream/40 mb-4 pb-3 border-b border-cream/5">
+                        {evento.local}
+                      </p>
                     )}
 
-                    {evento.linkCompra && (
-                      <a
-                        href={evento.linkCompra}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold px-5 py-3 rounded-full border border-cream/30 text-cream hover:bg-cream hover:text-forest transition-all duration-500 group/btn"
-                      >
-                        Garantir vaga
-                        <img
-                          src="/icons/play.svg"
-                          className="w-3.5 h-3.5 invert opacity-60 group-hover/btn:translate-x-1 transition-transform"
-                          alt=""
-                        />
-                      </a>
+                    {evento.descricao && (
+                      <p className="text-sm md:text-base leading-relaxed text-cream/80 mb-8 whitespace-pre-line">
+                        {evento.descricao}
+                      </p>
                     )}
+
+                    <div className="flex flex-col gap-6">
+                      {evento.valor && (
+                        <div className="flex flex-col gap-1">
+                          <span className="text-[9px] font-bold uppercase tracking-widest text-cream/30">Investimento</span>
+                          <span className="text-xl font-display font-black text-orange uppercase tracking-wider">
+                            {evento.valor}
+                          </span>
+                        </div>
+                      )}
+
+                      {evento.linkCompra && (
+                        <a
+                          href={evento.linkCompra}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-3 text-[10px] uppercase tracking-widest font-black px-8 py-4 rounded-full bg-cream text-forest hover:bg-orange hover:text-cream transition-all duration-500 group/btn shadow-xl shadow-black/20"
+                        >
+                          Garantir vaga
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover/btn:translate-x-1">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                          </svg>
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </div>
 
                 {/* Toggle Button */}
-                <div className="mt-auto">
+                <div className="mt-4">
                   <button
                     type="button"
                     onClick={() => toggleCard(evento._id)}
-                    className="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-cream/60 hover:text-cream transition-colors group/btn"
-                  >
-                    {isExpanded ? "Ver menos" : "Ver mais"}
-                    <img
-                      src="/icons/play.svg"
-                      className={`w-3.5 h-3.5 invert opacity-40 group-hover/btn:translate-x-1 transition-all duration-300 ${
-                        isExpanded ? "-rotate-90" : ""
+                    className={`inline-flex items-center gap-3 text-[10px] uppercase tracking-widest font-black px-6 py-3.5 rounded-full border-2 transition-all duration-500 group/btn
+                      ${isExpanded 
+                        ? "bg-cream text-forest border-cream" 
+                        : "border-cream/10 text-cream/50 hover:border-cream/30 hover:text-cream"
                       }`}
-                      alt=""
-                    />
+                  >
+                    {isExpanded ? "Fechar detalhes" : "Ver detalhes"}
+                    <svg 
+                      width="10" 
+                      height="10" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      strokeWidth="3" 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round"
+                      className={`transition-transform duration-500 ${isExpanded ? "rotate-180" : ""}`}
+                    >
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
                   </button>
                 </div>
               </div>
