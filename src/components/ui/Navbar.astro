@@ -1,0 +1,128 @@
+---
+import MobileNav from "@/components/islands/MobileNav";
+
+interface Props {
+  theme?: "light" | "dark";
+}
+
+const { theme = "light" } = Astro.props;
+---
+
+<nav class={`navbar navbar--${theme}`} aria-label="Menu principal">
+  <div class="navbar__inner">
+    <a href="/" class="navbar__logo" aria-label="Estúdio Entre — Início">
+      <img src="/icons/olho.svg" alt="" width="48" height="34" aria-hidden="true" />
+    </a>
+
+    <ul class="navbar__links" role="list">
+      <li><a href="/#sobre" class="navbar__link" data-cursor="ENTRAR">Sobre</a></li>
+      <li><a href="/#pilares" class="navbar__link" data-cursor="ENTRAR">Pilares</a></li>
+      <li><a href="/agenda" class="navbar__link" data-cursor="ENTRAR">Agenda</a></li>
+      <li><a href="/#galeria" class="navbar__link" data-cursor="ENTRAR">Espaço</a></li>
+      <li><a href="/#agendar-visita" class="navbar__link" data-cursor="ENTRAR">Agendar Visita</a></li>
+    </ul>
+
+    <MobileNav client:visible />
+  </div>
+</nav>
+
+<script>
+  import { initNavbar } from "@/animations/navbar";
+  initNavbar();
+</script>
+
+<style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background: transparent;
+    transition: color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .navbar--light {
+    color: var(--color-cream);
+  }
+
+  .navbar--dark {
+    color: var(--color-near-black);
+  }
+
+  .navbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.25rem 4rem;
+  }
+
+  .navbar__logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    line-height: 0;
+  }
+
+  .navbar__logo img {
+    width: 48px;
+    height: auto;
+  }
+
+  .navbar--light .navbar__logo img {
+    filter: brightness(0) invert(1);
+  }
+
+  .navbar--dark .navbar__logo img {
+    filter: none;
+  }
+
+  .navbar__links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .navbar__link {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+
+  .navbar__link:hover,
+  .navbar__link.is-active {
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    .navbar__links {
+      display: none;
+    }
+
+    .navbar__inner {
+      padding: 1rem 1.5rem;
+    }
+
+    .navbar__logo img {
+      width: 40px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .navbar,
+    .navbar__link {
+      transition: none;
+    }
+  }
+</style>

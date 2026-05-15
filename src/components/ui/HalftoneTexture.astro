@@ -1,0 +1,25 @@
+---
+interface Props {
+  density?: number;
+  dotSize?: number;
+  color?: string;
+  opacity?: number;
+  class?: string;
+}
+
+const {
+  density = 8,
+  dotSize = 1.5,
+  color = "0,0,0",
+  opacity = 0.15,
+  class: className = "",
+} = Astro.props;
+---
+
+<div
+  class={`absolute inset-0 pointer-events-none ${className}`}
+  style={`
+    background-image: radial-gradient(rgba(${color}, ${opacity}) ${dotSize}px, transparent ${dotSize}px);
+    background-size: ${density}px ${density}px;
+  `}
+/>

@@ -1,0 +1,97 @@
+---
+import TornPaperFrame from "@/components/ui/TornPaperFrame.astro";
+
+const imagens = [
+  { src: "/images/espaco/v2-meier-02.webp", alt: "Acesso e Acolhimento" },
+  { src: "/images/espaco/v2-meier-03.webp", alt: "Nossa Estrutura" },
+  { src: "/images/espaco/v2-meier-04.webp", alt: "Arte no Méier" },
+  { src: "/images/espaco/estudio-entre-salao.webp", alt: "O Hub" },
+];
+
+// Duplicar para o marquee infinito
+const marqueeImages = [...imagens, ...imagens];
+
+// Função para rotação aleatória leve e orgânica
+const getRotation = (i: number) => {
+  const angles = ["-1.2deg", "0.8deg", "-0.5deg", "1.5deg"];
+  return angles[i % angles.length];
+};
+---
+
+<section
+  class="galeria relative py-24 md:py-40 overflow-hidden"
+  id="galeria"
+  style="background-color: #b9e4eb;"
+>
+  <div class="max-w-[1300px] mx-auto px-6 md:px-16 mb-20 relative z-10">
+    <div class="overflow-hidden">
+      <p class="galeria__eyebrow font-display font-bold text-[10px] uppercase tracking-[0.4em] text-bordo/50 opacity-0">
+        O Lugar
+      </p>
+    </div>
+    <h2 class="galeria__title font-display font-black text-[clamp(2.5rem,8vw,6rem)] text-bordo leading-none uppercase mt-6 opacity-0">
+      Nosso<br />Espaço
+    </h2>
+  </div>
+
+  <!-- Marquee Container -->
+  <div class="galeria__marquee-wrapper relative flex overflow-visible py-16">
+    <div class="galeria__marquee flex gap-12 md:gap-20 animate-marquee hover:pause whitespace-nowrap px-10">
+      {marqueeImages.map((img, i) => (
+        <div class="galeria__item w-[280px] md:w-[420px] flex-shrink-0">
+          <div class="relative group h-[380px] md:h-[580px]">
+            <TornPaperFrame 
+              variant={(((i % 4) + 1) as 1 | 2 | 3 | 4)} 
+              rotation={getRotation(i)}
+              class="w-full h-full"
+            >
+               <img
+                src={img.src}
+                alt={img.alt}
+                class="w-full h-full object-cover transition-all duration-700 scale-[1.05] group-hover:scale-[1.12]"
+                loading="lazy"
+              />
+            </TornPaperFrame>
+            <div class="absolute inset-x-0 -bottom-10 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 z-20 translate-y-2 group-hover:translate-y-0">
+               <span class="font-display italic text-[10px] uppercase tracking-widest text-bordo bg-cream/95 px-5 py-2 rounded-full shadow-md border border-bordo/5">
+                { (i % imagens.length) + 1 }. { img.alt }
+               </span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <script>
+    import { animateGaleria } from "@/animations/galeria";
+    animateGaleria();
+  </script>
+</section>
+
+<style>
+  .animate-marquee {
+    animation: marquee 90s linear infinite;
+  }
+
+  .hover\:pause:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee {
+      animation: none;
+      overflow-x: auto;
+    }
+  }
+
+  /* Garante que o drop-shadow não seja cortado */
+  .galeria__marquee-wrapper {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+</style>

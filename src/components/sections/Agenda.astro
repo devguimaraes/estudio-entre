@@ -1,0 +1,100 @@
+---
+import AgendaFilter from "@/components/islands/AgendaFilter";
+import Decorative from "@/components/ui/Decorative.astro";
+import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+import type { EventoCard } from "@/types/evento";
+
+interface Props {
+  eventos: EventoCard[];
+}
+
+const { eventos } = Astro.props;
+---
+
+<section
+  class="agenda relative py-20 md:py-28 px-6 md:px-16 overflow-hidden"
+  style="background-color: #1d432c; color: #f0ede8;"
+  id="agenda"
+  aria-label="Agenda de encontros"
+>
+  <!-- Background Elements -->
+  <HalftoneTexture
+    density={16}
+    dotSize={1.5}
+    color="240,237,232"
+    opacity={0.06}
+    class="z-0"
+  />
+
+  <div class="absolute top-[15%] right-[10%] opacity-20 z-0">
+    <Decorative type="star" color="#DEC72C" size={40} />
+  </div>
+  <div class="absolute bottom-[20%] left-[5%] opacity-15 z-0">
+    <Decorative type="dots" color="#F0EDE8" size={50} />
+  </div>
+
+  <div class="max-w-[1300px] mx-auto relative z-10">
+    <!-- Header Editorial -->
+    <div class="agenda__header mb-6 md:mb-12">
+      <div class="overflow-hidden mb-6">
+        <p class="agenda__eyebrow font-display font-bold text-[10px] uppercase tracking-[0.4em] text-cream/40 opacity-0">
+          Encontros & Vivências
+        </p>
+      </div>
+
+      <h2 class="agenda__title flex flex-col md:flex-row md:items-end md:flex-wrap gap-x-8 gap-y-2">
+        <span class="agenda__title-line block font-display font-black text-[clamp(2rem,5.5vw,5rem)] leading-[0.9] uppercase opacity-0">
+          Próximos
+        </span>
+        <span class="agenda__title-line block font-display font-black italic text-[clamp(2rem,5.5vw,5rem)] leading-[0.9] uppercase text-orange opacity-0">
+          Encontros
+        </span>
+      </h2>
+    </div>
+
+    {
+      eventos.length > 0 ? (
+        <>
+          <AgendaFilter client:visible eventos={eventos} />
+          <div class="mt-16 flex justify-center">
+            <a
+              href="/agenda"
+              class="group inline-flex items-center gap-3 rounded-full border border-cream/30 px-8 py-4 text-[10px] font-bold uppercase tracking-[0.25em] text-cream transition-all duration-500 hover:bg-cream hover:text-forest"
+            >
+              Ver agenda completa
+              <img
+                src="/icons/play.svg"
+                class="h-3.5 w-3.5 invert opacity-60 transition-all duration-500 group-hover:translate-x-1 group-hover:invert-0"
+                alt=""
+              />
+            </a>
+          </div>
+        </>
+      ) : (
+        <div class="py-32 text-center">
+          <p class="font-display italic text-2xl opacity-40">
+            Silêncio criativo por enquanto.<br />
+            Em breve, novos mundos se abrem.
+          </p>
+          <a
+            href="/agenda"
+            class="mt-8 inline-flex rounded-full border border-cream/30 px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] text-cream/70 transition-colors hover:text-cream"
+          >
+            Abrir agenda
+          </a>
+        </div>
+      )
+    }
+  </div>
+
+  <script>
+    import { animateAgenda } from "@/animations/agenda";
+    animateAgenda();
+  </script>
+</section>
+
+<style>
+  .agenda__title-line {
+    will-change: transform, opacity;
+  }
+</style>

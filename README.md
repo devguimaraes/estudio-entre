@@ -2,10 +2,10 @@
 
 > Hub cultural e criativo independente da zona norte do Rio de Janeiro
 
-**Status:** 🚀 **M1 — Fundação & Setup: 100% COMPLETO**  
-**Deploy:** ✅ Produção funcional na Vercel  
-**Localização:** Rua Maria Calmon, 100 — Méier, Rio de Janeiro – RJ  
-**Data de atualização:** 20 de Abril de 2026  
+**Status:** 🚀 **M2 — Hero, Sobre & Eixos: 100% COMPLETO**
+**Deploy:** ✅ Produção funcional na Vercel
+**Localização:** Rua Maria Calmon, 100 — Méier, Rio de Janeiro – RJ
+**Data de atualização:** 22 de Abril de 2026  
 **Mantido por:** Equipe Estúdio Entre
 
 ---
@@ -24,14 +24,17 @@ Promover encontros significativos entre cultura, conhecimento e bem-estar, ofere
 ### Visão
 Ser o principal ponto de encontro cultural independente da zona norte do Rio de Janeiro — um lugar que as pessoas reconhecem como seu.
 
-### 📌 Estado Atual (M1 — Fundação & Setup)
+### 📌 Estado Atual (M2 — Hero, Sobre & Eixos)
 - ✅ **M1 — Fundação & Setup:** 100% completo (11/11 issues)
+- ✅ **M2 — Hero, Sobre & Eixos:** 100% completo (6/6 issues)
 - ✅ **Deploy:** Produção funcional na Vercel (Edge Runtime)
 - ✅ **Sanity CMS:** Configurado (projeto ID: 7a0ee11t)
 - ✅ **Sanity Studio:** Embedded em `/studio`
-- ✅ **Webhook Sanity → Vercel:** Implementado (rebuilds automáticos)
-- ✅ **Animações:** GSAP 3.15.0 + Lenis 1.0.42 configurados
-- 🔄 **M2 — Hero, Sobre & Eixos:** Próximo milestone
+- ✅ **Seções implementadas:** Hero, Sobre, Eixos — com animações GSAP + ScrollTrigger
+- ✅ **Navbar fixa:** Adaptação de cor por seção + menu mobile animado
+- ✅ **Cursor customizado:** Ícone da marca com estados contextuais por hover
+- ✅ **Transição de cor:** Background animado entre seções via ScrollTrigger
+- 🔄 **M3 — Agenda, Galeria, CMS & Contato:** Próximo milestone
 
 ---
 
@@ -88,7 +91,7 @@ bun run check:fix    # Auto-corrigir problemas Biome
 | **Framework** | Astro | 6.1.8 | ✅ Completo |
 | **UI Islands** | React | 19.0.0 | ✅ Completo |
 | **Estilos** | Tailwind CSS | 4.0.0 | ✅ Completo |
-| **Componentes** | Shadcn/ui + Radix UI | latest | 🔄 M2 |
+| **Componentes** | Shadcn/ui + Radix UI | latest | ✅ Completo |
 | **Animações** | GSAP + ScrollTrigger | 3.15.0 | ✅ Setup completo |
 | **Smooth Scroll** | Lenis | 1.0.42 | ✅ Configurado |
 | **CMS** | Sanity.io | 5.21.0 | ✅ Configurado |
@@ -103,6 +106,8 @@ bun run check:fix    # Auto-corrigir problemas Biome
 - ✅ DNS prefetch + preconnect para domínios externos
 - ✅ Preload de fontes críticas (Buvera Bold/ExtraBold)
 - ✅ Headers de segurança configurados (X-Frame-Options, CSP, etc)
+- ✅ GSAP quickTo() para cursor customizado sem lag
+- ✅ ScrollTrigger para transição de cor entre seções
 
 ---
 
@@ -111,15 +116,22 @@ bun run check:fix    # Auto-corrigir problemas Biome
 ```
 estudio-entre/
 ├── src/
-│   ├── animations/        # ✅ Setup GSAP + Lenis
+│   ├── animations/        # ✅ GSAP + Lenis + módulos de animação
 │   │   ├── init.ts        # Inicialização Lenis + ScrollTrigger
-│   │   └── utils.ts       # 8 utilitários de animação
-│   ├── components/        # 🔄 Componentes React (M2)
-│   ├── layouts/           # ✅ BaseLayout com DNS prefetch/preload
+│   │   ├── hero.ts        # Animações de entrada do Hero
+│   │   ├── sobre.ts       # Parallax + text reveal
+│   │   ├── eixos.ts       # Lateral reveal + cards stagger
+│   │   ├── navbar.ts      # Drawer mobile + active link tracking
+│   │   ├── cursor.ts      # Cursor customizado contextual
+│   │   └── colorTransition.ts # Transição de cor por seção
+│   ├── components/        # ✅ Componentes Astro + React islands
+│   │   ├── sections/      # Hero, Sobre, Eixos (Astro puro)
+│   │   └── ui/            # Navbar, CursorCustom (Astro puro)
+│   ├── layouts/           # ✅ BaseLayout com Navbar + cursor + animações
 │   ├── pages/             # ✅ Páginas Astro + API routes
 │   │   ├── api/webhook.ts # ✅ Edge Function para webhook Sanity
 │   │   └── studio/        # ✅ Sanity Studio embedded
-│   ├── styles/            # ✅ Estilos globais + Tailwind
+│   ├── styles/            # ✅ Estilos globais + cursor: none + Tailwind
 │   ├── assets/            # ✅ Ícones, logos, imagens, texturas
 │   ├── sanity/            # ✅ Schemas Sanity + client
 │   └── utils/             # 🔄 Helpers (M2)
@@ -253,15 +265,17 @@ git commit -m "chore(deps): atualizar Astro para 5.1.0"
 - ✅ Vercel deploy configurado (vercel.json + webhook)
 - ✅ GSAP + Lenis setup completo
 
-### Milestone 2: Hero, Sobre & Eixos 🔄 (Próximo)
-**Deadline:** 31 de Maio de 2026
+### Milestone 2: Hero, Sobre & Eixos ✅ (100%)
+**Deadline:** 31 de Maio de 2026 | **Concluído:** 22 de Abril
 
-- 🔄 Seção Hero com SplitText (DEV-46)
-- 🔄 Seção Sobre editorial (DEV-49)
-- 🔄 Seção Eixos interativos (DEV-50)
-- 🔄 Transição de background (DEV-48)
+- ✅ Seção Hero com animação de entrada e tagline (DEV-46)
+- ✅ Seção Sobre editorial com parallax e halftone (DEV-49)
+- ✅ Seção Eixos com cards interativos (DEV-50)
+- ✅ Transição de background por seção via ScrollTrigger (DEV-48)
+- ✅ Navbar fixa com adaptação de cor e menu mobile (DEV-51)
+- ✅ Cursor customizado com estados contextuais (DEV-47)
 
-### Milestone 3: Agenda, Galeria, CMS & Contato
+### Milestone 3: Agenda, Galeria, CMS & Contato 🔄 (Próximo)
 **Deadline:** 30 de Junho de 2026
 
 - ❌ Integração completa Sanity CMS
@@ -378,13 +392,13 @@ Quando conteúdo muda no Sanity CMS, um webhook é disparado:
 ## 📊 Progresso do Projeto
 
 - **M1 — Fundação & Setup:** ✅ 100% (11/11 issues)
-- **M2 — Hero, Sobre & Eixos:** 🔄 0% (0/4 issues)
-- **M3 — Agenda, Galeria, CMS:** ❌ 0% (0/6 issues)
-- **M4 — QA, Performance & Launch:** ❌ 0% (0/5 issues)
+- **M2 — Hero, Sobre & Eixos:** ✅ 100% (6/6 issues)
+- **M3 — Agenda, Galeria, CMS:** ❌ 0% (0/5 issues)
+- **M4 — QA, Performance & Launch:** ❌ 0% (0/4 issues)
 
-**Progresso Geral:** 11/26 issues (42%)
+**Progresso Geral:** 17/26 issues (65%)
 
 ---
 
-**Última atualização:** 20 de Abril de 2026  
-**Próximo milestone:** M2 — Hero, Sobre & Eixos (Deadline: 31 de Maio)
+**Última atualização:** 22 de Abril de 2026
+**Próximo milestone:** M3 — Agenda, Galeria, CMS & Contato (Deadline: 30 de Junho)

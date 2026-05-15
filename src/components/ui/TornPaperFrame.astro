@@ -1,0 +1,31 @@
+---
+interface Props {
+  variant?: 1 | 2 | 3 | 4;
+  rotation?: string;
+  class?: string;
+}
+
+const { variant = 1, rotation = "0deg", class: className = "" } = Astro.props;
+
+// Polígonos que simulam papel rasgado (quase retangulares mas com irregularidades nas bordas)
+const variants = {
+  1: "polygon(1% 2%, 99% 1%, 98% 97%, 2% 99%)",
+  2: "polygon(2% 1%, 98% 2%, 99% 98%, 1% 97%)",
+  3: "polygon(1% 1%, 97% 2%, 100% 99%, 2% 98%)",
+  4: "polygon(0% 2%, 98% 0%, 99% 98%, 1% 100%)",
+};
+
+const clipPath = variants[variant as keyof typeof variants] || variants[1];
+---
+
+<div 
+  class={`relative p-3 md:p-4 bg-white shadow-2xl ${className}`}
+  style={`clip-path: ${clipPath}; transform: rotate(${rotation}); filter: drop-shadow(0 15px 30px rgba(0,0,0,0.12));`}
+>
+  <!-- Subtle Paper Texture Overlay -->
+  <div class="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-multiply" style="background-image: url('https://www.transparenttextures.com/patterns/felt.png');"></div>
+  
+  <div class="relative w-full h-full overflow-hidden" style="clip-path: polygon(0.5% 0.5%, 99.5% 0.5%, 99.5% 99.5%, 0.5% 99.5%);">
+    <slot />
+  </div>
+</div>

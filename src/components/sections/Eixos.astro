@@ -1,0 +1,80 @@
+---
+// Eixos.astro — Atmospheric Blades Redesign
+import { Image } from "astro:assets";
+import imgCultura from "@/assets/images/Feed_Editorias_Estúdio Entre - Oficinas.webp";
+import imgProducao from "@/assets/images/Feed_Editorias_Estúdio Entre - Palestras.webp";
+---
+
+<section class="eixos relative h-screen min-h-[700px] flex flex-col md:flex-row overflow-hidden bg-near-black" id="eixos">
+  <!-- Blade 1: Cultura -->
+  <div class="eixos__blade group relative flex-1 overflow-hidden transition-all duration-1000 ease-[var(--ease-editorial)] hover:flex-[2]" data-color="#9e4b2d">
+    <div class="absolute inset-0 z-0">
+      <Image src={imgCultura} alt="Cultura e Cuidado" class="eixos__image w-full h-full object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-60 transition-all duration-1000" />
+      <div class="absolute inset-0 bg-bordo/40 mix-blend-multiply"></div>
+    </div>
+
+    <div class="relative z-10 h-full p-12 flex flex-col justify-between">
+      <div class="flex items-center gap-4">
+        <img src="/icons/olho.svg" class="w-8 h-8 invert opacity-50" alt="" />
+        <span class="eixos__eyebrow text-[10px] uppercase tracking-[0.4em] text-cream/60">Eixo 01</span>
+      </div>
+
+      <div>
+        <h2 class="eixos__title text-4xl md:text-6xl font-display font-black italic uppercase text-cream leading-tight mb-6">
+          Cultura,<br/> Cuidado &<br/> Formação
+        </h2>
+        <p class="eixos__body max-w-xs text-sm text-cream/70 leading-relaxed opacity-0 group-hover:opacity-100 translate-y-10 group-hover:translate-y-0 transition-all duration-700 delay-300">
+          Rodas de biblioterapia, saraus, oficinas e encontros que fortalecem o vínculo entre pessoas e gerações.
+        </p>
+      </div>
+
+      <div class="eixos__cta opacity-0 group-hover:opacity-100 transition-opacity duration-700" data-cursor="EXPLORAR">
+        <span class="text-xs uppercase tracking-widest border-b border-cream/30 pb-2">Saiba mais</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Blade 2: Produção -->
+  <div class="eixos__blade group relative flex-1 overflow-hidden transition-all duration-1000 ease-[var(--ease-editorial)] hover:flex-[2]" data-color="#777bde">
+    <div class="absolute inset-0 z-0">
+      <Image src={imgProducao} alt="Produção e Áudio" class="eixos__image w-full h-full object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-60 transition-all duration-1000" />
+      <div class="absolute inset-0 bg-near-black/40 mix-blend-multiply"></div>
+    </div>
+
+    <div class="relative z-10 h-full p-12 flex flex-col justify-between md:border-l border-cream/10">
+      <div class="flex items-center gap-4">
+        <img src="/icons/microfone.svg" class="w-8 h-8 invert opacity-50" alt="" />
+        <span class="eixos__eyebrow text-[10px] uppercase tracking-[0.4em] text-cream/60">Eixo 02</span>
+      </div>
+
+      <div>
+        <h2 class="eixos__title text-4xl md:text-6xl font-display font-black italic uppercase text-cream leading-tight mb-6">
+          Produção,<br/> Áudio &<br/> Conteúdo
+        </h2>
+        <p class="eixos__body max-w-xs text-sm text-cream/70 leading-relaxed opacity-0 group-hover:opacity-100 translate-y-10 group-hover:translate-y-0 transition-all duration-700 delay-300">
+          Estúdio profissional para gravação de podcasts, videocasts e sets com estrutura completa.
+        </p>
+      </div>
+
+      <div class="eixos__cta opacity-0 group-hover:opacity-100 transition-opacity duration-700" data-cursor="GRAVAR">
+        <span class="text-xs uppercase tracking-widest border-b border-cream/30 pb-2">Saiba mais</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    import { animateEixos } from "@/animations/eixos";
+    animateEixos();
+  </script>
+
+  <style>
+    @media (hover: none), (max-width: 768px) {
+      .eixos__body,
+      .eixos__cta {
+        opacity: 1 !important;
+        translate: 0 0 !important;
+        transform: translateY(0) !important;
+      }
+    }
+  </style>
+</section>

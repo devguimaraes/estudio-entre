@@ -1,0 +1,124 @@
+---
+import Decorative from "@/components/ui/Decorative.astro";
+---
+
+<section
+  class="contato relative py-24 md:py-40 px-6 md:px-16 overflow-hidden"
+  id="contato"
+  style="background-color: #f0ede8;"
+>
+  <!-- Background Decor -->
+  <div class="absolute top-[10%] left-[5%] opacity-10 z-0 pointer-events-none">
+    <Decorative type="star" color="#3D1020" size={60} />
+  </div>
+  <div class="absolute bottom-[10%] right-[10%] opacity-10 z-0 pointer-events-none">
+    <Decorative type="dots" color="#3D1020" size={50} />
+  </div>
+
+  <div class="max-w-[1300px] mx-auto relative z-10">
+    <!-- Header -->
+    <div class="contato__header mb-12 md:mb-20">
+      <div class="overflow-hidden mb-6">
+        <p class="contato__eyebrow font-display font-bold text-[10px] uppercase tracking-[0.4em] text-bordo/40 opacity-0">
+          Conexão & Criatividade
+        </p>
+      </div>
+
+      <h2 class="contato__title font-display font-black text-[clamp(2rem,5.5vw,5rem)] text-bordo leading-[0.9] uppercase opacity-0">
+        Venha nos <br />
+        <span class="italic text-cream">visitar</span>
+      </h2>
+    </div>
+
+    <!-- Grid: Info + Map -->
+    <div class="flex flex-col lg:flex-row gap-12 lg:gap-16">
+
+      <!-- Left: Contact Info -->
+      <div class="w-full lg:w-2/5 space-y-10">
+        <!-- Address -->
+        <div class="contato__info opacity-0">
+          <p class="font-display font-bold text-[10px] uppercase tracking-widest text-bordo/50 mb-3">
+            Endereço
+          </p>
+          <p class="text-lg font-display text-bordo leading-relaxed">
+            Rua Maria Calmon, 100 — Méier<br />
+            Rio de Janeiro, RJ<br />
+            CEP 20710-030
+          </p>
+        </div>
+
+        <!-- Hours -->
+        <div class="contato__info opacity-0">
+          <p class="font-display font-bold text-[10px] uppercase tracking-widest text-bordo/50 mb-3">
+            Horário
+          </p>
+          <p class="text-lg font-display text-bordo leading-relaxed">
+            Seg a Sáb: 10h às 18h
+          </p>
+        </div>
+
+        <!-- Contact -->
+        <div class="contato__info opacity-0">
+          <p class="font-display font-bold text-[10px] uppercase tracking-widest text-bordo/50 mb-3">
+            Contato
+          </p>
+          <p class="text-lg font-display text-bordo leading-relaxed">
+            <a href="mailto:contato@estudioentre.com.br" class="hover:text-orange transition-colors">
+              contato@estudioentre.com.br
+            </a><br />
+            <a href="https://wa.me/5521973101451" class="hover:text-orange transition-colors">
+              (21) 97310-1451
+            </a>
+          </p>
+        </div>
+
+        <!-- Social -->
+        <div class="contato__info opacity-0">
+          <p class="font-display font-bold text-[10px] uppercase tracking-widest text-bordo/50 mb-3">
+            Redes
+          </p>
+          <div class="flex gap-4">
+            <a href="https://instagram.com/entrenoestudio" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full border border-bordo/20 flex items-center justify-center hover:bg-bordo hover:text-cream transition-all duration-500 text-bordo" aria-label="Instagram">
+              <img src="/icons/instagram.svg" class="w-4 h-4" alt="" />
+            </a>
+            <a href="https://tiktok.com/@entrenoestudio" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full border border-bordo/20 flex items-center justify-center hover:bg-bordo hover:text-cream transition-all duration-500 text-bordo" aria-label="TikTok">
+              <img src="/icons/tiktok.svg" class="w-4 h-4" alt="" />
+            </a>
+            <a href="https://wa.me/5521973101451" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full border border-bordo/20 flex items-center justify-center hover:bg-bordo hover:text-cream transition-all duration-500 text-bordo" aria-label="WhatsApp">
+              <img src="/icons/whatsapp.svg" class="w-4 h-4" alt="" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Google Maps -->
+      <div class="w-full lg:w-3/5">
+        <div class="contato__map opacity-0 relative w-full h-[400px] md:h-[500px] overflow-hidden rounded-2xl z-[1]">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.5!2d-43.2768551!3d-22.9043232!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x997dfb60237e13%3A0x62d186bbbf12a3b1!2sEst%C3%BAdio%20Entre%20-%20Centro%20Cultural%20M%C3%A9ier!5e0!3m2!1spt-BR!2sbr!4v1"
+            width="100%"
+            height="100%"
+            style="border:0; position: absolute; inset: 0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Estúdio Entre — Google Maps"
+          ></iframe>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    import { animateContato } from "@/animations/contato";
+    animateContato();
+  </script>
+
+</section>
+
+<style>
+  .contato__info {
+    will-change: transform, opacity;
+  }
+</style>

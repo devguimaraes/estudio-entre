@@ -1,0 +1,132 @@
+---
+import Decorative from "@/components/ui/Decorative.astro";
+---
+
+<section
+  class="hero relative h-screen overflow-hidden flex items-center justify-center bg-orange"
+  role="banner"
+  aria-label="Estúdio Entre — Hub Cultural Independente"
+>
+  <!-- Layer 1: Dot Grid (Technical Blueprint) -->
+  <div 
+    class="hero__dot-grid absolute inset-0 z-0 opacity-20 pointer-events-none"
+    style="background-image: radial-gradient(rgba(255,255,255,0.8) 1.5px, transparent 1.5px); background-size: 60px 60px;"
+  ></div>
+
+  <!-- Layer 2: Corner Branding Framework (Swiss Style) -->
+  <div class="absolute inset-0 z-10 pointer-events-none p-6 md:p-12 lg:p-16 flex flex-col justify-between">
+    <div class="flex justify-between items-start">
+      <div class="hero__corner-info opacity-0">
+        <span class="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.4em] text-cream">
+          [ HUB CULTURAL INDEPENDENTE ]
+        </span>
+      </div>
+      <div class="hero__corner-info opacity-0 text-right">
+        <span class="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.4em] text-cream">
+          MÉIER_RJ // 2026_EDITION
+        </span>
+      </div>
+    </div>
+    <div class="flex justify-between items-end">
+      <div class="hero__corner-info opacity-0">
+        <span class="font-display italic text-[12px] md:text-[14px] text-cream opacity-60">
+          A arte do encontro.
+        </span>
+      </div>
+      <div class="hero__corner-info opacity-0 text-right">
+        <span class="font-mono text-[9px] md:text-[10px] uppercase tracking-[0.4em] text-cream">
+          SCROLL_TO_ENTER
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Layer 3: Central Totem (The Branding Heart) -->
+  <div class="hero__container relative z-20 flex flex-col items-center text-center px-6">
+    
+    <!-- Logo Block as physical object -->
+    <div class="hero__logo-block relative mb-12">
+      <!-- Logo Badge -->
+      <div class="hero__badge absolute -top-5 left-8 z-30 opacity-0">
+        <span class="font-mono text-[9px] font-bold bg-bordo text-cream px-3 py-1 rounded-sm tracking-widest uppercase shadow-lg">
+          ESTÚDIO_ENTRE
+        </span>
+      </div>
+      
+      <!-- Main Logo Wrapper (The Sign) -->
+      <div class="hero__logo-wrapper bg-cream py-6 px-12 md:py-8 md:px-24 lg:py-10 lg:px-32 shadow-[0_50px_120px_rgba(0,0,0,0.3)] rounded-sm opacity-0 scale-95 -rotate-1">
+        <img
+          src="/logos/logo-hero-vinho.png"
+          alt="Estúdio Entre"
+          class="hero__logo w-[75vw] sm:w-[55vw] md:w-[45vw] lg:w-[45vw] h-auto block relative z-10"
+        />
+      </div>
+
+      <!-- Sparkle (The curatorial touch) -->
+      <div class="hero__spark absolute -top-12 -right-12 opacity-0 rotate-12">
+        <Decorative variant="star" size={70} color="#3D1020" />
+      </div>
+    </div>
+
+    <!-- Tagline (Refined signature) -->
+    <div class="hero__tagline-wrap max-w-2xl overflow-hidden mb-16">
+      <div class="hero__divider w-12 h-[1px] bg-cream mx-auto mb-8 opacity-0"></div>
+      <p class="hero__tagline font-display italic font-regular text-[clamp(1.25rem,2.2vw,2.25rem)] text-cream leading-tight opacity-0">
+        onde a palavra vira encontro.
+      </p>
+    </div>
+
+    <!-- CTAs (Dual Button Contrast) -->
+    <div class="hero__ctas flex flex-col sm:flex-row items-center gap-6 opacity-0">
+      <a
+        href="#agenda"
+        class="hero__cta-primary group flex items-center gap-4 font-display font-bold uppercase tracking-widest text-[11px] px-10 py-5 rounded-full bg-cream text-orange transition-all duration-500 hover:bg-bordo hover:text-cream shadow-xl hover:-translate-y-1"
+      >
+        Ver Agenda
+        <img src="/icons/spark.svg" class="w-4 h-4 transition-transform duration-500 group-hover:rotate-45" alt="" />
+      </a>
+      
+      <a
+        href="#espaco"
+        class="hero__cta-secondary font-display font-bold uppercase tracking-widest text-[11px] px-10 py-5 rounded-full border-2 border-cream/30 text-cream transition-all duration-500 hover:border-cream hover:bg-cream/10 hover:-translate-y-1"
+      >
+        Conheça o Espaço
+      </a>
+    </div>
+
+  </div>
+
+  <!-- Background Watermark -->
+  <div
+    class="hero__watermark absolute -bottom-[10%] -right-[5%] z-[1] pointer-events-none opacity-[0.03]"
+    aria-hidden="true"
+  >
+    <span class="font-display font-black text-[80vw] leading-none text-cream select-none italic">e</span>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero__scroll absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-[10] opacity-0">
+    <span class="text-[8px] uppercase tracking-[0.3em] text-cream/40">rolar</span>
+    <div class="w-[1px] h-8 bg-cream/20 overflow-hidden">
+      <div class="hero__scroll-line w-full h-full bg-cream origin-top" />
+    </div>
+  </div>
+
+  <script>
+    import { animateHero } from "@/animations/hero";
+    animateHero();
+  </script>
+</section>
+
+<style>
+  .hero__scroll-line {
+    animation: scrollLine 2.5s cubic-bezier(0.85, 0, 0.15, 1) infinite;
+  }
+
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    45% { transform: scaleY(1); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+</style>
