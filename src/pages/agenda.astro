@@ -3,6 +3,7 @@ import { sanityClient } from "sanity:client";
 import AgendaPageFilter from "@/components/islands/AgendaPageFilter";
 import Decorative from "@/components/ui/Decorative.astro";
 import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+import NoiseTexture from "@/components/ui/NoiseTexture.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { eventosFuturosQuery } from "@/sanity/queries/evento";
 import type { EventoCard, EventoNormalizado } from "@/types/evento";
@@ -21,27 +22,29 @@ try {
 <BaseLayout
   title="Agenda — Estúdio Entre"
   description="Confira os próximos encontros, oficinas, shows, saraus e vivências do Estúdio Entre no Méier, Rio de Janeiro."
+  navTheme="dark"
 >
   <main class="relative min-h-screen overflow-hidden bg-cream px-6 pb-24 pt-32 text-forest md:px-16 md:pt-40">
-    <HalftoneTexture density={18} dotSize={1.2} color="29,67,44" opacity={0.05} class="z-0" />
+    <HalftoneTexture density={12} dotSize={1} color="29,67,44" opacity={0.03} class="z-0" />
+    <NoiseTexture opacity={0.08} />
 
-    <div class="absolute right-[8%] top-36 opacity-25">
-      <Decorative type="star" color="#EC6838" size={48} />
+    <div class="decorative-asset absolute right-[8%] top-36 opacity-25">
+      <Decorative variant="star" color="#EC6838" size={48} />
     </div>
-    <div class="absolute bottom-24 left-[6%] opacity-20">
-      <Decorative type="dots" color="#3D1020" size={54} />
+    <div class="decorative-asset absolute bottom-24 left-[6%] opacity-20">
+      <Decorative variant="dots" color="#3D1020" size={54} />
     </div>
 
     <div class="relative z-10 mx-auto max-w-[1300px]">
-      <header class="mb-12 max-w-4xl md:mb-16">
-        <p class="font-display text-[10px] font-bold uppercase tracking-[0.4em] text-forest/45">
+      <header class="mb-12 max-w-4xl md:mb-20">
+        <p class="font-display text-[11px] font-black uppercase tracking-[0.4em] text-forest/40">
           Encontros & Vivências
         </p>
-        <h1 class="mt-5 font-display text-[clamp(3rem,9vw,8rem)] font-black uppercase leading-[0.85] text-forest">
+        <h1 class="mt-6 font-display text-[clamp(3.5rem,10vw,8.5rem)] font-black uppercase leading-[0.8] text-forest">
           Agenda<br />
-          <span class="italic text-orange">cultural</span>
+          <span class="text-orange">cultural</span>
         </h1>
-        <p class="mt-6 max-w-2xl text-base leading-relaxed text-forest/70 md:text-lg">
+        <p class="mt-8 max-w-xl text-base leading-relaxed text-forest/60 md:text-lg">
           Explore os próximos encontros do Estúdio Entre por mês, categoria ou palavra-chave.
         </p>
       </header>
@@ -50,3 +53,22 @@ try {
     </div>
   </main>
 </BaseLayout>
+
+<script>
+  import { gsap } from "gsap";
+
+  // Floating animation for decorative elements
+  gsap.to(".decorative-asset", {
+    y: "random(-15, 15)",
+    x: "random(-10, 10)",
+    rotation: "random(-5, 5)",
+    duration: "random(3, 5)",
+    repeat: -1,
+    yoyo: true,
+    ease: "sine.inOut",
+    stagger: {
+      amount: 2,
+      from: "random"
+    }
+  });
+</script>
