@@ -13,8 +13,8 @@ const description =
   "Conheça nosso espaço físico no Méier: salão, tapeçaria, exposições e detalhes do Estúdio Entre.";
 ---
 
-<BaseLayout title={title} description={description} navTheme="dark">
-  <section
+<BaseLayout title={title} description={description} navTheme="dark" ogImage={`https://estudioentre.com.br${galeriaImagens[0].src}`}>
+  <main
     class="galeria-pagina relative pt-32 md:pt-40 pb-24 md:pb-40 overflow-hidden"
     style="background-color: #b9e4eb;"
   >
@@ -56,22 +56,29 @@ const description =
     <div class="relative z-10">
       <GaleriaMasonry imagens={galeriaImagens} client:visible />
     </div>
-  </section>
+  </main>
 
   <Footer />
 
-  {/* Schema.org ImageGallery */}
+  {/* Schema.org CollectionPage */}
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
-    "@type": "ImageGallery",
+    "@type": "CollectionPage",
     "name": "Galeria do Estúdio Entre",
     "description": description,
     "url": "https://estudioentre.com.br/galeria",
-    "image": galeriaImagens.map((img) => ({
-      "@type": "ImageObject",
-      "contentUrl": `https://estudioentre.com.br${img.src}`,
-      "description": img.alt,
-    })),
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": galeriaImagens.map((img, i) => ({
+        "@type": "ListItem",
+        "position": i + 1,
+        "item": {
+          "@type": "ImageObject",
+          "contentUrl": `https://estudioentre.com.br${img.src}`,
+          "description": img.alt,
+        },
+      })),
+    },
   })} />
 
   <script>
