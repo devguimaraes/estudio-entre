@@ -1,4 +1,5 @@
 import type { GaleriaImagem } from "@/data/galeriaImagens";
+import type { FotoEspaco } from "@/types/foto";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -31,7 +32,7 @@ export default function GaleriaMasonry({ imagens }: GaleriaMasonryProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
-  const fotosForLightbox = imagens.map((img) => ({
+  const fotosForLightbox: FotoEspaco[] = imagens.map((img) => ({
     id: img.id,
     titulo: null,
     legenda: img.alt,
@@ -62,7 +63,7 @@ export default function GaleriaMasonry({ imagens }: GaleriaMasonryProps) {
       return;
     }
 
-    gsap.fromTo(
+    const tween = gsap.fromTo(
       items,
       { opacity: 0, y: 30, scale: 0.96 },
       {
@@ -72,6 +73,7 @@ export default function GaleriaMasonry({ imagens }: GaleriaMasonryProps) {
         duration: 0.6,
         stagger: 0.08,
         ease: "power2.out",
+        overwrite: "auto",
         scrollTrigger: {
           trigger: grid,
           start: "top 85%",
@@ -81,9 +83,7 @@ export default function GaleriaMasonry({ imagens }: GaleriaMasonryProps) {
     );
 
     return () => {
-      for (const st of ScrollTrigger.getAll()) {
-        if (st.vars.trigger === grid) st.kill();
-      }
+      tween.kill();
     };
   }, []);
 
@@ -91,12 +91,7 @@ export default function GaleriaMasonry({ imagens }: GaleriaMasonryProps) {
     <>
       <div
         ref={gridRef}
-        className="galeria-masonry"
-        style={{
-          columns: "2",
-          columnGap: "1.5rem",
-          padding: "0 1.5rem",
-        }}
+        className="galeria-masonry columns-2 gap-6 px-6 md:columns-3 md:gap-8 md:px-8 lg:columns-4 lg:gap-10 lg:px-12"
       >
         {imagens.map((img, i) => (
           <button
@@ -116,13 +111,6 @@ export default function GaleriaMasonry({ imagens }: GaleriaMasonryProps) {
                 filter: "drop-shadow(0 15px 30px rgba(0,0,0,0.12))",
               }}
             >
-              {/* Paper texture overlay */}
-              <div
-                className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-multiply"
-                style={{
-                  backgroundImage: "url('https://www.transparenttextures.com/patterns/felt.png')",
-                }}
-              />
               <div
                 className="relative w-full overflow-hidden"
                 style={{ clipPath: "polygon(0.5% 0.5%, 99.5% 0.5%, 99.5% 99.5%, 0.5% 99.5%)" }}
@@ -145,16 +133,6 @@ export default function GaleriaMasonry({ imagens }: GaleriaMasonryProps) {
           </button>
         ))}
       </div>
-
-      {/* Responsive column overrides */}
-      <style>{`
-        @media (min-width: 768px) {
-          .galeria-masonry { columns: 3 !important; column-gap: 2rem !important; padding: 0 2rem !important; }
-        }
-        @media (min-width: 1024px) {
-          .galeria-masonry { columns: 4 !important; column-gap: 2.5rem !important; padding: 0 3rem !important; }
-        }
-      `}</style>
 
       {lightboxIndex !== null && (
         <Lightbox
