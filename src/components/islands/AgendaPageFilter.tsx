@@ -149,7 +149,7 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
         clearProps: "all",
       },
     );
-  }, [selectedMonth, activeCategory, search]);
+  }, []);
 
   useEffect(() => {
     setExpandedCards(new Set());
@@ -207,7 +207,10 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
 
         <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end md:gap-14">
           <div className="relative w-full max-w-xl">
-            <label htmlFor="search-agenda" className="mb-3 block text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] text-forest/50">
+            <label
+              htmlFor="search-agenda"
+              className="mb-3 block text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] text-forest/50"
+            >
               Buscar na agenda
             </label>
             <div className="relative group">
@@ -220,9 +223,20 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
                 className="w-full border-b-2 border-forest/10 bg-forest/[0.03] px-5 py-4 text-base font-medium text-forest outline-none transition-all placeholder:text-forest/30 focus:border-orange focus:bg-white md:py-5 rounded-t-xl"
               />
               <div className="absolute right-5 top-1/2 -translate-y-1/2 opacity-20 group-focus-within:opacity-50 transition-opacity">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg>
               </div>
             </div>
@@ -350,7 +364,9 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
 
                             <div
                               className={`overflow-hidden transition-all duration-700 ease-in-out ${
-                                isExpanded ? "mt-8 md:mt-10 max-h-[1200px] opacity-100" : "max-h-0 opacity-0"
+                                isExpanded
+                                  ? "mt-8 md:mt-10 max-h-[1200px] opacity-100"
+                                  : "max-h-0 opacity-0"
                               }`}
                             >
                               <div className="rounded-3xl bg-forest/[0.03] p-6 md:p-10 border border-forest/[0.05]">
@@ -359,11 +375,13 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
                                     {evento.descricao}
                                   </p>
                                 )}
-                                
+
                                 <div className="mt-10 flex flex-wrap items-center justify-between gap-8 border-t border-forest/10 pt-8">
                                   {evento.valor && (
                                     <div className="flex flex-col gap-1">
-                                      <span className="text-[10px] font-black uppercase tracking-widest text-forest/40">Investimento</span>
+                                      <span className="text-[10px] font-black uppercase tracking-widest text-forest/40">
+                                        Investimento
+                                      </span>
                                       <span className="font-display text-2xl md:text-3xl font-black uppercase tracking-[0.05em] text-orange">
                                         {evento.valor}
                                       </span>
@@ -377,19 +395,21 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
                                       className="group/btn relative inline-flex items-center gap-4 rounded-full bg-forest px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-cream transition-all hover:bg-orange hover:shadow-2xl hover:shadow-orange/30"
                                     >
                                       <span className="relative z-10">Garantir vaga</span>
-                                      <svg 
-                                        width="14" 
-                                        height="14" 
-                                        viewBox="0 0 24 24" 
-                                        fill="none" 
-                                        stroke="currentColor" 
-                                        strokeWidth="3" 
-                                        strokeLinecap="round" 
+                                      <svg
+                                        width="14"
+                                        height="14"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="3"
+                                        strokeLinecap="round"
                                         strokeLinejoin="round"
                                         className="relative z-10 transition-transform duration-300 group-hover/btn:translate-x-1"
+                                        aria-hidden="true"
+                                        focusable="false"
                                       >
-                                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                                        <polyline points="12 5 19 12 12 19"></polyline>
+                                        <line x1="5" y1="12" x2="19" y2="12" />
+                                        <polyline points="12 5 19 12 12 19" />
                                       </svg>
                                     </a>
                                   )}
@@ -402,24 +422,27 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
                               aria-expanded={isExpanded}
                               onClick={() => toggleCard(evento._id)}
                               className={`group mt-8 flex items-center justify-center gap-4 rounded-full border-2 px-8 py-4 text-[10px] font-black uppercase tracking-[0.3em] transition-all
-                                ${isExpanded 
-                                  ? "border-forest bg-forest text-cream" 
-                                  : "border-forest/10 text-forest/50 hover:border-forest/40 hover:text-forest hover:bg-white shadow-sm"
+                                ${
+                                  isExpanded
+                                    ? "border-forest bg-forest text-cream"
+                                    : "border-forest/10 text-forest/50 hover:border-forest/40 hover:text-forest hover:bg-white shadow-sm"
                                 }`}
                             >
                               {isExpanded ? "Fechar detalhes" : "Ver mais detalhes"}
-                              <svg 
-                                width="12" 
-                                height="12" 
-                                viewBox="0 0 24 24" 
-                                fill="none" 
-                                stroke="currentColor" 
-                                strokeWidth="3" 
-                                strokeLinecap="round" 
+                              <svg
+                                width="12"
+                                height="12"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="3"
+                                strokeLinecap="round"
                                 strokeLinejoin="round"
                                 className={`transition-transform duration-500 ${isExpanded ? "rotate-180" : ""}`}
+                                aria-hidden="true"
+                                focusable="false"
                               >
-                                <polyline points="6 9 12 15 18 9"></polyline>
+                                <polyline points="6 9 12 15 18 9" />
                               </svg>
                             </button>
                           </div>

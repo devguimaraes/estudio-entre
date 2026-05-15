@@ -176,7 +176,9 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
                     <div className="flex flex-col gap-6">
                       {evento.valor && (
                         <div className="flex flex-col gap-1">
-                          <span className="text-[9px] font-bold uppercase tracking-widest text-cream/30">Investimento</span>
+                          <span className="text-[9px] font-bold uppercase tracking-widest text-cream/30">
+                            Investimento
+                          </span>
                           <span className="text-xl font-display font-black text-orange uppercase tracking-wider">
                             {evento.valor}
                           </span>
@@ -191,9 +193,21 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
                           className="flex items-center justify-center gap-3 text-[10px] uppercase tracking-widest font-black px-8 py-4 rounded-full bg-cream text-forest hover:bg-orange hover:text-cream transition-all duration-500 group/btn shadow-xl shadow-black/20"
                         >
                           Garantir vaga
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover/btn:translate-x-1">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
+                          <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="transition-transform duration-300 group-hover/btn:translate-x-1"
+                            aria-hidden="true"
+                            focusable="false"
+                          >
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
                           </svg>
                         </a>
                       )}
@@ -207,24 +221,27 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
                     type="button"
                     onClick={() => toggleCard(evento._id)}
                     className={`inline-flex items-center gap-3 text-[10px] uppercase tracking-widest font-black px-6 py-3.5 rounded-full border-2 transition-all duration-500 group/btn
-                      ${isExpanded 
-                        ? "bg-cream text-forest border-cream" 
-                        : "border-cream/10 text-cream/50 hover:border-cream/30 hover:text-cream"
+                      ${
+                        isExpanded
+                          ? "bg-cream text-forest border-cream"
+                          : "border-cream/10 text-cream/50 hover:border-cream/30 hover:text-cream"
                       }`}
                   >
                     {isExpanded ? "Fechar detalhes" : "Ver detalhes"}
-                    <svg 
-                      width="10" 
-                      height="10" 
-                      viewBox="0 0 24 24" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      strokeWidth="3" 
-                      strokeLinecap="round" 
+                    <svg
+                      width="10"
+                      height="10"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
                       strokeLinejoin="round"
                       className={`transition-transform duration-500 ${isExpanded ? "rotate-180" : ""}`}
+                      aria-hidden="true"
+                      focusable="false"
                     >
-                      <polyline points="6 9 12 15 18 9"></polyline>
+                      <polyline points="6 9 12 15 18 9" />
                     </svg>
                   </button>
                 </div>
