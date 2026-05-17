@@ -1,86 +1,56 @@
 ---
-import { Image } from "astro:assets";
-import texturePaper from "@/assets/textures/old-paper-vintage-texture-surface-background-recycle-pale-brown-paper-crumpled-texture.webp";
-import GaleriaMasonry from "@/components/islands/GaleriaMasonry";
+import { sanityClient } from "sanity:client";
 import Footer from "@/components/sections/Footer.astro";
-import Decorative from "@/components/ui/Decorative.astro";
-import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
-import { galeriaImagens } from "@/data/galeriaImagens";
+import GaleriaListagem from "@/components/sections/GaleriaListagem.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { albunsQuery } from "@/sanity/queries/galeria";
+import type { AlbumGaleriaCard } from "@/types/galeria";
 
-const title = "Galeria — Estúdio Entre — Hub Cultural no Méier, RJ";
-const description =
-  "Conheça nosso espaço físico no Méier: salão, tapeçaria, exposições e detalhes do Estúdio Entre.";
+const albuns: AlbumGaleriaCard[] = await sanityClient.fetch(albunsQuery);
+
+const title = "Galeria — Estúdio Entre";
+const description = "Momentos do Estúdio Entre: inaugurações, exposições e eventos em imagem.";
+const ogImage =
+  albuns.length > 0 && albuns[0].capaUrl ? `${albuns[0].capaUrl}?w=1200&h=630&fit=crop` : undefined;
 ---
 
-<BaseLayout title={title} description={description} navTheme="dark" ogImage={`https://estudioentre.com.br${galeriaImagens[0].src}`}>
+<BaseLayout
+  title={title}
+  description={description}
+  navTheme="dark"
+  ogImage={ogImage}
+>
   <main
     class="galeria-pagina relative pt-32 md:pt-40 pb-24 md:pb-40 overflow-hidden"
     style="background-color: #b9e4eb;"
   >
-    {/* Background Assets */}
+    {/* Background textures */}
     <div class="absolute inset-0 z-0 opacity-[0.04] pointer-events-none mix-blend-multiply">
-      <Image src={texturePaper} alt="" class="w-full h-full object-cover" />
-    </div>
-
-    <HalftoneTexture
-      density={20}
-      dotSize={1.2}
-      color="61,16,32"
-      opacity={0.06}
-      class="z-[1]"
-    />
-
-    {/* Floating Decor */}
-    <div class="absolute top-[8%] right-[8%] opacity-20 z-10 hidden md:block">
-      <Decorative variant="star" color="#3D1020" size={100} />
-    </div>
-    <div class="absolute bottom-[12%] left-[5%] opacity-15 z-10">
-      <Decorative variant="dots" color="#3D1020" size={60} />
+      <div class="w-full h-full bg-[#d4c9b8]" />
     </div>
 
     {/* Header */}
     <div class="max-w-[1400px] mx-auto px-6 md:px-16 mb-16 md:mb-24 relative z-10">
       <div class="overflow-hidden">
         <p class="galeria-pagina__eyebrow font-display font-bold text-[10px] md:text-[12px] uppercase tracking-[0.5em] text-bordo/40">
-          O Lugar
+          Galeria
         </p>
       </div>
       <h1 class="galeria-pagina__title font-display font-black text-[clamp(3rem,10vw,8rem)] text-bordo leading-[0.85] uppercase mt-6 md:mt-8">
-        Nosso <br />
-        <span class="italic text-orange md:ml-32">Espaço</span>
+        Momentos<br />
+        <span class="italic text-orange md:ml-32">do Estúdio</span>
       </h1>
     </div>
 
-    {/* Masonry Grid */}
-    <div class="relative z-10">
-      <GaleriaMasonry imagens={galeriaImagens} client:visible />
+    {/* Album grid */}
+    <div class="relative z-10 max-w-[1400px] mx-auto">
+      <GaleriaListagem albuns={albuns} />
     </div>
   </main>
 
   <Footer />
 
-  {/* Schema.org CollectionPage */}
-  <script type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": "Galeria do Estúdio Entre",
-    "description": description,
-    "url": "https://estudioentre.com.br/galeria",
-    "mainEntity": {
-      "@type": "ItemList",
-      "itemListElement": galeriaImagens.map((img, i) => ({
-        "@type": "ListItem",
-        "position": i + 1,
-        "item": {
-          "@type": "ImageObject",
-          "contentUrl": `https://estudioentre.com.br${img.src}`,
-          "description": img.alt,
-        },
-      })),
-    },
-  })} />
-
+  {/* GSAP Animation */}
   <script>
     import gsap from "gsap";
     import { ScrollTrigger } from "gsap/ScrollTrigger";
