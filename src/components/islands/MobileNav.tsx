@@ -3,11 +3,10 @@ import { useState } from "react";
 
 const links = [
   { href: "/#galeria", label: "O Lugar" },
-  { href: "/galeria", label: "Galeria" },
-  { href: "/#pilares", label: "Atividades" },
-  { href: "/agenda", label: "Programação" },
   { href: "/#sobre", label: "O Estúdio" },
+  { href: "/galeria", label: "Galeria" },
   { href: "/#agendar-visita", label: "Visitação" },
+  { href: "/agenda", label: "Programação" },
 ];
 
 const socials = [
