@@ -1,7 +1,6 @@
-import type { FotoEspaco } from "@/types/foto";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Lightbox from "./Lightbox";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -25,19 +24,22 @@ export interface FotoAlbum {
 
 interface GaleriaDetalheProps {
   fotos: FotoAlbum[];
-  titulo: string;
 }
 
-export default function GaleriaDetalhe({ fotos, titulo }: GaleriaDetalheProps) {
+export default function GaleriaDetalhe({ fotos }: GaleriaDetalheProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
-  const fotosForLightbox: FotoEspaco[] = fotos.map((f) => ({
-    id: f.id,
-    titulo: null,
-    legenda: f.alt,
-    imagem: f.src,
-  }));
+  const fotosForLightbox = useMemo(
+    () =>
+      fotos.map((f) => ({
+        id: f.id,
+        titulo: null,
+        legenda: f.alt,
+        imagem: f.src,
+      })),
+    [fotos],
+  );
 
   const openLightbox = useCallback((index: number) => setLightboxIndex(index), []);
   const closeLightbox = useCallback(() => setLightboxIndex(null), []);
@@ -110,6 +112,8 @@ export default function GaleriaDetalhe({ fotos, titulo }: GaleriaDetalheProps) {
                 <img
                   src={foto.src}
                   alt={foto.alt}
+                  width={foto.width}
+                  height={foto.height}
                   loading={i < 4 ? "eager" : "lazy"}
                   className="w-full h-auto object-cover transition-transform duration-500 scale-[1.05] group-hover:scale-[1.1]"
                 />
