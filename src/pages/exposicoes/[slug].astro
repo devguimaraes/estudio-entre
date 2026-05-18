@@ -26,6 +26,7 @@ interface ExposicaoRaw {
   tecnica: string | null;
   apoio: string | null;
   status: string;
+  linkAgendamento: string | null;
   capaUrl: string | null;
   imagens: { _key: string; url: string; alt: string | null }[] | null;
   albumRelacionado: { _id: string; titulo: string; slug: string } | null;
@@ -96,6 +97,14 @@ const pageTitle = `${exp.titulo} | Exposições — Estúdio Entre`;
             <div class="mt-10 p-6 bg-cream border border-bordo/10 rounded-sm">
               <a href={`/galeria/${exp.albumRelacionado.slug}/`} class="inline-flex items-center gap-2 font-display font-bold text-sm uppercase tracking-wider text-orange hover:text-orange-dark transition-colors">
                 📸 Ver fotos do evento &#8594;
+              </a>
+            </div>
+          )}
+
+          {exp.linkAgendamento && (
+            <div class="mt-4">
+              <a href={exp.linkAgendamento} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 font-display font-bold text-sm uppercase tracking-wider bg-bordo text-cream px-6 py-3 rounded-sm hover:bg-bordo/90 transition-colors">
+                Agendar visita &#8594;
               </a>
             </div>
           )}

@@ -95,6 +95,15 @@ export const exposicao = defineType({
       weak: true,
     }),
     defineField({
+      name: "linkAgendamento",
+      title: "Link para agendamento de visita (opcional)",
+      type: "url",
+      validation: (rule) =>
+        rule.uri({
+          scheme: ["http", "https"],
+        }),
+    }),
+    defineField({
       name: "status",
       title: "Status",
       type: "string",

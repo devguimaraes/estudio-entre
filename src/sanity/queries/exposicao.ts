@@ -28,6 +28,7 @@ export const exposicaoBySlugQuery = defineQuery(
   `*[_type == "exposicao" && slug.current == $slug && ativo == true][0]{
     _id, titulo, "slug": slug.current, subtitulo, textoCuratorial,
     artista, curadoria, dataInicio, dataFim, local, tecnica, apoio, status,
+    linkAgendamento,
     "capaUrl": imagemCapa.asset->url,
     imagens[]{ _key, "url": asset->url, alt },
     albumRelacionado->{ _id, titulo, "slug": slug.current }
