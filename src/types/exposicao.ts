@@ -9,4 +9,6 @@ export interface ExposicaoCard {
   dataFim: string | null;
   status: ExposicaoStatus;
   capaUrl: string | null;
+  capaWidth: number | null;
+  capaHeight: number | null;
 }

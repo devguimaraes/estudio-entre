@@ -54,7 +54,9 @@ const ROT = ["-1deg", "0.8deg", "-0.5deg"];
               src={exp.capaUrl ?? ""}
               alt={exp.titulo}
               loading="lazy"
-              class="w-full aspect-[3/4] object-cover"
+              width={exp.capaWidth ?? 800}
+              height={exp.capaHeight ?? 600}
+              class="w-full h-auto object-cover"
             />
           </div>
           <h3 class="font-display font-bold text-xl text-bordo leading-tight">{exp.titulo}</h3>

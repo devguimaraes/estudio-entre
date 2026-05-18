@@ -4,7 +4,9 @@ export const exposicoesEmCartazQuery = defineQuery(
   `*[_type == "exposicao" && ativo == true && status == "em-cartaz"]
     | order(dataInicio desc)[0...3]{
     _id, titulo, "slug": slug.current, artista, dataInicio, dataFim, status,
-    "capaUrl": imagemCapa.asset->url
+    "capaUrl": imagemCapa.asset->url,
+    "capaWidth": imagemCapa.asset->metadata.dimensions.width,
+    "capaHeight": imagemCapa.asset->metadata.dimensions.height
   }`,
 );
 
@@ -12,7 +14,9 @@ export const exposicoesFuturasQuery = defineQuery(
   `*[_type == "exposicao" && ativo == true && status == "futura"]
     | order(dataInicio asc)[0...3]{
     _id, titulo, "slug": slug.current, artista, dataInicio, dataFim, status,
-    "capaUrl": imagemCapa.asset->url
+    "capaUrl": imagemCapa.asset->url,
+    "capaWidth": imagemCapa.asset->metadata.dimensions.width,
+    "capaHeight": imagemCapa.asset->metadata.dimensions.height
   }`,
 );
 
@@ -20,7 +24,9 @@ export const exposicoesByStatusQuery = defineQuery(
   `*[_type == "exposicao" && ativo == true && status == $status]
     | order(dataInicio desc){
     _id, titulo, "slug": slug.current, artista, dataInicio, dataFim, status,
-    "capaUrl": imagemCapa.asset->url
+    "capaUrl": imagemCapa.asset->url,
+    "capaWidth": imagemCapa.asset->metadata.dimensions.width,
+    "capaHeight": imagemCapa.asset->metadata.dimensions.height
   }`,
 );
 

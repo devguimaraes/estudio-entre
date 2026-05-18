@@ -63,7 +63,7 @@ const ROT = ["-1deg", "0.8deg", "-0.5deg", "1.2deg"];
       {exposicoes.map((exp, i) => (
         <a href={`/exposicoes/${exp.slug}/`} class="block mb-8 group break-inside-avoid" style={{ breakInside: "avoid" }}>
           <div class="relative p-2 bg-white shadow-lg transition-transform duration-500 group-hover:scale-[1.02] mb-4" style={{ clipPath: TORN[i % TORN.length], transform: `rotate(${ROT[i % ROT.length]})` }}>
-            <img src={exp.capaUrl ?? ""} alt={exp.titulo} loading="lazy" class="w-full aspect-[3/4] object-cover" />
+            <img src={exp.capaUrl ?? ""} alt={exp.titulo} loading="lazy" width={exp.capaWidth ?? 800} height={exp.capaHeight ?? 600} class="w-full h-auto object-cover" />
           </div>
           <h3 class="font-display font-bold text-xl text-bordo leading-tight">{exp.titulo}</h3>
           {exp.artista && <p class="text-sm text-bordo/60 mt-1">{exp.artista}</p>}
