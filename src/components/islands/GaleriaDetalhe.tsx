@@ -1,8 +1,6 @@
-import type { GaleriaImagem } from "@/data/galeriaImagens";
-import type { FotoEspaco } from "@/types/foto";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Lightbox from "./Lightbox";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -16,40 +14,36 @@ const TORN_PAPER_VARIANTS = [
 
 const ROTATIONS = ["-1.5deg", "1.2deg", "-0.8deg", "2deg", "0.5deg", "-1.2deg", "1.5deg", "-2deg"];
 
-function getRotation(i: number): string {
-  return ROTATIONS[i % ROTATIONS.length];
+export interface FotoAlbum {
+  id: string;
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
 }
 
-function getVariant(i: number): string {
-  return TORN_PAPER_VARIANTS[i % TORN_PAPER_VARIANTS.length];
+interface GaleriaDetalheProps {
+  fotos: FotoAlbum[];
 }
 
-interface GaleriaMasonryProps {
-  imagens: GaleriaImagem[];
-}
-
-export default function GaleriaMasonry({ imagens }: GaleriaMasonryProps) {
+export default function GaleriaDetalhe({ fotos }: GaleriaDetalheProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
-  const fotosForLightbox: FotoEspaco[] = imagens.map((img) => ({
-    id: img.id,
-    titulo: null,
-    legenda: img.alt,
-    imagem: img.src,
-  }));
+  const fotosForLightbox = useMemo(
+    () =>
+      fotos.map((f) => ({
+        id: f.id,
+        titulo: null,
+        legenda: f.alt,
+        imagem: f.src,
+      })),
+    [fotos],
+  );
 
-  const openLightbox = useCallback((index: number) => {
-    setLightboxIndex(index);
-  }, []);
-
-  const closeLightbox = useCallback(() => {
-    setLightboxIndex(null);
-  }, []);
-
-  const changeIndex = useCallback((index: number) => {
-    setLightboxIndex(index);
-  }, []);
+  const openLightbox = useCallback((index: number) => setLightboxIndex(index), []);
+  const closeLightbox = useCallback(() => setLightboxIndex(null), []);
+  const changeIndex = useCallback((index: number) => setLightboxIndex(index), []);
 
   useEffect(() => {
     const grid = gridRef.current;
@@ -93,21 +87,21 @@ export default function GaleriaMasonry({ imagens }: GaleriaMasonryProps) {
         ref={gridRef}
         className="galeria-masonry columns-2 gap-6 px-6 md:columns-3 md:gap-8 md:px-8 lg:columns-4 lg:gap-10 lg:px-12"
       >
-        {imagens.map((img, i) => (
+        {fotos.map((foto, i) => (
           <button
-            key={img.id}
+            key={foto.id}
             data-masonry-item
             type="button"
             onClick={() => openLightbox(i)}
-            aria-label={`Abrir ${img.alt}`}
+            aria-label={`Abrir ${foto.alt}`}
             className="group relative w-full mb-6 cursor-pointer bg-transparent border-none p-0"
             style={{ breakInside: "avoid" }}
           >
             <div
-              className="relative p-2 md:p-3 bg-white shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]"
+              className="relative p-2 md:p-3 bg-cream shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]"
               style={{
-                clipPath: getVariant(i),
-                transform: `rotate(${getRotation(i)})`,
+                clipPath: TORN_PAPER_VARIANTS[i % TORN_PAPER_VARIANTS.length],
+                transform: `rotate(${ROTATIONS[i % ROTATIONS.length]})`,
                 filter: "drop-shadow(0 15px 30px rgba(0,0,0,0.12))",
               }}
             >
@@ -116,19 +110,14 @@ export default function GaleriaMasonry({ imagens }: GaleriaMasonryProps) {
                 style={{ clipPath: "polygon(0.5% 0.5%, 99.5% 0.5%, 99.5% 99.5%, 0.5% 99.5%)" }}
               >
                 <img
-                  src={img.src}
-                  alt={img.alt}
+                  src={foto.src}
+                  alt={foto.alt}
+                  width={foto.width}
+                  height={foto.height}
                   loading={i < 4 ? "eager" : "lazy"}
                   className="w-full h-auto object-cover transition-transform duration-500 scale-[1.05] group-hover:scale-[1.1]"
                 />
               </div>
-            </div>
-
-            {/* Hover label */}
-            <div className="absolute inset-x-0 -bottom-2 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 z-20 translate-y-2 group-hover:translate-y-0 pointer-events-none">
-              <span className="inline-block font-display italic text-[11px] uppercase tracking-widest text-bordo bg-cream/95 px-6 py-3 rounded-full shadow-xl border border-bordo/5">
-                {img.alt}
-              </span>
             </div>
           </button>
         ))}

@@ -1,0 +1,81 @@
+---
+import { sanityClient } from "sanity:client";
+import { exposicoesEmCartazQuery, exposicoesFuturasQuery } from "@/sanity/queries/exposicao";
+import type { ExposicaoCard } from "@/types/exposicao";
+
+let exposicoes: ExposicaoCard[] = await sanityClient.fetch(exposicoesEmCartazQuery);
+const fallback = exposicoes.length === 0;
+if (fallback) {
+  exposicoes = await sanityClient.fetch(exposicoesFuturasQuery);
+}
+const vazio = exposicoes.length === 0;
+
+function formatarPeriodo(inicio: string, fim: string | null): string {
+  const formato = new Intl.DateTimeFormat("pt-BR", {
+    day: "numeric",
+    month: "short",
+    timeZone: "America/Sao_Paulo",
+  });
+  if (!fim) return formato.format(new Date(`${inicio}T12:00:00-03:00`));
+  const d1 = new Date(`${inicio}T12:00:00-03:00`);
+  const d2 = new Date(`${fim}T12:00:00-03:00`);
+  if (d1.getMonth() === d2.getMonth()) {
+    return `${d1.getDate()}–${d2.getDate()} ${new Intl.DateTimeFormat("pt-BR", { month: "short", timeZone: "America/Sao_Paulo" }).format(d1)}`;
+  }
+  return `${formato.format(d1)} – ${formato.format(d2)}`;
+}
+
+const TORN = [
+  "polygon(1% 2%, 99% 1%, 98% 97%, 2% 99%)",
+  "polygon(2% 1%, 98% 2%, 99% 98%, 1% 97%)",
+  "polygon(1% 1%, 97% 2%, 100% 99%, 2% 98%)",
+];
+const ROT = ["-1deg", "0.8deg", "-0.5deg"];
+---
+
+{!vazio && (
+<section class="exposicoes-home relative py-24 md:py-32 overflow-hidden" style="background-color: var(--color-cream);">
+  <div class="max-w-[1400px] mx-auto px-6 md:px-16">
+    <p class="font-display font-bold text-[10px] md:text-[12px] uppercase tracking-[0.5em] text-bordo/40 mb-4">
+      {fallback ? "EM BREVE" : "EM CARTAZ"}
+    </p>
+    <h2 class="font-display font-black text-[clamp(2.5rem,6vw,5rem)] text-bordo leading-[0.9] uppercase mb-12">
+      Exposições
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+      {exposicoes.map((exp, i) => (
+        <a href={`/exposicoes/${exp.slug}/`} class="group block">
+          <div
+            class="relative p-2 bg-white shadow-lg transition-transform duration-500 group-hover:scale-[1.02] mb-4"
+            style={{ clipPath: TORN[i], transform: `rotate(${ROT[i]})` }}
+          >
+            <img
+              src={exp.capaUrl ?? ""}
+              alt={exp.titulo}
+              loading="lazy"
+              width={exp.capaWidth ?? 800}
+              height={exp.capaHeight ?? 600}
+              class="w-full h-auto object-cover"
+            />
+          </div>
+          <h3 class="font-display font-bold text-xl text-bordo leading-tight">{exp.titulo}</h3>
+          {exp.artista && <p class="text-sm text-bordo/60 mt-1">{exp.artista}</p>}
+          <p class="text-xs text-bordo/40 uppercase tracking-wider mt-1">
+            {formatarPeriodo(exp.dataInicio, exp.dataFim)}
+          </p>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-12 text-center">
+      <a
+        href="/exposicoes"
+        class="inline-flex items-center gap-2 font-display font-bold text-sm uppercase tracking-widest text-orange hover:text-orange-dark transition-colors"
+      >
+        Ver todas as exposições &#8594;
+      </a>
+    </div>
+  </div>
+</section>
+)}

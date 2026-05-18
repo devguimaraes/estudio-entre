@@ -1,0 +1,75 @@
+---
+import type { ExposicaoCard, ExposicaoStatus } from "@/types/exposicao";
+
+interface Props {
+  exposicoes: ExposicaoCard[];
+  filtroAtivo: ExposicaoStatus;
+}
+
+const { exposicoes, filtroAtivo } = Astro.props;
+
+function formatarPeriodo(inicio: string, fim: string | null): string {
+  const formato = new Intl.DateTimeFormat("pt-BR", {
+    day: "numeric",
+    month: "short",
+    timeZone: "America/Sao_Paulo",
+  });
+  if (!fim) return formato.format(new Date(`${inicio}T12:00:00-03:00`));
+  const d1 = new Date(`${inicio}T12:00:00-03:00`);
+  const d2 = new Date(`${fim}T12:00:00-03:00`);
+  if (d1.getMonth() === d2.getMonth()) {
+    return `${d1.getDate()}–${d2.getDate()} ${new Intl.DateTimeFormat("pt-BR", { month: "short", timeZone: "America/Sao_Paulo" }).format(d1)}`;
+  }
+  return `${formato.format(d1)} – ${formato.format(d2)}`;
+}
+
+const filtros: { label: string; value: ExposicaoStatus }[] = [
+  { label: "Em cartaz", value: "em-cartaz" },
+  { label: "Futuras", value: "futura" },
+  { label: "Passadas", value: "passada" },
+];
+
+const TORN = [
+  "polygon(1% 2%, 99% 1%, 98% 97%, 2% 99%)",
+  "polygon(2% 1%, 98% 2%, 99% 98%, 1% 97%)",
+  "polygon(1% 1%, 97% 2%, 100% 99%, 2% 98%)",
+  "polygon(0% 2%, 98% 0%, 99% 98%, 1% 100%)",
+];
+const ROT = ["-1deg", "0.8deg", "-0.5deg", "1.2deg"];
+---
+
+<div class="flex flex-wrap gap-3 mb-12 px-6 md:px-8">
+  {filtros.map((f) => (
+    <a
+      href={`/exposicoes?status=${f.value}`}
+      class={`font-display font-bold text-sm uppercase tracking-widest px-5 py-2 rounded-full border transition-all ${
+        filtroAtivo === f.value
+          ? "bg-bordo text-cream border-bordo"
+          : "bg-transparent text-bordo/40 border-bordo/20 hover:text-bordo hover:border-bordo/50"
+      }`}
+    >
+      {f.label}
+    </a>
+  ))}
+</div>
+
+{
+  exposicoes.length === 0 ? (
+    <div class="text-center py-24 px-6">
+      <p class="font-display italic text-2xl text-bordo/60">Nenhuma exposição no momento.</p>
+    </div>
+  ) : (
+    <div class="columns-2 gap-6 px-6 md:columns-3 md:gap-8 md:px-8 lg:gap-10 lg:px-12">
+      {exposicoes.map((exp, i) => (
+        <a href={`/exposicoes/${exp.slug}/`} class="block mb-8 group break-inside-avoid" style={{ breakInside: "avoid" }}>
+          <div class="relative p-2 bg-white shadow-lg transition-transform duration-500 group-hover:scale-[1.02] mb-4" style={{ clipPath: TORN[i % TORN.length], transform: `rotate(${ROT[i % ROT.length]})` }}>
+            <img src={exp.capaUrl ?? ""} alt={exp.titulo} loading="lazy" width={exp.capaWidth ?? 800} height={exp.capaHeight ?? 600} class="w-full h-auto object-cover" />
+          </div>
+          <h3 class="font-display font-bold text-xl text-bordo leading-tight">{exp.titulo}</h3>
+          {exp.artista && <p class="text-sm text-bordo/60 mt-1">{exp.artista}</p>}
+          <p class="text-xs text-bordo/40 uppercase tracking-wider mt-1">{formatarPeriodo(exp.dataInicio, exp.dataFim)}</p>
+        </a>
+      ))}
+    </div>
+  )
+}

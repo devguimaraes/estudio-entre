@@ -1,0 +1,145 @@
+---
+import { sanityClient } from "sanity:client";
+import GaleriaDetalhe from "@/components/islands/GaleriaDetalhe";
+import type { FotoAlbum } from "@/components/islands/GaleriaDetalhe";
+import Footer from "@/components/sections/Footer.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { exposicaoBySlugQuery, todasExposicoesSlugsQuery } from "@/sanity/queries/exposicao";
+import { PortableText } from "@portabletext/react";
+
+export async function getStaticPaths() {
+  const slugs: { slug: string }[] = await sanityClient.fetch(todasExposicoesSlugsQuery);
+  return slugs.map((s) => ({ params: { slug: s.slug } }));
+}
+
+interface ExposicaoRaw {
+  _id: string;
+  titulo: string;
+  slug: string;
+  subtitulo: string | null;
+  textoCuratorial: unknown[] | null;
+  artista: string | null;
+  curadoria: string | null;
+  dataInicio: string;
+  dataFim: string | null;
+  local: string | null;
+  tecnica: string | null;
+  apoio: string | null;
+  status: string;
+  linkAgendamento: string | null;
+  capaUrl: string | null;
+  imagens: { _key: string; url: string; alt: string | null }[] | null;
+  albumRelacionado: { _id: string; titulo: string; slug: string } | null;
+}
+
+const { slug } = Astro.params;
+const exp: ExposicaoRaw | null = await sanityClient.fetch(exposicaoBySlugQuery, { slug });
+if (!exp) return Astro.redirect("/exposicoes");
+
+function formatarData(d: string | null): string {
+  if (!d) return "";
+  return new Intl.DateTimeFormat("pt-BR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "America/Sao_Paulo",
+  }).format(new Date(`${d}T12:00:00-03:00`));
+}
+
+const periodo = exp.dataFim
+  ? `${formatarData(exp.dataInicio)} – ${formatarData(exp.dataFim)}`
+  : formatarData(exp.dataInicio);
+
+const fotos: FotoAlbum[] = (exp.imagens ?? []).map((img) => ({
+  id: img._key,
+  src: `${img.url}?auto=format&w=1600`,
+  alt: img.alt ?? exp.titulo,
+  width: 800,
+  height: 600,
+}));
+
+const fichaTecnica = [
+  { label: "Artista", value: exp.artista },
+  { label: "Curadoria", value: exp.curadoria },
+  { label: "Período", value: periodo },
+  { label: "Local", value: exp.local },
+  { label: "Técnica", value: exp.tecnica },
+].filter((f) => f.value);
+
+const pageTitle = `${exp.titulo} | Exposições — Estúdio Entre`;
+---
+
+<BaseLayout title={pageTitle} description={exp.subtitulo ?? `Exposição: ${exp.titulo}`} navTheme="dark" ogImage={exp.capaUrl ?? undefined}>
+  <main class="exposicao-detalhe relative overflow-hidden" style="background-color: #f0ede8;">
+    {exp.capaUrl && (
+      <div class="w-full h-[50vh] md:h-[70vh] overflow-hidden">
+        <img src={`${exp.capaUrl}?auto=format&w=1800`} alt={exp.titulo} class="w-full h-full object-cover" />
+      </div>
+    )}
+
+    <div class="max-w-[1200px] mx-auto px-6 md:px-16 py-16 md:py-24 relative z-10">
+      <a href="/exposicoes" class="inline-flex items-center gap-2 text-sm text-bordo/40 hover:text-bordo transition-colors mb-8 font-display uppercase tracking-widest">
+        &#8592; Voltar para Exposições
+      </a>
+
+      <h1 class="font-display font-black text-[clamp(2rem,6vw,5rem)] text-bordo leading-[0.9] uppercase mb-2">{exp.titulo}</h1>
+      {exp.subtitulo && <p class="font-display italic text-xl text-bordo/60 mb-12">{exp.subtitulo}</p>}
+
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-12">
+        <div>
+          {exp.textoCuratorial && (
+            <div class="prose prose-lg max-w-none font-body text-bordo/80">
+              <PortableText value={exp.textoCuratorial} />
+            </div>
+          )}
+
+          {exp.albumRelacionado && (
+            <div class="mt-10 p-6 bg-cream border border-bordo/10 rounded-sm">
+              <a href={`/galeria/${exp.albumRelacionado.slug}/`} class="inline-flex items-center gap-2 font-display font-bold text-sm uppercase tracking-wider text-orange hover:text-orange-dark transition-colors">
+                📸 Ver fotos do evento &#8594;
+              </a>
+            </div>
+          )}
+
+          {exp.linkAgendamento && (
+            <div class="mt-4">
+              <a href={exp.linkAgendamento} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 font-display font-bold text-sm uppercase tracking-wider bg-bordo text-cream px-6 py-3 rounded-sm hover:bg-bordo/90 transition-colors">
+                Agendar visita &#8594;
+              </a>
+            </div>
+          )}
+        </div>
+
+        <aside class="lg:sticky lg:top-32 self-start">
+          <div class="border-t-2 border-bordo pt-6">
+            <h2 class="font-display font-bold text-xs uppercase tracking-[0.3em] text-bordo/40 mb-6">Ficha Técnica</h2>
+            <dl class="space-y-4">
+              {fichaTecnica.map((f) => (
+                <div>
+                  <dt class="font-body font-bold text-xs uppercase tracking-wider text-bordo/40">{f.label}</dt>
+                  <dd class="font-body text-sm text-bordo mt-1">{f.value}</dd>
+                </div>
+              ))}
+            </dl>
+            {exp.apoio && (
+              <div class="mt-6 pt-6 border-t border-bordo/10">
+                <p class="font-body font-bold text-xs uppercase tracking-wider text-bordo/40 mb-1">Apoio</p>
+                <p class="font-body text-sm text-bordo/60 whitespace-pre-line">{exp.apoio}</p>
+              </div>
+            )}
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    {fotos.length > 0 && (
+      <div class="relative z-10 pb-24 md:pb-40" style="background-color: #b9e4eb;">
+        <div class="max-w-[1400px] mx-auto pt-16">
+          <h2 class="font-display font-black text-3xl text-bordo uppercase px-6 md:px-16 mb-10">Galeria</h2>
+          <GaleriaDetalhe fotos={fotos} client:visible />
+        </div>
+      </div>
+    )}
+  </main>
+  <Footer />
+</BaseLayout>
