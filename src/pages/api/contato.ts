@@ -54,11 +54,7 @@ export const POST: APIRoute = async ({ request }) => {
     const apiKey = process.env.RESEND_API_KEY;
 
     if (!apiKey) {
-      console.warn("RESEND_API_KEY não configurada — email não enviado.", {
-        nome,
-        email,
-        interesse,
-      });
+      console.warn("RESEND_API_KEY não configurada — email não enviado.");
       return new Response(
         JSON.stringify({ success: true, warning: "Email não enviado (API key ausente)." }),
         { status: 200, headers: { "Content-Type": "application/json" } },
