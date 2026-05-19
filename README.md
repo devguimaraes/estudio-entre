@@ -1,404 +1,168 @@
-# Estúdio Entre — Site Institucional
+# Estúdio Entre
 
-> Hub cultural e criativo independente da zona norte do Rio de Janeiro
+> Hub cultural e criativo independente — Méier, Rio de Janeiro
 
-**Status:** 🚀 **M2 — Hero, Sobre & Eixos: 100% COMPLETO**
-**Deploy:** ✅ Produção funcional na Vercel
-**Localização:** Rua Maria Calmon, 100 — Méier, Rio de Janeiro – RJ
-**Data de atualização:** 22 de Abril de 2026  
-**Mantido por:** Equipe Estúdio Entre
+Site institucional com CMS integrado. Desenvolvido com Astro, React, Sanity, Tailwind CSS e GSAP. Deploy serverless na Vercel.
 
 ---
 
-## 📋 Sobre o Projeto
-
-O site do **Estúdio Entre** é um site institucional de alto impacto visual que funciona como:
-
-- **Hub de descoberta**: Ser encontrado organicamente por quem busca espaço cultural, biblioterapia, sarau ou gravação de podcast
-- **Ferramenta de conversão**: Transformar visitantes em participantes de eventos ou clientes do estúdio
-- **Centralizador de informação**: Agenda, serviços, formas de contato — reduzindo dependência de redes sociais
-
-### Missão
-Promover encontros significativos entre cultura, conhecimento e bem-estar, oferecendo um espaço plural onde leitura, escuta e expressão criativa convivem.
-
-### Visão
-Ser o principal ponto de encontro cultural independente da zona norte do Rio de Janeiro — um lugar que as pessoas reconhecem como seu.
-
-### 📌 Estado Atual (M2 — Hero, Sobre & Eixos)
-- ✅ **M1 — Fundação & Setup:** 100% completo (11/11 issues)
-- ✅ **M2 — Hero, Sobre & Eixos:** 100% completo (6/6 issues)
-- ✅ **Deploy:** Produção funcional na Vercel (Edge Runtime)
-- ✅ **Sanity CMS:** Configurado (projeto ID: 7a0ee11t)
-- ✅ **Sanity Studio:** Embedded em `/studio`
-- ✅ **Seções implementadas:** Hero, Sobre, Eixos — com animações GSAP + ScrollTrigger
-- ✅ **Navbar fixa:** Adaptação de cor por seção + menu mobile animado
-- ✅ **Cursor customizado:** Ícone da marca com estados contextuais por hover
-- ✅ **Transição de cor:** Background animado entre seções via ScrollTrigger
-- 🔄 **M3 — Agenda, Galeria, CMS & Contato:** Próximo milestone
-
----
-
-## 🚀 Quick Start
-
-### Pré-requisitos
-- **Bun** (recomendado) ou Node.js 18+
-- **Git** com Git Flow configurado
-
-### Setup Inicial
+## Quick Start
 
 ```bash
-# 1. Clonar repositório
 git clone https://github.com/devguimaraes/estudio-entre.git
 cd estudio-entre
 
-# 2. Instalar dependências
 bun install
-
-# 3. Configurar variáveis de ambiente
 cp .env.example .env.local
 
-# 4. Adicionar variáveis necessárias
-# SANITY_PROJECT_ID=7a0ee11t
-# SANITY_DATASET=production
-# SANITY_WEBHOOK_SECRET=<gerar-uuid-seguro>
-# VERCEL_DEPLOY_HOOK_URL=<do-dashboard-vercel>
+# Preencher .env.local com:
+#   SANITY_PROJECT_ID=7a0ee11t
+#   SANITY_DATASET=production
 
-# 5. Rodar dev server
-bun run dev
-
-# 6. Abrir no navegador
-# → http://localhost:4321
-# → Sanity Studio: http://localhost:4321/studio
+bun run dev        # http://localhost:4321
 ```
 
-### Comandos Disponíveis
+**Sanity Studio:** http://localhost:4321/studio
+
+### Comandos
+
+| Comando | Descrição |
+|---------|-----------|
+| `bun run dev` | Servidor de desenvolvimento |
+| `bun run build` | Build de produção |
+| `bun run preview` | Preview do build local |
+| `bun run check` | Biome (lint + format) |
+| `bun run check:fix` | Biome com correção automática |
+| `bun run lint` | Apenas lint |
+| `bun run format` | Apenas formatação |
+
+---
+
+## Stack
+
+| Camada | Tecnologia |
+|--------|-----------|
+| Framework | [Astro](https://astro.build) v6 (SSG + SSR híbrido) |
+| UI interativa | [React](https://react.dev) 19 (apenas islands) |
+| CMS | [Sanity](https://www.sanity.io) v5 (embutido em `/studio`) |
+| Estilos | [Tailwind CSS](https://tailwindcss.com) v4 |
+| Animações | [GSAP](https://gsap.com) 3 + [Lenis](https://lenis.studiofreight.com) 1 (smooth scroll) |
+| Lint/Format | [Biome](https://biomejs.dev) 1.9 |
+| Deploy | [Vercel](https://vercel.com) (serverless, Node.js 22) |
+| Runtime | [Bun](https://bun.sh) |
+
+### Dependências principais
+
+| Biblioteca | Uso |
+|-----------|-----|
+| `@astrojs/vercel` | Adapter serverless Vercel |
+| `@sanity/astro` | Integração Sanity + Astro |
+| `@sanity/client` / `@sanity/image-url` | Cliente HTTP e geração de imagens |
+| `@portabletext/react` | Renderização de Portable Text |
+| `@tailwindcss/vite` | Tailwind v4 via Vite |
+| `@radix-ui/react-dialog` | Sheet acessível (menu mobile) |
+| `embla-carousel-react` | Carrossel |
+| `sharp` | Otimização de imagens |
+
+---
+
+## Estrutura
+
+```
+src/
+├── pages/                 # Rotas Astro + API
+│   ├── index.astro        # Homepage (8 seções)
+│   ├── agenda.astro       # Agenda com filtro interativo
+│   ├── galeria.astro      # Listagem de álbuns
+│   ├── exposicoes.astro   # Listagem de exposições
+│   ├── exposicoes/[slug].astro  # Detalhe de exposição (SSG)
+│   ├── galeria/[slug].astro     # Detalhe de álbum (SSG, masonry + lightbox)
+│   ├── studio/index.astro       # Sanity Studio embutido
+│   └── api/               # Endpoints serverless
+├── components/
+│   ├── sections/          # Blocos de página (14 Astro)
+│   ├── ui/                # Elementos de UI (9 Astro + 3 React)
+│   └── islands/           # Componentes interativos (12 React)
+├── layouts/
+│   └── BaseLayout.astro   # HTML shell, navbar, cursor, scripts globais
+├── animations/            # Módulos GSAP/Lenis (16 TS)
+├── sanity/
+│   ├── schemas/           # 4 tipos de documento
+│   ├── queries/           # 12 queries GROQ
+│   └── image.ts           # urlFor() — URLs de imagem
+├── styles/
+│   ├── global.css         # Tailwind @theme + design tokens
+│   └── fonts/             # @font-face (Buvera, Dongra Script)
+├── types/                 # Interfaces TypeScript
+└── assets/                # Ícones, imagens, logos, texturas
+```
+
+---
+
+## Sanity CMS
+
+O CMS é embutido no próprio site Astro, acessível em `/studio`. O conteúdo é gerenciado por 4 tipos de documento:
+
+| Schema | Descrição |
+|--------|-----------|
+| `evento` | Eventos com categoria, data, local, valor e até 3 imagens |
+| `exposicao` | Exposições com status (em cartaz/futura/passada), texto curatorial e ficha técnica |
+| `albumGaleria` | Álbuns de fotos vinculados a eventos |
+| `configuracao` | Configurações do site (SEO, redes sociais) |
+
+Conteúdo publicado no Sanity aciona rebuild automático via webhook (`/api/webhook`).
+
+---
+
+## Variáveis de Ambiente
 
 ```bash
-bun run dev          # Dev server (http://localhost:4321)
-bun run build        # Build de produção (~27s)
-bun run preview      # Preview do build local
-bun run lint         # Lint com Biome
-bun run check        # Biome check + lint
-bun run check:fix    # Auto-corrigir problemas Biome
-```
-
----
-
-## 🛠️ Stack Técnico
-
-| Camada | Tecnologia | Versão | Status |
-|---|---|---|---|
-| **Framework** | Astro | 6.1.8 | ✅ Completo |
-| **UI Islands** | React | 19.0.0 | ✅ Completo |
-| **Estilos** | Tailwind CSS | 4.0.0 | ✅ Completo |
-| **Componentes** | Shadcn/ui + Radix UI | latest | ✅ Completo |
-| **Animações** | GSAP + ScrollTrigger | 3.15.0 | ✅ Setup completo |
-| **Smooth Scroll** | Lenis | 1.0.42 | ✅ Configurado |
-| **CMS** | Sanity.io | 5.21.0 | ✅ Configurado |
-| **Linting** | Biome | 1.9.0 | ✅ Configurado |
-| **Runtime** | Bun | latest | ✅ Configurado |
-| **Deploy** | Vercel (Edge Runtime) | Hobby | ✅ Produção |
-| **Analytics** | GA4 + Search Console | — | 🔄 M4 |
-
-### Otimizações Implementadas (Fase 1)
-- ✅ Cache agressivo de assets (2 anos para fontes/_astro/images)
-- ✅ Edge Runtime para webhook (95% mais barato que serverless)
-- ✅ DNS prefetch + preconnect para domínios externos
-- ✅ Preload de fontes críticas (Buvera Bold/ExtraBold)
-- ✅ Headers de segurança configurados (X-Frame-Options, CSP, etc)
-- ✅ GSAP quickTo() para cursor customizado sem lag
-- ✅ ScrollTrigger para transição de cor entre seções
-
----
-
-## 📂 Estrutura do Projeto
-
-```
-estudio-entre/
-├── src/
-│   ├── animations/        # ✅ GSAP + Lenis + módulos de animação
-│   │   ├── init.ts        # Inicialização Lenis + ScrollTrigger
-│   │   ├── hero.ts        # Animações de entrada do Hero
-│   │   ├── sobre.ts       # Parallax + text reveal
-│   │   ├── eixos.ts       # Lateral reveal + cards stagger
-│   │   ├── navbar.ts      # Drawer mobile + active link tracking
-│   │   ├── cursor.ts      # Cursor customizado contextual
-│   │   └── colorTransition.ts # Transição de cor por seção
-│   ├── components/        # ✅ Componentes Astro + React islands
-│   │   ├── sections/      # Hero, Sobre, Eixos (Astro puro)
-│   │   └── ui/            # Navbar, CursorCustom (Astro puro)
-│   ├── layouts/           # ✅ BaseLayout com Navbar + cursor + animações
-│   ├── pages/             # ✅ Páginas Astro + API routes
-│   │   ├── api/webhook.ts # ✅ Edge Function para webhook Sanity
-│   │   └── studio/        # ✅ Sanity Studio embedded
-│   ├── styles/            # ✅ Estilos globais + cursor: none + Tailwind
-│   ├── assets/            # ✅ Ícones, logos, imagens, texturas
-│   ├── sanity/            # ✅ Schemas Sanity + client
-│   └── utils/             # 🔄 Helpers (M2)
-│
-├── public/                # ✅ Assets estáticos
-│   ├── fonts/             # ✅ Fontes WOFF2 (Buvera, Dongra, Helony)
-│   └── robots.txt         # ✅ Bloquear /studio da indexação
-│
-├── docs/                  # ✅ Documentação completa
-│   ├── briefing.md        # Missão, visão, personas
-│   ├── PRD-site.md        # Requisitos, arquitetura, schemas
-│   ├── identidade-visual.md  # Logo, cores, tipografia
-│   ├── VERCEL-DEPLOY.md   # ✅ Guia de deploy Vercel
-│   ├── ANIMACOES.md       # ✅ Documentação GSAP + Lenis
-│   ├── M1-RESUMO.md       # ✅ Resumo M1 completo
-│   └── VERCEL-OPTIMIZACAO-RECURSOS.md # ✅ Plano otimização
-│
-├── .github/
-│   └── GIT-FLOW-CONFIG.md # ✅ Documentação Git Flow
-│
-├── .vercel/               # ✅ Configuração Vercel
-├── vercel.json            # ✅ Build + headers + cache
-├── sanity.config.ts       # ✅ Config Sanity Studio
-├── astro.config.mjs       # ✅ Config Astro + adapter Vercel
-└── README.md              # ✅ Este arquivo
-```
-
-**Legenda:** ✅ Completo | 🔄 Em andamento | ❌ Aguardando
-
----
-
-## 🌊 Git Flow — Fluxo de Branches
-
-Este projeto segue o modelo **Git Flow** com as seguintes branches:
-
-### Branches Permanentes
-
-- **`main`** — Produção
-  - Apenas merges de `release` e `hotfix`
-  - Sempre em estado estável e pronto para deploy
-  - Recebe tags de versão semântica (v0.1.0, v0.2.0, etc)
-
-- **`develop`** — Integração
-  - Branch principal de desenvolvimento
-  - Recebe merges de `feature` e `release`
-  - Sempre em estado testável (mesmo que com features incompletas)
-
-### Branches Temporárias
-
-#### 1. **Feature Branch** — Novas funcionalidades
-```bash
-# Padrão de nomenclatura
-git checkout -b feature/nome-da-feature develop
-
-# Exemplo
-git checkout -b feature/section-agenda develop
-```
-- Origem: `develop`
-- Destino: `develop` (via Pull Request)
-- Convenção: `feature/` + nome descritivo em kebab-case
-
-#### 2. **Release Branch** — Preparação de versão
-```bash
-# Padrão de nomenclatura
-git checkout -b release/1.0.0 develop
-```
-- Origem: `develop`
-- Destino: `main` (merge final) e `develop` (sincronização)
-- Convenção: `release/` + versão semântica
-- **Uso**: Ajustes finais, bump de versão, preparação de deployment
-
-#### 3. **Hotfix Branch** — Correções críticas em produção
-```bash
-# Padrão de nomenclatura
-git checkout -b hotfix/1.0.1 main
-```
-- Origem: `main`
-- Destino: `main` (merge com tag) e `develop` (backport)
-- Convenção: `hotfix/` + versão semântica (patch)
-- **Uso**: Corrigir bugs críticos em produção sem aguardar nova release
-
----
-
-## 📝 Convenções de Commit
-
-Utilizamos **Conventional Commits** para manter histórico organizado:
-
-```
-type(scope): subject
-
-body
-
-footer
-```
-
-### Tipos válidos
-
-- **`feat`** — Nova funcionalidade
-- **`fix`** — Correção de bug
-- **`refactor`** — Mudanças sem alterar funcionalidade
-- **`style`** — Formatação (espaços, quebras de linha, etc)
-- **`test`** — Adicionar ou atualizar testes
-- **`docs`** — Apenas documentação
-- **`chore`** — Dependências, configuração, build
-- **`ci`** — CI/CD relacionados
-- **`perf`** — Melhorias de performance
-
-### Exemplos
-
-```bash
-git commit -m "feat(hero): adicionar seção hero com animação GSAP"
-git commit -m "fix(agenda): corrigir horário dos eventos"
-git commit -m "refactor(components): extrair lógica de filtro para hook"
-git commit -m "docs(readme): atualizar instruções de setup"
-git commit -m "chore(deps): atualizar Astro para 5.1.0"
-```
-
----
-
-## 🎯 Roadmap
-
-### Milestone 1: Fundação & Setup ✅ (100%)
-**Deadline:** 30 de Abril de 2026 | **Concluído:** 20 de Abril
-
-- ✅ Repositório Astro 6 + Bun + Biome configurado
-- ✅ Design system tokens (cores, tipografia, BaseLayout)
-- ✅ Sanity CMS configurado com schemas
-- ✅ Fontes convertidas TTF → WOFF2
-- ✅ Ativos organizados e documentação unificada
-- ✅ Imagens otimizadas para WebP
-- ✅ Vercel deploy configurado (vercel.json + webhook)
-- ✅ GSAP + Lenis setup completo
-
-### Milestone 2: Hero, Sobre & Eixos ✅ (100%)
-**Deadline:** 31 de Maio de 2026 | **Concluído:** 22 de Abril
-
-- ✅ Seção Hero com animação de entrada e tagline (DEV-46)
-- ✅ Seção Sobre editorial com parallax e halftone (DEV-49)
-- ✅ Seção Eixos com cards interativos (DEV-50)
-- ✅ Transição de background por seção via ScrollTrigger (DEV-48)
-- ✅ Navbar fixa com adaptação de cor e menu mobile (DEV-51)
-- ✅ Cursor customizado com estados contextuais (DEV-47)
-
-### Milestone 3: Agenda, Galeria, CMS & Contato 🔄 (Próximo)
-**Deadline:** 30 de Junho de 2026
-
-- ❌ Integração completa Sanity CMS
-- ❌ Seção Agenda com filtros
-- ❌ Galeria do espaço
-- ❌ Formulário de contato
-- ❌ Páginas dinâmicas de eventos
-
-### Milestone 4: QA, Performance & Launch
-**Deadline:** 31 de Julho de 2026
-
-- ❌ Otimização final de performance
-- ❌ Testes cross-browser e dispositivos
-- ❌ Acessibilidade (WCAG AA)
-- ❌ Configuração de Analytics
-- ❌ Revisão de conteúdo com cliente
-- ❌ Lançamento em produção
-
----
-
-## 🎯 Métricas de Sucesso
-
-### Performance & UX
-| Métrica | Meta | Atual |
-|---|---|---|
-| Lighthouse Performance | ≥ 95 | 🔄 M2 |
-| Lighthouse SEO | ≥ 98 | 🔄 M2 |
-| Lighthouse Accessibility | ≥ 95 | 🔄 M2 |
-| Build Time | < 30s | ✅ ~27s |
-| Edge Requests | < 1000/mês | 🔄 Monitorando |
-
-### Acquisition & Engagement (3 meses pós-lançamento)
-| Métrica | Meta |
-|---|---|
-| Cliques orgânicos/mês | > 200 |
-| Posição média keywords-alvo | Top 5 local |
-| Taxa de clique (CTR) | > 3% |
-| Bounce rate | < 60% |
-
-### Conversão
-| Métrica | Meta |
-|---|---|
-| Eventos/mês reservados via site | > 50 |
-| Leads via formulário | > 20/mês |
-| Newsletter subscribers | > 100 (1º mês) |
-
----
-
-## 🚀 Deploy na Vercel
-
-### Produção
-- **URL:** https://estudio-entre.vercel.app (ou domínio customizado em M4)
-- **Status:** ✅ Ativo
-- **Build:** Automático via push para `main`
-- **Webhook Sanity:** ✅ Configurado (rebuilds automáticos)
-
-### Variáveis de Ambiente
-
-```bash
-# Sanity CMS
+# .env.local (não versionado)
 SANITY_PROJECT_ID=7a0ee11t
 SANITY_DATASET=production
-SANITY_WEBHOOK_SECRET=<uuid-seguro>
-
-# Vercel
-VERCEL_DEPLOY_HOOK_URL=<do-dashboard-vercel>
-
-# Analytics (M4)
-GA_MEASUREMENT_ID=<g-tag>
+SANITY_WEBHOOK_SECRET=<uuid>         # opcional
+VERCEL_DEPLOY_HOOK_URL=<url>         # opcional
 ```
 
-### Webhook Sanity
+---
 
-Quando conteúdo muda no Sanity CMS, um webhook é disparado:
-1. Sanity detecta mudança em `evento` ou `configuracao`
-2. Webhook chama `/api/webhook` (Edge Function)
-3. Valida secret e dispara deploy hook da Vercel
-4. Vercel faz rebuild automaticamente
-5. Novo conteúdo aparece em ~2-3 minutos
+## Desenvolvimento
+
+### Fluxo de branches
+
+- `main` — produção
+- `develop` — integração
+- `feature/*` — novas funcionalidades (criar a partir de `develop`)
+
+### Commits
+
+Conventional Commits em português: `tipo(escopo): descrição`
+
+Tipos: `feat`, `fix`, `refactor`, `style`, `docs`, `chore`, `perf`
+
+### Antes de commitar
+
+```bash
+bun run check
+bun run build
+```
 
 ---
 
-## 👥 Como Contribuir
+## Documentação
 
-1. **Sempre** criar uma feature branch a partir de `develop`
-2. **Sempre** fazer commit seguindo Conventional Commits
-3. **Sempre** abrir Pull Request para revisão antes de merge
-4. **Nunca** fazer push direto para `main` ou `develop`
-5. **Sempre** sincronizar `develop` antes de criar novas branches
-6. **Sempre** rodar `bun run check` antes de commitar
-
----
-
-## 📚 Documentação
-
-- [Briefing de Marca](./docs/briefing.md) — Identidade, missão e valores
-- [PRD — Site Institucional](./docs/PRD-site.md) — Requisitos, objetivos e stack técnico
-- [Identidade Visual](./docs/identidade-visual.md) — Guia de estilo e componentes
-- [Guia de Deploy Vercel](./docs/VERCEL-DEPLOY.md) — Deploy passo a passo
-- [Sistema de Animações](./docs/ANIMACOES.md) — GSAP + Lenis documentation
-- [Otimização de Recursos](./docs/VERCEL-OPTIMIZACAO-RECURSOS.md) — Plano de otimização Vercel
+- [Briefing de Marca](./docs/brifieng.md)
+- [PRD do Site](./docs/PRD-site.md)
+- [Identidade Visual](./docs/identidade-visual.md)
+- [Sistema de Animações](./docs/ANIMACOES.md)
+- [Guia de Deploy Vercel](./docs/VERCEL-DEPLOY.md)
+- [Otimização Vercel](./docs/VERCEL-OPTIMIZACAO-RECURSOS.md)
+- [Git Flow](./.github/GIT-FLOW-CONFIG.md)
 
 ---
 
-## 📞 Contato
+## Contato
 
 - **Instagram:** [@entrenoestudio](https://www.instagram.com/entrenoestudio/)
 - **TikTok:** [@entrenoestudio](https://www.tiktok.com/@entrenoestudio)
-- **Facebook:** [facebook.com/61583641444105](https://www.facebook.com/61583641444105)
-- **Endereço:** Rua Maria Calmon, 100 — Méier, Rio de Janeiro – RJ, 20710-030
-
----
-
-## 📊 Progresso do Projeto
-
-- **M1 — Fundação & Setup:** ✅ 100% (11/11 issues)
-- **M2 — Hero, Sobre & Eixos:** ✅ 100% (6/6 issues)
-- **M3 — Agenda, Galeria, CMS:** ❌ 0% (0/5 issues)
-- **M4 — QA, Performance & Launch:** ❌ 0% (0/4 issues)
-
-**Progresso Geral:** 17/26 issues (65%)
-
----
-
-**Última atualização:** 22 de Abril de 2026
-**Próximo milestone:** M3 — Agenda, Galeria, CMS & Contato (Deadline: 30 de Junho)
+- **Endereço:** Rua Maria Calmon, 100 — Méier, Rio de Janeiro – RJ
