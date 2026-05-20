@@ -15,7 +15,8 @@ export default defineConfig({
     react(),
     sitemap(),
     sanity({
-      projectId: env.SANITY_PROJECT_ID || "7a0ee11t",
+      projectId:
+        env.SANITY_PROJECT_ID || (process.env.NODE_ENV === "development" ? "7a0ee11t" : ""),
       dataset: env.SANITY_DATASET || "production",
       useCdn: false,
       studioBasePath: "/studio",

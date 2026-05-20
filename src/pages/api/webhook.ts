@@ -13,9 +13,25 @@ const ALLOWED_TYPES = ["evento", "configuracao"];
 
 export const POST: APIRoute = async ({ request }) => {
   try {
+    // 0. Validar Content-Type e tamanho do payload
+    const contentType = request.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      return new Response(JSON.stringify({ error: "Content-Type inválido" }), {
+        status: 415,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const contentLength = request.headers.get("content-length");
+    if (contentLength && Number.parseInt(contentLength, 10) > 10240) {
+      return new Response(JSON.stringify({ error: "Payload muito grande" }), {
+        status: 413,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     // 1. Verificar secret do webhook
     const signature = request.headers.get("x-sanity-webhook-secret");
-    const secret = request.headers.get("x-sanity-webhook-secret");
 
     if (!signature || signature !== process.env.SANITY_WEBHOOK_SECRET) {
       console.error("Secret do webhook inválido");
@@ -85,16 +101,10 @@ export const POST: APIRoute = async ({ request }) => {
     );
   } catch (error) {
     console.error("Erro no webhook:", error);
-    return new Response(
-      JSON.stringify({
-        error: "Erro interno do servidor",
-        message: error instanceof Error ? error.message : "Erro desconhecido",
-      }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return new Response(JSON.stringify({ error: "Erro interno do servidor" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 };
 
