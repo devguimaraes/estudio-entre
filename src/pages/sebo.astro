@@ -1,0 +1,66 @@
+---
+import SeboFilter from "@/components/islands/SeboFilter";
+import Footer from "@/components/sections/Footer.astro";
+import Decorative from "@/components/ui/Decorative.astro";
+import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+import NoiseTexture from "@/components/ui/NoiseTexture.astro";
+import seboData from "@/data/sebo.json";
+// src/pages/sebo.astro
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { LivroSebo } from "@/types/sebo";
+
+const livros: LivroSebo[] = seboData;
+---
+
+<BaseLayout
+  title="Sebo — Estúdio Entre"
+  description="Catálogo de livros usados do Estúdio Entre. Garimpe por gênero, autor ou título."
+  navTheme="dark"
+>
+  <main class="relative min-h-screen overflow-hidden bg-cream pb-24 pt-32 text-bordo md:pb-40 md:pt-40">
+    <!-- Texturas -->
+    <HalftoneTexture density={14} dotSize={1.5} color="61,16,32" opacity={0.03} class="z-0" />
+    <NoiseTexture opacity={0.06} />
+
+    <!-- Header -->
+    <div class="relative z-10 bg-cyan px-4 pb-20 pt-16 md:px-16 md:pb-28 md:pt-20" style="background-color: #b9e4eb;">
+      <!-- Dot grid -->
+      <div class="absolute inset-0 z-0 opacity-[0.08] pointer-events-none"
+        style="background-image: radial-gradient(rgba(61,16,32,0.7) 1.2px, transparent 1.2px); background-size: 50px 50px;">
+      </div>
+      <!-- Watermark -->
+      <div class="absolute -bottom-[10%] -right-[5%] z-0 pointer-events-none opacity-[0.03] select-none"
+        aria-hidden="true">
+        <span class="font-display font-black text-[50vw] leading-none text-bordo italic">e</span>
+      </div>
+
+      <div class="relative z-10 mx-auto max-w-[1300px]">
+        <p class="font-display text-[11px] font-black uppercase tracking-[0.4em] text-bordo/30">
+          Catálogo de Livros Usados
+        </p>
+        <h1 class="mt-6 font-display text-[clamp(3.5rem,10vw,8.5rem)] font-black uppercase leading-[0.8] text-bordo">
+          SEBO<br />
+          <span class="text-orange italic">Entre</span>
+        </h1>
+        <p class="mt-8 max-w-xl text-base leading-relaxed text-bordo/45 md:text-lg">
+          Livros que já viveram outras histórias, prontos para encontrar novas mãos.
+        </p>
+      </div>
+
+      <!-- Decorativos -->
+      <div class="absolute right-[8%] top-24 z-0 opacity-15">
+        <Decorative variant="star" color="#3D1020" size={48} />
+      </div>
+      <div class="absolute bottom-16 left-[6%] z-0 opacity-10">
+        <Decorative variant="dots" color="#3D1020" size={40} />
+      </div>
+    </div>
+
+    <!-- Conteúdo -->
+    <div class="relative z-10 mx-auto max-w-[1300px] px-4 md:px-16">
+      <SeboFilter client:load livros={livros} />
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
