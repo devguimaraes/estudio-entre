@@ -4,38 +4,33 @@ import Decorative from "@/components/ui/Decorative.astro";
 import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 import type { ProdutoLoja } from "@/types/loja";
 import { CORES_CATEGORIA_LOJA } from "@/types/loja";
-import { fetchInfinitePayProducts } from "@/utils/infinitepay";
-
-let destaques: Pick<ProdutoLoja, "titulo" | "preco" | "categoria" | "slug" | "imagemUrl">[] = [];
-
-try {
-  const produtos = await fetchInfinitePayProducts();
-  destaques = produtos.slice(0, 3);
-} catch {
-  destaques = [
-    {
-      titulo: "A delicada composição dos dias",
-      preco: "R$ 60,00",
-      categoria: "Livros",
-      slug: "rte9908-a-delicada-composicao-dos-dias",
-      imagemUrl: null,
-    },
-    {
-      titulo: "Biblioterapia Clínica",
-      preco: "R$ 50,00",
-      categoria: "Livros",
-      slug: "nkb3196-biblioterapia-clinica",
-      imagemUrl: null,
-    },
-    {
-      titulo: "Envelope para Colorir",
-      preco: "R$ 20,00",
-      categoria: "Leitura e Criação",
-      slug: "mci3163-envelope-para-colorir-meus-desenhos-de-col",
-      imagemUrl: null,
-    },
-  ];
-}
+// Dados estáticos para a home (evita chamada à API durante o build)
+// A página /lojinha usa fetch real via SSR (prerender = false)
+const destaques: Pick<ProdutoLoja, "titulo" | "preco" | "categoria" | "slug" | "imagemUrl">[] = [
+  {
+    titulo: "A delicada composição dos dias",
+    preco: "R$ 60,00",
+    categoria: "Livros",
+    slug: "rte9908-a-delicada-composicao-dos-dias",
+    imagemUrl:
+      "https://infinitepay-sales.services.production.infinitepay.io/pdv/v1/products/variation/media_proxy/0c683adc-fe0c-4e64-8181-0a3f5558b469",
+  },
+  {
+    titulo: "Biblioterapia Clínica",
+    preco: "R$ 50,00",
+    categoria: "Livros",
+    slug: "nkb3196-biblioterapia-clinica",
+    imagemUrl: null,
+  },
+  {
+    titulo: "Envelope para Colorir",
+    preco: "R$ 20,00",
+    categoria: "Leitura e Criação",
+    slug: "mci3163-envelope-para-colorir-meus-desenhos-de-col",
+    imagemUrl:
+      "https://infinitepay-sales.services.production.infinitepay.io/pdv/v1/products/variation/media_proxy/bb44b901-445a-4a0a-b240-9e3f5d3c2f32",
+  },
+];
 ---
 
 <section

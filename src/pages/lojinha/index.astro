@@ -8,6 +8,8 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import type { ProdutoLoja } from "@/types/loja";
 import { fetchInfinitePayProducts } from "@/utils/infinitepay";
 
+export const prerender = false;
+
 let produtos: ProdutoLoja[] = [];
 let fetchError: string | null = null;
 
