@@ -23,6 +23,17 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const popoverRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const prevIsGeneroOpen = useRef(isGeneroOpen);
+
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(media.matches);
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    media.addEventListener("change", handler);
+    return () => media.removeEventListener("change", handler);
+  }, []);
 
   const counts = useMemo(() => {
     const map = new Map<GeneroSebo, number>();
@@ -54,6 +65,7 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: re-run card entrance animation when filter changes
   useLayoutEffect(() => {
+    if (prefersReducedMotion) return;
     if (!containerRef.current) return;
     const cards = containerRef.current.querySelectorAll(".sebo-card");
     if (cards.length === 0) return;
@@ -70,7 +82,7 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
         clearProps: "all",
       },
     );
-  }, [activeGenero, search]);
+  }, [activeGenero, search, prefersReducedMotion]);
 
   useEffect(() => {
     function handleClickOutside(event: PointerEvent) {
@@ -137,6 +149,14 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
     };
   }, [isGeneroOpen]);
 
+  // Return focus to trigger when popover closes
+  useEffect(() => {
+    if (prevIsGeneroOpen.current && !isGeneroOpen) {
+      triggerRef.current?.focus();
+    }
+    prevIsGeneroOpen.current = isGeneroOpen;
+  }, [isGeneroOpen]);
+
   if (livros.length === 0) {
     return (
       <div className="rounded-[2.5rem] border border-bordo/10 bg-cream/70 px-6 py-16 text-center">
@@ -149,184 +169,185 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
   }
 
   return (
-    <div className="space-y-10">
-      {/* Filter Panel */}
-      <section className="-mt-10 rounded-[2.5rem] border border-white/40 bg-white/50 p-5 shadow-2xl shadow-bordo/5 backdrop-blur-sm md:p-10">
-        <div className="space-y-8">
-          {/* Search */}
-          <div className="relative w-full">
-            <label
-              htmlFor="search-sebo"
-              className="mb-3 block text-[10px] font-black uppercase tracking-[0.3em] text-bordo/50 md:text-[11px]"
-            >
-              Garimpar no acervo
-            </label>
-            <div className="relative group">
-              <input
-                id="search-sebo"
-                type="search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Título, autor ou editora..."
-                className="w-full rounded-t-xl border-b-2 border-bordo/10 bg-bordo/[0.03] px-5 py-5 text-base font-medium text-bordo outline-none transition-all placeholder:text-bordo/30 focus:border-orange focus:bg-white md:py-6 md:text-lg"
-              />
-              <div className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 opacity-20 transition-opacity group-focus-within:opacity-50">
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <circle cx="11" cy="11" r="8" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
+    <>
+      <style>{`
+        @keyframes popover-enter {
+          from {
+            opacity: 0;
+            transform: scale(0.96) translateY(-8px);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+        }
+        .popover-enter {
+          animation: popover-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .popover-enter {
+            animation: none !important;
+          }
+        }
+      `}</style>
+      {/*
+        Closing animation omitted because the popover is conditionally rendered
+        (unmounts immediately on close). Adding a leave animation would require
+        keeping the element in the DOM during the exit animation, which adds
+        significant complexity. The fade+scale entrance animation is sufficient.
+      */}
+      <div className="space-y-10">
+        {/* Filter Panel */}
+        <section className="-mt-10 rounded-[2.5rem] border border-white/40 bg-white/50 p-5 shadow-2xl shadow-bordo/5 backdrop-blur-sm md:p-10">
+          <div className="space-y-8">
+            {/* Search */}
+            <div className="relative w-full">
+              <label
+                htmlFor="search-sebo"
+                className="mb-3 block text-[10px] font-black uppercase tracking-[0.3em] text-bordo/50 md:text-[11px]"
+              >
+                Garimpar no acervo
+              </label>
+              <div className="relative group">
+                <input
+                  id="search-sebo"
+                  type="search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Título, autor ou editora..."
+                  className="w-full rounded-t-xl border-b-2 border-bordo/10 bg-bordo/[0.03] px-5 py-5 text-base font-medium text-bordo outline-none transition-all placeholder:text-bordo/30 focus:border-orange focus:bg-white md:py-6 md:text-lg"
+                />
+                <div className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 opacity-20 transition-opacity group-focus-within:opacity-50">
+                  <svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Genre filters */}
-          <div className="space-y-4">
-            <span className="block text-[10px] font-black uppercase tracking-[0.3em] text-bordo/50 md:text-[11px]">
-              Gêneros
-            </span>
-            <nav className="flex flex-wrap items-center gap-3" aria-label="Filtrar por gênero">
-              {activeGenero === "todos" ? (
-                <>
-                  <button
-                    type="button"
-                    aria-pressed={true}
-                    className="rounded-full border-2 border-bordo bg-bordo px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-cream shadow-sm shadow-bordo/20 transition-all md:px-8 md:py-3.5 md:text-[11px]"
-                  >
-                    Todos · {livros.length}
-                  </button>
-                  {generos.slice(0, 4).map(([genero, count]) => (
+            {/* Genre filters */}
+            <div className="space-y-4">
+              <span className="block text-[10px] font-black uppercase tracking-[0.3em] text-bordo/50 md:text-[11px]">
+                Gêneros
+              </span>
+              <nav className="flex flex-wrap items-center gap-3" aria-label="Filtrar por gênero">
+                {activeGenero === "todos" ? (
+                  <>
                     <button
-                      key={genero}
                       type="button"
-                      aria-pressed={false}
-                      onClick={() => setActiveGenero(genero)}
-                      className="rounded-full border-2 border-bordo/10 bg-white px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-bordo/60 transition-all hover:-translate-y-0.5 hover:border-bordo/30 hover:text-bordo md:px-8 md:py-3.5 md:text-[11px]"
+                      aria-pressed={true}
+                      className="rounded-full border-2 border-bordo bg-bordo px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-cream shadow-sm shadow-bordo/20 transition-all md:px-8 md:py-3.5 md:text-[11px]"
                     >
-                      {genero} · {count}
+                      Todos · {livros.length}
                     </button>
-                  ))}
-                </>
-              ) : (
-                <>
-                  <button
-                    type="button"
-                    aria-pressed={true}
-                    className="rounded-full border-2 px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-sm md:px-8 md:py-3.5 md:text-[11px]"
-                    style={{
-                      backgroundColor: CORES_GENERO[activeGenero] ?? "#EC6838",
-                      borderColor: CORES_GENERO[activeGenero] ?? "#EC6838",
-                      color: getContrastColor(activeGenero),
-                    }}
-                  >
-                    {activeGenero} · {counts.get(activeGenero) ?? 0}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setActiveGenero("todos");
-                      setSearch("");
-                    }}
-                    className="rounded-full border border-bordo/20 px-5 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-bordo/60 transition-all hover:border-bordo hover:text-bordo md:px-7 md:py-3.5 md:text-[11px]"
-                  >
-                    Limpar
-                  </button>
-                </>
-              )}
-
-              {/* Popover trigger */}
-              <div className="relative">
-                <button
-                  ref={triggerRef}
-                  type="button"
-                  onClick={() => setIsGeneroOpen((prev) => !prev)}
-                  aria-expanded={isGeneroOpen}
-                  aria-controls="genero-popover"
-                  className="rounded-full border-2 border-bordo/10 bg-bordo/[0.06] px-5 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-bordo/70 transition-all hover:border-bordo/30 hover:bg-bordo/10 md:px-7 md:py-3.5 md:text-[11px]"
-                >
-                  Todos os gêneros
-                  <span
-                    className="ml-2 inline-block transition-transform"
-                    style={{ transform: isGeneroOpen ? "rotate(180deg)" : undefined }}
-                  >
-                    ▾
-                  </span>
-                </button>
-
-                {/* Popover */}
-                {isGeneroOpen && (
-                  <dialog
-                    id="genero-popover"
-                    ref={popoverRef}
-                    open={isGeneroOpen}
-                    aria-label="Escolha um gênero"
-                    className="absolute left-0 top-full z-50 mt-3 w-[min(90vw,520px)] rounded-[2rem] border border-white/60 bg-white/70 p-5 shadow-2xl shadow-bordo/10 backdrop-blur-md md:p-6"
-                  >
-                    <div className="mb-4 flex items-center justify-between">
-                      <span className="text-[10px] font-black uppercase tracking-[0.25em] text-bordo/50 md:text-[11px]">
-                        Escolha um gênero
-                      </span>
+                    {generos.slice(0, 4).map(([genero, count]) => (
                       <button
+                        key={genero}
                         type="button"
-                        onClick={() => setIsGeneroOpen(false)}
-                        className="flex h-8 w-8 items-center justify-center rounded-full text-bordo/40 transition-colors hover:bg-bordo/10 hover:text-bordo"
-                        aria-label="Fechar"
+                        aria-pressed={false}
+                        onClick={() => setActiveGenero(genero)}
+                        className="rounded-full border-2 border-bordo/10 bg-white px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-bordo/60 transition-all hover:-translate-y-0.5 hover:border-bordo/30 hover:text-bordo md:px-8 md:py-3.5 md:text-[11px]"
                       >
-                        ✕
+                        {genero} · {count}
                       </button>
-                    </div>
-                    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 md:gap-3">
-                      <button
-                        type="button"
-                        aria-pressed={activeGenero === "todos"}
-                        onClick={() => {
-                          setActiveGenero("todos");
-                          setIsGeneroOpen(false);
-                        }}
-                        className="rounded-full border-2 px-4 py-2.5 text-[9px] font-black uppercase tracking-[0.12em] transition-all md:text-[10px]"
-                        style={
-                          activeGenero === "todos"
-                            ? {
-                                backgroundColor: "#3D1020",
-                                borderColor: "#3D1020",
-                                color: "#F0EDE8",
-                              }
-                            : {
-                                backgroundColor: "white",
-                                borderColor: "rgb(61,16,32,0.1)",
-                                color: "rgb(61,16,32,0.6)",
-                              }
-                        }
-                      >
-                        Todos · {livros.length}
-                      </button>
-                      {generos.map(([genero, count]) => (
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      aria-pressed={true}
+                      className="rounded-full border-2 px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-sm md:px-8 md:py-3.5 md:text-[11px]"
+                      style={{
+                        backgroundColor: CORES_GENERO[activeGenero] ?? "#EC6838",
+                        borderColor: CORES_GENERO[activeGenero] ?? "#EC6838",
+                        color: getContrastColor(activeGenero),
+                      }}
+                    >
+                      {activeGenero} · {counts.get(activeGenero) ?? 0}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setActiveGenero("todos");
+                        setSearch("");
+                      }}
+                      className="rounded-full border border-bordo/20 px-5 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-bordo/60 transition-all hover:border-bordo hover:text-bordo md:px-7 md:py-3.5 md:text-[11px]"
+                    >
+                      Limpar
+                    </button>
+                  </>
+                )}
+
+                {/* Popover trigger */}
+                <div className="relative">
+                  <button
+                    ref={triggerRef}
+                    type="button"
+                    onClick={() => setIsGeneroOpen((prev) => !prev)}
+                    aria-expanded={isGeneroOpen}
+                    aria-controls="genero-popover"
+                    className="rounded-full border-2 border-bordo/10 bg-bordo/[0.06] px-5 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-bordo/70 transition-all hover:border-bordo/30 hover:bg-bordo/10 md:px-7 md:py-3.5 md:text-[11px]"
+                  >
+                    Todos os gêneros
+                    <span
+                      className="ml-2 inline-block transition-transform"
+                      style={{ transform: isGeneroOpen ? "rotate(180deg)" : undefined }}
+                    >
+                      ▾
+                    </span>
+                  </button>
+
+                  {/* Popover */}
+                  {isGeneroOpen && (
+                    <dialog
+                      id="genero-popover"
+                      ref={popoverRef}
+                      open={isGeneroOpen}
+                      aria-label="Escolha um gênero"
+                      aria-modal="true"
+                      className="absolute left-0 top-full z-50 mt-3 w-[min(90vw,520px)] rounded-[2rem] border border-white/60 bg-white/70 p-5 shadow-2xl shadow-bordo/10 backdrop-blur-md popover-enter md:p-6"
+                    >
+                      <div className="mb-4 flex items-center justify-between">
+                        <span className="text-[10px] font-black uppercase tracking-[0.25em] text-bordo/50 md:text-[11px]">
+                          Escolha um gênero
+                        </span>
                         <button
-                          key={genero}
                           type="button"
-                          aria-pressed={activeGenero === genero}
+                          onClick={() => setIsGeneroOpen(false)}
+                          className="flex h-8 w-8 items-center justify-center rounded-full text-bordo/40 transition-colors hover:bg-bordo/10 hover:text-bordo"
+                          aria-label="Fechar"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 md:gap-3">
+                        <button
+                          type="button"
+                          aria-pressed={activeGenero === "todos"}
                           onClick={() => {
-                            setActiveGenero(genero);
+                            setActiveGenero("todos");
                             setIsGeneroOpen(false);
                           }}
-                          className="rounded-full border-2 px-4 py-2.5 text-[9px] font-black uppercase tracking-[0.12em] transition-all hover:scale-105 md:text-[10px]"
+                          className="rounded-full border-2 px-4 py-2.5 text-[9px] font-black uppercase tracking-[0.12em] transition-all md:text-[10px]"
                           style={
-                            activeGenero === genero
+                            activeGenero === "todos"
                               ? {
-                                  backgroundColor: CORES_GENERO[genero] ?? "#EC6838",
-                                  borderColor: CORES_GENERO[genero] ?? "#EC6838",
-                                  color: getContrastColor(genero),
-                                  boxShadow: "0 0 0 2px rgba(61,16,32,0.15)",
+                                  backgroundColor: "#3D1020",
+                                  borderColor: "#3D1020",
+                                  color: "#F0EDE8",
                                 }
                               : {
                                   backgroundColor: "white",
@@ -335,95 +356,123 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
                                 }
                           }
                         >
-                          {genero} · {count}
+                          Todos · {livros.length}
                         </button>
-                      ))}
-                    </div>
-                  </dialog>
-                )}
-              </div>
-            </nav>
-          </div>
-        </div>
-      </section>
-
-      {/* Book grid */}
-      <div ref={containerRef}>
-        {filteredLivros.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-2">
-            {filteredLivros.map((livro, i) => (
-              <article
-                key={`${livro.titulo}-${livro.autor}-${i}`}
-                className="sebo-card group rounded-[2rem] bg-white p-8 shadow-lg shadow-bordo/[0.03] transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-bordo/[0.06]"
-              >
-                {/* Genre dot + label */}
-                <div className="mb-5 flex items-center gap-2">
-                  <span
-                    className="inline-block h-2.5 w-2.5 rounded-full"
-                    style={{ backgroundColor: CORES_GENERO[livro.genero] ?? "#EC6838" }}
-                  />
-                  <span className="text-[9px] font-black uppercase tracking-[0.3em] text-bordo/30">
-                    {livro.genero}
-                  </span>
+                        {generos.map(([genero, count]) => (
+                          <button
+                            key={genero}
+                            type="button"
+                            aria-pressed={activeGenero === genero}
+                            onClick={() => {
+                              setActiveGenero(genero);
+                              setIsGeneroOpen(false);
+                            }}
+                            className="rounded-full border-2 px-4 py-2.5 text-[9px] font-black uppercase tracking-[0.12em] transition-all hover:scale-105 md:text-[10px]"
+                            style={
+                              activeGenero === genero
+                                ? {
+                                    backgroundColor: CORES_GENERO[genero] ?? "#EC6838",
+                                    borderColor: CORES_GENERO[genero] ?? "#EC6838",
+                                    color: getContrastColor(genero),
+                                    boxShadow: "0 0 0 2px rgba(61,16,32,0.15)",
+                                  }
+                                : {
+                                    backgroundColor: "white",
+                                    borderColor: "rgb(61,16,32,0.1)",
+                                    color: "rgb(61,16,32,0.6)",
+                                  }
+                            }
+                          >
+                            {genero} · {count}
+                          </button>
+                        ))}
+                      </div>
+                    </dialog>
+                  )}
                 </div>
-
-                {/* Title */}
-                <h2 className="font-display text-xl font-black uppercase leading-[1.05] text-near-black md:text-2xl">
-                  {livro.titulo}
-                </h2>
-
-                {/* Author · Publisher */}
-                <p className="mt-2 text-sm text-bordo/40">
-                  {livro.autor}
-                  <span className="mx-2 opacity-20">·</span>
-                  {livro.editora}
-                </p>
-
-                {/* Price + WhatsApp */}
-                <div className="mt-7 flex items-center justify-between border-t border-bordo/[0.04] pt-6">
-                  <span className="font-display text-2xl font-black text-orange">
-                    {livro.valor}
-                  </span>
-                  <a
-                    href={`https://wa.me/5521973101451?text=${encodeURIComponent(`Olá! Tenho interesse no livro: ${livro.titulo}`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex h-11 w-11 items-center justify-center rounded-full bg-[#25D366] transition-transform duration-300 hover:scale-110"
-                    aria-label={`Comprar ${livro.titulo} via WhatsApp`}
-                  >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white" role="img">
-                      <title>WhatsApp</title>
-                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                    </svg>
-                  </a>
-                </div>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <div className="rounded-[2.5rem] border border-white/20 bg-white/30 px-5 py-16 text-center backdrop-blur-sm md:rounded-[3rem] md:px-6 md:py-24">
-            <p className="font-display text-3xl font-black uppercase leading-none text-bordo/80 md:text-4xl">
-              Nenhum livro <br />
-              <span className="text-orange opacity-100">encontrado.</span>
-            </p>
-            <p className="mx-auto mt-6 max-w-xl text-sm font-medium leading-relaxed text-bordo/50 md:mt-8">
-              Tente ajustar seus filtros ou buscar por outro termo.
-            </p>
-            <div className="mt-10 flex flex-wrap justify-center gap-3 md:mt-12 md:gap-4">
-              <button
-                type="button"
-                onClick={() => {
-                  setSearch("");
-                  setActiveGenero("todos");
-                }}
-                className="rounded-full border border-bordo/20 px-8 py-3.5 text-[9px] font-black uppercase tracking-[0.3em] text-bordo/60 transition-all hover:border-bordo hover:text-bordo md:px-10 md:py-4 md:text-[10px]"
-              >
-                Limpar filtros
-              </button>
+              </nav>
             </div>
           </div>
-        )}
+        </section>
+
+        {/* Book grid */}
+        <div ref={containerRef}>
+          {filteredLivros.length > 0 ? (
+            <div className="grid gap-6 md:grid-cols-2">
+              {filteredLivros.map((livro, i) => (
+                <article
+                  key={`${livro.titulo}-${livro.autor}-${i}`}
+                  className="sebo-card group rounded-[2rem] bg-white p-8 shadow-lg shadow-bordo/[0.03] transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-bordo/[0.06]"
+                >
+                  {/* Genre dot + label */}
+                  <div className="mb-5 flex items-center gap-2">
+                    <span
+                      className="inline-block h-2.5 w-2.5 rounded-full"
+                      style={{ backgroundColor: CORES_GENERO[livro.genero] ?? "#EC6838" }}
+                    />
+                    <span className="text-[9px] font-black uppercase tracking-[0.3em] text-bordo/30">
+                      {livro.genero}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h2 className="font-display text-xl font-black uppercase leading-[1.05] text-near-black md:text-2xl">
+                    {livro.titulo}
+                  </h2>
+
+                  {/* Author · Publisher */}
+                  <p className="mt-2 text-sm text-bordo/40">
+                    {livro.autor}
+                    <span className="mx-2 opacity-20">·</span>
+                    {livro.editora}
+                  </p>
+
+                  {/* Price + WhatsApp */}
+                  <div className="mt-7 flex items-center justify-between border-t border-bordo/[0.04] pt-6">
+                    <span className="font-display text-2xl font-black text-orange">
+                      {livro.valor}
+                    </span>
+                    <a
+                      href={`https://wa.me/5521973101451?text=${encodeURIComponent(`Olá! Tenho interesse no livro: ${livro.titulo}`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex h-11 w-11 items-center justify-center rounded-full bg-[#25D366] transition-transform duration-300 hover:scale-110"
+                      aria-label={`Comprar ${livro.titulo} via WhatsApp`}
+                    >
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="white" role="img">
+                        <title>WhatsApp</title>
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                      </svg>
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-[2.5rem] border border-white/20 bg-white/30 px-5 py-16 text-center backdrop-blur-sm md:rounded-[3rem] md:px-6 md:py-24">
+              <p className="font-display text-3xl font-black uppercase leading-none text-bordo/80 md:text-4xl">
+                Nenhum livro <br />
+                <span className="text-orange opacity-100">encontrado.</span>
+              </p>
+              <p className="mx-auto mt-6 max-w-xl text-sm font-medium leading-relaxed text-bordo/50 md:mt-8">
+                Tente ajustar seus filtros ou buscar por outro termo.
+              </p>
+              <div className="mt-10 flex flex-wrap justify-center gap-3 md:mt-12 md:gap-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearch("");
+                    setActiveGenero("todos");
+                  }}
+                  className="rounded-full border border-bordo/20 px-8 py-3.5 text-[9px] font-black uppercase tracking-[0.3em] text-bordo/60 transition-all hover:border-bordo hover:text-bordo md:px-10 md:py-4 md:text-[10px]"
+                >
+                  Limpar filtros
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
