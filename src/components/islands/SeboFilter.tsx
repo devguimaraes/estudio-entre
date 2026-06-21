@@ -25,11 +25,14 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const prevIsGeneroOpen = useRef(isGeneroOpen);
 
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(media.matches);
     const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
     media.addEventListener("change", handler);
     return () => media.removeEventListener("change", handler);
@@ -317,7 +320,6 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
                       ref={popoverRef}
                       open={isGeneroOpen}
                       aria-label="Escolha um gênero"
-                      aria-modal="true"
                       className="absolute left-0 top-full z-50 mt-3 w-[min(90vw,520px)] rounded-[2rem] border border-white/60 bg-white/70 p-5 shadow-2xl shadow-bordo/10 backdrop-blur-md popover-enter md:p-6"
                     >
                       <div className="mb-4 flex items-center justify-between">
