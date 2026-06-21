@@ -326,10 +326,10 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
 
                   {/* Popover */}
                   {isGeneroOpen && (
-                    <div
+                    <dialog
                       id="genero-popover"
                       ref={popoverRef}
-                      role="dialog"
+                      open={isGeneroOpen}
                       aria-label="Escolha um gênero"
                       className={
                         isMobile
@@ -410,7 +410,7 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
                           </button>
                         ))}
                       </div>
-                    </div>
+                    </dialog>
                   )}
                 </div>
               </nav>
