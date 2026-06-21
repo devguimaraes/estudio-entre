@@ -11,6 +11,11 @@ function normalizeText(text: string): string {
   return text.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
 }
 
+function getContrastColor(genero: string): string {
+  const lightBackgrounds = ["Biografia", "Literatura Juvenil", "Infantil/Paradidático"];
+  return lightBackgrounds.includes(genero) ? "#1A1612" : "#F0EDE8";
+}
+
 export default function SeboFilter({ livros }: SeboFilterProps) {
   const [activeGenero, setActiveGenero] = useState<string>("todos");
   const [search, setSearch] = useState("");
