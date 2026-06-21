@@ -1,5 +1,5 @@
 import type { LivroSebo } from "@/types/sebo";
-import { CORES_GENERO } from "@/types/sebo";
+import { CORES_GENERO, type GeneroSebo } from "@/types/sebo";
 import { gsap } from "gsap";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
@@ -21,7 +21,7 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
   const [search, setSearch] = useState("");
   const [isGeneroOpen, setIsGeneroOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const popoverRef = useRef<HTMLDivElement>(null);
+  const popoverRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const counts = useMemo(() => {
@@ -188,8 +188,8 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
                     aria-pressed
                     className="rounded-full border-2 px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-sm md:px-8 md:py-3.5 md:text-[11px]"
                     style={{
-                      backgroundColor: CORES_GENERO[activeGenero] ?? "#EC6838",
-                      borderColor: CORES_GENERO[activeGenero] ?? "#EC6838",
+                      backgroundColor: CORES_GENERO[activeGenero as GeneroSebo] ?? "#EC6838",
+                      borderColor: CORES_GENERO[activeGenero as GeneroSebo] ?? "#EC6838",
                       color: getContrastColor(activeGenero),
                     }}
                   >
@@ -232,6 +232,7 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
                   <dialog
                     id="genero-popover"
                     ref={popoverRef}
+                    open={isGeneroOpen}
                     aria-label="Escolha um gênero"
                     className="absolute left-0 top-full z-50 mt-3 w-[min(90vw,520px)] rounded-[2rem] border border-white/60 bg-white/70 p-5 shadow-2xl shadow-bordo/10 backdrop-blur-md md:p-6"
                   >
@@ -286,8 +287,8 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
                           style={
                             activeGenero === genero
                               ? {
-                                  backgroundColor: CORES_GENERO[genero] ?? "#EC6838",
-                                  borderColor: CORES_GENERO[genero] ?? "#EC6838",
+                                  backgroundColor: CORES_GENERO[genero as GeneroSebo] ?? "#EC6838",
+                                  borderColor: CORES_GENERO[genero as GeneroSebo] ?? "#EC6838",
                                   color: getContrastColor(genero),
                                   boxShadow: "0 0 0 2px rgba(61,16,32,0.15)",
                                 }
