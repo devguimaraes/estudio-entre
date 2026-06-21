@@ -1,7 +1,7 @@
 import type { LivroSebo } from "@/types/sebo";
 import { CORES_GENERO } from "@/types/sebo";
 import { gsap } from "gsap";
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 interface SeboFilterProps {
   livros: LivroSebo[];
@@ -19,7 +19,10 @@ function getContrastColor(genero: string): string {
 export default function SeboFilter({ livros }: SeboFilterProps) {
   const [activeGenero, setActiveGenero] = useState<string>("todos");
   const [search, setSearch] = useState("");
+  const [isGeneroOpen, setIsGeneroOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const popoverRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   const generos = useMemo(() => {
     const counts = new Map<string, number>();
@@ -64,6 +67,35 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
       },
     );
   }, [activeGenero, search]);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        popoverRef.current &&
+        !popoverRef.current.contains(event.target as Node) &&
+        triggerRef.current &&
+        !triggerRef.current.contains(event.target as Node)
+      ) {
+        setIsGeneroOpen(false);
+      }
+    }
+
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsGeneroOpen(false);
+      }
+    }
+
+    if (isGeneroOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isGeneroOpen]);
 
   if (livros.length === 0) {
     return (
