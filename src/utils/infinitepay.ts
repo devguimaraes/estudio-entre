@@ -188,16 +188,46 @@ function parseCatalog(text: string): RawProductLink[] {
 function parseProductDetail(text: string): {
   descricao: string;
   imagemUrl: string | null;
+  category: string | null;
   variationId: number | null;
 } {
   const desc = text.match(/## Description\n+(.+?)(?=\n##|\n\Z)/s)?.[1]?.trim() ?? "";
   const img = text.match(/https:\/\/infinitepay-sales[^\s)]+/)?.[0] ?? null;
   const varId = text.match(/variation_id\s+(\d+)/)?.[1];
+
+  // Extrai categoria do texto do produto (ex: "Gênero: Literatura infantojuvenil")
+  const categoryMatch = text.match(/\bCategoria:\s*([^\n]+)/i)?.[1]?.trim() ?? null;
+
+  const descricao = desc
+    .replace(/^Autora?:.+?\n?/gm, "")
+    .replace(/\\\*/g, "*") // Markdown escapes
+    .replace(/Gênero;/g, "Gênero:")
+    .trim();
+
   return {
-    descricao: desc.replace(/^Autora?:.+?\n?/gm, "").trim(),
+    descricao,
     imagemUrl: img,
+    category: categoryMatch,
     variationId: varId ? Number.parseInt(varId) : null,
   };
+}
+
+/** Heurística para inferir categoria do produto com base no título */
+function inferCategory(title: string, fallback = "Livros"): string {
+  const criacaoKeywords = [
+    "porta-livro",
+    "porta livro",
+    "porta-retrato",
+    "porta retrato",
+    "envelope",
+    "colorir",
+    "criação",
+    "criacao",
+    "adesivo",
+    "marcador",
+  ];
+  const lower = title.toLowerCase();
+  return criacaoKeywords.some((kw) => lower.includes(kw)) ? "Leitura e Criação" : fallback;
 }
 
 // ---------------------------------------------------------------------------
@@ -230,11 +260,13 @@ export async function fetchInfinitePayProducts(): Promise<ProdutoLoja[]> {
             const text = await res.text();
             const detail = parseProductDetail(text);
 
+            const bestCategory = detail.category ?? inferCategory(link.title, link.category);
+
             return {
               slug: link.slug,
               title: link.title,
               price: link.price,
-              category: link.category,
+              category: bestCategory,
               productUrl: `${INFINITE_PAY_PRODUCT_BASE}/${link.slug}`,
               ...detail,
             };
@@ -285,7 +317,7 @@ export async function fetchInfinitePayProductBySlug(slug: string): Promise<Produ
       descricao: detail.descricao,
       preco: price,
       imagemUrl: detail.imagemUrl,
-      categoria: "Livros",
+      categoria: detail.category ?? inferCategory(title),
       productUrl: `${INFINITE_PAY_PRODUCT_BASE}/${slug}`,
       variationId: detail.variationId,
     };
