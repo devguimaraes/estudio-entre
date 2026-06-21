@@ -7,6 +7,8 @@ const links = [
   { href: "/exposicoes", label: "Exposições" },
   { href: "/agenda", label: "Programação" },
   { href: "/galeria", label: "Galeria" },
+  { href: "/sebo", label: "Sebo" },
+  { href: "/lojinha", label: "Loja" },
   { href: "/#agendar-visita", label: "Visitação" },
 ];
 
