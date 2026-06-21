@@ -1,0 +1,142 @@
+---
+import Footer from "@/components/sections/Footer.astro";
+import Decorative from "@/components/ui/Decorative.astro";
+import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+import NoiseTexture from "@/components/ui/NoiseTexture.astro";
+// src/pages/lojinha/[slug].astro
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { ProdutoLoja } from "@/types/loja";
+import { CORES_CATEGORIA_LOJA } from "@/types/loja";
+import { fetchInfinitePayProductBySlug } from "@/utils/infinitepay";
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+
+let produto: ProdutoLoja | null = null;
+let error: string | null = null;
+
+if (!slug) {
+  error = "Produto não encontrado.";
+} else {
+  try {
+    produto = await fetchInfinitePayProductBySlug(slug);
+    if (!produto) {
+      error = "Produto não encontrado.";
+    }
+  } catch (e) {
+    console.error(`Falha ao buscar produto ${slug}:`, e);
+    error = "Erro ao carregar o produto. Tente novamente.";
+  }
+}
+
+const pageTitle = produto ? `${produto.titulo} — Loja Estúdio Entre` : "Produto — Estúdio Entre";
+const pageDescription =
+  produto?.descricao?.slice(0, 160) ?? "Confira este produto na loja do Estúdio Entre.";
+const ogImage = produto?.imagemUrl ?? undefined;
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  ogImage={ogImage}
+  navTheme="dark"
+>
+  <main class="relative min-h-screen overflow-hidden bg-cream pb-24 pt-32 text-forest md:pb-40 md:pt-40">
+    <HalftoneTexture density={12} dotSize={1} color="29,67,44" opacity={0.03} class="z-0" />
+    <NoiseTexture opacity={0.06} />
+
+    <div class="relative z-10 mx-auto max-w-[1300px] px-4 md:px-16">
+      <Decorative variant="star" color="#EC6838" size={40} class="absolute right-[8%] top-6 z-0 opacity-15" />
+
+      {
+        error ? (
+          <div class="rounded-[2.5rem] border border-forest/10 bg-cream/70 px-6 py-24 text-center">
+            <p class="font-display text-3xl font-black italic uppercase text-forest">{error}</p>
+            <a
+              href="/lojinha"
+              class="mt-8 inline-flex items-center gap-2 rounded-full border border-forest/30 px-8 py-4 text-[10px] font-black uppercase tracking-[0.25em] text-forest transition-all hover:bg-forest hover:text-cream"
+            >
+              ← Voltar para a loja
+            </a>
+          </div>
+        ) : produto ? (
+          <div class="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
+            {/* Imagem */}
+            <div class="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-cream to-[#e8e0d4]">
+              {produto.imagemUrl ? (
+                <img
+                  src={produto.imagemUrl}
+                  alt={produto.titulo}
+                  class="h-full w-full object-cover aspect-[4/3] lg:aspect-auto lg:min-h-[500px]"
+                />
+              ) : (
+                <div class="flex aspect-[4/3] items-center justify-center opacity-15 lg:min-h-[500px]">
+                  <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" />
+                  </svg>
+                </div>
+              )}
+              {produto.categoria && (
+                <span
+                  class="absolute left-6 top-6 rounded-full px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-cream shadow-lg backdrop-blur-sm"
+                  style={{ backgroundColor: (CORES_CATEGORIA_LOJA[produto.categoria] ?? "#1D432C") + "ee" }}
+                >
+                  {produto.categoria}
+                </span>
+              )}
+            </div>
+
+            {/* Info */}
+            <div class="flex flex-col justify-center">
+              <a
+                href="/lojinha"
+                class="mb-8 inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-forest/40 hover:text-forest transition-colors"
+              >
+                ← Loja
+              </a>
+
+              <h1 class="font-display text-[clamp(2.5rem,6vw,5rem)] font-black uppercase leading-[0.9] text-forest">
+                {produto.titulo}
+              </h1>
+
+              <div class="mt-10 space-y-6">
+                <p class="text-lg leading-relaxed text-forest/60 max-w-xl">
+                  {produto.descricao}
+                </p>
+              </div>
+
+              <div class="mt-12 flex flex-wrap items-center gap-6 border-t border-forest/[0.06] pt-10">
+                <div class="flex flex-col gap-1">
+                  <span class="text-[10px] font-black uppercase tracking-[0.3em] text-forest/40">
+                    Preço
+                  </span>
+                  <span class="font-display text-4xl font-black text-orange md:text-5xl">
+                    {produto.preco}
+                  </span>
+                </div>
+
+                <a
+                  href={produto.productUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-3 rounded-full bg-bordo px-10 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-cream transition-all hover:bg-orange hover:shadow-2xl hover:shadow-orange/30"
+                >
+                  Comprar na loja
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        ) : null
+      }
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

@@ -4,35 +4,38 @@ import Decorative from "@/components/ui/Decorative.astro";
 import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 import type { ProdutoLoja } from "@/types/loja";
 import { CORES_CATEGORIA_LOJA } from "@/types/loja";
+import { fetchInfinitePayProducts } from "@/utils/infinitepay";
 
-const destaquesFallback: Pick<
-  ProdutoLoja,
-  "titulo" | "preco" | "categoria" | "slug" | "imagemUrl"
->[] = [
-  {
-    titulo: "A delicada composição dos dias",
-    preco: "R$ 60,00",
-    categoria: "Livros",
-    slug: "rte9908-a-delicada-composicao-dos-dias",
-    imagemUrl: null,
-  },
-  {
-    titulo: "Biblioterapia Clínica",
-    preco: "R$ 50,00",
-    categoria: "Livros",
-    slug: "nkb3196-biblioterapia-clinica",
-    imagemUrl: null,
-  },
-  {
-    titulo: "Envelope para Colorir",
-    preco: "R$ 20,00",
-    categoria: "Leitura e Criação",
-    slug: "mci3163-envelope-para-colorir-meus-desenhos-de-col",
-    imagemUrl: null,
-  },
-];
+let destaques: Pick<ProdutoLoja, "titulo" | "preco" | "categoria" | "slug" | "imagemUrl">[] = [];
 
-const destaques = destaquesFallback;
+try {
+  const produtos = await fetchInfinitePayProducts();
+  destaques = produtos.slice(0, 3);
+} catch {
+  destaques = [
+    {
+      titulo: "A delicada composição dos dias",
+      preco: "R$ 60,00",
+      categoria: "Livros",
+      slug: "rte9908-a-delicada-composicao-dos-dias",
+      imagemUrl: null,
+    },
+    {
+      titulo: "Biblioterapia Clínica",
+      preco: "R$ 50,00",
+      categoria: "Livros",
+      slug: "nkb3196-biblioterapia-clinica",
+      imagemUrl: null,
+    },
+    {
+      titulo: "Envelope para Colorir",
+      preco: "R$ 20,00",
+      categoria: "Leitura e Criação",
+      slug: "mci3163-envelope-para-colorir-meus-desenhos-de-col",
+      imagemUrl: null,
+    },
+  ];
+}
 ---
 
 <section
@@ -70,14 +73,24 @@ const destaques = destaquesFallback;
     <div class="grid gap-6 md:grid-cols-3">
       {destaques.map((produto) => (
         <article class="group overflow-hidden rounded-[1.5rem] bg-white shadow-lg shadow-forest/[0.03] transition-all duration-500 hover:-translate-y-1 hover:shadow-xl">
-          <div class="relative aspect-[4/3] bg-gradient-to-br from-cream to-[#e8e0d4] flex items-center justify-center">
-            <div class="opacity-15">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                <circle cx="8.5" cy="8.5" r="1.5" />
-                <polyline points="21 15 16 10 5 21" />
-              </svg>
-            </div>
+          <div class="relative aspect-[4/3] bg-gradient-to-br from-cream to-[#e8e0d4] flex items-center justify-center overflow-hidden">
+            {produto.imagemUrl ? (
+              <img
+                src={produto.imagemUrl}
+                alt={produto.titulo}
+                class="h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <div class="opacity-15">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                  <circle cx="8.5" cy="8.5" r="1.5" />
+                  <polyline points="21 15 16 10 5 21" />
+                </svg>
+              </div>
+            )}
             <span
               class="absolute left-3 top-3 rounded-full px-2.5 py-1 text-[7px] font-black uppercase tracking-[0.15em] text-cream"
               style={{ backgroundColor: CORES_CATEGORIA_LOJA[produto.categoria] ?? "#1D432C" }}

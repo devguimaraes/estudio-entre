@@ -215,10 +215,12 @@ export default function LojaFilter({ produtos }: LojaFilterProps) {
 
                 {/* Content */}
                 <div className="p-6 md:p-7">
-                  <h2 className="font-display text-lg font-black uppercase leading-[1.1] text-near-black md:text-xl">
-                    {produto.titulo}
-                  </h2>
-                  <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-forest/45">
+                  <a href={`/lojinha/${produto.slug}`} className="block">
+                    <h2 className="font-display text-lg font-black uppercase leading-[1.1] text-near-black transition-colors hover:text-orange md:text-xl">
+                      {produto.titulo}
+                    </h2>
+                  </a>
+                  <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-forest/60">
                     {produto.descricao}
                   </p>
 

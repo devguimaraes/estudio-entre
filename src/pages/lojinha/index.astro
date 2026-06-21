@@ -1,0 +1,62 @@
+---
+import LojaFilter from "@/components/islands/LojaFilter";
+import Footer from "@/components/sections/Footer.astro";
+import Decorative from "@/components/ui/Decorative.astro";
+import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+import NoiseTexture from "@/components/ui/NoiseTexture.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { ProdutoLoja } from "@/types/loja";
+import { fetchInfinitePayProducts } from "@/utils/infinitepay";
+
+let produtos: ProdutoLoja[] = [];
+let fetchError: string | null = null;
+
+try {
+  produtos = await fetchInfinitePayProducts();
+} catch (error) {
+  console.error("Falha ao buscar produtos da loja InfinitePay:", error);
+  fetchError = "Loja indisponível no momento. Tente novamente mais tarde.";
+}
+---
+
+<BaseLayout
+  title="Loja — Estúdio Entre"
+  description="Produtos autorais, publicações independentes e objetos que carregam a essência do Estúdio Entre."
+  navTheme="dark"
+>
+  <main class="relative min-h-screen overflow-hidden bg-cream pb-24 pt-32 text-forest md:pb-40 md:pt-40">
+    <!-- Texturas -->
+    <HalftoneTexture density={12} dotSize={1} color="29,67,44" opacity={0.03} class="z-0" />
+    <NoiseTexture opacity={0.06} />
+
+    <!-- Header -->
+    <div class="relative z-10 mx-auto max-w-[1300px] px-4 md:px-16">
+      <header class="mb-12 max-w-4xl md:mb-20">
+        <p class="font-display text-[11px] font-black uppercase tracking-[0.4em] text-forest/40">
+          Produtos & Publicações
+        </p>
+        <h1 class="mt-6 font-display text-[clamp(3.5rem,10vw,8.5rem)] font-black uppercase leading-[0.8] text-forest">
+          LOJA<br />
+          <span class="text-orange italic">Entre</span>
+        </h1>
+        <p class="mt-8 max-w-xl text-base leading-relaxed text-forest/60 md:text-lg">
+          Produtos autorais, publicações independentes e objetos que carregam a essência do Estúdio.
+        </p>
+      </header>
+
+      <!-- Decorativos -->
+      <Decorative variant="star" color="#EC6838" size={40} class="absolute right-[8%] top-6 z-0 opacity-15" />
+      <Decorative variant="dots" color="#3D1020" size={40} class="absolute bottom-24 left-[6%] z-0 opacity-10" />
+
+      {fetchError ? (
+        <div class="rounded-[2.5rem] border border-forest/10 bg-cream/70 px-6 py-16 text-center">
+          <p class="font-display text-3xl font-black italic uppercase text-forest">{fetchError}</p>
+        </div>
+      ) : (
+        <LojaFilter client:load produtos={produtos} />
+      )}
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
