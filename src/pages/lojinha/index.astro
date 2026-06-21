@@ -4,21 +4,11 @@ import Footer from "@/components/sections/Footer.astro";
 import Decorative from "@/components/ui/Decorative.astro";
 import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 import NoiseTexture from "@/components/ui/NoiseTexture.astro";
+import lojaData from "@/data/loja.json";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import type { ProdutoLoja } from "@/types/loja";
-import { fetchInfinitePayProducts } from "@/utils/infinitepay";
 
-export const prerender = false;
-
-let produtos: ProdutoLoja[] = [];
-let fetchError: string | null = null;
-
-try {
-  produtos = await fetchInfinitePayProducts();
-} catch (error) {
-  console.error("Falha ao buscar produtos da loja InfinitePay:", error);
-  fetchError = "Loja indisponível no momento. Tente novamente mais tarde.";
-}
+const produtos: ProdutoLoja[] = lojaData;
 ---
 
 <BaseLayout
@@ -50,13 +40,7 @@ try {
       <Decorative variant="star" color="#EC6838" size={40} class="absolute right-[8%] top-6 z-0 opacity-15" />
       <Decorative variant="dots" color="#3D1020" size={40} class="absolute bottom-24 left-[6%] z-0 opacity-10" />
 
-      {fetchError ? (
-        <div class="rounded-[2.5rem] border border-forest/10 bg-cream/70 px-6 py-16 text-center">
-          <p class="font-display text-3xl font-black italic uppercase text-forest">{fetchError}</p>
-        </div>
-      ) : (
-        <LojaFilter client:load produtos={produtos} />
-      )}
+      <LojaFilter client:load produtos={produtos} />
     </div>
   </main>
 
