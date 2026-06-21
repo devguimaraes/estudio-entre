@@ -24,13 +24,17 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
   const popoverRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
-  const generos = useMemo(() => {
-    const counts = new Map<string, number>();
+  const counts = useMemo(() => {
+    const map = new Map<string, number>();
     for (const livro of livros) {
-      counts.set(livro.genero, (counts.get(livro.genero) ?? 0) + 1);
+      map.set(livro.genero, (map.get(livro.genero) ?? 0) + 1);
     }
-    return Array.from(counts.entries()).sort((a, b) => b[1] - a[1]);
+    return map;
   }, [livros]);
+
+  const generos = useMemo(() => {
+    return Array.from(counts.entries()).sort((a, b) => b[1] - a[1]);
+  }, [counts]);
 
   const searchTerm = normalizeText(search);
 
@@ -112,9 +116,9 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
     <div className="space-y-10">
       {/* Filter Panel */}
       <section className="-mt-10 rounded-[2.5rem] border border-white/40 bg-white/50 p-5 shadow-2xl shadow-bordo/5 backdrop-blur-sm md:p-10">
-        <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
+        <div className="space-y-8">
           {/* Search */}
-          <div className="relative w-full max-w-xl">
+          <div className="relative w-full">
             <label
               htmlFor="search-sebo"
               className="mb-3 block text-[10px] font-black uppercase tracking-[0.3em] text-bordo/50 md:text-[11px]"
@@ -128,12 +132,12 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Título, autor ou editora..."
-                className="w-full rounded-t-xl border-b-2 border-bordo/10 bg-bordo/[0.03] px-5 py-4 text-base font-medium text-bordo outline-none transition-all placeholder:text-bordo/30 focus:border-orange focus:bg-white md:py-5"
+                className="w-full rounded-t-xl border-b-2 border-bordo/10 bg-bordo/[0.03] px-5 py-5 text-base font-medium text-bordo outline-none transition-all placeholder:text-bordo/30 focus:border-orange focus:bg-white md:py-6 md:text-lg"
               />
               <div className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 opacity-20 transition-opacity group-focus-within:opacity-50">
                 <svg
-                  width="20"
-                  height="20"
+                  width="22"
+                  height="22"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -150,54 +154,157 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
             </div>
           </div>
 
-          {/* Category pills */}
+          {/* Genre filters */}
           <div className="space-y-4">
             <span className="block text-[10px] font-black uppercase tracking-[0.3em] text-bordo/50 md:text-[11px]">
               Gêneros
             </span>
-            <nav className="flex flex-wrap gap-3" aria-label="Filtrar por gênero">
-              <button
-                type="button"
-                aria-pressed={activeGenero === "todos"}
-                onClick={() => setActiveGenero("todos")}
-                className={`rounded-full border-2 px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-sm md:px-8 md:py-3.5 md:text-[11px] ${
-                  activeGenero === "todos"
-                    ? "border-bordo bg-bordo text-cream shadow-bordo/20"
-                    : "border-bordo/10 bg-white text-bordo/60 hover:border-bordo/30 hover:text-bordo"
-                }`}
-              >
-                Todos · {livros.length}
-              </button>
-              {generos.map(([genero, count]) => (
+            <nav className="flex flex-wrap items-center gap-3" aria-label="Filtrar por gênero">
+              {activeGenero === "todos" ? (
+                <>
+                  <button
+                    type="button"
+                    aria-pressed
+                    className="rounded-full border-2 border-bordo bg-bordo px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-cream shadow-sm shadow-bordo/20 transition-all md:px-8 md:py-3.5 md:text-[11px]"
+                  >
+                    Todos · {livros.length}
+                  </button>
+                  {generos.slice(0, 4).map(([genero, count]) => (
+                    <button
+                      key={genero}
+                      type="button"
+                      aria-pressed={false}
+                      onClick={() => setActiveGenero(genero)}
+                      className="rounded-full border-2 border-bordo/10 bg-white px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-bordo/60 transition-all hover:-translate-y-0.5 hover:border-bordo/30 hover:text-bordo md:px-8 md:py-3.5 md:text-[11px]"
+                    >
+                      {genero} · {count}
+                    </button>
+                  ))}
+                </>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    aria-pressed
+                    className="rounded-full border-2 px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-sm md:px-8 md:py-3.5 md:text-[11px]"
+                    style={{
+                      backgroundColor: CORES_GENERO[activeGenero] ?? "#EC6838",
+                      borderColor: CORES_GENERO[activeGenero] ?? "#EC6838",
+                      color: getContrastColor(activeGenero),
+                    }}
+                  >
+                    {activeGenero} · {counts.get(activeGenero) ?? 0}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActiveGenero("todos");
+                      setSearch("");
+                    }}
+                    className="rounded-full border border-bordo/20 px-5 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-bordo/60 transition-all hover:border-bordo hover:text-bordo md:px-7 md:py-3.5 md:text-[11px]"
+                  >
+                    Limpar
+                  </button>
+                </>
+              )}
+
+              {/* Popover trigger */}
+              <div className="relative">
                 <button
-                  key={genero}
+                  ref={triggerRef}
                   type="button"
-                  aria-pressed={activeGenero === genero}
-                  onClick={() => setActiveGenero(genero)}
-                  className="rounded-full border-2 px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:-translate-y-1 md:px-8 md:py-3.5 md:text-[11px]"
-                  style={
-                    activeGenero === genero
-                      ? {
-                          backgroundColor: CORES_GENERO[genero] ?? "#EC6838",
-                          borderColor: CORES_GENERO[genero] ?? "#EC6838",
-                          color: [
-                            "Biografia",
-                            "Literatura Juvenil",
-                            "Infantil/Paradidático",
-                          ].includes(genero)
-                            ? "#1A1612"
-                            : "#F0EDE8",
-                        }
-                      : {
-                          borderColor: "rgb(61,16,32,0.1)",
-                          color: "rgb(61,16,32,0.6)",
-                          backgroundColor: "white",
-                        }
-                  }
+                  onClick={() => setIsGeneroOpen((prev) => !prev)}
+                  aria-expanded={isGeneroOpen}
+                  aria-controls="genero-popover"
+                  className="rounded-full border-2 border-bordo/10 bg-bordo/[0.06] px-5 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-bordo/70 transition-all hover:border-bordo/30 hover:bg-bordo/10 md:px-7 md:py-3.5 md:text-[11px]"
                 >
-                  {genero} · {count}
+                  Todos os gêneros
+                  <span
+                    className="ml-2 inline-block transition-transform"
+                    style={{ transform: isGeneroOpen ? "rotate(180deg)" : undefined }}
+                  >
+                    ▾
+                  </span>
                 </button>
-              ))}
+
+                {/* Popover */}
+                {isGeneroOpen && (
+                  <dialog
+                    id="genero-popover"
+                    ref={popoverRef}
+                    aria-label="Escolha um gênero"
+                    className="absolute left-0 top-full z-50 mt-3 w-[min(90vw,520px)] rounded-[2rem] border border-white/60 bg-white/70 p-5 shadow-2xl shadow-bordo/10 backdrop-blur-md md:p-6"
+                  >
+                    <div className="mb-4 flex items-center justify-between">
+                      <span className="text-[10px] font-black uppercase tracking-[0.25em] text-bordo/50 md:text-[11px]">
+                        Escolha um gênero
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setIsGeneroOpen(false)}
+                        className="flex h-8 w-8 items-center justify-center rounded-full text-bordo/40 transition-colors hover:bg-bordo/10 hover:text-bordo"
+                        aria-label="Fechar"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 md:gap-3">
+                      <button
+                        type="button"
+                        aria-pressed={activeGenero === "todos"}
+                        onClick={() => {
+                          setActiveGenero("todos");
+                          setIsGeneroOpen(false);
+                        }}
+                        className="rounded-full border-2 px-4 py-2.5 text-[9px] font-black uppercase tracking-[0.12em] transition-all md:text-[10px]"
+                        style={
+                          activeGenero === "todos"
+                            ? {
+                                backgroundColor: "#3D1020",
+                                borderColor: "#3D1020",
+                                color: "#F0EDE8",
+                              }
+                            : {
+                                backgroundColor: "white",
+                                borderColor: "rgb(61,16,32,0.1)",
+                                color: "rgb(61,16,32,0.6)",
+                              }
+                        }
+                      >
+                        Todos · {livros.length}
+                      </button>
+                      {generos.map(([genero, count]) => (
+                        <button
+                          key={genero}
+                          type="button"
+                          aria-pressed={activeGenero === genero}
+                          onClick={() => {
+                            setActiveGenero(genero);
+                            setIsGeneroOpen(false);
+                          }}
+                          className="rounded-full border-2 px-4 py-2.5 text-[9px] font-black uppercase tracking-[0.12em] transition-all hover:scale-105 md:text-[10px]"
+                          style={
+                            activeGenero === genero
+                              ? {
+                                  backgroundColor: CORES_GENERO[genero] ?? "#EC6838",
+                                  borderColor: CORES_GENERO[genero] ?? "#EC6838",
+                                  color: getContrastColor(genero),
+                                  boxShadow: "0 0 0 2px rgba(61,16,32,0.15)",
+                                }
+                              : {
+                                  backgroundColor: "white",
+                                  borderColor: "rgb(61,16,32,0.1)",
+                                  color: "rgb(61,16,32,0.6)",
+                                }
+                          }
+                        >
+                          {genero} · {count}
+                        </button>
+                      ))}
+                    </div>
+                  </dialog>
+                )}
+              </div>
             </nav>
           </div>
         </div>
