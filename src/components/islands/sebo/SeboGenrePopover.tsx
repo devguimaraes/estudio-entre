@@ -92,6 +92,7 @@ export default function SeboGenrePopover({
     <dialog
       id="genero-popover"
       ref={popoverRef}
+      open={isOpen}
       aria-label="Escolha um gênero"
       className={
         isMobile

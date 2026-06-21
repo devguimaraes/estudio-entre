@@ -1,6 +1,6 @@
 import { CORES_GENERO, type GeneroSebo } from "@/types/sebo";
 import { getContrastColor } from "@/utils/sebo";
-import { forwardRef } from "react";
+import { type ReactNode, forwardRef } from "react";
 
 interface SeboGenreFilterProps {
   activeGenero: "todos" | GeneroSebo;
@@ -10,10 +10,14 @@ interface SeboGenreFilterProps {
   onClear: () => void;
   onOpenPopover: () => void;
   isPopoverOpen: boolean;
+  children?: ReactNode;
 }
 
 const SeboGenreFilter = forwardRef<HTMLButtonElement, SeboGenreFilterProps>(
-  ({ activeGenero, generos, total, onSelect, onClear, onOpenPopover, isPopoverOpen }, ref) => {
+  (
+    { activeGenero, generos, total, onSelect, onClear, onOpenPopover, isPopoverOpen, children },
+    ref,
+  ) => {
     return (
       <div className="space-y-4">
         <span className="block text-[10px] font-black uppercase tracking-[0.3em] text-bordo/50 md:text-[11px]">
@@ -83,6 +87,7 @@ const SeboGenreFilter = forwardRef<HTMLButtonElement, SeboGenreFilterProps>(
                 ▾
               </span>
             </button>
+            {children}
           </div>
         </nav>
       </div>

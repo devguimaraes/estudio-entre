@@ -74,20 +74,21 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
             onOpenPopover={() => setIsGeneroOpen((prev) => !prev)}
             isPopoverOpen={isGeneroOpen}
             ref={triggerRef}
-          />
-          <SeboGenrePopover
-            isOpen={isGeneroOpen}
-            onClose={() => setIsGeneroOpen(false)}
-            onSelect={(genero) => {
-              setActiveGenero(genero);
-              setIsGeneroOpen(false);
-            }}
-            activeGenero={activeGenero}
-            generos={generos}
-            total={livros.length}
-            isMobile={isMobile}
-            popoverRef={popoverRef}
-          />
+          >
+            <SeboGenrePopover
+              isOpen={isGeneroOpen}
+              onClose={() => setIsGeneroOpen(false)}
+              onSelect={(genero) => {
+                setActiveGenero(genero);
+                setIsGeneroOpen(false);
+              }}
+              activeGenero={activeGenero}
+              generos={generos}
+              total={livros.length}
+              isMobile={isMobile}
+              popoverRef={popoverRef}
+            />
+          </SeboGenreFilter>
         </div>
       </section>
 
