@@ -2,7 +2,7 @@ export interface LivroSebo {
   autor: string;
   titulo: string;
   editora: string;
-  genero: string;
+  genero: GeneroSebo;
   valor: string;
 }
 
@@ -10,6 +10,7 @@ export interface LivroSebo {
 export const GENEROS_SEBO = [
   "Romance",
   "Poesia",
+  "Teatro Brasileiro",
   "Teatro",
   "Biografia",
   "Auto Ajuda",
@@ -30,7 +31,7 @@ export const GENEROS_SEBO = [
 export type GeneroSebo = (typeof GENEROS_SEBO)[number];
 
 /** Mapeia cada gênero a uma cor (bolinha + badge) */
-export const CORES_GENERO: Record<string, string> = {
+export const CORES_GENERO: Record<GeneroSebo, string> = {
   Romance: "#EC6838",
   Poesia: "#777BDE",
   "Teatro Brasileiro": "#9E4B2D",

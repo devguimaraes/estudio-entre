@@ -13,7 +13,7 @@ export interface ProdutoLoja {
 export const CATEGORIAS_LOJA = ["Livros", "Leitura e Criação"] as const;
 export type CategoriaLoja = (typeof CATEGORIAS_LOJA)[number];
 
-export const CORES_CATEGORIA_LOJA: Record<string, string> = {
+export const CORES_CATEGORIA_LOJA: Record<CategoriaLoja, string> = {
   Livros: "#1D432C",
   "Leitura e Criação": "#777BDE",
 };
