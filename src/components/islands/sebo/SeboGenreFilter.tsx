@@ -1,6 +1,6 @@
 import { CORES_GENERO, type GeneroSebo } from "@/types/sebo";
 import { getContrastColor } from "@/utils/sebo";
-import { type RefObject, forwardRef } from "react";
+import { forwardRef } from "react";
 
 interface SeboGenreFilterProps {
   activeGenero: "todos" | GeneroSebo;
@@ -10,7 +10,6 @@ interface SeboGenreFilterProps {
   onClear: () => void;
   onOpenPopover: () => void;
   isPopoverOpen: boolean;
-  triggerRef: RefObject<HTMLButtonElement | null>;
 }
 
 const SeboGenreFilter = forwardRef<HTMLButtonElement, SeboGenreFilterProps>(

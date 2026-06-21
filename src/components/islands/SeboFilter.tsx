@@ -73,7 +73,7 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
             onClear={clearFilters}
             onOpenPopover={() => setIsGeneroOpen((prev) => !prev)}
             isPopoverOpen={isGeneroOpen}
-            triggerRef={triggerRef}
+            ref={triggerRef}
           />
           <SeboGenrePopover
             isOpen={isGeneroOpen}

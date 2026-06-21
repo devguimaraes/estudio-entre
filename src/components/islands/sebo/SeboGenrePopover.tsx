@@ -1,6 +1,7 @@
 import { CORES_GENERO, type GeneroSebo } from "@/types/sebo";
 import { getContrastColor } from "@/utils/sebo";
 import { type RefObject, useEffect } from "react";
+import "./sebo-filter.css";
 
 interface SeboGenrePopoverProps {
   isOpen: boolean;
@@ -76,8 +77,9 @@ export default function SeboGenrePopover({
     }
 
     popover.addEventListener("keydown", handleTabTrap);
-    // Focus the first button when popover opens
-    firstButton.focus();
+    // Focus the first genre button ("Todos") when popover opens, not the close button
+    const firstGenreButton = popover.querySelector<HTMLButtonElement>("[aria-pressed]");
+    (firstGenreButton ?? firstButton).focus();
 
     return () => {
       popover.removeEventListener("keydown", handleTabTrap);
@@ -90,7 +92,6 @@ export default function SeboGenrePopover({
     <dialog
       id="genero-popover"
       ref={popoverRef}
-      open={isOpen}
       aria-label="Escolha um gênero"
       className={
         isMobile
