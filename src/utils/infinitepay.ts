@@ -1,22 +1,39 @@
-// src/utils/infinitepay.ts
+/**
+ * Utilitário para comunicação com a API pública do InfinitePay.
+ *
+ * Implementa:
+ * - Retry com exponential backoff + jitter (máx. 4 tentativas)
+ * - Respeito ao header Retry-After (se presente)
+ * - Rate limiter local (fila sequencial, máx. 2 reqs simultâneas)
+ * - Cache em memória com TTL de 1 hora
+ */
+
 import type { ProdutoLoja } from "@/types/loja";
+
+// ---------------------------------------------------------------------------
+// Constantes
+// ---------------------------------------------------------------------------
 
 const INFINITE_PAY_CATALOG = "https://loja.infinitepay.io/llms/thaynawho.txt";
 const INFINITE_PAY_PRODUCT_BASE = "https://loja.infinitepay.io/thaynawho";
+const MAX_RETRIES = 4; // máximo de tentativas por requisição
+const MAX_CONCURRENT = 2; // requisições simultâneas contra o InfinitePay
+const BASE_DELAY_MS = 1_000; // delay base do backoff (1s)
+const CACHE_TTL_MS = 60 * 60 * 1_000; // 1 hora
 
-// Cache: armazena resultados por 1 hora para evitar rate-limiting
+// ---------------------------------------------------------------------------
+// Cache em memória (evita chamadas repetidas durante o mesmo processo)
+// ---------------------------------------------------------------------------
+
 interface CacheEntry<T> {
   data: T;
   timestamp: number;
 }
-const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hora
 const cache = new Map<string, CacheEntry<unknown>>();
 
 function getCached<T>(key: string): T | null {
   const entry = cache.get(key) as CacheEntry<T> | undefined;
-  if (entry && Date.now() - entry.timestamp < CACHE_TTL_MS) {
-    return entry.data;
-  }
+  if (entry && Date.now() - entry.timestamp < CACHE_TTL_MS) return entry.data;
   cache.delete(key);
   return null;
 }
@@ -25,203 +42,255 @@ function setCache<T>(key: string, data: T): void {
   cache.set(key, { data, timestamp: Date.now() });
 }
 
-/** Fetch com retry e backoff exponencial para lidar com rate limiting (429) */
-async function fetchWithRetry(url: string, retries = 3): Promise<Response> {
-  for (let i = 0; i < retries; i++) {
-    const response = await fetch(url);
+// ---------------------------------------------------------------------------
+// Rate Limiter local (fila sequencial, não dispara mais de MAX_CONCURRENT)
+// ---------------------------------------------------------------------------
 
-    // 429 = rate limit; espera e tenta de novo
-    if (response.status === 429 && i < retries - 1) {
-      const delay = 2 ** i * 1000 + Math.random() * 1000; // 1s, 2s, 4s + jitter
+class LocalRateLimiter {
+  private running = 0;
+  private queue: Array<() => void> = [];
+
+  /** Executa `fn` respeitando o limite de concorrência */
+  async run<T>(fn: () => Promise<T>): Promise<T> {
+    // Se já estamos no limite, entra na fila
+    if (this.running >= MAX_CONCURRENT) {
+      await new Promise<void>((resolve) => this.queue.push(resolve));
+    }
+
+    this.running++;
+    try {
+      return await fn();
+    } finally {
+      this.running--;
+      // Libera o próximo da fila, se houver
+      this.queue.shift()?.();
+    }
+  }
+}
+
+const rateLimiter = new LocalRateLimiter();
+
+// ---------------------------------------------------------------------------
+// Retry com exponential backoff + jitter + Retry-After
+// ---------------------------------------------------------------------------
+
+/**
+ * Calcula o delay para a tentativa `attempt` (0-indexed):
+ *   delay = baseDelay * 2^attempt + random[0, 1000) ms
+ *
+ * Ex:
+ *   attempt 0 → 1s + jitter
+ *   attempt 1 → 2s + jitter
+ *   attempt 2 → 4s + jitter
+ *   attempt 3 → 8s + jitter
+ */
+function backoffDelay(attempt: number, baseDelayMs = BASE_DELAY_MS): number {
+  return baseDelayMs * 2 ** attempt + Math.random() * 1000;
+}
+
+async function fetchWithRetry(url: string, retries = MAX_RETRIES): Promise<Response> {
+  let lastStatus = 0;
+
+  for (let attempt = 0; attempt < retries; attempt++) {
+    const response = await fetch(url);
+    lastStatus = response.status;
+
+    // Sucesso → retorna imediatamente
+    if (response.ok) return response;
+
+    // 429 Too Many Requests → espera e retry
+    if (response.status === 429) {
+      // 1. Respeitar header Retry-After (se presente)
+      const retryAfter = response.headers.get("Retry-After");
+      let delay: number;
+
+      if (retryAfter) {
+        // Retry-After pode ser segundos (número) ou data HTTP
+        const seconds = Number.parseInt(retryAfter, 10);
+        if (!Number.isNaN(seconds)) {
+          delay = seconds * 1000;
+        } else {
+          // Data HTTP: calcula diferença até agora
+          const retryDate = new Date(retryAfter).getTime();
+          delay = Math.max(0, retryDate - Date.now());
+        }
+      } else {
+        // 2. Fallback: exponential backoff + jitter
+        delay = backoffDelay(attempt);
+      }
+
       console.warn(
-        `[InfinitePay] Rate limited (429). Retrying in ${Math.round(delay)}ms... (attempt ${i + 1}/${retries})`,
+        `[InfinitePay] 429 Rate Limited. Tentativa ${attempt + 1}/${retries}. Aguardando ${Math.round(delay)}ms...`,
+      );
+
+      if (attempt < retries - 1) {
+        await new Promise((resolve) => setTimeout(resolve, delay));
+        continue;
+      }
+    }
+
+    // Outros erros (5xx, etc.) → tenta com backoff normal
+    if (attempt < retries - 1) {
+      const delay = backoffDelay(attempt);
+      console.warn(
+        `[InfinitePay] Erro ${response.status}. Tentativa ${attempt + 1}/${retries}. Aguardando ${Math.round(delay)}ms...`,
       );
       await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+
+  throw new Error(`Fetch failed after ${retries} retries (last status: ${lastStatus})`);
+}
+
+// ---------------------------------------------------------------------------
+// Parsers
+// ---------------------------------------------------------------------------
+
+interface RawProductLink {
+  slug: string;
+  title: string;
+  price: string;
+  category: string;
+  detailUrl: string;
+}
+
+function parseCatalog(text: string): RawProductLink[] {
+  const links: RawProductLink[] = [];
+  const lines = text.split("\n");
+  let currentCategory = "";
+
+  for (const line of lines) {
+    // Cabeçalho de categoria: "- Livros (1566443-livros)"
+    if (line.startsWith("- ") && (line.includes("leitura-e-criacao") || line.includes("livros"))) {
+      currentCategory = line.includes("Livros") ? "Livros" : "Leitura e Criação";
       continue;
     }
 
-    return response;
+    // Linha de produto: "- Nome - R$ XX,00 - available - url"
+    const m = line.match(/^- (.+?) - (R\$\s?[\d,.]+) - (available|unavailable) - (.+)$/);
+    if (!m) continue;
+
+    const [, title, price, , detailUrl] = m;
+    const slug = detailUrl.match(/\/([a-z0-9]+-[^/]+)\.txt$/)?.[1] ?? "";
+
+    links.push({
+      slug,
+      title: title.trim(),
+      price: price.trim(),
+      category: currentCategory || "Livros",
+      detailUrl: detailUrl.trim(),
+    });
   }
 
-  throw new Error(`Fetch failed after ${retries} retries`);
+  return links;
 }
 
-/** Processa um array em batches com delay entre eles */
-async function batchProcess<T, R>(
-  items: T[],
-  batchSize: number,
-  delayMs: number,
-  fn: (item: T) => Promise<R>,
-): Promise<R[]> {
-  const results: R[] = [];
-  for (let i = 0; i < items.length; i += batchSize) {
-    const batch = items.slice(i, i + batchSize);
-    const batchResults = await Promise.all(batch.map(fn));
-    results.push(...batchResults);
-
-    if (i + batchSize < items.length) {
-      await new Promise((resolve) => setTimeout(resolve, delayMs));
-    }
-  }
-  return results;
+function parseProductDetail(text: string): {
+  descricao: string;
+  imagemUrl: string | null;
+  variationId: number | null;
+} {
+  const desc = text.match(/## Description\n+(.+?)(?=\n##|\n\Z)/s)?.[1]?.trim() ?? "";
+  const img = text.match(/https:\/\/infinitepay-sales[^\s)]+/)?.[0] ?? null;
+  const varId = text.match(/variation_id\s+(\d+)/)?.[1];
+  return {
+    descricao: desc.replace(/^Autora?:.+?\n?/gm, "").trim(),
+    imagemUrl: img,
+    variationId: varId ? Number.parseInt(varId) : null,
+  };
 }
 
+// ---------------------------------------------------------------------------
+// API pública
+// ---------------------------------------------------------------------------
+
+/** Busca o catálogo completo com detalhes de todos os produtos */
 export async function fetchInfinitePayProducts(): Promise<ProdutoLoja[]> {
-  const cacheKey = "all_products";
+  const CACHE_KEY = "all_products";
 
-  // Verifica cache
-  const cached = getCached<ProdutoLoja[]>(cacheKey);
+  const cached = getCached<ProdutoLoja[]>(CACHE_KEY);
   if (cached) {
-    console.log("[InfinitePay] Usando dados em cache");
+    console.log("[InfinitePay] Cache hit — retornando dados em cache");
     return cached;
   }
 
-  try {
-    // 1. Fetch catalog com retry
-    const catalogResponse = await fetchWithRetry(INFINITE_PAY_CATALOG);
-    if (!catalogResponse.ok) {
-      throw new Error(`Catalog fetch failed: ${catalogResponse.status}`);
-    }
-    const catalogText = await catalogResponse.text();
+  // 1. Catálogo (com rate limiter + retry)
+  const catalogRes = await rateLimiter.run(() => fetchWithRetry(INFINITE_PAY_CATALOG));
+  const catalogText = await catalogRes.text();
+  const links = parseCatalog(catalogText);
 
-    // 2. Parse catalog
-    const productLinks: {
-      slug: string;
-      title: string;
-      price: string;
-      category: string;
-      detailUrl: string;
-    }[] = [];
-    const lines = catalogText.split("\n");
+  // 2. Detalhes de cada produto — processados sequencialmente via rate limiter
+  const details = await Promise.all(
+    links
+      .filter((l) => l.slug)
+      .map((link) =>
+        rateLimiter.run(async () => {
+          try {
+            const res = await fetchWithRetry(link.detailUrl);
+            const text = await res.text();
+            const detail = parseProductDetail(text);
 
-    let currentCategory = "";
-    for (const line of lines) {
-      if (
-        line.startsWith("- ") &&
-        (line.includes("leitura-e-criacao") || line.includes("livros"))
-      ) {
-        currentCategory = line.includes("Livros") ? "Livros" : "Leitura e Criação";
-      }
+            return {
+              slug: link.slug,
+              title: link.title,
+              price: link.price,
+              category: link.category,
+              productUrl: `${INFINITE_PAY_PRODUCT_BASE}/${link.slug}`,
+              ...detail,
+            };
+          } catch {
+            return null;
+          }
+        }),
+      ),
+  );
 
-      const productMatch = line.match(
-        /^- (.+?) - (R\$\s?[\d,.]+) - (available|unavailable) - (.+)$/,
-      );
-      if (productMatch) {
-        const [, title, price, , detailUrl] = productMatch;
-        const slugMatch = detailUrl.match(/\/([a-z0-9]+-[^/]+)\.txt$/);
-        const slug = slugMatch?.[1] ?? "";
+  const produtos: ProdutoLoja[] = details
+    .filter((d): d is NonNullable<typeof d> => d !== null)
+    .map((d) => ({
+      slug: d.slug,
+      titulo: d.title,
+      descricao: d.descricao,
+      preco: d.price,
+      imagemUrl: d.imagemUrl,
+      categoria: d.category,
+      productUrl: d.productUrl,
+      variationId: d.variationId,
+    }));
 
-        productLinks.push({
-          slug,
-          title: title.trim(),
-          price: price.trim(),
-          category: currentCategory || "Livros",
-          detailUrl: detailUrl.trim(),
-        });
-      }
-    }
-
-    // 3. Fetch detail de cada produto em batches de 2 (evita rate limit)
-    const details = await batchProcess(
-      productLinks.filter((p) => p.slug),
-      2, // batch size
-      1500, // delay entre batches (ms)
-      async (product) => {
-        try {
-          const detailResponse = await fetchWithRetry(product.detailUrl, 2);
-          if (!detailResponse.ok) return null;
-
-          const detailText = await detailResponse.text();
-
-          const descMatch = detailText.match(/## Description\n+(.+?)(?=\n##|\n\Z)/s);
-          const descricao = descMatch?.[1]?.trim() ?? "";
-
-          const imgMatch = detailText.match(/https:\/\/infinitepay-sales[^\s)]+/);
-          const imagemUrl = imgMatch?.[0] ?? null;
-
-          const varMatch = detailText.match(/variation_id\s+(\d+)/);
-          const variationId = varMatch ? Number.parseInt(varMatch[1]) : null;
-
-          return {
-            slug: product.slug,
-            title: product.title,
-            price: product.price,
-            category: product.category,
-            descricao: descricao.replace(/^Autora?:.+?\n?/gm, "").trim(),
-            imagemUrl,
-            variationId,
-            productUrl: `${INFINITE_PAY_PRODUCT_BASE}/${product.slug}`,
-          };
-        } catch {
-          return null;
-        }
-      },
-    );
-
-    const produtos = details
-      .filter((p): p is NonNullable<typeof p> => p !== null)
-      .map((p) => ({
-        slug: p.slug,
-        titulo: p.title,
-        descricao: p.descricao,
-        preco: p.price,
-        imagemUrl: p.imagemUrl,
-        categoria: p.category,
-        productUrl: p.productUrl,
-        variationId: p.variationId,
-      }));
-
-    setCache(cacheKey, produtos);
-    return produtos;
-  } catch (error) {
-    console.error("[InfinitePay] Erro ao buscar catálogo:", error);
-    throw error;
-  }
+  setCache(CACHE_KEY, produtos);
+  return produtos;
 }
 
+/** Busca um único produto pelo slug */
 export async function fetchInfinitePayProductBySlug(slug: string): Promise<ProdutoLoja | null> {
-  const cacheKey = `product_${slug}`;
+  const CACHE_KEY = `product_${slug}`;
 
-  const cached = getCached<ProdutoLoja>(cacheKey);
-  if (cached) {
-    return cached;
-  }
+  const cached = getCached<ProdutoLoja>(CACHE_KEY);
+  if (cached) return cached;
 
-  const detailUrl = `https://loja.infinitepay.io/llms/thaynawho/${slug}.txt`;
+  const url = `https://loja.infinitepay.io/llms/thaynawho/${slug}.txt`;
 
   try {
-    const detailResponse = await fetchWithRetry(detailUrl, 3);
-    if (!detailResponse.ok) return null;
+    const res = await rateLimiter.run(() => fetchWithRetry(url));
+    const text = await res.text();
 
-    const detailText = await detailResponse.text();
-
-    const titleMatch = detailText.match(/^# (.+)$/m);
-    const titulo = titleMatch?.[1]?.trim() ?? slug;
-
-    const descMatch = detailText.match(/## Description\n+(.+?)(?=\n##|\n\Z)/s);
-    const descricao = descMatch?.[1]?.trim() ?? "";
-
-    const imgMatch = detailText.match(/https:\/\/infinitepay-sales[^\s)]+/);
-    const imagemUrl = imgMatch?.[0] ?? null;
-
-    const priceMatch = detailText.match(/- .+ - (R\$\s?[\d,.]+) - available/);
-    const preco = priceMatch?.[1]?.trim() ?? "Sob consulta";
-
-    const varMatch = detailText.match(/variation_id\s+(\d+)/);
-    const variationId = varMatch ? Number.parseInt(varMatch[1]) : null;
+    const title = text.match(/^# (.+)$/m)?.[1]?.trim() ?? slug;
+    const detail = parseProductDetail(text);
+    const price = text.match(/- .+ - (R\$\s?[\d,.]+) - available/)?.[1]?.trim() ?? "Sob consulta";
 
     const produto: ProdutoLoja = {
       slug,
-      titulo,
-      descricao: descricao.replace(/^Autora?:.+?\n?/gm, "").trim(),
-      preco,
-      imagemUrl,
+      titulo: title,
+      descricao: detail.descricao,
+      preco: price,
+      imagemUrl: detail.imagemUrl,
       categoria: "Livros",
       productUrl: `${INFINITE_PAY_PRODUCT_BASE}/${slug}`,
-      variationId,
+      variationId: detail.variationId,
     };
 
-    setCache(cacheKey, produto);
+    setCache(CACHE_KEY, produto);
     return produto;
   } catch {
     return null;

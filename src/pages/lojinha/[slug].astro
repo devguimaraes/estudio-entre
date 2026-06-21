@@ -3,32 +3,22 @@ import Footer from "@/components/sections/Footer.astro";
 import Decorative from "@/components/ui/Decorative.astro";
 import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 import NoiseTexture from "@/components/ui/NoiseTexture.astro";
+import lojaData from "@/data/loja.json";
 // src/pages/lojinha/[slug].astro
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import type { ProdutoLoja } from "@/types/loja";
 import { CORES_CATEGORIA_LOJA } from "@/types/loja";
-import { fetchInfinitePayProductBySlug } from "@/utils/infinitepay";
 
-export const prerender = false;
+export function getStaticPaths() {
+  return (lojaData as ProdutoLoja[]).map((p) => ({ params: { slug: p.slug } }));
+}
 
 const { slug } = Astro.params;
 
-let produto: ProdutoLoja | null = null;
-let error: string | null = null;
+const produto: ProdutoLoja | null =
+  (lojaData as ProdutoLoja[]).find((p) => p.slug === slug) ?? null;
 
-if (!slug) {
-  error = "Produto não encontrado.";
-} else {
-  try {
-    produto = await fetchInfinitePayProductBySlug(slug);
-    if (!produto) {
-      error = "Produto não encontrado.";
-    }
-  } catch (e) {
-    console.error(`Falha ao buscar produto ${slug}:`, e);
-    error = "Erro ao carregar o produto. Tente novamente.";
-  }
-}
+const error = !produto ? "Produto não encontrado." : null;
 
 const pageTitle = produto ? `${produto.titulo} — Loja Estúdio Entre` : "Produto — Estúdio Entre";
 const pageDescription =
