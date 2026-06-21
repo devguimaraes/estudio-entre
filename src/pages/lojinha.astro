@@ -1,0 +1,159 @@
+---
+import LojaFilter from "@/components/islands/LojaFilter";
+import Footer from "@/components/sections/Footer.astro";
+import Decorative from "@/components/ui/Decorative.astro";
+import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+import NoiseTexture from "@/components/ui/NoiseTexture.astro";
+// src/pages/lojinha.astro
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { ProdutoLoja } from "@/types/loja";
+
+interface InfinitePayCatalogItem {
+  title: string;
+  price: string;
+  available: boolean;
+  category?: string;
+  detailUrl: string;
+}
+
+const INFINITE_PAY_CATALOG = "https://loja.infinitepay.io/llms/thaynawho.txt";
+const INFINITE_PAY_PRODUCT_BASE = "https://loja.infinitepay.io/thaynawho";
+
+let produtos: ProdutoLoja[] = [];
+let fetchError: string | null = null;
+
+try {
+  // 1. Fetch catalog
+  const catalogResponse = await fetch(INFINITE_PAY_CATALOG);
+  if (!catalogResponse.ok) {
+    throw new Error(`Catalog fetch failed: ${catalogResponse.status}`);
+  }
+  const catalogText = await catalogResponse.text();
+
+  // 2. Parse catalog (extract product links and basic info)
+  const productLinks: {
+    slug: string;
+    title: string;
+    price: string;
+    category: string;
+    detailUrl: string;
+  }[] = [];
+  const lines = catalogText.split("\n");
+
+  let currentCategory = "";
+  for (const line of lines) {
+    // Detect category headers
+    if (line.startsWith("- ") && (line.includes("leitura-e-criacao") || line.includes("livros"))) {
+      currentCategory = line.includes("Livros") ? "Livros" : "Leitura e Criação";
+    }
+
+    // Detect product lines: "- Product Name - R$ XX,00 - available - detailUrl"
+    const productMatch = line.match(/^- (.+?) - (R\$\s?[\d,.]+) - (available|unavailable) - (.+)$/);
+    if (productMatch) {
+      const [, title, price, , detailUrl] = productMatch;
+      const slugMatch = detailUrl.match(/\/([a-z0-9]+-[^/]+)\.txt$/);
+      const slug = slugMatch?.[1] ?? "";
+
+      productLinks.push({
+        slug,
+        title: title.trim(),
+        price: price.trim(),
+        category: currentCategory || "Livros",
+        detailUrl: detailUrl.trim(),
+      });
+    }
+  }
+
+  // 3. Fetch product details in parallel
+  const detailFetches = productLinks
+    .filter((p) => p.slug)
+    .map(async (product) => {
+      try {
+        const detailResponse = await fetch(product.detailUrl);
+        if (!detailResponse.ok) return null;
+
+        const detailText = await detailResponse.text();
+
+        // Extract description (after "## Description" until next "##")
+        const descMatch = detailText.match(/## Description\n+(.+?)(?=\n##|\n\Z)/s);
+        const descricao = descMatch?.[1]?.trim() ?? "";
+
+        // Extract image URL
+        const imgMatch = detailText.match(/https:\/\/infinitepay-sales[^\s)]+/);
+        const imagemUrl = imgMatch?.[0] ?? null;
+
+        // Extract variation_id
+        const varMatch = detailText.match(/variation_id\s+(\d+)/);
+        const variationId = varMatch ? Number.parseInt(varMatch[1]) : null;
+
+        return {
+          ...product,
+          descricao: descricao.replace(/^Autora?:.+?\n?/gm, "").trim(),
+          imagemUrl,
+          variationId,
+        };
+      } catch {
+        return null;
+      }
+    });
+
+  const results = await Promise.all(detailFetches);
+  produtos = results
+    .filter((p): p is NonNullable<typeof p> => p !== null)
+    .map((p) => ({
+      slug: p.slug,
+      titulo: p.title,
+      descricao: p.descricao,
+      preco: p.price,
+      imagemUrl: p.imagemUrl,
+      categoria: p.category,
+      productUrl: `${INFINITE_PAY_PRODUCT_BASE}/${p.slug}`,
+      variationId: p.variationId,
+    }));
+} catch (error) {
+  console.error("Falha ao buscar produtos da loja InfinitePay:", error);
+  fetchError = "Loja indisponível no momento. Tente novamente mais tarde.";
+}
+---
+
+<BaseLayout
+  title="Loja — Estúdio Entre"
+  description="Produtos autorais, publicações independentes e objetos que carregam a essência do Estúdio Entre."
+  navTheme="dark"
+>
+  <main class="relative min-h-screen overflow-hidden bg-cream pb-24 pt-32 text-forest md:pb-40 md:pt-40">
+    <!-- Texturas -->
+    <HalftoneTexture density={12} dotSize={1} color="29,67,44" opacity={0.03} class="z-0" />
+    <NoiseTexture opacity={0.06} />
+
+    <!-- Header -->
+    <div class="relative z-10 mx-auto max-w-[1300px] px-4 md:px-16">
+      <header class="mb-12 max-w-4xl md:mb-20">
+        <p class="font-display text-[11px] font-black uppercase tracking-[0.4em] text-forest/40">
+          Produtos & Publicações
+        </p>
+        <h1 class="mt-6 font-display text-[clamp(3.5rem,10vw,8.5rem)] font-black uppercase leading-[0.8] text-forest">
+          LOJA<br />
+          <span class="text-orange italic">Entre</span>
+        </h1>
+        <p class="mt-8 max-w-xl text-base leading-relaxed text-forest/60 md:text-lg">
+          Produtos autorais, publicações independentes e objetos que carregam a essência do Estúdio.
+        </p>
+      </header>
+
+      <!-- Decorativos -->
+      <Decorative variant="star" color="#EC6838" size={40} class="absolute right-[8%] top-6 z-0 opacity-15" />
+      <Decorative variant="dots" color="#3D1020" size={40} class="absolute bottom-24 left-[6%] z-0 opacity-10" />
+
+      {fetchError ? (
+        <div class="rounded-[2.5rem] border border-forest/10 bg-cream/70 px-6 py-16 text-center">
+          <p class="font-display text-3xl font-black italic uppercase text-forest">{fetchError}</p>
+        </div>
+      ) : (
+        <LojaFilter client:load produtos={produtos} />
+      )}
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
