@@ -90,9 +90,27 @@ function backoffDelay(attempt: number, baseDelayMs = BASE_DELAY_MS): number {
 
 async function fetchWithRetry(url: string, retries = MAX_RETRIES): Promise<Response> {
   let lastStatus = 0;
+  let lastError = "";
 
   for (let attempt = 0; attempt < retries; attempt++) {
-    const response = await fetch(url);
+    let response: Response;
+
+    try {
+      response = await fetch(url);
+    } catch (err) {
+      // Erro de rede (DNS, conexão recusada, timeout, etc.)
+      lastError = (err as Error).message;
+      if (attempt < retries - 1) {
+        const delay = backoffDelay(attempt);
+        console.warn(
+          `[InfinitePay] Erro de rede: ${lastError}. Tentativa ${attempt + 1}/${retries}. Aguardando ${Math.round(delay)}ms...`,
+        );
+        await new Promise((resolve) => setTimeout(resolve, delay));
+        continue;
+      }
+      throw new Error(`Fetch failed after ${retries} retries (network error: ${lastError})`);
+    }
+
     lastStatus = response.status;
 
     // Sucesso → retorna imediatamente
@@ -191,7 +209,7 @@ function parseProductDetail(text: string): {
   category: string | null;
   variationId: number | null;
 } {
-  const desc = text.match(/## Description\n+(.+?)(?=\n##|\n\Z)/s)?.[1]?.trim() ?? "";
+  const desc = text.match(/## Description\n+(.+?)(?=\n##|$)/s)?.[1]?.trim() ?? "";
   const img = text.match(/https:\/\/infinitepay-sales[^\s)]+/)?.[0] ?? null;
   const varId = text.match(/variation_id\s+(\d+)/)?.[1];
 
@@ -270,7 +288,11 @@ export async function fetchInfinitePayProducts(): Promise<ProdutoLoja[]> {
               productUrl: `${INFINITE_PAY_PRODUCT_BASE}/${link.slug}`,
               ...detail,
             };
-          } catch {
+          } catch (err) {
+            console.warn(
+              `[InfinitePay] Falha ao buscar detalhes de ${link.slug}:`,
+              (err as Error).message,
+            );
             return null;
           }
         }),

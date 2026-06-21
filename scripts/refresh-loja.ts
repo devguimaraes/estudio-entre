@@ -18,6 +18,10 @@ console.log("🔄 Buscando catálogo do InfinitePay...\n");
 try {
   const produtos = await fetchInfinitePayProducts();
 
+  if (!Array.isArray(produtos)) {
+    throw new TypeError(`fetchInfinitePayProducts retornou tipo inválido: ${typeof produtos}`);
+  }
+
   console.log(`✅ ${produtos.length} produtos encontrados.\n`);
 
   let comImagem = 0;

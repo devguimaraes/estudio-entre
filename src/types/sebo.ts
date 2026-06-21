@@ -26,6 +26,7 @@ export const GENEROS_SEBO = [
   "Literatura Juvenil",
   "Literatura Inglesa",
   "Infantil/Paradidático",
+  "Psicologia",
 ] as const;
 
 export type GeneroSebo = (typeof GENEROS_SEBO)[number];
@@ -50,4 +51,5 @@ export const CORES_GENERO: Record<GeneroSebo, string> = {
   "Literatura Juvenil": "#F0DCB4",
   "Literatura Inglesa": "#3D1020",
   "Infantil/Paradidático": "#B9E4EB",
+  Psicologia: "#7D5BA6",
 };

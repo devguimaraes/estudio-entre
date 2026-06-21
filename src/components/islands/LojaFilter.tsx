@@ -50,6 +50,10 @@ export default function LojaFilter({ produtos }: LojaFilterProps) {
   // biome-ignore lint/correctness/useExhaustiveDependencies: animação deve refazer ao trocar filtro
   useLayoutEffect(() => {
     if (!containerRef.current) return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
     const cards = containerRef.current.querySelectorAll(".loja-card");
     if (cards.length === 0) return;
 
@@ -215,7 +219,7 @@ export default function LojaFilter({ produtos }: LojaFilterProps) {
 
                 {/* Content */}
                 <div className="p-6 md:p-7">
-                  <a href={`/lojinha/${produto.slug}`} className="block">
+                  <a href={`/lojinha/${encodeURIComponent(produto.slug)}`} className="block">
                     <h2 className="font-display text-lg font-black uppercase leading-[1.1] text-near-black transition-colors hover:text-orange md:text-xl">
                       {produto.titulo}
                     </h2>

@@ -15,6 +15,13 @@ export const GET: APIRoute = async ({ request }) => {
   const secret = searchParams.get("secret");
   const expected = import.meta.env.SANITY_WEBHOOK_SECRET;
 
+  if (!expected) {
+    return new Response(
+      JSON.stringify({ erro: "SANITY_WEBHOOK_SECRET não configurado no ambiente" }),
+      { status: 500, headers: { "Content-Type": "application/json" } },
+    );
+  }
+
   if (!secret || secret !== expected) {
     return new Response("Unauthorized", { status: 401 });
   }
@@ -22,7 +29,11 @@ export const GET: APIRoute = async ({ request }) => {
   const start = Date.now();
 
   try {
-    const res = await fetch(CATALOG_URL);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15_000);
+
+    const res = await fetch(CATALOG_URL, { signal: controller.signal });
+    clearTimeout(timeout);
     const text = await res.text();
     const elapsed = Date.now() - start;
 
