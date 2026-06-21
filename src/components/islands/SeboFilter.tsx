@@ -11,13 +11,13 @@ function normalizeText(text: string): string {
   return text.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
 }
 
-function getContrastColor(genero: string): string {
+function getContrastColor(genero: GeneroSebo): string {
   const lightBackgrounds = ["Biografia", "Literatura Juvenil", "Infantil/Paradidático"];
   return lightBackgrounds.includes(genero) ? "#1A1612" : "#F0EDE8";
 }
 
 export default function SeboFilter({ livros }: SeboFilterProps) {
-  const [activeGenero, setActiveGenero] = useState<string>("todos");
+  const [activeGenero, setActiveGenero] = useState<"todos" | GeneroSebo>("todos");
   const [search, setSearch] = useState("");
   const [isGeneroOpen, setIsGeneroOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -25,7 +25,7 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const counts = useMemo(() => {
-    const map = new Map<string, number>();
+    const map = new Map<GeneroSebo, number>();
     for (const livro of livros) {
       map.set(livro.genero, (map.get(livro.genero) ?? 0) + 1);
     }
@@ -73,7 +73,7 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
   }, [activeGenero, search]);
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
+    function handleClickOutside(event: PointerEvent) {
       if (
         popoverRef.current &&
         !popoverRef.current.contains(event.target as Node) &&
@@ -91,13 +91,49 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
     }
 
     if (isGeneroOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("pointerdown", handleClickOutside);
       document.addEventListener("keydown", handleEscape);
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("pointerdown", handleClickOutside);
       document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isGeneroOpen]);
+
+  // Focus trap when popover is open
+  useEffect(() => {
+    const popover = popoverRef.current;
+    if (!isGeneroOpen || !popover) return;
+
+    const focusableButtons = popover.querySelectorAll<HTMLButtonElement>("button");
+    if (focusableButtons.length === 0) return;
+
+    const firstButton = focusableButtons[0];
+    const lastButton = focusableButtons[focusableButtons.length - 1];
+
+    function handleTabTrap(event: KeyboardEvent) {
+      if (event.key !== "Tab") return;
+
+      if (event.shiftKey) {
+        if (document.activeElement === firstButton) {
+          event.preventDefault();
+          lastButton.focus();
+        }
+      } else {
+        if (document.activeElement === lastButton) {
+          event.preventDefault();
+          firstButton.focus();
+        }
+      }
+    }
+
+    popover.addEventListener("keydown", handleTabTrap);
+    // Focus the first button when popover opens
+    firstButton.focus();
+
+    return () => {
+      popover.removeEventListener("keydown", handleTabTrap);
     };
   }, [isGeneroOpen]);
 
@@ -164,7 +200,7 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
                 <>
                   <button
                     type="button"
-                    aria-pressed
+                    aria-pressed={true}
                     className="rounded-full border-2 border-bordo bg-bordo px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-cream shadow-sm shadow-bordo/20 transition-all md:px-8 md:py-3.5 md:text-[11px]"
                   >
                     Todos · {livros.length}
@@ -185,11 +221,11 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
                 <>
                   <button
                     type="button"
-                    aria-pressed
+                    aria-pressed={true}
                     className="rounded-full border-2 px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-sm md:px-8 md:py-3.5 md:text-[11px]"
                     style={{
-                      backgroundColor: CORES_GENERO[activeGenero as GeneroSebo] ?? "#EC6838",
-                      borderColor: CORES_GENERO[activeGenero as GeneroSebo] ?? "#EC6838",
+                      backgroundColor: CORES_GENERO[activeGenero] ?? "#EC6838",
+                      borderColor: CORES_GENERO[activeGenero] ?? "#EC6838",
                       color: getContrastColor(activeGenero),
                     }}
                   >
@@ -287,8 +323,8 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
                           style={
                             activeGenero === genero
                               ? {
-                                  backgroundColor: CORES_GENERO[genero as GeneroSebo] ?? "#EC6838",
-                                  borderColor: CORES_GENERO[genero as GeneroSebo] ?? "#EC6838",
+                                  backgroundColor: CORES_GENERO[genero] ?? "#EC6838",
+                                  borderColor: CORES_GENERO[genero] ?? "#EC6838",
                                   color: getContrastColor(genero),
                                   boxShadow: "0 0 0 2px rgba(61,16,32,0.15)",
                                 }
