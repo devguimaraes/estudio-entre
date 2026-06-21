@@ -38,6 +38,17 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
     return () => media.removeEventListener("change", handler);
   }, []);
 
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches,
+  );
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 767px)");
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    media.addEventListener("change", handler);
+    return () => media.removeEventListener("change", handler);
+  }, []);
+
   const counts = useMemo(() => {
     const map = new Map<GeneroSebo, number>();
     for (const livro of livros) {
@@ -315,12 +326,16 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
 
                   {/* Popover */}
                   {isGeneroOpen && (
-                    <dialog
+                    <div
                       id="genero-popover"
                       ref={popoverRef}
-                      open={isGeneroOpen}
+                      role="dialog"
                       aria-label="Escolha um gênero"
-                      className="absolute left-0 top-full z-50 mt-3 w-[min(90vw,520px)] rounded-[2rem] border border-white/60 bg-white/70 p-5 shadow-2xl shadow-bordo/10 backdrop-blur-md popover-enter md:p-6"
+                      className={
+                        isMobile
+                          ? "fixed inset-x-0 bottom-0 z-50 rounded-t-[2rem] border-t border-white/60 bg-white/90 p-6 pb-8 shadow-[0_-20px_60px_rgba(61,16,32,0.15)] backdrop-blur-md"
+                          : "absolute left-0 top-full z-50 mt-3 w-[min(90vw,520px)] rounded-[2rem] border border-white/60 bg-white/70 p-5 shadow-2xl shadow-bordo/10 backdrop-blur-md popover-enter md:p-6"
+                      }
                     >
                       <div className="mb-4 flex items-center justify-between">
                         <span className="text-[10px] font-black uppercase tracking-[0.25em] text-bordo/50 md:text-[11px]">
@@ -335,7 +350,13 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
                           ✕
                         </button>
                       </div>
-                      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 md:gap-3">
+                      <div
+                        className={
+                          isMobile
+                            ? "grid max-h-[60vh] grid-cols-2 gap-2 overflow-y-auto pb-6 sm:grid-cols-3"
+                            : "grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 md:gap-3"
+                        }
+                      >
                         <button
                           type="button"
                           aria-pressed={activeGenero === "todos"}
@@ -389,7 +410,7 @@ export default function SeboFilter({ livros }: SeboFilterProps) {
                           </button>
                         ))}
                       </div>
-                    </dialog>
+                    </div>
                   )}
                 </div>
               </nav>

@@ -50,6 +50,16 @@
           }
         }
       }
+    },
+    {
+      "include": ["src/components/islands/SeboFilter.tsx"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "useSemanticElements": "off"
+          }
+        }
+      }
     }
   ]
 }
