@@ -9,7 +9,7 @@ export const config = {
 };
 
 // Constantes de validação do webhook
-const ALLOWED_TYPES = ["evento", "configuracao"];
+const ALLOWED_TYPES = ["evento", "configuracao", "exposicao", "albumGaleria"];
 
 export const POST: APIRoute = async ({ request }) => {
   try {
