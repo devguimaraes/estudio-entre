@@ -55,22 +55,13 @@ function getEventoDayKey(evento: EventoNormalizado): string {
 
 function getCurrentMesKey(): string {
   const now = new Date();
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: EVENT_TIME_ZONE,
-    year: "numeric",
-    month: "2-digit",
-  }).formatToParts(now);
-  const year = parts.find((p) => p.type === "year")?.value;
-  const month = parts.find((p) => p.type === "month")?.value;
-
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
   return `${year}-${month}`;
 }
 
-function getInitialMonth(eventos: EventoNormalizado[]) {
-  const currentKey = getCurrentMesKey();
-  const months = getAvailableMonthKeys(eventos);
-
-  return months.includes(currentKey) ? currentKey : (months[0] ?? currentKey);
+function getInitialMonth(_eventos: EventoNormalizado[]) {
+  return getCurrentMesKey();
 }
 
 export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
@@ -79,8 +70,18 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
   const [search, setSearch] = useState("");
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
   const containerRef = useRef<HTMLDivElement>(null);
+  const monthNavRef = useRef<HTMLDivElement>(null);
 
-  const monthKeys = useMemo(() => getAvailableMonthKeys(eventos), [eventos]);
+  const currentMonthKey = useMemo(() => getCurrentMesKey(), []);
+
+  const monthKeys = useMemo(() => {
+    const keys = getAvailableMonthKeys(eventos);
+    if (!keys.includes(currentMonthKey)) {
+      keys.push(currentMonthKey);
+      keys.sort();
+    }
+    return keys;
+  }, [eventos, currentMonthKey]);
   const searchTerm = normalizeSearch(search);
 
   const availableCategories = useMemo(() => {
@@ -160,6 +161,15 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
     void search;
   }, [selectedMonth, activeCategory, search]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: scroll only on mount
+  useEffect(() => {
+    if (!monthNavRef.current) return;
+    const btn = monthNavRef.current.querySelector(`[data-month="${selectedMonth}"]`);
+    if (btn instanceof HTMLElement) {
+      btn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    }
+  }, []);
+
   function toggleCard(id: string) {
     setExpandedCards((prev) => {
       const next = new Set(prev);
@@ -186,23 +196,43 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
   return (
     <div className="space-y-12">
       <section className="bg-white/50 p-5 rounded-[2rem] shadow-2xl shadow-forest/5 backdrop-blur-sm md:p-10 md:rounded-[2.5rem] border border-white/40">
-        <div className="flex items-center border-b border-forest/10 pb-5 overflow-x-auto no-scrollbar mb-8 md:mb-10 md:pb-6">
+        <div
+          ref={monthNavRef}
+          className="flex items-center border-b border-forest/10 pb-5 overflow-x-auto no-scrollbar scroll-smooth mb-8 md:mb-10 md:pb-6"
+        >
           <div className="flex gap-6 md:gap-14 min-w-max px-1 md:px-2">
-            {monthKeys.map((month) => (
-              <button
-                key={month}
-                type="button"
-                onClick={() => setSelectedMonth(month)}
-                className={`group relative pb-4 text-[11px] md:text-[13px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] transition-all
-                  ${selectedMonth === month ? "text-forest scale-110" : "text-forest/25 hover:text-forest/50"}`}
-              >
-                {formatMonthLabel(month)}
-                <div
-                  className={`absolute bottom-[-1px] left-0 h-[3px] w-full bg-orange transition-transform duration-500
-                    ${selectedMonth === month ? "scale-x-100" : "scale-x-0 group-hover:scale-x-30"}`}
-                />
-              </button>
-            ))}
+            {monthKeys.map((month) => {
+              const isSelected = selectedMonth === month;
+              const isCurrentNotSelected = month === currentMonthKey && !isSelected;
+
+              return (
+                <button
+                  key={month}
+                  type="button"
+                  data-month={month}
+                  onClick={() => setSelectedMonth(month)}
+                  className={`group relative pb-4 text-[11px] md:text-[13px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] transition-all
+                    ${
+                      isSelected
+                        ? "text-forest scale-110"
+                        : isCurrentNotSelected
+                          ? "text-forest/60 border border-orange/40 rounded-full px-4 py-1 bg-orange/5"
+                          : "text-forest/40 hover:text-forest/60"
+                    }
+                  `}
+                >
+                  {formatMonthLabel(month)}
+                  {isSelected && (
+                    <div className="absolute bottom-[-1px] left-0 h-[3px] w-full bg-orange" />
+                  )}
+                  {isCurrentNotSelected && (
+                    <span className="absolute -bottom-5 left-1/2 -translate-x-1/2 text-[8px] font-black uppercase tracking-[0.3em] text-orange/70 whitespace-nowrap">
+                      atual
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
 
