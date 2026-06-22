@@ -48,19 +48,36 @@ export async function fetchSeboCSV(): Promise<string> {
 /**
  * Converte uma string CSV em array de LivroSebo.
  *
- * Lida com:
- * - Campos entre aspas (podem conter vírgulas e quebras de linha)
- * - Vírgula como separador
- * - Primeira linha como cabeçalho (ignorada)
- * - Linhas vazias (ignoradas)
+ * A planilha do Google Sheets exporta com:
+ * - \r\n (CRLF) — removemos \r
+ * - Linhas iniciais com título da planilha e vazias — ignoradas
+ * - Linha de cabeçalho ("AUTOR,TÍTULO,...") — detectada e ignorada
+ * - Colunas: Autor, Título, Editora, Gênero, Valor
  */
 export function parseSeboCSV(text: string): LivroSebo[] {
-  const livros: LivroSebo[] = [];
-  const rows = splitCSVLines(text);
+  // Remove \r do CRLF do Google Sheets
+  const clean = text.replace(/\r/g, "");
 
-  // Linha 0 é cabeçalho: Autor,Título,Editora,Gênero,Valor
-  for (let i = 1; i < rows.length; i++) {
-    const fields = splitCSVRow(rows[i]);
+  const rows = clean.split("\n");
+  const livros: LivroSebo[] = [];
+
+  // Encontra a linha de cabeçalho (contém "AUTOR")
+  let headerIndex = -1;
+  for (let i = 0; i < rows.length; i++) {
+    if (/^AUTOR[,;]/.test(rows[i].trim().toUpperCase())) {
+      headerIndex = i;
+      break;
+    }
+  }
+
+  // Se não encontrar cabeçalho, assume linha 0 como fallback
+  const start = headerIndex >= 0 ? headerIndex + 1 : 1;
+
+  for (let i = start; i < rows.length; i++) {
+    const line = rows[i];
+    if (!line.trim()) continue;
+
+    const fields = splitCSVRow(line);
     if (fields.length < 5) continue;
 
     const [autor, titulo, editora, genero, valor] = fields;
@@ -77,30 +94,6 @@ export function parseSeboCSV(text: string): LivroSebo[] {
   }
 
   return livros;
-}
-
-/** Quebra um texto CSV em linhas, respeitando campos entre aspas com \n */
-function splitCSVLines(text: string): string[] {
-  const lines: string[] = [];
-  let current = "";
-  let insideQuotes = false;
-
-  for (let i = 0; i < text.length; i++) {
-    const ch = text[i];
-
-    if (ch === '"') {
-      insideQuotes = !insideQuotes;
-      current += ch;
-    } else if (ch === "\n" && !insideQuotes) {
-      lines.push(current);
-      current = "";
-    } else {
-      current += ch;
-    }
-  }
-
-  if (current) lines.push(current);
-  return lines;
 }
 
 /** Quebra uma linha CSV em campos, respeitando aspas */
