@@ -89,7 +89,7 @@ export function formatMonthLabel(mesKey: string): string {
     month: "long",
     year: "numeric",
     timeZone: EVENT_TIME_ZONE,
-  }).format(new Date(Date.UTC(year, month - 1, 1)));
+  }).format(new Date(Date.UTC(year, month - 1, 15)));
 }
 
 export function normalizeSearch(value: string): string {
