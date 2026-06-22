@@ -4,12 +4,7 @@ import Footer from "@/components/sections/Footer.astro";
 import Decorative from "@/components/ui/Decorative.astro";
 import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 import NoiseTexture from "@/components/ui/NoiseTexture.astro";
-import seboData from "@/data/sebo.json";
-// src/pages/sebo.astro
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import type { LivroSebo } from "@/types/sebo";
-
-const livros: LivroSebo[] = seboData;
 ---
 
 <BaseLayout
@@ -58,7 +53,7 @@ const livros: LivroSebo[] = seboData;
 
     <!-- Conteúdo -->
     <div class="relative z-10 mx-auto max-w-[1300px] px-4 md:px-16">
-      <SeboFilter client:load livros={livros} />
+      <SeboFilter client:load />
     </div>
   </main>
 
