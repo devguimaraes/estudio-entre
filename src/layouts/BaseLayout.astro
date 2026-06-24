@@ -83,7 +83,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       rel="stylesheet"
     />
   </head>
-  <body class="no-js">
+  <body class="no-js" data-page-bg={navTheme === "dark" ? "#F0EDE8" : "#EC6838"}>
     <script is:inline>
       document.body.classList.remove("no-js");
       document.body.classList.add("js");

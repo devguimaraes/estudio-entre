@@ -10,9 +10,7 @@ type WipeConfig = {
 
 const WIPE_CONFIGS: WipeConfig[] = [
   { trigger: ".sobre", colors: ["#ec6838", "#f0ede8", "#3d1020"] },
-  { trigger: ".servicos", colors: ["#f0ede8", "#ec6838", "#777bde"] },
   { trigger: ".agenda", colors: ["#8e8100", "#dec72c", "#3d1020"] },
-  { trigger: ".espaco", colors: ["#3d1020", "#ec6838", "#f0ede8"] },
   { trigger: ".contato", colors: ["#1a1612", "#777bde", "#ec6838"] },
   { trigger: ".footer", colors: ["#f0ede8", "#c4a54b", "#1a1612"] },
 ];

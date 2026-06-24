@@ -105,6 +105,8 @@ export default function SeboHomeIsland() {
       <section
         className="sebo-home relative overflow-hidden px-6 py-20 md:px-16 md:py-28"
         style={{ backgroundColor: "#b9e4eb", color: "#3d1020" }}
+        data-bg-color="#b9e4eb"
+        data-nav-theme="dark"
         id="sebo"
         aria-label="Sebo Entre"
       >
@@ -162,6 +164,8 @@ export default function SeboHomeIsland() {
     <section
       className="sebo-home relative overflow-hidden px-6 py-20 md:px-16 md:py-28"
       style={{ backgroundColor: "#b9e4eb", color: "#3d1020" }}
+      data-bg-color="#b9e4eb"
+      data-nav-theme="dark"
       id="sebo"
       aria-label="Sebo Entre"
     >
