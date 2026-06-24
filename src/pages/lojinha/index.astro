@@ -2,6 +2,7 @@
 import LojaFilter from "@/components/islands/LojaFilter";
 import Footer from "@/components/sections/Footer.astro";
 import Decorative from "@/components/ui/Decorative.astro";
+import FreteInfo from "@/components/ui/FreteInfo.astro";
 import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 import NoiseTexture from "@/components/ui/NoiseTexture.astro";
 import lojaData from "@/data/loja.json";
@@ -43,6 +44,8 @@ const produtos: ProdutoLoja[] = lojaData;
       <LojaFilter client:load produtos={produtos} />
     </div>
   </main>
+
+  <FreteInfo variant="section" />
 
   <Footer />
 </BaseLayout>

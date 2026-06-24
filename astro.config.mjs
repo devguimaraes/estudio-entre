@@ -3,6 +3,7 @@ import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
 import sanity from "@sanity/astro";
 import tailwindcss from "@tailwindcss/vite";
+import icon from "astro-icon";
 import { defineConfig } from "astro/config";
 import { loadEnv } from "vite";
 
@@ -20,6 +21,7 @@ export default defineConfig({
       useCdn: false,
       studioBasePath: "/studio",
     }),
+    icon(),
   ],
   vite: {
     plugins: [tailwindcss()],

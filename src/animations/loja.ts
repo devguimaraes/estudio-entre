@@ -38,3 +38,49 @@ export function animateLojaHome(): void {
     },
   );
 }
+
+export function animateFreteInfo(): void {
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion) return;
+
+  const banner = document.querySelector(".frete-info__banner");
+  const cards = gsap.utils.toArray<HTMLElement>(".frete-info__card");
+
+  if (banner) {
+    gsap.fromTo(
+      banner,
+      { opacity: 0, y: 12 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: "expo.out",
+        scrollTrigger: {
+          trigger: ".frete-info",
+          start: "top 80%",
+          toggleActions: "play none none reverse",
+        },
+      },
+    );
+  }
+
+  if (cards.length > 0) {
+    gsap.fromTo(
+      cards,
+      { opacity: 0, y: 24, scale: 0.97 },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.6,
+        stagger: 0.07,
+        ease: "expo.out",
+        scrollTrigger: {
+          trigger: ".frete-info",
+          start: "top 80%",
+          toggleActions: "play none none reverse",
+        },
+      },
+    );
+  }
+}

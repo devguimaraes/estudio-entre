@@ -1,0 +1,159 @@
+---
+import Decorative from "@/components/ui/Decorative.astro";
+import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+import NoiseTexture from "@/components/ui/NoiseTexture.astro";
+import { cn } from "@/lib/utils";
+import { FRETE_GRATIS_VALOR_MINIMO, OPCOES_FRETE } from "@/types/loja";
+import { Icon } from "astro-icon/components";
+import { cva } from "class-variance-authority";
+
+interface Props {
+  variant?: "section" | "inline";
+}
+
+const { variant = "section" } = Astro.props;
+const isSection = variant === "section";
+
+const containerVariants = cva("frete-info", {
+  variants: {
+    variant: {
+      section: "relative py-16 md:py-24",
+      inline: "py-8",
+    },
+  },
+});
+
+const cardVariants = cva(
+  "frete-info__card relative flex flex-col gap-3 rounded-[1.5rem] p-6 transition-all duration-500",
+  {
+    variants: {
+      variant: {
+        section:
+          "bg-white shadow-xl shadow-black/[0.08] hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/[0.12]",
+        inline: "bg-cream/60",
+      },
+    },
+  },
+);
+
+const wrapperClass = containerVariants({ variant });
+
+const heartIconSvg = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+---
+
+{
+  isSection ? (
+    <section class={wrapperClass} style="background-color: #1D432C">
+      <HalftoneTexture density={10} dotSize={1} color="185,228,235" opacity={0.04} class="z-0" />
+      <NoiseTexture opacity={0.05} />
+
+      <div class="absolute right-[10%] top-[12%] z-0 opacity-[0.06]">
+        <Decorative variant="star" color="#EC6838" size={48} />
+      </div>
+      <div class="absolute bottom-[15%] left-[5%] z-0 opacity-[0.04]">
+        <Decorative variant="dots" color="#B9E4EB" size={36} />
+      </div>
+
+      <div class="relative z-10 mx-auto max-w-[1300px] px-4 md:px-16">
+        <p class="mb-4 font-display text-[10px] font-black uppercase tracking-[0.4em] text-cream/30">
+          Entrega &amp; Frete
+        </p>
+        <h2 class="mb-10 font-display text-[clamp(2rem,5vw,3.5rem)] font-black uppercase leading-[0.9] text-cream">
+          Como receber
+        </h2>
+
+        <div class="frete-info__banner mb-10 flex items-center gap-3 rounded-2xl bg-orange px-6 py-4">
+          <span class="shrink-0 text-cream" set:html={heartIconSvg} />
+          <p class="font-display text-sm font-bold uppercase tracking-[0.05em] text-cream">
+            Frete grátis em compras acima de R${FRETE_GRATIS_VALOR_MINIMO}
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
+          {OPCOES_FRETE.map((opcao) => (
+            <article class={cn(cardVariants({ variant }))}>
+              <div class="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-orange/10 text-orange">
+                <Icon name={opcao.icone} size={22} />
+              </div>
+              <h3 class="font-display text-base font-black uppercase leading-[1.1] text-forest">
+                {opcao.modalidade}
+              </h3>
+              <p class="text-xs font-medium uppercase tracking-[0.05em] text-forest/40">
+                {opcao.prazo}
+              </p>
+              <div class="mt-1 space-y-1.5">
+                {opcao.variacoes.map((v) => (
+                  <div class="flex items-baseline justify-between gap-2">
+                    <span class="text-sm text-forest/60">{v.localidade}</span>
+                    <span class="font-display text-sm font-bold tabular-nums text-terracota">
+                      {v.preco || "—"}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  ) : (
+    <div class={wrapperClass}>
+      <div class="frete-info__banner mb-6 flex items-center gap-3 rounded-2xl bg-forest px-5 py-3">
+        <span class="shrink-0 text-cream" set:html={heartIconSvg} />
+        <p class="font-display text-xs font-bold uppercase tracking-[0.05em] text-cream">
+          Frete grátis em compras acima de R${FRETE_GRATIS_VALOR_MINIMO}
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-4">
+        {OPCOES_FRETE.map((opcao) => (
+          <article class={cn(cardVariants({ variant }))}>
+            <div class="mb-1 flex h-8 w-8 items-center justify-center rounded-lg bg-orange/10 text-orange">
+              <Icon name={opcao.icone} size={18} />
+            </div>
+            <h3 class="font-display text-sm font-black uppercase leading-[1.1] text-forest">
+              {opcao.modalidade}
+            </h3>
+            <p class="text-[10px] font-medium uppercase tracking-[0.05em] text-forest/40">
+              {opcao.prazo}
+            </p>
+            <div class="space-y-1">
+              {opcao.variacoes.map((v) => (
+                <div class="flex items-baseline justify-between gap-2">
+                  <span class="text-xs text-forest/60">{v.localidade}</span>
+                  <span class="font-display text-xs font-bold tabular-nums text-terracota">
+                    {v.preco || "—"}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+<script>
+  import { animateFreteInfo } from "@/animations/loja";
+  animateFreteInfo();
+</script>
+
+<style>
+  .frete-info__card {
+    will-change: transform, opacity;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .frete-info__card {
+      opacity: 1 !important;
+      transform: none !important;
+      will-change: auto;
+    }
+
+    .frete-info__banner {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+</style>

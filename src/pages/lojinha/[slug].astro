@@ -1,6 +1,7 @@
 ---
 import Footer from "@/components/sections/Footer.astro";
 import Decorative from "@/components/ui/Decorative.astro";
+import FreteInfo from "@/components/ui/FreteInfo.astro";
 import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 import NoiseTexture from "@/components/ui/NoiseTexture.astro";
 import lojaData from "@/data/loja.json";
@@ -98,7 +99,9 @@ const ogImage = produto?.imagemUrl ?? undefined;
                 </p>
               </div>
 
-              <div class="mt-12 flex flex-wrap items-center gap-6 border-t border-forest/[0.06] pt-10">
+              <FreteInfo variant="inline" />
+
+              <div class="mt-8 flex flex-wrap items-center gap-6 border-t border-forest/[0.06] pt-10">
                 <div class="flex flex-col gap-1">
                   <span class="text-[10px] font-black uppercase tracking-[0.3em] text-forest/40">
                     Preço
