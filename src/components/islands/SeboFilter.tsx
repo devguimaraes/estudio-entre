@@ -39,6 +39,10 @@ export default function SeboFilter() {
     counts,
     generos,
     filteredLivros,
+    displayedLivros,
+    hasMore,
+    remaining,
+    loadMore,
     clearFilters,
   } = useSeboFilter(livros);
 
@@ -47,22 +51,43 @@ export default function SeboFilter() {
   const popoverRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const prevIsGeneroOpen = useRef(isGeneroOpen);
+  const prevCardCountRef = useRef(0);
 
   const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const isMobile = useMediaQuery("(max-width: 767px)");
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: re-run card entrance animation when filter changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: reage a mudanças de filtro e load-more
   useLayoutEffect(() => {
     if (prefersReducedMotion) return;
     if (!containerRef.current) return;
-    const cards = containerRef.current.querySelectorAll(".sebo-card");
-    if (cards.length === 0) return;
-    gsap.fromTo(
-      cards,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.8, stagger: 0.08, ease: "power4.out", clearProps: "all" },
-    );
-  }, [activeGenero, search, prefersReducedMotion]);
+
+    const cards = containerRef.current.querySelectorAll<HTMLElement>(".sebo-card");
+    if (cards.length === 0) {
+      prevCardCountRef.current = 0;
+      return;
+    }
+
+    const currentCount = cards.length;
+    const prevCount = prevCardCountRef.current;
+    const isLoadMore = currentCount > prevCount && prevCount > 0;
+
+    if (isLoadMore) {
+      const newCards = Array.from(cards).slice(prevCount);
+      gsap.fromTo(
+        newCards,
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.6, stagger: 0.06, ease: "power3.out", clearProps: "all" },
+      );
+    } else {
+      gsap.fromTo(
+        cards,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, stagger: 0.08, ease: "power4.out", clearProps: "all" },
+      );
+    }
+
+    prevCardCountRef.current = currentCount;
+  }, [displayedLivros, prefersReducedMotion]);
 
   useEffect(() => {
     if (prevIsGeneroOpen.current && !isGeneroOpen) {
@@ -168,11 +193,29 @@ export default function SeboFilter() {
 
       <div ref={containerRef}>
         {filteredLivros.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-2">
-            {filteredLivros.map((livro, i) => (
-              <SeboBookCard key={`${livro.titulo}-${livro.autor}-${i}`} livro={livro} />
-            ))}
-          </div>
+          <>
+            <div className="grid gap-6 md:grid-cols-2">
+              {displayedLivros.map((livro, i) => (
+                <SeboBookCard key={`${livro.titulo}-${livro.autor}-${i}`} livro={livro} />
+              ))}
+            </div>
+
+            {hasMore && (
+              <div className="mt-10 flex flex-col items-center">
+                <div className="mb-6 h-px w-full max-w-xs bg-gradient-to-r from-transparent via-bordo/10 to-transparent" />
+                <button
+                  type="button"
+                  onClick={loadMore}
+                  className="group relative rounded-full border border-bordo/20 px-8 py-3.5 text-[9px] font-black uppercase tracking-[0.3em] text-bordo/60 transition-[transform,border-color,color] duration-200 ease-out hover:border-bordo hover:text-bordo active:scale-[0.97] md:px-10 md:py-4 md:text-[10px]"
+                >
+                  Ver mais
+                  <span className="ml-2 text-bordo/25 transition-colors duration-200 group-hover:text-bordo/50">
+                    ({remaining})
+                  </span>
+                </button>
+              </div>
+            )}
+          </>
         ) : (
           <SeboEmptyState variant="no-results" onClear={clearFilters} />
         )}

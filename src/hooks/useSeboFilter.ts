@@ -2,13 +2,16 @@ import type { GeneroSebo, LivroSebo } from "@/types/sebo";
 import { normalizeText } from "@/utils/sebo";
 import { useCallback, useMemo, useState } from "react";
 
+const PAGE_SIZE = 6;
+
 /**
  * Hook de estado e filtro para o acervo Sebo.
- * Centraliza a lógica de filtragem por gênero + busca textual.
+ * Centraliza a lógica de filtragem por gênero + busca textual + paginação.
  */
 export function useSeboFilter(livros: LivroSebo[]) {
   const [activeGenero, setActiveGenero] = useState<"todos" | GeneroSebo>("todos");
   const [search, setSearch] = useState("");
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const counts = useMemo(() => {
     const map = new Map<GeneroSebo, number>();
@@ -36,19 +39,46 @@ export function useSeboFilter(livros: LivroSebo[]) {
     [livros, activeGenero, searchTerm],
   );
 
+  const displayedLivros = useMemo(
+    () => filteredLivros.slice(0, visibleCount),
+    [filteredLivros, visibleCount],
+  );
+
+  const hasMore = visibleCount < filteredLivros.length;
+  const remaining = filteredLivros.length - visibleCount;
+
+  const handleSetGenero = useCallback((genero: "todos" | GeneroSebo) => {
+    setActiveGenero(genero);
+    setVisibleCount(PAGE_SIZE);
+  }, []);
+
+  const handleSetSearch = useCallback((value: string) => {
+    setSearch(value);
+    setVisibleCount(PAGE_SIZE);
+  }, []);
+
   const clearFilters = useCallback(() => {
     setActiveGenero("todos");
     setSearch("");
+    setVisibleCount(PAGE_SIZE);
+  }, []);
+
+  const loadMore = useCallback(() => {
+    setVisibleCount((prev) => prev + PAGE_SIZE);
   }, []);
 
   return {
     activeGenero,
-    setActiveGenero,
+    setActiveGenero: handleSetGenero,
     search,
-    setSearch,
+    setSearch: handleSetSearch,
     counts,
     generos,
     filteredLivros,
+    displayedLivros,
+    hasMore,
+    remaining,
+    loadMore,
     clearFilters,
   };
 }
