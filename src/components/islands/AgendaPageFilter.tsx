@@ -60,8 +60,11 @@ function getCurrentMesKey(): string {
   return `${year}-${month}`;
 }
 
-function getInitialMonth(_eventos: EventoNormalizado[]) {
-  return getCurrentMesKey();
+function getInitialMonth(eventos: EventoNormalizado[]): string {
+  const currentMesKey = getCurrentMesKey();
+  const availableMonths = getAvailableMonthKeys(eventos);
+  if (availableMonths.includes(currentMesKey)) return currentMesKey;
+  return availableMonths[0] ?? currentMesKey;
 }
 
 export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
@@ -74,14 +77,7 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
 
   const currentMonthKey = useMemo(() => getCurrentMesKey(), []);
 
-  const monthKeys = useMemo(() => {
-    const keys = getAvailableMonthKeys(eventos);
-    if (!keys.includes(currentMonthKey)) {
-      keys.push(currentMonthKey);
-      keys.sort();
-    }
-    return keys;
-  }, [eventos, currentMonthKey]);
+  const monthKeys = useMemo(() => getAvailableMonthKeys(eventos), [eventos]);
   const searchTerm = normalizeSearch(search);
 
   const availableCategories = useMemo(() => {
