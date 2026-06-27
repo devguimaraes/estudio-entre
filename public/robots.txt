@@ -8,4 +8,4 @@ Disallow: /studio/
 Allow: /
 
 # Sitemap
-Sitemap: https://estudioentre.com.br/sitemap-index.xml
+Sitemap: https://www.estudioentre.com.br/sitemap-index.xml

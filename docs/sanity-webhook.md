@@ -64,7 +64,7 @@ Acesse o painel do Sanity e configure o webhook:
 
 - **Name**: `Vercel Deploy Hook`
 - **Description**: `Dispara rebuild automático quando eventos ou configurações são alterados`
-- **URL**: `https://estudio-entre.vercel.app/api/webhook`
+- **URL**: `https://www.estudioentre.com.br/api/webhook`
 - **Trigger on**: `Create`, `Update`, `Delete`
 - **Filter**: `_type == "evento" || _type == "configuracao"`
 - **HTTP method**: `POST`
@@ -106,7 +106,7 @@ No painel do Sanity, clique nos três pontos ao lado do webhook e selecione **"V
 ### Health Check
 
 ```bash
-curl https://estudio-entre.vercel.app/api/webhook
+curl https://www.estudioentre.com.br/api/webhook
 ```
 
 Resposta esperada:
@@ -131,7 +131,7 @@ Resposta esperada:
 
 **Solução**:
 - Verifique se o webhook está com status "Enabled"
-- Confirme a URL: `https://estudio-entre.vercel.app/api/webhook`
+- Confirme a URL: `https://www.estudioentre.com.br/api/webhook`
 - Verifique se o secret corresponde ao configurado na Vercel
 
 ### Deploy não acontece

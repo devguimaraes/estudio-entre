@@ -37,7 +37,7 @@ Se preferir configurar manualmente, siga estes passos:
 Preencha os campos:
 
 - **Name**: `Vercel Deploy Hook`
-- **URL**: `https://estudio-entre.vercel.app/api/webhook`
+- **URL**: `https://www.estudioentre.com.br/api/webhook`
 - **Trigger on**: Marque `Create`, `Update` e `Delete`
 - **Document types**: Selecione `evento` e `configuracao`
 - **Secret**: `c6d2354f-9659-4462-8685-dbb545d0cf97`
@@ -78,7 +78,7 @@ Confirme que estas variáveis estão configuradas no painel da Vercel:
 ### Teste 1: Verificar Health Check
 
 ```bash
-curl https://estudio-entre.vercel.app/api/webhook
+curl https://www.estudioentre.com.br/api/webhook
 ```
 
 Deve retornar:
@@ -93,7 +93,7 @@ Deve retornar:
 ### Teste 2: Simular Webhook
 
 ```bash
-curl -X POST https://estudio-entre.vercel.app/api/webhook \
+curl -X POST https://www.estudioentre.com.br/api/webhook \
   -H "Content-Type: application/json" \
   -H "x-sanity-webhook-secret: c6d2354f-9659-4462-8685-dbb545d0cf97" \
   -d '{"_type": "evento", "operation": "create"}'
@@ -110,7 +110,7 @@ Deve retornar:
 
 ### Teste 3: Criar Evento Real
 
-1. Acesse o Sanity Studio: https://estudio-entre.vercel.app/studio
+1. Acesse o Sanity Studio: https://www.estudioentre.com.br/studio
 2. Crie um novo evento com:
    - Título: "Evento de Teste"
    - Categoria: qualquer uma válida
@@ -118,14 +118,14 @@ Deve retornar:
    - Ativo: ✓
 3. Salve o evento
 4. Aguarde 1-2 minutos
-5. Verifique se o evento aparece em https://estudio-entre.vercel.app
+5. Verifique se o evento aparece em https://www.estudioentre.com.br
 
 ## Troubleshooting
 
 ### Webhook não está disparando
 
 1. Verifique se o webhook está ativo no painel do Sanity
-2. Confirme que a URL está correta: `https://estudio-entre.vercel.app/api/webhook`
+2. Confirme que a URL está correta: `https://www.estudioentre.com.br/api/webhook`
 3. Verifique os logs da Vercel: Functions → webhook
 
 ### Deploy não está acontecendo
