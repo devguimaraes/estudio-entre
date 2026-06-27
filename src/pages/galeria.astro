@@ -4,6 +4,7 @@ import Footer from "@/components/sections/Footer.astro";
 import GaleriaListagem from "@/components/sections/GaleriaListagem.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { albunsQuery } from "@/sanity/queries/galeria";
+import { buildOgImageUrl } from "@/utils/seo";
 import type { AlbumGaleriaCard } from "@/types/galeria";
 
 const albuns: AlbumGaleriaCard[] = await sanityClient.fetch(albunsQuery);
@@ -11,7 +12,7 @@ const albuns: AlbumGaleriaCard[] = await sanityClient.fetch(albunsQuery);
 const title = "Galeria — Estúdio Entre";
 const description = "Momentos do Estúdio Entre: inaugurações, exposições e eventos em imagem.";
 const ogImage =
-  albuns.length > 0 && albuns[0].capaUrl ? `${albuns[0].capaUrl}?w=1200&h=630&fit=crop` : undefined;
+  albuns.length > 0 && albuns[0].capaUrl ? buildOgImageUrl(albuns[0].capaUrl) : undefined;
 ---
 
 <BaseLayout
