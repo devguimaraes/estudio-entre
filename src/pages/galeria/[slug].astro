@@ -5,6 +5,7 @@ import type { FotoAlbum } from "@/components/islands/GaleriaDetalhe";
 import Footer from "@/components/sections/Footer.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { albumBySlugQuery, todosAlbunsSlugsQuery } from "@/sanity/queries/galeria";
+import { buildOgImageUrl } from "@/utils/seo";
 
 export async function getStaticPaths() {
   const slugs: { slug: string }[] = await sanityClient.fetch(todosAlbunsSlugsQuery);
@@ -77,16 +78,20 @@ const fotos: FotoAlbum[] = (album.imagens ?? [])
     };
   });
 
-const capaUrl = fotos.length > 0 ? fotos[0].src : undefined;
 const pageTitle = `${album.titulo} | Galeria — Estúdio Entre`;
 const data = formatarData(album.dataInicio, album.dataFim);
+
+// Imagem OG a partir da primeira foto do álbum (URL raw do Sanity, otimizada para 1200×630)
+const ogImageRaw = album.imagens?.find((img) => img.asset?.url)?.asset?.url;
+const ogImage = ogImageRaw ? buildOgImageUrl(ogImageRaw) : undefined;
 ---
 
 <BaseLayout
   title={pageTitle}
   description={album.descricao ?? `Fotos de ${album.titulo}`}
   navTheme="dark"
-  ogImage={capaUrl}
+  ogImage={ogImage}
+  ogType="article"
 >
   <main
     class="album-detalhe relative pt-32 md:pt-40 pb-24 md:pb-40 overflow-hidden"

@@ -9,6 +9,7 @@ import lojaData from "@/data/loja.json";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import type { ProdutoLoja } from "@/types/loja";
 import { CORES_CATEGORIA_LOJA } from "@/types/loja";
+import { buildOgImageUrl } from "@/utils/seo";
 
 export function getStaticPaths() {
   return (lojaData as ProdutoLoja[]).map((p) => ({ params: { slug: p.slug } }));
@@ -24,13 +25,14 @@ const error = !produto ? "Produto não encontrado." : null;
 const pageTitle = produto ? `${produto.titulo} — Loja Estúdio Entre` : "Produto — Estúdio Entre";
 const pageDescription =
   produto?.descricao?.slice(0, 160) ?? "Confira este produto na loja do Estúdio Entre.";
-const ogImage = produto?.imagemUrl ?? undefined;
+const ogImage = produto?.imagemUrl ? buildOgImageUrl(produto.imagemUrl) : undefined;
 ---
 
 <BaseLayout
   title={pageTitle}
   description={pageDescription}
   ogImage={ogImage}
+  ogType="article"
   navTheme="dark"
 >
   <main class="relative min-h-screen overflow-hidden bg-cream pb-24 pt-32 text-forest md:pb-40 md:pt-40">
