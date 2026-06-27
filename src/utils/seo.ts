@@ -92,8 +92,8 @@ export const ORGANIZATION = {
     addressCountry: "BR",
   },
   geo: {
-    latitude: -22.9027,
-    longitude: -43.2096,
+    latitude: -22.9014,
+    longitude: -43.2822,
   },
   sameAs: [
     "https://instagram.com/entrenoestudio",

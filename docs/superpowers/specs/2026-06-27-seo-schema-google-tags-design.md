@@ -19,7 +19,7 @@
 | Telefone | `+5521973101451` | Contato.astro |
 | Email | `contato@estudioentre.com.br` | Contato.astro + API |
 | Endereço | Rua Maria Calmon, 100, Méier, RJ, 20710-030 | Contato.astro |
-| Lat/Lng | `-22.9027, -43.2096` | Méier, geo estimada |
+| Lat/Lng | `-22.9014, -43.2822` | Méier (Wikipedia/OSM) |
 | Horário | Qua-Sex 10h-18h, Sáb 10h-15h | Contato.astro |
 | Instagram | `https://instagram.com/entrenoestudio` | Contato.astro / Footer |
 | TikTok | `https://tiktok.com/@entrenoestudio` | Contato.astro / Footer |
