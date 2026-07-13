@@ -98,7 +98,7 @@ describe("locacao content", () => {
     expect(exposicoesResidentes.titulo).toBeTruthy();
     expect(exposicoesResidentes.texto).toContain("1 mês");
     expect(exposicoesResidentes.texto).toContain("contrato");
-    expect(exposicoesResidentes.imagem.src).toBe("/images/locacao/exposicoes.webp");
+    expect(exposicoesResidentes.imagem.src).toBe("/images/locacao/exposicoes-residentes.webp");
   });
 
   test("dois modelos de Parceria conforme spec", () => {

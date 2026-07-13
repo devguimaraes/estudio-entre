@@ -119,7 +119,7 @@ export const exposicoesResidentes: ExposicoesResidentes = {
   texto:
     "Recebemos propostas com duração média de 1 mês. Modelo base: evento de abertura, possibilidade de venda de obras, curadoria Entre. Cada exposição é personalizada com o artista ou coletivo considerando duração, formato da montagem, vendas de obras, comissão, programação paralela, mediação e ações educativas. Todos os acordos formalizados em contrato específico.",
   imagem: {
-    src: "/images/locacao/exposicoes.webp",
+    src: "/images/locacao/exposicoes-residentes.webp",
     alt: "Exposição de arte no Estúdio Entre, ambiente de galeria com obras em cartaz",
   },
 };
