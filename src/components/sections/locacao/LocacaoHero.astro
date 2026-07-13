@@ -44,7 +44,7 @@ const waUrl = buildWaLink(locacaoHero.ctaPrimario);
       {locacaoHero.titulo}
     </h1>
 
-    <p class="locacao-hero__subtitle mt-6 max-w-2xl text-base leading-relaxed text-cream/75 opacity-0 md:text-lg">
+    <p class="locacao-hero__subtitle mt-6 max-w-2xl text-base leading-relaxed text-cream/85 opacity-0 md:text-lg">
       {locacaoHero.subtitulo}
     </p>
 
@@ -53,13 +53,13 @@ const waUrl = buildWaLink(locacaoHero.ctaPrimario);
         href={waUrl}
         target="_blank"
         rel="noopener noreferrer"
-        class="locacao-hero__cta-primary inline-flex min-h-11 w-full items-center justify-center rounded-full bg-orange px-8 py-4 font-display text-[11px] font-black uppercase tracking-widest text-bordo shadow-[0_16px_40px_rgba(236,104,56,0.35)] transition-transform duration-[160ms] ease-out active:scale-[0.97] hover:bg-cream sm:w-auto"
+        class="locacao-hero__cta-primary inline-flex min-h-11 w-full items-center justify-center rounded-full bg-orange px-8 py-4 font-display text-[11px] font-black uppercase tracking-widest text-bordo shadow-[0_16px_40px_rgba(236,104,56,0.35)] transition-transform duration-[160ms] ease-out active:scale-[0.97] fine-hover:bg-cream focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange sm:w-auto"
       >
         {locacaoHero.ctaPrimarioLabel}
       </a>
       <a
         href={locacaoHero.ctaSecundarioAnchor}
-        class="locacao-hero__cta-secondary inline-flex min-h-11 w-full items-center justify-center rounded-full border-2 border-cream/30 px-8 py-4 font-display text-[11px] font-bold uppercase tracking-widest text-cream transition-[transform,background-color,border-color] duration-[160ms] ease-out active:scale-[0.97] hover:border-cream hover:bg-cream/10 sm:w-auto"
+        class="locacao-hero__cta-secondary inline-flex min-h-11 w-full items-center justify-center rounded-full border-2 border-cream/30 px-8 py-4 font-display text-[11px] font-bold uppercase tracking-widest text-cream transition-[transform,background-color,border-color] duration-[160ms] ease-out active:scale-[0.97] fine-hover:border-cream fine-hover:bg-cream/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange sm:w-auto"
       >
         {locacaoHero.ctaSecundarioLabel}
       </a>

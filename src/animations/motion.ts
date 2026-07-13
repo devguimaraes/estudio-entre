@@ -65,7 +65,7 @@ export function revealSectionHeader(
   timeline.fromTo(
     eyebrow,
     { opacity: 0, y: 15 },
-    { opacity: eyebrowOpacity, y: 0, duration: eyebrowDuration },
+    { opacity: eyebrowOpacity, y: 0, duration: eyebrowDuration, ease: EDITORIAL_EASE },
   );
 
   timeline.fromTo(
