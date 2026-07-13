@@ -1,72 +1,22 @@
 ---
-import { sanityClient } from "sanity:client";
 import GaleriaDetalhe from "@/components/islands/GaleriaDetalhe";
 import type { FotoAlbum } from "@/components/islands/GaleriaDetalhe";
 import Footer from "@/components/sections/Footer.astro";
+import { getExposicaoPorSlug, getTodosExposicaoSlugs } from "@/intake/exposicao";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { exposicaoBySlugQuery, todasExposicoesSlugsQuery } from "@/sanity/queries/exposicao";
 import { buildOgImageUrl } from "@/utils/seo";
 import { PortableText } from "@portabletext/react";
 
 export async function getStaticPaths() {
-  const slugs: { slug: string }[] = await sanityClient.fetch(todasExposicoesSlugsQuery);
-  return slugs.map((s) => ({ params: { slug: s.slug } }));
-}
-
-interface ExposicaoRaw {
-  _id: string;
-  titulo: string;
-  slug: string;
-  subtitulo: string | null;
-  textoCuratorial: unknown[] | null;
-  artista: string | null;
-  curadoria: string | null;
-  dataInicio: string;
-  dataFim: string | null;
-  local: string | null;
-  tecnica: string | null;
-  apoio: string | null;
-  status: string;
-  linkAgendamento: string | null;
-  capaUrl: string | null;
-  imagens: { _key: string; url: string; alt: string | null }[] | null;
-  albumRelacionado: { _id: string; titulo: string; slug: string } | null;
+  const slugs = await getTodosExposicaoSlugs();
+  return slugs.map((slug) => ({ params: { slug } }));
 }
 
 const { slug } = Astro.params;
-const exp: ExposicaoRaw | null = await sanityClient.fetch(exposicaoBySlugQuery, { slug });
+const exp = slug ? await getExposicaoPorSlug(slug) : null;
 if (!exp) return Astro.redirect("/exposicoes");
 
-function formatarData(d: string | null): string {
-  if (!d) return "";
-  return new Intl.DateTimeFormat("pt-BR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    timeZone: "America/Sao_Paulo",
-  }).format(new Date(`${d}T12:00:00-03:00`));
-}
-
-const periodo = exp.dataFim
-  ? `${formatarData(exp.dataInicio)} – ${formatarData(exp.dataFim)}`
-  : formatarData(exp.dataInicio);
-
-const fotos: FotoAlbum[] = (exp.imagens ?? []).map((img) => ({
-  id: img._key,
-  src: `${img.url}?auto=format&w=1600`,
-  alt: img.alt ?? exp.titulo,
-  width: 800,
-  height: 600,
-}));
-
-const fichaTecnica = [
-  { label: "Artista", value: exp.artista },
-  { label: "Curadoria", value: exp.curadoria },
-  { label: "Período", value: periodo },
-  { label: "Local", value: exp.local },
-  { label: "Técnica", value: exp.tecnica },
-].filter((f) => f.value);
-
+const fotos: FotoAlbum[] = exp.fotos;
 const pageTitle = `${exp.titulo} | Exposições — Estúdio Entre`;
 ---
 
@@ -74,13 +24,13 @@ const pageTitle = `${exp.titulo} | Exposições — Estúdio Entre`;
   title={pageTitle}
   description={exp.subtitulo ?? `Exposição: ${exp.titulo}`}
   navTheme="dark"
-  ogImage={exp.capaUrl ? buildOgImageUrl(exp.capaUrl) : undefined}
+  ogImage={exp.capaOgUrl ? buildOgImageUrl(exp.capaOgUrl) : undefined}
   ogType="article"
 >
   <main class="exposicao-detalhe relative overflow-hidden" style="background-color: #f0ede8;">
     {exp.capaUrl && (
       <div class="w-full h-[50vh] md:h-[70vh] overflow-hidden">
-        <img src={`${exp.capaUrl}?auto=format&w=1800`} alt={exp.titulo} class="w-full h-full object-cover" />
+        <img src={exp.capaUrl} alt={exp.titulo} class="w-full h-full object-cover" />
       </div>
     )}
 
@@ -121,7 +71,7 @@ const pageTitle = `${exp.titulo} | Exposições — Estúdio Entre`;
           <div class="border-t-2 border-bordo pt-6">
             <h2 class="font-display font-bold text-xs uppercase tracking-[0.3em] text-bordo/40 mb-6">Ficha Técnica</h2>
             <dl class="space-y-4">
-              {fichaTecnica.map((f) => (
+              {exp.fichaTecnica.map((f) => (
                 <div>
                   <dt class="font-body font-bold text-xs uppercase tracking-wider text-bordo/40">{f.label}</dt>
                   <dd class="font-body text-sm text-bordo mt-1">{f.value}</dd>
