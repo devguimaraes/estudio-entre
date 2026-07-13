@@ -4,8 +4,8 @@ import Footer from "@/components/sections/Footer.astro";
 import GaleriaListagem from "@/components/sections/GaleriaListagem.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { albunsQuery } from "@/sanity/queries/galeria";
-import { buildOgImageUrl } from "@/utils/seo";
 import type { AlbumGaleriaCard } from "@/types/galeria";
+import { buildOgImageUrl } from "@/utils/seo";
 
 const albuns: AlbumGaleriaCard[] = await sanityClient.fetch(albunsQuery);
 

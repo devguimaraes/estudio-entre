@@ -145,13 +145,11 @@ export function localBusinessSchema(): object {
       longitude: ORGANIZATION.geo.longitude,
     },
     sameAs: ORGANIZATION.sameAs,
-    openingHoursSpecification: ORGANIZATION.openingHoursSpecification.map(
-      (spec) => ({
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: spec.dayOfWeek,
-        opens: spec.opens,
-        closes: spec.closes,
-      }),
-    ),
+    openingHoursSpecification: ORGANIZATION.openingHoursSpecification.map((spec) => ({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: spec.dayOfWeek,
+      opens: spec.opens,
+      closes: spec.closes,
+    })),
   };
 }
