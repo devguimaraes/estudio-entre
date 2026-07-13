@@ -1,0 +1,73 @@
+---
+import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+import TornPaperFrame from "@/components/ui/TornPaperFrame.astro";
+import { exposicoesResidentes, mensagensWhatsApp } from "@/content/locacao";
+import { buildWaLink } from "@/utils/whatsapp";
+
+const waUrl = buildWaLink(mensagensWhatsApp.exposicao);
+---
+
+<section
+  id="exposicoes"
+  class="locacao-exposicoes relative scroll-mt-28 overflow-hidden px-4 py-20 md:px-16 md:py-32"
+  style="background-color: #1a1612;"
+  data-bg-color="#1A1612"
+  data-nav-theme="light"
+  aria-label="Exposições residentes"
+>
+  <HalftoneTexture density={14} dotSize={1.2} color="240,237,232" opacity={0.06} class="z-0" />
+
+  <div class="relative z-10 mx-auto grid max-w-[1200px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
+    <div>
+      <p class="locacao-exposicoes__eyebrow font-display text-[10px] font-bold uppercase tracking-[0.45em] text-orange opacity-0">
+        Programação
+      </p>
+
+      <h2
+        class="locacao-exposicoes__title mt-6 font-display text-[clamp(2rem,6vw,3.5rem)] font-black uppercase leading-[0.9] text-cream opacity-0"
+      >
+        {exposicoesResidentes.titulo}
+      </h2>
+
+      <p class="locacao-exposicoes__text mt-8 text-base leading-relaxed text-cream/75 opacity-0 md:text-lg">
+        {exposicoesResidentes.texto}
+      </p>
+
+      <a
+        href={waUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="locacao-exposicoes__cta mt-10 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-orange px-8 py-4 font-display text-[11px] font-black uppercase tracking-widest text-bordo opacity-0 transition-transform duration-[160ms] ease-out active:scale-[0.97] hover:bg-cream hover:text-bordo sm:w-auto"
+      >
+        Propor uma exposição
+      </a>
+    </div>
+
+    <div class="locacao-exposicoes__image opacity-0">
+      <TornPaperFrame variant={3} rotation="-0.75deg" class="h-[320px] w-full shadow-2xl md:h-[440px]">
+        <img
+          src={exposicoesResidentes.imagem.src}
+          alt={exposicoesResidentes.imagem.alt}
+          class="h-full w-full object-cover"
+          loading="lazy"
+          decoding="async"
+        />
+      </TornPaperFrame>
+    </div>
+  </div>
+
+  <script>
+    import { animateLocacaoExposicoes } from "@/animations/locacao";
+    animateLocacaoExposicoes();
+  </script>
+</section>
+
+<style>
+  .locacao-exposicoes__eyebrow,
+  .locacao-exposicoes__title,
+  .locacao-exposicoes__text,
+  .locacao-exposicoes__cta,
+  .locacao-exposicoes__image {
+    will-change: transform, opacity;
+  }
+</style>

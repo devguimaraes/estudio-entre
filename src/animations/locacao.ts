@@ -132,6 +132,84 @@ export function animateLocacaoContato(): void {
   );
 }
 
+export function animateLocacaoExposicoes(): void {
+  ensureGsapRegistered();
+  const section = document.querySelector(".locacao-exposicoes");
+
+  if (!section) return;
+
+  if (prefersReducedMotion()) {
+    setElementsVisible([
+      ".locacao-exposicoes__eyebrow",
+      ".locacao-exposicoes__title",
+      ".locacao-exposicoes__text",
+      ".locacao-exposicoes__cta",
+      ".locacao-exposicoes__image",
+    ]);
+    return;
+  }
+
+  const tl = createSectionTimeline(section);
+
+  revealSectionHeader(tl, {
+    eyebrow: ".locacao-exposicoes__eyebrow",
+    title: ".locacao-exposicoes__title",
+    eyebrowOpacity: 1,
+  });
+
+  tl.fromTo(
+    ".locacao-exposicoes__text",
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.7, ease: "expo.out" },
+    "-=0.35",
+  );
+
+  tl.fromTo(
+    ".locacao-exposicoes__cta",
+    { opacity: 0, y: 16 },
+    { opacity: 1, y: 0, duration: 0.6, ease: "expo.out" },
+    "-=0.3",
+  );
+
+  tl.fromTo(
+    ".locacao-exposicoes__image",
+    { opacity: 0, y: 28 },
+    { opacity: 1, y: 0, duration: 0.8, ease: "expo.out" },
+    "-=0.45",
+  );
+}
+
+export function animateLocacaoParcerias(): void {
+  ensureGsapRegistered();
+  const section = document.querySelector(".locacao-parcerias");
+
+  if (!section) return;
+
+  if (prefersReducedMotion()) {
+    setElementsVisible([
+      ".locacao-parcerias__eyebrow",
+      ".locacao-parcerias__title",
+      ".locacao-parcerias__card",
+    ]);
+    return;
+  }
+
+  const tl = createSectionTimeline(section);
+
+  revealSectionHeader(tl, {
+    eyebrow: ".locacao-parcerias__eyebrow",
+    title: ".locacao-parcerias__title",
+    eyebrowOpacity: 1,
+  });
+
+  tl.fromTo(
+    ".locacao-parcerias__card",
+    { opacity: 0, y: 32 },
+    { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: "expo.out" },
+    "-=0.2",
+  );
+}
+
 export function animateLocacaoEspacos(): void {
   ensureGsapRegistered();
   const section = document.querySelector(".locacao-espacos");

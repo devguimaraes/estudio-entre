@@ -107,6 +107,15 @@ describe("locacao content", () => {
       "Cocriação de Atividades",
       "Parceria com Criadores de Conteúdo",
     ]);
+
+    const cocriacao = parcerias[0];
+    expect(cocriacao.modeloFuncionamento).toContain("Curadoria compartilhada");
+    expect(cocriacao.modeloFinanceiro).toContain("Divisão de receita");
+
+    const criadores = parcerias[1];
+    expect(criadores.modeloFuncionamento).toContain("Permuta");
+    expect(criadores.observacoes?.length).toBeGreaterThan(0);
+    expect(criadores.imagem?.src).toBe("/images/locacao/parcerias.webp");
   });
 
   test("contato usa e-mail canônico e endereço do Estúdio", () => {
