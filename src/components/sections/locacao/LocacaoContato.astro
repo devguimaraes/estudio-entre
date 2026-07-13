@@ -20,7 +20,7 @@ const phoneDisplay = "(21) 97310-1451";
     <Decorative variant="dots" color="#3D1020" size={56} />
   </div>
 
-  <div class="relative z-10 mx-auto grid max-w-[1200px] gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
+  <div class="relative z-10 mx-auto grid max-w-[1200px] gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-stretch lg:gap-16">
     <div>
       <p class="locacao-contato__eyebrow font-display text-[10px] font-bold uppercase tracking-[0.45em] text-bordo/40 opacity-0">
         Fale com a gente
@@ -87,8 +87,12 @@ const phoneDisplay = "(21) 97310-1451";
       </div>
     </div>
 
-    <div class="locacao-contato__image opacity-0">
-      <TornPaperFrame variant={2} rotation="1deg" class="aspect-[641/316] w-full shadow-2xl">
+    <div class="locacao-contato__image flex min-h-[240px] flex-col opacity-0 lg:min-h-0 lg:h-full">
+      <TornPaperFrame
+        variant={2}
+        rotation="1deg"
+        class="aspect-[641/316] w-full flex-1 shadow-2xl lg:aspect-auto lg:min-h-[480px]"
+      >
         <img
           src={locacaoContato.imagem.src}
           alt={locacaoContato.imagem.alt}
@@ -115,10 +119,14 @@ const phoneDisplay = "(21) 97310-1451";
     will-change: transform, opacity;
   }
 
+  .locacao-contato__image :global(> div) {
+    height: 100%;
+  }
+
   .locacao-contato__image :global(img) {
     height: 100%;
     width: 100%;
     object-fit: cover;
-    object-position: center;
+    object-position: center 40%;
   }
 </style>
