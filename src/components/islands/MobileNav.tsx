@@ -2,7 +2,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 
 const links = [
-  { href: "/#galeria", label: "O Lugar" },
+  { href: "/#espaco", label: "O Lugar" },
   { href: "/#sobre", label: "O Estúdio" },
   { href: "/exposicoes", label: "Exposições" },
   { href: "/agenda", label: "Programação" },

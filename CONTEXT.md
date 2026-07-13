@@ -101,11 +101,15 @@ Ver também: [[Álbum]], [[Evento]], [[Eixo 1 - Cultura, Ensino e Cuidado]].
 
 Coleção de fotos de um [[Evento]] ou [[Exposição]] que já aconteceu. Registro documental, não promocional.
 
+Módulos: `src/intake/album.ts`, `src/types/album.ts`, `src/components/sections/AlbumListagem.astro`, `src/components/islands/AlbumDetalhe.tsx`. Rota pública: `/galeria`.
+
 Ver também: [[Galeria]], [[Exposição]], [[Evento]].
 
 ### Galeria
 
 Termo genérico para qualquer conjunto visual de imagens. **Não é um termo canônico** — prefira [[Espaço]] (para fotos do imóvel) ou [[Álbum]] (para registro de eventos passados).
+
+A rota `/galeria` é o canal público de [[Álbum|Álbuns]]; o nome da URL permanece por estabilidade de links externos.
 
 Ver também: [[Espaço]], [[Álbum]].
 
@@ -125,6 +129,8 @@ O imóvel físico do Estúdio Entre na Rua Maria Calmon, 100 — Méier, Rio de 
 Fotos do ambiente, tour visual, informações de localização e horários de funcionamento.
 
 Horários: quarta a sexta 10h–18h, sábado 10h–15h.
+
+Módulos: `src/components/sections/Espaco.astro` (home, `#espaco`), `src/animations/espaco.ts`.
 
 Ver também: [[Estúdio Entre]], [[Visitação]].
 

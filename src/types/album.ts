@@ -40,7 +40,7 @@ export interface AlbumSanityDetalhe {
 }
 
 /** DTO de listagem — cards em /galeria. */
-export interface AlbumGaleriaCard {
+export interface AlbumCard {
   _id: string;
   titulo: string;
   slug: string;

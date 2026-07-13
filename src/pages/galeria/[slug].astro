@@ -1,9 +1,9 @@
 ---
-import GaleriaDetalhe from "@/components/islands/GaleriaDetalhe";
-import type { FotoAlbum } from "@/components/islands/GaleriaDetalhe";
+import AlbumDetalhe from "@/components/islands/AlbumDetalhe";
 import Footer from "@/components/sections/Footer.astro";
-import { getAlbumPorSlug, getTodosAlbumSlugs } from "@/intake/galeria";
+import { getAlbumPorSlug, getTodosAlbumSlugs } from "@/intake/album";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { AlbumFoto } from "@/types/album";
 import { buildOgImageUrl } from "@/utils/seo";
 
 export async function getStaticPaths() {
@@ -18,7 +18,7 @@ if (!album) {
   return Astro.redirect("/galeria");
 }
 
-const fotos: FotoAlbum[] = album.fotos;
+const fotos: AlbumFoto[] = album.fotos;
 const pageTitle = `${album.titulo} | Galeria — Estúdio Entre`;
 const ogImage = album.capaOgUrl ? buildOgImageUrl(album.capaOgUrl) : undefined;
 ---
@@ -71,7 +71,7 @@ const ogImage = album.capaOgUrl ? buildOgImageUrl(album.capaOgUrl) : undefined;
 
     <!-- Masonry grid -->
     <div class="relative z-10 mt-16">
-      <GaleriaDetalhe fotos={fotos} client:visible />
+      <AlbumDetalhe fotos={fotos} client:visible />
     </div>
   </main>
 

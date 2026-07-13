@@ -3,15 +3,15 @@ import {
   formatarPeriodoListagem,
   withImageParams,
 } from "@/intake/exposicao";
-import { albumBySlugQuery, albunsQuery, todosAlbunsSlugsQuery } from "@/sanity/queries/galeria";
+import { albumBySlugQuery, albunsQuery, todosAlbunsSlugsQuery } from "@/sanity/queries/album";
 import type {
+  AlbumCard,
   AlbumDetalhe,
   AlbumFoto,
-  AlbumGaleriaCard,
   AlbumSanityDetalhe,
   AlbumSanityImagem,
   AlbumSanityListagem,
-} from "@/types/galeria";
+} from "@/types/album";
 
 export type ResolveCapaUrl = (url: string | null) => string | null;
 export type ResolveFotoUrl = (url: string) => string;
@@ -44,7 +44,7 @@ export function mapAlbumFotos(
 export function normalizeAlbumListagem(
   doc: AlbumSanityListagem,
   resolveCapa: ResolveCapaUrl = resolveCapaListagemUrl,
-): AlbumGaleriaCard | null {
+): AlbumCard | null {
   if (!doc._id || !doc.titulo || !doc.slug || !doc.dataInicio) {
     return null;
   }
@@ -64,10 +64,10 @@ export function normalizeAlbumListagem(
 export function normalizeAlbumListagens(
   docs: AlbumSanityListagem[],
   resolveCapa: ResolveCapaUrl = resolveCapaListagemUrl,
-): AlbumGaleriaCard[] {
+): AlbumCard[] {
   return docs
     .map((doc) => normalizeAlbumListagem(doc, resolveCapa))
-    .filter((item): item is AlbumGaleriaCard => item !== null);
+    .filter((item): item is AlbumCard => item !== null);
 }
 
 export function normalizeAlbumDetalhe(
@@ -96,7 +96,7 @@ export function normalizeAlbumDetalhe(
   };
 }
 
-export async function getAlbuns(): Promise<AlbumGaleriaCard[]> {
+export async function getAlbuns(): Promise<AlbumCard[]> {
   try {
     const { sanityClient } = await import("sanity:client");
     const docs = await sanityClient.fetch<AlbumSanityListagem[]>(albunsQuery);
