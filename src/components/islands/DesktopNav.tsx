@@ -83,6 +83,7 @@ function NavDropdownGroup({ group }: { group: NavGroup }) {
         role="menu"
         className={`navbar__dropdown${open ? " is-open" : ""}`}
         aria-hidden={!open}
+        onMouseEnter={finePointer ? () => setOpen(true) : undefined}
       >
         {group.links.map((link) => (
           <li key={link.href}>

@@ -137,8 +137,7 @@ const { theme = "light" } = Astro.props;
     margin: 0;
     padding: 0.5rem 0;
     list-style: none;
-    background: rgba(26, 22, 18, 0.96);
-    border: 1px solid rgba(240, 237, 232, 0.12);
+    border: 1px solid transparent;
     border-radius: 0.25rem;
     transform: translateX(-50%) translateY(0.35rem);
     opacity: 0;
@@ -147,7 +146,32 @@ const { theme = "light" } = Astro.props;
     transition:
       opacity 0.12s cubic-bezier(0.33, 1, 0.68, 1),
       transform 0.12s cubic-bezier(0.33, 1, 0.68, 1),
-      visibility 0.12s;
+      visibility 0.12s,
+      background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .navbar--light :global(.navbar__dropdown) {
+    background: rgba(26, 22, 18, 0.96);
+    border-color: rgba(240, 237, 232, 0.12);
+    color: var(--color-cream);
+  }
+
+  .navbar--dark :global(.navbar__dropdown) {
+    background: rgba(240, 237, 232, 0.98);
+    border-color: rgba(26, 22, 18, 0.12);
+    color: var(--color-near-black);
+  }
+
+  /* Ponte invisível: cobre o gap entre trigger e painel para manter hover ativo */
+  :global(.navbar__dropdown::before) {
+    content: "";
+    position: absolute;
+    top: -0.75rem;
+    left: 0;
+    right: 0;
+    height: 0.75rem;
   }
 
   :global(.navbar__dropdown.is-open) {
@@ -155,20 +179,33 @@ const { theme = "light" } = Astro.props;
     visibility: visible;
     pointer-events: auto;
     transform: translateX(-50%) translateY(0);
-    transition-duration: 0.18s;
+    transition:
+      opacity 0.18s cubic-bezier(0.33, 1, 0.68, 1),
+      transform 0.18s cubic-bezier(0.33, 1, 0.68, 1),
+      visibility 0.18s,
+      background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   :global(.navbar__dropdown-link) {
     display: block;
     padding: 0.65rem 1rem;
     white-space: nowrap;
+    color: inherit;
     opacity: 0.75;
   }
 
-  :global(.navbar__dropdown-link:hover),
-  :global(.navbar__dropdown-link.is-active) {
+  .navbar--light :global(.navbar__dropdown-link:hover),
+  .navbar--light :global(.navbar__dropdown-link.is-active) {
     opacity: 1;
     background: rgba(240, 237, 232, 0.06);
+  }
+
+  .navbar--dark :global(.navbar__dropdown-link:hover),
+  .navbar--dark :global(.navbar__dropdown-link.is-active) {
+    opacity: 1;
+    background: rgba(26, 22, 18, 0.06);
   }
 
   :global(.navbar__link:focus-visible),
