@@ -6,7 +6,7 @@ export function initNavbar(): void {
   const navLinks = document.querySelectorAll<HTMLAnchorElement>(".navbar__link");
 
   // Active link tracking via scroll position
-  const sectionIds = ["sobre", "pilares", "agenda", "galeria", "contato"];
+  const sectionIds = ["sobre", "pilares", "agenda", "espaco", "contato"];
 
   function updateActiveLink(): void {
     const scrollY = window.scrollY + window.innerHeight * 0.4;

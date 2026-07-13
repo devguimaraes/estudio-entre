@@ -2,8 +2,8 @@
 import SeboHomeIsland from "@/components/islands/SeboHomeIsland";
 import Agenda from "@/components/sections/Agenda.astro";
 import Contato from "@/components/sections/Contato.astro";
+import Espaco from "@/components/sections/Espaco.astro";
 import Footer from "@/components/sections/Footer.astro";
-import Galeria from "@/components/sections/Galeria.astro";
 import Hero from "@/components/sections/Hero.astro";
 import LojaHome from "@/components/sections/LojaHome.astro";
 import Pilares from "@/components/sections/Pilares.astro";
@@ -22,7 +22,7 @@ const eventos = (await getEventosFuturos()).slice(0, 3);
   <Hero />
   <Sobre />
   <Pilares />
-  <Galeria />
+  <Espaco />
   <Agenda eventos={eventos} />
   <SeboHomeIsland client:visible />
   <LojaHome />

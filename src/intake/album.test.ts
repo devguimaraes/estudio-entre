@@ -5,8 +5,8 @@ import {
   normalizeAlbumListagem,
   resolveCapaListagemUrl,
   resolveFotoAlbumUrl,
-} from "@/intake/galeria";
-import type { AlbumSanityDetalhe, AlbumSanityListagem } from "@/types/galeria";
+} from "@/intake/album";
+import type { AlbumSanityDetalhe, AlbumSanityListagem } from "@/types/album";
 
 function baseListagem(overrides: Partial<AlbumSanityListagem> = {}): AlbumSanityListagem {
   return {

@@ -5,50 +5,36 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function animateEspaco(): void {
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const isDesktop = window.matchMedia("(min-width: 769px)").matches;
   const section = document.querySelector<HTMLElement>(".espaco");
-  const items = document.querySelectorAll<HTMLElement>(".espaco__item");
+  if (!section) return;
 
-  if (!section || items.length === 0) return;
-
-  if (prefersReducedMotion || !isDesktop) {
-    gsap.set(items, { opacity: 1, y: 0, scale: 1 });
+  if (prefersReducedMotion) {
+    gsap.set([".espaco__eyebrow", ".espaco__title"], { opacity: 1, y: 0 });
     return;
   }
 
-  gsap.fromTo(
-    items,
-    { opacity: 0, scale: 0.98 },
-    {
-      opacity: 1,
-      scale: 1,
-      duration: 1,
-      stagger: 0.14,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: section,
-        start: "top 72%",
-        toggleActions: "play none none reverse",
-      },
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: section,
+      start: "top 75%",
+      toggleActions: "play none none reverse",
     },
+  });
+
+  tl.fromTo(".espaco__eyebrow", { opacity: 0, y: 15 }, { opacity: 0.5, y: 0, duration: 0.6 });
+
+  tl.fromTo(
+    ".espaco__title",
+    { opacity: 0, y: 40 },
+    { opacity: 1, y: 0, duration: 0.8, ease: "expo.out" },
+    "-=0.4",
   );
 
-  for (const item of items) {
-    const speed = Number.parseFloat(item.getAttribute("data-speed") || "1");
-
-    gsap.fromTo(
-      item,
-      { y: 50 },
-      {
-        y: -120 * speed,
-        ease: "none",
-        scrollTrigger: {
-          trigger: item,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true,
-        },
-      },
-    );
-  }
+  // Fade in the marquee
+  tl.fromTo(
+    ".espaco__marquee-wrapper",
+    { opacity: 0, scale: 0.98 },
+    { opacity: 1, scale: 1, duration: 1.0, ease: "power2.out" },
+    "-=0.6",
+  );
 }

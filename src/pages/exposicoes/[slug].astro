@@ -1,9 +1,9 @@
 ---
-import GaleriaDetalhe from "@/components/islands/GaleriaDetalhe";
-import type { FotoAlbum } from "@/components/islands/GaleriaDetalhe";
+import AlbumDetalhe from "@/components/islands/AlbumDetalhe";
 import Footer from "@/components/sections/Footer.astro";
 import { getExposicaoPorSlug, getTodosExposicaoSlugs } from "@/intake/exposicao";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { AlbumFoto } from "@/types/album";
 import { buildOgImageUrl } from "@/utils/seo";
 import { PortableText } from "@portabletext/react";
 
@@ -16,7 +16,7 @@ const { slug } = Astro.params;
 const exp = slug ? await getExposicaoPorSlug(slug) : null;
 if (!exp) return Astro.redirect("/exposicoes");
 
-const fotos: FotoAlbum[] = exp.fotos;
+const fotos: AlbumFoto[] = exp.fotos;
 const pageTitle = `${exp.titulo} | Exposições — Estúdio Entre`;
 ---
 
@@ -93,7 +93,7 @@ const pageTitle = `${exp.titulo} | Exposições — Estúdio Entre`;
       <div class="relative z-10 pb-24 md:pb-40" style="background-color: #b9e4eb;">
         <div class="max-w-[1400px] mx-auto pt-16">
           <h2 class="font-display font-black text-3xl text-bordo uppercase px-6 md:px-16 mb-10">Galeria</h2>
-          <GaleriaDetalhe fotos={fotos} client:visible />
+          <AlbumDetalhe fotos={fotos} client:visible />
         </div>
       </div>
     )}

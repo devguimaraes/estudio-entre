@@ -1,250 +1,97 @@
 ---
-import BlobMask from "@/components/ui/BlobMask.astro";
+import { Image } from "astro:assets";
+import texturePaper from "@/assets/textures/old-paper-vintage-texture-surface-background-recycle-pale-brown-paper-crumpled-texture.webp";
 import Decorative from "@/components/ui/Decorative.astro";
 import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+import TornPaperFrame from "@/components/ui/TornPaperFrame.astro";
 
 const imagens = [
-  {
-    src: "/images/espaco/v2-meier-02.webp",
-    label: "01. Encontros no Méier",
-    variant: 1 as const,
-    top: "0%",
-    left: "5%",
-    width: "320px",
-    mdWidth: "420px",
-    speed: 1.1,
-  },
-  {
-    src: "/images/espaco/v2-meier-03.webp",
-    label: "02. Nossa Essência",
-    variant: 2 as const,
-    top: "12%",
-    right: "10%",
-    width: "300px",
-    mdWidth: "400px",
-    speed: 0.9,
-  },
-  {
-    src: "/images/espaco/v2-meier-04.webp",
-    label: "03. O Movimento",
-    variant: 3 as const,
-    top: "24%",
-    left: "15%",
-    width: "340px",
-    mdWidth: "440px",
-    speed: 1.3,
-  },
-  {
-    src: "/images/espaco/img_0811.webp",
-    label: "04. Conexões",
-    variant: 4 as const,
-    top: "36%",
-    right: "15%",
-    width: "300px",
-    mdWidth: "400px",
-    speed: 0.8,
-  },
-  {
-    src: "/images/espaco/img_0876.webp",
-    label: "05. Vivências",
-    variant: 1 as const,
-    top: "48%",
-    left: "10%",
-    width: "250px",
-    mdWidth: "350px",
-    speed: 1.2,
-  },
-  {
-    src: "/images/espaco/apresentacao-estudio-entre.webp",
-    label: "06. Boas-vindas",
-    variant: 2 as const,
-    top: "60%",
-    right: "5%",
-    width: "280px",
-    mdWidth: "380px",
-    speed: 0.6,
-  },
-  {
-    src: "/images/espaco/apresentacao-no-estudio-entre.webp",
-    label: "07. Acolhimento",
-    variant: 3 as const,
-    top: "72%",
-    left: "20%",
-    width: "320px",
-    mdWidth: "420px",
-    speed: 1.4,
-  },
-  {
-    src: "/images/espaco/art-logo-estudio-entre.webp",
-    label: "08. Detalhes",
-    variant: 4 as const,
-    top: "84%",
-    right: "20%",
-    width: "220px",
-    mdWidth: "320px",
-    speed: 0.9,
-  },
-  {
-    src: "/images/espaco/entre-palavras-e-afeto-estudio-entre.webp",
-    label: "09. Inspiração",
-    variant: 1 as const,
-    top: "96%",
-    left: "5%",
-    width: "260px",
-    mdWidth: "360px",
-    speed: 1.1,
-  },
-  {
-    src: "/images/espaco/estudio-entre-salao.webp",
-    label: "10. O Hub",
-    variant: 2 as const,
-    top: "108%",
-    right: "10%",
-    width: "300px",
-    mdWidth: "400px",
-    speed: 0.7,
-  },
-  {
-    src: "/images/espaco/exposicao-estudio-entre.webp",
-    label: "11. Exposição",
-    variant: 3 as const,
-    top: "120%",
-    left: "15%",
-    width: "280px",
-    mdWidth: "380px",
-    speed: 1.3,
-  },
-  {
-    src: "/images/espaco/exposicao-tapecaria-estudio-entre.webp",
-    label: "12. Arte",
-    variant: 4 as const,
-    top: "132%",
-    right: "15%",
-    width: "240px",
-    mdWidth: "340px",
-    speed: 0.8,
-  },
-  {
-    src: "/images/espaco/exposicao2-estudio-entre.webp",
-    label: "13. Texturas",
-    variant: 1 as const,
-    top: "144%",
-    left: "25%",
-    width: "270px",
-    mdWidth: "370px",
-    speed: 1.0,
-  },
-  {
-    src: "/images/espaco/sala-estudio-entre.webp",
-    label: "14. Ambiente",
-    variant: 2 as const,
-    top: "156%",
-    right: "18%",
-    width: "290px",
-    mdWidth: "390px",
-    speed: 0.9,
-  },
-  {
-    src: "/images/espaco/salao-estudio-entre.webp",
-    label: "15. Salão",
-    variant: 3 as const,
-    top: "168%",
-    left: "10%",
-    width: "310px",
-    mdWidth: "410px",
-    speed: 1.2,
-  },
-  {
-    src: "/images/espaco/som-estudio-entre.webp",
-    label: "16. Estúdio de Som",
-    variant: 4 as const,
-    top: "180%",
-    right: "8%",
-    width: "260px",
-    mdWidth: "360px",
-    speed: 0.8,
-  },
-  {
-    src: "/images/espaco/tapecaria-logo-estudio-entre.webp",
-    label: "17. Identidade",
-    variant: 1 as const,
-    top: "192%",
-    left: "20%",
-    width: "230px",
-    mdWidth: "330px",
-    speed: 1.1,
-  },
-  {
-    src: "/images/espaco/tapecaria-logo-vertical-estudio-entre.webp",
-    label: "18. Detalhe Vertical",
-    variant: 2 as const,
-    top: "204%",
-    right: "25%",
-    width: "200px",
-    mdWidth: "300px",
-    speed: 0.7,
-  },
+  { src: "/images/espaco/v2-meier-02.webp", alt: "Acesso e Acolhimento" },
+  { src: "/images/espaco/v2-meier-03.webp", alt: "Nossa Estrutura" },
+  { src: "/images/espaco/v2-meier-04.webp", alt: "Arte no Méier" },
+  { src: "/images/espaco/estudio-entre-salao.webp", alt: "O Hub" },
 ];
+
+// Duplicar para o marquee infinito
+const marqueeImages = [...imagens, ...imagens, ...imagens];
+
+// Função para rotação aleatória leve e orgânica
+const getRotation = (i: number) => {
+  const angles = ["-1.5deg", "1.2deg", "-0.8deg", "2deg", "0.5deg", "-1.2deg"];
+  return angles[i % angles.length];
+};
 ---
 
 <section
-  class="espaco relative py-40 bg-bordo text-cream overflow-hidden"
+  class="espaco relative pt-12 md:pt-20 pb-32 md:pb-52 overflow-hidden"
   id="espaco"
+  style="background-color: #b9e4eb;"
+  data-bg-color="#b9e4eb"
+  data-nav-theme="dark"
 >
+  <!-- Smooth Fade transition from Pilares -->
+  <div class="absolute top-0 left-0 w-full h-24 z-20 pointer-events-none bg-gradient-to-b from-near-black to-transparent opacity-20"></div>
+
+  <!-- Background Assets -->
+  <div class="absolute inset-0 z-0 opacity-[0.04] pointer-events-none mix-blend-multiply">
+    <Image src={texturePaper} alt="" class="w-full h-full object-cover" />
+  </div>
+
   <HalftoneTexture
-    density={18}
+    density={20}
     dotSize={1.2}
-    color="240,237,232"
+    color="61,16,32"
     opacity={0.06}
-    class="z-0"
+    class="z-[1]"
   />
 
-  <div class="absolute top-[5%] right-[5%] opacity-20 z-10">
-    <Decorative variant="ray" color="#dec72c" size={50} />
+  <!-- Floating Decor -->
+  <div class="absolute top-[10%] right-[8%] opacity-20 z-10 hidden md:block">
+    <Decorative variant="star" color="#3D1020" size={100} />
   </div>
-  <div class="absolute bottom-[5%] left-[3%] opacity-15 z-10">
-    <Decorative variant="star" color="#f0ede8" size={35} />
+  <div class="absolute bottom-[10%] left-[5%] opacity-15 z-10">
+    <Decorative variant="dots" color="#3D1020" size={60} />
   </div>
 
-  <div class="max-w-7xl mx-auto px-6 mb-32 relative z-10">
-    <p class="text-[10px] uppercase tracking-[0.4em] opacity-50 mb-6">
-      O Lugar
-    </p>
-    <h2
-      class="text-5xl md:text-8xl font-display font-black italic uppercase leading-[0.9]"
-    >
+  <div class="max-w-[1400px] mx-auto px-6 md:px-16 mb-16 relative z-10">
+    <div class="overflow-hidden">
+      <p class="espaco__eyebrow font-display font-bold text-[10px] md:text-[12px] uppercase tracking-[0.5em] text-bordo/40 opacity-0">
+        O Lugar
+      </p>
+    </div>
+    <h2 class="espaco__title font-display font-black text-[clamp(3rem,10vw,8rem)] text-bordo leading-[0.85] uppercase mt-8 opacity-0">
       Nosso <br />
-      <span class="md:ml-20">Espaço</span>
+      <span class="italic text-orange md:ml-32">Espaço</span>
     </h2>
   </div>
 
-  <div class="espaco__gallery relative min-h-[250vh] max-w-[1600px] mx-auto">
-    {
-      imagens.map((img) => (
-        <div
-          class="espaco__item absolute z-2"
-          style={`top: ${img.top}; ${img.left ? `left: ${img.left};` : ""} ${img.right ? `right: ${img.right};` : ""} width: ${img.width};`}
-          data-speed={img.speed}
-        >
-          <div class="relative" data-cursor="VER">
-            <BlobMask variant={img.variant} class="aspect-square">
-              <img
+  <!-- Marquee Container -->
+  <div class="espaco__marquee-wrapper relative flex overflow-visible py-20">
+    <div class="espaco__marquee flex gap-16 md:gap-24 animate-marquee hover:pause whitespace-nowrap px-12">
+      {marqueeImages.map((img, i) => (
+        <div class="espaco__item w-[300px] md:w-[480px] flex-shrink-0">
+          <div class="relative group h-[400px] md:h-[640px]">
+            <TornPaperFrame 
+              variant={(((i % 4) + 1) as 1 | 2 | 3 | 4)} 
+              rotation={getRotation(i)}
+              class="w-full h-full shadow-2xl transition-transform duration-500 group-hover:scale-[1.02] group-hover:-rotate-0"
+            >
+               <img
                 src={img.src}
-                alt={img.label}
-                class="w-full h-full object-cover"
+                alt={img.alt}
+                class="w-full h-full object-cover transition-all duration-500 scale-[1.05] group-hover:scale-[1.1]"
+                loading="lazy"
               />
-            </BlobMask>
-            <div
-              class="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay"
-              style="background-image: radial-gradient(rgba(0,0,0,0.4) 1px, transparent 1px); background-size: 6px 6px;"
-            />
+            </TornPaperFrame>
+            <div class="absolute inset-x-0 -bottom-12 text-center opacity-0 group-hover:opacity-100 transition-all duration-500 z-20 translate-y-4 group-hover:translate-y-0">
+               <span class="font-display italic text-[11px] uppercase tracking-widest text-bordo bg-cream/95 px-6 py-3 rounded-full shadow-xl border border-bordo/5">
+                { (i % imagens.length) + 1 }. { img.alt }
+               </span>
+            </div>
           </div>
-          <span class="block mt-4 text-[10px] uppercase tracking-widest opacity-40">
-            {img.label}
-          </span>
         </div>
-      ))
-    }
+      ))}
+    </div>
   </div>
 
   <script>
@@ -254,25 +101,28 @@ const imagens = [
 </section>
 
 <style>
-  .espaco__item {
-    transition: transform 0.1s linear;
+  .animate-marquee {
+    animation: marquee 20s linear infinite;
   }
 
-  @media (max-width: 768px) {
-    .espaco__gallery {
-      display: flex;
-      flex-direction: column;
-      gap: 4rem;
-      min-height: auto;
-      padding: 0 1.5rem;
-    }
+  .hover\:pause:hover {
+    animation-play-state: paused;
+  }
 
-    .espaco__item {
-      position: relative !important;
-      top: auto !important;
-      left: auto !important;
-      right: auto !important;
-      width: 100% !important;
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-33.33%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee {
+      animation: none;
+      overflow-x: auto;
     }
+  }
+
+  /* Gradiente de fade lateral mais suave */
+  .espaco__marquee-wrapper {
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
   }
 </style>

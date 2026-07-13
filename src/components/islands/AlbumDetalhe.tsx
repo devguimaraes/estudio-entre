@@ -1,3 +1,4 @@
+import type { AlbumFoto } from "@/types/album";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -14,19 +15,11 @@ const TORN_PAPER_VARIANTS = [
 
 const ROTATIONS = ["-1.5deg", "1.2deg", "-0.8deg", "2deg", "0.5deg", "-1.2deg", "1.5deg", "-2deg"];
 
-export interface FotoAlbum {
-  id: string;
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
+interface AlbumDetalheProps {
+  fotos: AlbumFoto[];
 }
 
-interface GaleriaDetalheProps {
-  fotos: FotoAlbum[];
-}
-
-export default function GaleriaDetalhe({ fotos }: GaleriaDetalheProps) {
+export default function AlbumDetalhe({ fotos }: AlbumDetalheProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
