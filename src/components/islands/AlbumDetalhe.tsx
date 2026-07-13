@@ -1,10 +1,8 @@
+import { ensureGsapRegistered, prefersReducedMotion } from "@/animations/motion";
 import type { AlbumFoto } from "@/types/album";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Lightbox from "./Lightbox";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const TORN_PAPER_VARIANTS = [
   "polygon(1% 2%, 99% 1%, 98% 97%, 2% 99%)",
@@ -42,10 +40,10 @@ export default function AlbumDetalhe({ fotos }: AlbumDetalheProps) {
     const grid = gridRef.current;
     if (!grid) return;
 
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    ensureGsapRegistered();
     const items = grid.querySelectorAll<HTMLElement>("[data-masonry-item]");
 
-    if (prefersReducedMotion) {
+    if (prefersReducedMotion()) {
       gsap.set(items, { opacity: 1, y: 0, scale: 1 });
       return;
     }

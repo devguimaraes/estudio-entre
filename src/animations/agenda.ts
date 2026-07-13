@@ -1,15 +1,18 @@
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import {
+  createSectionTimeline,
+  ensureGsapRegistered,
+  prefersReducedMotion,
+  revealSectionHeader,
+  setElementsVisible,
+} from "@/animations/motion";
 
 export function animateAgenda(): void {
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  ensureGsapRegistered();
   const section = document.querySelector<HTMLElement>(".agenda");
   if (!section) return;
 
-  if (prefersReducedMotion) {
-    gsap.set([".agenda__eyebrow", ".agenda__title-line", ".agenda__card"], {
+  if (prefersReducedMotion()) {
+    setElementsVisible([".agenda__eyebrow", ".agenda__title-line", ".agenda__card"], {
       opacity: 1,
       y: 0,
       visibility: "visible",
@@ -17,24 +20,16 @@ export function animateAgenda(): void {
     return;
   }
 
-  const tlHeader = gsap.timeline({
-    scrollTrigger: {
-      trigger: section,
-      start: "top 75%",
-      toggleActions: "play none none reverse",
-    },
+  const tlHeader = createSectionTimeline(section);
+
+  revealSectionHeader(tlHeader, {
+    eyebrow: ".agenda__eyebrow",
+    title: ".agenda__title-line",
+    eyebrowOpacity: 0.4,
+    eyebrowDuration: 0.8,
+    titleY: 30,
+    titleDuration: 1.2,
+    titleStagger: 0.2,
+    overlap: "-=0.5",
   });
-
-  tlHeader.fromTo(".agenda__eyebrow", { opacity: 0, y: 15 }, { opacity: 0.4, y: 0, duration: 0.8 });
-
-  tlHeader.fromTo(
-    ".agenda__title-line",
-    { opacity: 0, y: 30 },
-    { opacity: 1, y: 0, duration: 1.2, stagger: 0.2, ease: "expo.out" },
-    "-=0.5",
-  );
-
-  // Note: AgendaIsland handles card animations on its own based on state,
-  // but we can trigger the initial stagger here if needed.
-  // However, AgendaIsland has its own useEffect for initial reveal.
 }

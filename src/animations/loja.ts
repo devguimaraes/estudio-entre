@@ -1,47 +1,37 @@
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import {
+  ensureGsapRegistered,
+  prefersReducedMotion,
+  revealSectionHeaderStandalone,
+  setElementsVisible,
+} from "@/animations/motion";
+import gsap from "gsap";
 
 export function animateLojaHome(): void {
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (prefersReducedMotion) return;
+  ensureGsapRegistered();
 
-  gsap.fromTo(
-    ".loja-home__eyebrow",
-    { opacity: 0, y: 15 },
-    {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      scrollTrigger: {
-        trigger: ".loja-home",
-        start: "top 75%",
-        toggleActions: "play none none reverse",
-      },
-    },
-  );
+  if (prefersReducedMotion()) {
+    setElementsVisible([".loja-home__eyebrow", ".loja-home__title"]);
+    return;
+  }
 
-  gsap.fromTo(
-    ".loja-home__title",
-    { opacity: 0, y: 40 },
-    {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: "expo.out",
-      scrollTrigger: {
-        trigger: ".loja-home",
-        start: "top 75%",
-        toggleActions: "play none none reverse",
-      },
-    },
-  );
+  revealSectionHeaderStandalone(".loja-home", {
+    eyebrow: ".loja-home__eyebrow",
+    title: ".loja-home__title",
+    eyebrowOpacity: 1,
+  });
 }
 
 export function animateFreteInfo(): void {
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (prefersReducedMotion) return;
+  ensureGsapRegistered();
+
+  if (prefersReducedMotion()) {
+    setElementsVisible([".frete-info__banner", ".frete-info__card"], {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+    });
+    return;
+  }
 
   const banner = document.querySelector(".frete-info__banner");
   const cards = gsap.utils.toArray<HTMLElement>(".frete-info__card");

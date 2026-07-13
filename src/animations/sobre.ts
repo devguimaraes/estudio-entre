@@ -1,16 +1,19 @@
+import {
+  createSectionTimeline,
+  ensureGsapRegistered,
+  prefersReducedMotion,
+  setElementsVisible,
+} from "@/animations/motion";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export function animateSobre(): void {
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  ensureGsapRegistered();
   const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
   const section = document.querySelector<HTMLElement>(".sobre");
   if (!section) return;
 
-  if (prefersReducedMotion || !isDesktop) {
-    gsap.set(
+  if (prefersReducedMotion() || !isDesktop) {
+    setElementsVisible(
       [
         ".sobre__eyebrow",
         ".sobre__title-word",
@@ -24,13 +27,7 @@ export function animateSobre(): void {
     return;
   }
 
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: section,
-      start: "top 72%",
-      toggleActions: "play none none reverse",
-    },
-  });
+  const tl = createSectionTimeline(section, "top 72%");
 
   // 1) Watermark reveal
   tl.fromTo(
@@ -63,10 +60,9 @@ export function animateSobre(): void {
   const carouselItems = document.querySelectorAll<HTMLElement>(".sobre__carousel-item");
 
   if (container && wheel && carouselItems.length > 0) {
-    const radius = 400; // Espaçamento ajustado para 5 imagens
+    const radius = 400;
     const angleStep = 360 / carouselItems.length;
 
-    // Configuração inicial dos itens no espaço 3D
     gsap.set(carouselItems, {
       transformOrigin: `50% 50% -${radius}px`,
       rotationX: (i) => i * angleStep,
@@ -74,7 +70,6 @@ export function animateSobre(): void {
       opacity: 0,
     });
 
-    // Revelação inicial
     tl.to(
       carouselItems,
       {
@@ -86,7 +81,6 @@ export function animateSobre(): void {
       "-=1.2",
     );
 
-    // Rotação principal com lógica de profundidade dinâmica
     const rotation = gsap.to(wheel, {
       rotationX: "-=360",
       duration: 30,
@@ -94,17 +88,13 @@ export function animateSobre(): void {
       ease: "none",
       paused: false,
       onUpdate: () => {
-        // Lógica para cada item: quanto mais longe do centro (Z), menor a opacidade e maior o blur
         const wheelRotation = gsap.getProperty(wheel, "rotationX") as number;
 
         carouselItems.forEach((item, i) => {
           const itemRotation = (i * angleStep + wheelRotation) % 360;
-          // Normalizar ângulo para -180 a 180
           const normalizedAngle = ((itemRotation + 180) % 360) - 180;
-
-          // Fator de proximidade (1 no topo/frente, 0 no fundo)
           const factor = Math.cos(normalizedAngle * (Math.PI / 180));
-          const distanceFactor = (factor + 1) / 2; // 0 a 1
+          const distanceFactor = (factor + 1) / 2;
 
           gsap.set(item, {
             opacity: 0.1 + distanceFactor * 0.9,
@@ -116,7 +106,6 @@ export function animateSobre(): void {
       },
     });
 
-    // Pause on Hover com desaceleração (Inertia feeling)
     container.addEventListener("mouseenter", () => {
       gsap.to(rotation, { timeScale: 0.05, duration: 1.5, ease: "power2.out" });
     });
@@ -134,7 +123,6 @@ export function animateSobre(): void {
     "-=0.8",
   );
 
-  // --- Scroll Parallax for Watermark ---
   gsap.to(".sobre__watermark", {
     y: -80,
     rotate: -5,
