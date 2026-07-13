@@ -1,10 +1,5 @@
 import { isSafeExternalUrl } from "@/intake/evento";
-import {
-  exposicaoBySlugQuery,
-  exposicoesByStatusQuery,
-  exposicoesEmCartazQuery,
-  exposicoesFuturasQuery,
-} from "@/sanity/queries/exposicao";
+import { exposicaoBySlugQuery, exposicoesByStatusQuery } from "@/sanity/queries/exposicao";
 import {
   type ExposicaoDetalhe,
   type ExposicaoFoto,
@@ -212,28 +207,6 @@ export async function getExposicoesPorStatus(
   } catch (error) {
     console.error(`Falha ao buscar exposições (${status}) do Sanity:`, error);
     return [];
-  }
-}
-
-/** Em cartaz com fallback para futuras — uso na home. */
-export async function getExposicoesDestaque(): Promise<{
-  exposicoes: ExposicaoListagem[];
-  fallback: boolean;
-}> {
-  try {
-    const { sanityClient } = await import("sanity:client");
-    let docs = await sanityClient.fetch<ExposicaoSanityListagem[]>(exposicoesEmCartazQuery);
-    let fallback = false;
-
-    if (docs.length === 0) {
-      docs = await sanityClient.fetch<ExposicaoSanityListagem[]>(exposicoesFuturasQuery);
-      fallback = true;
-    }
-
-    return { exposicoes: normalizeExposicaoListagens(docs), fallback };
-  } catch (error) {
-    console.error("Falha ao buscar exposições em destaque do Sanity:", error);
-    return { exposicoes: [], fallback: false };
   }
 }
 
