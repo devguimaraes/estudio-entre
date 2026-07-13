@@ -1,4 +1,5 @@
 ---
+import DesktopNav from "@/components/islands/DesktopNav";
 import MobileNav from "@/components/islands/MobileNav";
 
 interface Props {
@@ -14,16 +15,7 @@ const { theme = "light" } = Astro.props;
       <img src="/icons/olho.svg" alt="" width="48" height="34" aria-hidden="true" />
     </a>
 
-    <ul class="navbar__links" role="list">
-      <li><a href="/#espaco" class="navbar__link" data-cursor="ENTRAR">O Lugar</a></li>
-      <li><a href="/#sobre" class="navbar__link" data-cursor="ENTRAR">O Estúdio</a></li>
-      <li><a href="/exposicoes" class="navbar__link" data-cursor="ENTRAR">Exposições</a></li>
-      <li><a href="/agenda" class="navbar__link" data-cursor="ENTRAR">Programação</a></li>
-      <li><a href="/galeria" class="navbar__link" data-cursor="ENTRAR">Galeria</a></li>
-      <li><a href="/sebo" class="navbar__link" data-cursor="GARIMPAR">Sebo</a></li>
-      <li><a href="/lojinha" class="navbar__link" data-cursor="COMPRAR">Loja</a></li>
-      <li><a href="/#agendar-visita" class="navbar__link" data-cursor="ENTRAR">Visitação</a></li>
-    </ul>
+    <DesktopNav client:idle />
 
     <MobileNav client:visible />
   </div>
@@ -82,7 +74,7 @@ const { theme = "light" } = Astro.props;
     filter: none;
   }
 
-  .navbar__links {
+  :global(.navbar__links) {
     display: flex;
     align-items: center;
     gap: 2rem;
@@ -91,7 +83,12 @@ const { theme = "light" } = Astro.props;
     padding: 0;
   }
 
-  .navbar__link {
+  :global(.navbar__group) {
+    position: relative;
+  }
+
+  :global(.navbar__link),
+  :global(.navbar__trigger) {
     font-family: var(--font-body);
     font-weight: 700;
     font-size: 0.8rem;
@@ -101,15 +98,88 @@ const { theme = "light" } = Astro.props;
     color: inherit;
     opacity: 0.7;
     transition: opacity 0.3s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
   }
 
-  .navbar__link:hover,
-  .navbar__link.is-active {
+  :global(.navbar__trigger) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  :global(.navbar__chevron) {
+    width: 0.85rem;
+    height: 0.85rem;
+    transition: transform 0.18s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  :global(.navbar__group.is-open .navbar__chevron),
+  :global(.navbar__group:has(.navbar__dropdown.is-open) .navbar__chevron) {
+    transform: rotate(180deg);
+  }
+
+  :global(.navbar__link:hover),
+  :global(.navbar__link.is-active),
+  :global(.navbar__trigger:hover),
+  :global(.navbar__trigger.is-active),
+  :global(.navbar__group.is-active > .navbar__trigger) {
+    opacity: 1;
+  }
+
+  :global(.navbar__dropdown) {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    left: 50%;
+    min-width: 11rem;
+    margin: 0;
+    padding: 0.5rem 0;
+    list-style: none;
+    background: rgba(26, 22, 18, 0.96);
+    border: 1px solid rgba(240, 237, 232, 0.12);
+    border-radius: 0.25rem;
+    transform: translateX(-50%) translateY(0.35rem);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 0.12s cubic-bezier(0.33, 1, 0.68, 1),
+      transform 0.12s cubic-bezier(0.33, 1, 0.68, 1),
+      visibility 0.12s;
+  }
+
+  :global(.navbar__dropdown.is-open) {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+    transition-duration: 0.18s;
+  }
+
+  :global(.navbar__dropdown-link) {
+    display: block;
+    padding: 0.65rem 1rem;
+    white-space: nowrap;
+    opacity: 0.75;
+  }
+
+  :global(.navbar__dropdown-link:hover),
+  :global(.navbar__dropdown-link.is-active) {
+    opacity: 1;
+    background: rgba(240, 237, 232, 0.06);
+  }
+
+  :global(.navbar__link:focus-visible),
+  :global(.navbar__trigger:focus-visible) {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
     opacity: 1;
   }
 
   @media (max-width: 768px) {
-    .navbar__links {
+    :global(.navbar__links) {
       display: none;
     }
 
@@ -124,7 +194,10 @@ const { theme = "light" } = Astro.props;
 
   @media (prefers-reduced-motion: reduce) {
     .navbar,
-    .navbar__link {
+    :global(.navbar__link),
+    :global(.navbar__trigger),
+    :global(.navbar__dropdown),
+    :global(.navbar__chevron) {
       transition: none;
     }
   }
