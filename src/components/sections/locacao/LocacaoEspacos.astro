@@ -1,0 +1,216 @@
+---
+import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+import TornPaperFrame from "@/components/ui/TornPaperFrame.astro";
+import { espacosLocaveis, mensagensWhatsApp, tabelaValoresResumo } from "@/content/locacao";
+import { formatPreco } from "@/utils/locacao";
+import { buildWaLink } from "@/utils/whatsapp";
+---
+
+<section
+  id="espacos"
+  class="locacao-espacos relative scroll-mt-28 overflow-hidden px-4 py-20 md:px-16 md:py-32"
+  style="background-color: #b9e4eb;"
+  data-bg-color="#B9E4EB"
+  data-nav-theme="dark"
+  aria-label="Espaços locáveis"
+>
+  <HalftoneTexture density={14} dotSize={1.2} color="26,22,18" opacity={0.05} class="z-0" />
+
+  <div class="relative z-10 mx-auto max-w-[1200px]">
+    <p class="locacao-espacos__eyebrow font-display text-[10px] font-bold uppercase tracking-[0.45em] text-bordo/40 opacity-0">
+      Espaços
+    </p>
+
+    <h2
+      class="locacao-espacos__title mt-6 max-w-3xl font-display text-[clamp(2rem,6vw,4rem)] font-black uppercase leading-[0.9] text-bordo opacity-0"
+    >
+      Onde criar
+    </h2>
+
+    <div class="locacao-espacos__grid mt-12 grid grid-cols-1 gap-8 md:mt-16 md:grid-cols-2 md:gap-10">
+      {
+        espacosLocaveis.map((espaco, index) => {
+          const waUrl = buildWaLink(mensagensWhatsApp.espaco(espaco.nome));
+
+          return (
+            <article class="locacao-espacos__card flex flex-col overflow-hidden rounded-2xl border border-bordo/10 bg-cream/60 opacity-0">
+              <TornPaperFrame
+                variant={(index % 3) + 1}
+                rotation={index % 2 === 0 ? "-0.5deg" : "0.5deg"}
+                class="h-[220px] w-full md:h-[260px]"
+              >
+                <img
+                  src={espaco.imagem.src}
+                  alt={espaco.imagem.alt}
+                  class="h-full w-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </TornPaperFrame>
+
+              <div class="flex flex-1 flex-col p-6 md:p-8">
+                <h3 class="font-display text-xl font-black uppercase leading-tight text-bordo md:text-2xl">
+                  {espaco.nome}
+                </h3>
+
+                <p class="mt-2 font-display text-sm font-bold uppercase tracking-widest text-orange">
+                  Até {espaco.capacidade} pessoas
+                </p>
+
+                <div class="mt-6">
+                  <p class="mb-2 font-display text-[10px] font-bold uppercase tracking-[0.3em] text-bordo/40">
+                    Indicado para
+                  </p>
+                  <ul class="flex flex-wrap gap-2">
+                    {espaco.indicadoPara.map((item) => (
+                      <li class="rounded-full border border-bordo/10 bg-bordo/5 px-3 py-1 text-xs text-bordo/80">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div class="mt-6">
+                  <p class="mb-2 font-display text-[10px] font-bold uppercase tracking-[0.3em] text-bordo/40">
+                    Inclui
+                  </p>
+                  <ul class="space-y-1.5 text-sm leading-relaxed text-bordo/75">
+                    {espaco.inclui.map((item) => (
+                      <li class="flex gap-2">
+                        <span class="text-orange" aria-hidden="true">
+                          ·
+                        </span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <dl class="locacao-espacos__tarifas mt-6 grid grid-cols-3 gap-3 rounded-xl border border-bordo/10 bg-cream/80 p-4">
+                  <div>
+                    <dt class="font-display text-[10px] font-bold uppercase tracking-widest text-bordo/40">Hora</dt>
+                    <dd class="mt-1 font-display text-lg font-black text-bordo">{formatPreco(espaco.tarifas.hora)}</dd>
+                  </div>
+                  <div>
+                    <dt class="font-display text-[10px] font-bold uppercase tracking-widest text-bordo/40">Turno</dt>
+                    <dd class="mt-1 font-display text-lg font-black text-bordo">{formatPreco(espaco.tarifas.turno)}</dd>
+                  </div>
+                  <div>
+                    <dt class="font-display text-[10px] font-bold uppercase tracking-widest text-bordo/40">Diária</dt>
+                    <dd class="mt-1 font-display text-lg font-black text-bordo">{formatPreco(espaco.tarifas.diaria)}</dd>
+                  </div>
+                </dl>
+
+                {
+                  espaco.observacoes && espaco.observacoes.length > 0 && (
+                    <div class="mt-4 space-y-2">
+                      {espaco.observacoes.map((obs) => (
+                        <p class="text-xs leading-relaxed text-bordo/60 italic">{obs}</p>
+                      ))}
+                    </div>
+                  )
+                }
+
+                <a
+                  href={waUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="locacao-espacos__cta mt-8 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-bordo px-6 py-4 font-display text-[11px] font-black uppercase tracking-widest text-cream transition-transform duration-[160ms] ease-out active:scale-[0.97] hover:bg-orange hover:text-bordo md:w-auto md:self-start"
+                >
+                  Reservar este espaço
+                </a>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+
+    <div class="locacao-espacos__pricing mt-16 md:mt-24">
+      <h3 class="locacao-espacos__pricing-title font-display text-[clamp(1.5rem,4vw,2.5rem)] font-black uppercase leading-[0.9] text-bordo opacity-0">
+        Comparar valores
+      </h3>
+
+      <div class="locacao-espacos__pricing-mobile mt-8 space-y-4 md:hidden">
+        {
+          tabelaValoresResumo.map((linha) => (
+            <div class="locacao-espacos__pricing-card rounded-2xl border border-bordo/10 bg-cream/60 p-5 opacity-0">
+              <p class="font-display text-base font-black uppercase text-bordo">{linha.nome}</p>
+              <p class="mt-1 text-sm text-bordo/60">Até {linha.capacidade} pessoas</p>
+              <dl class="mt-4 grid grid-cols-3 gap-3">
+                <div>
+                  <dt class="font-display text-[10px] font-bold uppercase tracking-widest text-bordo/40">Hora</dt>
+                  <dd class="mt-1 font-display text-base font-black text-bordo">{formatPreco(linha.hora)}</dd>
+                </div>
+                <div>
+                  <dt class="font-display text-[10px] font-bold uppercase tracking-widest text-bordo/40">Turno</dt>
+                  <dd class="mt-1 font-display text-base font-black text-bordo">{formatPreco(linha.turno)}</dd>
+                </div>
+                <div>
+                  <dt class="font-display text-[10px] font-bold uppercase tracking-widest text-bordo/40">Diária</dt>
+                  <dd class="mt-1 font-display text-base font-black text-bordo">{formatPreco(linha.diaria)}</dd>
+                </div>
+              </dl>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="locacao-espacos__pricing-table mt-8 hidden overflow-x-auto md:block">
+        <table class="w-full min-w-[640px] border-collapse text-left">
+          <caption class="sr-only">Tabela comparativa de valores dos espaços locáveis</caption>
+          <thead>
+            <tr class="border-b-2 border-bordo/20">
+              <th scope="col" class="pb-4 pr-4 font-display text-[10px] font-bold uppercase tracking-[0.3em] text-bordo/40">
+                Espaço
+              </th>
+              <th scope="col" class="pb-4 pr-4 font-display text-[10px] font-bold uppercase tracking-[0.3em] text-bordo/40">
+                Capacidade
+              </th>
+              <th scope="col" class="pb-4 pr-4 font-display text-[10px] font-bold uppercase tracking-[0.3em] text-bordo/40">
+                Hora
+              </th>
+              <th scope="col" class="pb-4 pr-4 font-display text-[10px] font-bold uppercase tracking-[0.3em] text-bordo/40">
+                Turno
+              </th>
+              <th scope="col" class="pb-4 font-display text-[10px] font-bold uppercase tracking-[0.3em] text-bordo/40">
+                Diária
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              tabelaValoresResumo.map((linha) => (
+                <tr class="locacao-espacos__table-row border-b border-bordo/10 opacity-0">
+                  <th scope="row" class="py-4 pr-4 font-display text-sm font-bold uppercase text-bordo">
+                    {linha.nome}
+                  </th>
+                  <td class="py-4 pr-4 text-sm text-bordo/70">até {linha.capacidade}</td>
+                  <td class="py-4 pr-4 font-display text-base font-black text-bordo">{formatPreco(linha.hora)}</td>
+                  <td class="py-4 pr-4 font-display text-base font-black text-bordo">{formatPreco(linha.turno)}</td>
+                  <td class="py-4 font-display text-base font-black text-bordo">{formatPreco(linha.diaria)}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    import { animateLocacaoEspacos } from "@/animations/locacao";
+    animateLocacaoEspacos();
+  </script>
+</section>
+
+<style>
+  .locacao-espacos__eyebrow,
+  .locacao-espacos__title,
+  .locacao-espacos__card,
+  .locacao-espacos__pricing-title,
+  .locacao-espacos__pricing-card,
+  .locacao-espacos__table-row {
+    will-change: transform, opacity;
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 import Footer from "@/components/sections/Footer.astro";
 import LocacaoContato from "@/components/sections/locacao/LocacaoContato.astro";
+import LocacaoEspacos from "@/components/sections/locacao/LocacaoEspacos.astro";
 import LocacaoHero from "@/components/sections/locacao/LocacaoHero.astro";
 import LocacaoSobre from "@/components/sections/locacao/LocacaoSobre.astro";
 import { locacaoSeo } from "@/content/locacao";
@@ -16,7 +17,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
   <main class="locacao-pagina relative overflow-hidden bg-cream text-bordo">
     <LocacaoHero />
     <LocacaoSobre />
-    <div id="espacos" class="scroll-mt-28" aria-hidden="true"></div>
+    <LocacaoEspacos />
     <LocacaoContato />
   </main>
 

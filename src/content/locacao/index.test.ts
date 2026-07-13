@@ -129,6 +129,14 @@ describe("locacao content", () => {
     expect(decodeURIComponent(parceriaUrl)).toContain("Cocriação de Atividades");
   });
 
+  test("cada EspaçoLocável gera link WhatsApp com nome do espaço", () => {
+    for (const espaco of espacosLocaveis) {
+      const url = buildWaLink(mensagensWhatsApp.espaco(espaco.nome));
+      expect(url).toContain("wa.me/5521973101451");
+      expect(decodeURIComponent(url)).toContain(espaco.nome);
+    }
+  });
+
   test("cada espaço referencia imagem WebP em assets públicos", () => {
     for (const espaco of espacosLocaveis) {
       expect(espaco.imagem.src).toMatch(/^\/images\/locacao\/[\w-]+\.webp$/);

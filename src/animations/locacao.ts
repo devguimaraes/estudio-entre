@@ -131,3 +131,51 @@ export function animateLocacaoContato(): void {
     "-=0.45",
   );
 }
+
+export function animateLocacaoEspacos(): void {
+  ensureGsapRegistered();
+  const section = document.querySelector(".locacao-espacos");
+
+  if (!section) return;
+
+  if (prefersReducedMotion()) {
+    setElementsVisible([
+      ".locacao-espacos__eyebrow",
+      ".locacao-espacos__title",
+      ".locacao-espacos__card",
+      ".locacao-espacos__pricing-title",
+      ".locacao-espacos__pricing-card",
+      ".locacao-espacos__table-row",
+    ]);
+    return;
+  }
+
+  const tl = createSectionTimeline(section);
+
+  revealSectionHeader(tl, {
+    eyebrow: ".locacao-espacos__eyebrow",
+    title: ".locacao-espacos__title",
+    eyebrowOpacity: 1,
+  });
+
+  tl.fromTo(
+    ".locacao-espacos__card",
+    { opacity: 0, y: 32 },
+    { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: "expo.out" },
+    "-=0.2",
+  );
+
+  tl.fromTo(
+    ".locacao-espacos__pricing-title",
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.6, ease: "expo.out" },
+    "-=0.15",
+  );
+
+  tl.fromTo(
+    ".locacao-espacos__pricing-card, .locacao-espacos__table-row",
+    { opacity: 0, y: 16 },
+    { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: "expo.out" },
+    "-=0.25",
+  );
+}
