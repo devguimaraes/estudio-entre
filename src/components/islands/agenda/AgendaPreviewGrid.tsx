@@ -109,15 +109,15 @@ export default function AgendaPreviewGrid({ eventos }: AgendaPreviewGridProps) {
 
           return (
             <div key={evento._id} className="agenda__card group flex flex-col">
-              <div className="relative mb-8 aspect-[4/5] overflow-hidden rounded-2xl border border-cream/10 group-hover:scale-[1.02] transition-transform duration-700 ease-editorial">
+              <div className="relative mb-8 overflow-hidden rounded-2xl border border-cream/10 group-hover:scale-[1.02] transition-transform duration-700 ease-editorial">
                 {evento.imagemUrl ? (
                   <img
                     src={evento.imagemUrl}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                    className="w-full h-auto grayscale group-hover:grayscale-0 transition-all duration-700"
                     alt={evento.titulo}
                   />
                 ) : (
-                  <div className="w-full h-full bg-cream/10 flex items-center justify-center">
+                  <div className="aspect-[4/3] w-full bg-cream/10 flex items-center justify-center">
                     <img src="/icons/chave.svg" className="w-20 opacity-10" alt="" />
                   </div>
                 )}

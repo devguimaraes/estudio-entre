@@ -129,7 +129,8 @@ export async function getEventosFuturos(): Promise<EventoNormalizado[]> {
       const principal = imagens?.[0];
       if (!principal?.asset?._ref) return null;
       try {
-        return urlFor(principal).width(800).height(600).url();
+        // Sem height fixo: preserva proporção original (evita crop/zoom do Sanity).
+        return urlFor(principal).width(1200).fit("max").auto("format").url();
       } catch {
         return null;
       }
