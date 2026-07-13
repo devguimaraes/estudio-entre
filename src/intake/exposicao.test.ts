@@ -166,6 +166,7 @@ describe("normalizeExposicaoDetalhe", () => {
     expect(result?.fichaTecnica.some((f) => f.label === "Artista")).toBe(true);
     expect(result?.fotos).toHaveLength(1);
     expect(result?.capaUrl).toContain("w=1800");
+    expect(result?.capaOgUrl).toBe("https://cdn.sanity.io/capa.jpg");
     expect(result?.linkAgendamento).toBe("https://agenda.example.com/visita");
   });
 

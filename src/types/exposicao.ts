@@ -99,6 +99,7 @@ export interface ExposicaoDetalhe {
   linkAgendamento: string | null;
   periodoFormatado: string;
   capaUrl: string | null;
+  capaOgUrl: string | null;
   fotos: ExposicaoFoto[];
   fichaTecnica: FichaTecnicaItem[];
   albumRelacionado: { _id: string; titulo: string; slug: string } | null;

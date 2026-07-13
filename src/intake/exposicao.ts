@@ -193,6 +193,7 @@ export function normalizeExposicaoDetalhe(
     linkAgendamento,
     periodoFormatado,
     capaUrl: resolveCapa(doc.capaUrl),
+    capaOgUrl: doc.capaUrl,
     fotos: mapExposicaoFotos(doc.imagens, doc.titulo, resolveFoto),
     fichaTecnica: buildFichaTecnica(doc, periodoFormatado),
     albumRelacionado: doc.albumRelacionado,
