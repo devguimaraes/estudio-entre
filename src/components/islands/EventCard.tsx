@@ -1,40 +1,28 @@
-import type { EventoCard } from "@/types/evento";
+import type { EventoNormalizado } from "@/types/evento";
 import { CATEGORIAS } from "@/utils/categorias";
 import { useState } from "react";
 import styles from "./EventCard.module.css";
 
-function formatDate(iso: string): string {
-  const date = new Date(iso);
-  return new Intl.DateTimeFormat("pt-BR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(date);
-}
-
 interface EventCardProps {
-  evento: EventoCard;
+  evento: EventoNormalizado;
   destaque?: boolean;
 }
 
 export default function EventCard({ evento, destaque = false }: EventCardProps) {
   const cat = CATEGORIAS[evento.categoria];
-  const imagens = evento.imagens ?? [];
+  const imagens = evento.imagemUrl ? [evento.imagemUrl] : [];
   const [currentImg, setCurrentImg] = useState(0);
   const hasMultiple = imagens.length > 1;
 
   return (
     <div data-event-card className={`${styles.card} ${destaque ? styles["card--destaque"] : ""}`}>
       <div className={styles.flipper}>
-        {/* Frente */}
         <div className={styles.front}>
           <div className={styles.imageWrapper}>
             {imagens.length > 0 && (
               <img
                 className={styles.image}
-                src={`${imagens[currentImg]}?w=960&h=768&fit=crop&auto=format`}
+                src={imagens[currentImg]}
                 alt={evento.titulo}
                 loading="lazy"
                 width={960}
@@ -63,12 +51,13 @@ export default function EventCard({ evento, destaque = false }: EventCardProps) 
           </div>
           <div className={styles.info}>
             <h3 className={styles.title}>{evento.titulo}</h3>
-            <p className={styles.date}>{formatDate(evento.dataHora)}</p>
+            <p className={styles.date}>
+              {evento.dataFormatada} · {evento.horaFormatada}
+            </p>
             {evento.local && <p className={styles.local}>{evento.local}</p>}
           </div>
         </div>
 
-        {/* Verso */}
         <div className={styles.back}>
           {evento.descricao && <p className={styles.description}>{evento.descricao}</p>}
           {evento.valor && <p className={styles.price}>{evento.valor}</p>}

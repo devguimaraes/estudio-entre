@@ -34,7 +34,7 @@ export function animateAgenda(): void {
     "-=0.5",
   );
 
-  // Note: AgendaFilter handles card animations on its own based on state,
+  // Note: AgendaIsland handles card animations on its own based on state,
   // but we can trigger the initial stagger here if needed.
-  // However, AgendaFilter has its own useEffect for initial reveal.
+  // However, AgendaIsland has its own useEffect for initial reveal.
 }

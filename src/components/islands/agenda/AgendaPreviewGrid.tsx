@@ -1,15 +1,14 @@
-import { urlFor } from "@/sanity/image";
-import type { CategoriaEvento, EventoCard, SanityImageRef } from "@/types/evento";
+import EventoExpandedPanel from "@/components/islands/agenda/EventoExpandedPanel";
+import type { CategoriaEvento, EventoNormalizado } from "@/types/evento";
 import { CATEGORIAS } from "@/utils/categorias";
-import { EVENT_TIME_ZONE } from "@/utils/eventos";
 import gsap from "gsap";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-interface AgendaFilterProps {
-  eventos: EventoCard[];
+interface AgendaPreviewGridProps {
+  eventos: EventoNormalizado[];
 }
 
-export default function AgendaFilter({ eventos }: AgendaFilterProps) {
+export default function AgendaPreviewGrid({ eventos }: AgendaPreviewGridProps) {
   const [activeFilter, setActiveFilter] = useState<string>("todos");
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
   const listRef = useRef<HTMLDivElement>(null);
@@ -41,6 +40,7 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
 
   useEffect(() => {
     if (!listRef.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     void filteredEvents;
     const cards = listRef.current.querySelectorAll(".agenda__card");
     if (cards.length === 0) return;
@@ -104,17 +104,15 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16"
       >
         {filteredEvents.map((evento) => {
-          const cat = CATEGORIAS[evento.categoria as CategoriaEvento];
-          const imagemPrincipal = (evento.imagens?.[0] as SanityImageRef | undefined) ?? null;
+          const cat = CATEGORIAS[evento.categoria];
           const isExpanded = expandedCards.has(evento._id);
 
           return (
             <div key={evento._id} className="agenda__card group flex flex-col">
-              {/* Image Container */}
               <div className="relative mb-8 aspect-[4/5] overflow-hidden rounded-2xl border border-cream/10 group-hover:scale-[1.02] transition-transform duration-700 ease-editorial">
-                {imagemPrincipal ? (
+                {evento.imagemUrl ? (
                   <img
-                    src={urlFor(imagemPrincipal).width(600).height(750).url()}
+                    src={evento.imagemUrl}
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                     alt={evento.titulo}
                   />
@@ -124,7 +122,6 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
                   </div>
                 )}
 
-                {/* Category Tag */}
                 <div
                   className="absolute top-6 left-6 px-4 py-1.5 rounded-sm text-[9px] uppercase tracking-widest font-bold shadow-xl"
                   style={{ backgroundColor: cat.color, color: cat.textColor }}
@@ -133,89 +130,25 @@ export default function AgendaFilter({ eventos }: AgendaFilterProps) {
                 </div>
               </div>
 
-              {/* Info Container */}
               <div className="flex flex-col flex-1 px-2">
                 <span className="text-[10px] uppercase tracking-[0.3em] text-cream/40 mb-3">
-                  {new Date(evento.dataHora).toLocaleDateString("pt-BR", {
-                    day: "2-digit",
-                    month: "long",
-                    year: "numeric",
-                    timeZone: EVENT_TIME_ZONE,
-                  })}
+                  {evento.dataFormatada}
                   <span className="mx-2">·</span>
-                  {new Date(evento.dataHora).toLocaleTimeString("pt-BR", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    timeZone: EVENT_TIME_ZONE,
-                  })}
+                  {evento.horaFormatada}
                 </span>
 
                 <h3 className="text-3xl font-display font-black italic uppercase leading-none mb-4 text-cream">
                   {evento.titulo}
                 </h3>
 
-                {/* Expandable Details */}
                 <div
                   className={`overflow-hidden transition-all duration-700 ease-editorial ${
                     isExpanded ? "max-h-[2000px] opacity-100 mb-8 mt-4" : "max-h-0 opacity-0"
                   }`}
                 >
-                  <div className="rounded-2xl bg-cream/[0.05] p-6 border border-cream/10">
-                    {evento.local && (
-                      <p className="text-[10px] uppercase tracking-[0.3em] text-cream/40 mb-4 pb-3 border-b border-cream/5">
-                        {evento.local}
-                      </p>
-                    )}
-
-                    {evento.descricao && (
-                      <p className="text-sm md:text-base leading-relaxed text-cream/80 mb-8 whitespace-pre-line">
-                        {evento.descricao}
-                      </p>
-                    )}
-
-                    <div className="flex flex-col gap-6">
-                      {evento.valor && (
-                        <div className="flex flex-col gap-1">
-                          <span className="text-[9px] font-bold uppercase tracking-widest text-cream/30">
-                            Investimento
-                          </span>
-                          <span className="text-xl font-display font-black text-orange uppercase tracking-wider">
-                            {evento.valor}
-                          </span>
-                        </div>
-                      )}
-
-                      {evento.linkCompra && (
-                        <a
-                          href={evento.linkCompra}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-3 text-[10px] uppercase tracking-widest font-black px-8 py-4 rounded-full bg-cream text-forest hover:bg-orange hover:text-cream transition-all duration-500 group/btn shadow-xl shadow-black/20"
-                        >
-                          Garantir vaga
-                          <svg
-                            width="12"
-                            height="12"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="3"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="transition-transform duration-300 group-hover/btn:translate-x-1"
-                            aria-hidden="true"
-                            focusable="false"
-                          >
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                            <polyline points="12 5 19 12 12 19" />
-                          </svg>
-                        </a>
-                      )}
-                    </div>
-                  </div>
+                  <EventoExpandedPanel evento={evento} variant="preview" />
                 </div>
 
-                {/* Toggle Button */}
                 <div className="mt-4">
                   <button
                     type="button"

@@ -1,56 +1,12 @@
-import { urlFor } from "@/sanity/image";
-import type { CategoriaEvento, EventoNormalizado, SanityImageRef } from "@/types/evento";
+import EventoExpandedPanel from "@/components/islands/agenda/EventoExpandedPanel";
+import type { CategoriaEvento, EventoNormalizado } from "@/types/evento";
 import { CATEGORIAS } from "@/utils/categorias";
-import {
-  EVENT_TIME_ZONE,
-  formatMonthLabel,
-  getAvailableMonthKeys,
-  normalizeSearch,
-} from "@/utils/eventos";
+import { formatMonthLabel, getAvailableMonthKeys, normalizeSearch } from "@/utils/eventos";
 import { gsap } from "gsap";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
-interface AgendaPageFilterProps {
+interface AgendaFullFilterProps {
   eventos: EventoNormalizado[];
-}
-
-function getEventoDate(evento: EventoNormalizado) {
-  return new Date(evento.dataHora);
-}
-
-function formatDay(date: Date) {
-  return new Intl.DateTimeFormat("pt-BR", { timeZone: EVENT_TIME_ZONE, day: "2-digit" }).format(
-    date,
-  );
-}
-
-function formatWeekday(date: Date) {
-  return new Intl.DateTimeFormat("pt-BR", { timeZone: EVENT_TIME_ZONE, weekday: "long" }).format(
-    date,
-  );
-}
-
-function formatHour(date: Date) {
-  return new Intl.DateTimeFormat("pt-BR", {
-    timeZone: EVENT_TIME_ZONE,
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(date);
-}
-
-function getEventoDayKey(evento: EventoNormalizado): string {
-  const date = getEventoDate(evento);
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: EVENT_TIME_ZONE,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).formatToParts(date);
-  const year = parts.find((p) => p.type === "year")?.value;
-  const month = parts.find((p) => p.type === "month")?.value;
-  const day = parts.find((p) => p.type === "day")?.value;
-
-  return `${year}-${month}-${day}`;
 }
 
 function getCurrentMesKey(): string {
@@ -67,7 +23,19 @@ function getInitialMonth(eventos: EventoNormalizado[]): string {
   return availableMonths[0] ?? currentMesKey;
 }
 
-export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
+function formatWeekdayFromDiaKey(diaKey: string): string {
+  const [year, month, day] = diaKey.split("-").map(Number);
+  return new Intl.DateTimeFormat("pt-BR", {
+    weekday: "long",
+    timeZone: "UTC",
+  }).format(new Date(Date.UTC(year, month - 1, day, 12)));
+}
+
+function formatDayFromDiaKey(diaKey: string): string {
+  return diaKey.split("-")[2];
+}
+
+export default function AgendaFullFilter({ eventos }: AgendaFullFilterProps) {
   const [selectedMonth, setSelectedMonth] = useState(() => getInitialMonth(eventos));
   const [activeCategory, setActiveCategory] = useState<string>("todos");
   const [search, setSearch] = useState("");
@@ -108,7 +76,7 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
     const groups = new Map<string, EventoNormalizado[]>();
 
     for (const evento of visibleEvents) {
-      const key = getEventoDayKey(evento);
+      const key = evento.diaKey;
       const group = groups.get(key) ?? [];
       group.push(evento);
       groups.set(key, group);
@@ -121,16 +89,11 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
     () => matchingEvents.find((evento) => evento.mesKey !== selectedMonth),
     [matchingEvents, selectedMonth],
   );
-  const selectedMonthIndex = monthKeys.indexOf(selectedMonth);
-  const previousMonth = selectedMonthIndex > 0 ? monthKeys[selectedMonthIndex - 1] : null;
-  const nextMonth =
-    selectedMonthIndex >= 0 && selectedMonthIndex < monthKeys.length - 1
-      ? monthKeys[selectedMonthIndex + 1]
-      : null;
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: re-run card entrance animation when month, category or search changes
   useLayoutEffect(() => {
     if (!containerRef.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const cards = containerRef.current.querySelectorAll(".event-card");
     if (cards.length === 0) return;
@@ -151,7 +114,6 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
 
   useEffect(() => {
     setExpandedCards(new Set());
-    // Referenced for dependency tracking — reset expanded state on filter change
     void selectedMonth;
     void activeCategory;
     void search;
@@ -319,167 +281,116 @@ export default function AgendaPageFilter({ eventos }: AgendaPageFilterProps) {
       <div ref={containerRef}>
         {groupedEvents.length > 0 ? (
           <div className="space-y-12 md:space-y-20">
-            {groupedEvents.map(({ key, eventos: dayEvents }) => {
-              const date = getEventoDate(dayEvents[0]);
-
-              return (
-                <section key={key} className="grid gap-6 md:grid-cols-[140px_1fr] md:gap-10">
-                  <div className="md:sticky md:top-32 md:self-start md:py-4">
-                    <div className="flex items-end gap-3 md:flex-col md:items-start md:gap-0">
-                      <span className="font-display text-6xl md:text-7xl font-black leading-none text-forest">
-                        {formatDay(date)}
-                      </span>
-                      <span className="mb-1 md:mb-0 md:mt-3 text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] text-forest/35">
-                        {formatWeekday(date)}
-                      </span>
-                    </div>
+            {groupedEvents.map(({ key, eventos: dayEvents }) => (
+              <section key={key} className="grid gap-6 md:grid-cols-[140px_1fr] md:gap-10">
+                <div className="md:sticky md:top-32 md:self-start md:py-4">
+                  <div className="flex items-end gap-3 md:flex-col md:items-start md:gap-0">
+                    <span className="font-display text-6xl md:text-7xl font-black leading-none text-forest">
+                      {formatDayFromDiaKey(key)}
+                    </span>
+                    <span className="mb-1 md:mb-0 md:mt-3 text-[10px] md:text-[11px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] text-forest/35">
+                      {formatWeekdayFromDiaKey(key)}
+                    </span>
                   </div>
+                </div>
 
-                  <div className="space-y-6 md:space-y-8">
-                    {dayEvents.map((evento) => {
-                      const category = CATEGORIAS[evento.categoria];
-                      const imagemPrincipal =
-                        (evento.imagens?.[0] as SanityImageRef | undefined) ?? null;
-                      const isExpanded = expandedCards.has(evento._id);
+                <div className="space-y-6 md:space-y-8">
+                  {dayEvents.map((evento) => {
+                    const category = CATEGORIAS[evento.categoria];
+                    const isExpanded = expandedCards.has(evento._id);
 
-                      return (
-                        <article
-                          key={evento._id}
-                          className="event-card group relative overflow-hidden rounded-[2rem] bg-white p-2 shadow-2xl shadow-forest/[0.04] transition-all duration-700 hover:shadow-forest/[0.08] hover:-translate-y-1 md:flex md:rounded-[2.5rem] md:p-3"
-                        >
-                          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[1.5rem] md:aspect-auto md:w-[280px] lg:w-[420px] md:rounded-[2rem] shrink-0">
-                            {imagemPrincipal ? (
-                              <img
-                                src={urlFor(imagemPrincipal).width(800).height(600).url()}
-                                alt={evento.titulo}
-                                className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                                loading="lazy"
-                              />
-                            ) : (
-                              <div className="flex h-full items-center justify-center bg-cream/50">
-                                <img src="/icons/chave.svg" className="w-16 opacity-10" alt="" />
-                              </div>
-                            )}
-                            <div
-                              className="absolute left-4 top-4 md:left-6 md:top-6 rounded-full px-3 py-1 md:px-4 md:py-1.5 text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] shadow-xl backdrop-blur-md"
-                              style={{
-                                backgroundColor: `${category.color}ee`,
-                                color: category.textColor,
-                              }}
-                            >
-                              {category.label}
+                    return (
+                      <article
+                        key={evento._id}
+                        className="event-card group relative overflow-hidden rounded-[2rem] bg-white p-2 shadow-2xl shadow-forest/[0.04] transition-all duration-700 hover:shadow-forest/[0.08] hover:-translate-y-1 md:flex md:rounded-[2.5rem] md:p-3"
+                      >
+                        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[1.5rem] md:aspect-auto md:w-[280px] lg:w-[420px] md:rounded-[2rem] shrink-0">
+                          {evento.imagemUrl ? (
+                            <img
+                              src={evento.imagemUrl}
+                              alt={evento.titulo}
+                              className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                              loading="lazy"
+                            />
+                          ) : (
+                            <div className="flex h-full items-center justify-center bg-cream/50">
+                              <img src="/icons/chave.svg" className="w-16 opacity-10" alt="" />
                             </div>
+                          )}
+                          <div
+                            className="absolute left-4 top-4 md:left-6 md:top-6 rounded-full px-3 py-1 md:px-4 md:py-1.5 text-[8px] md:text-[9px] font-black uppercase tracking-[0.2em] shadow-xl backdrop-blur-md"
+                            style={{
+                              backgroundColor: `${category.color}ee`,
+                              color: category.textColor,
+                            }}
+                          >
+                            {category.label}
+                          </div>
+                        </div>
+
+                        <div className="flex flex-1 flex-col justify-center p-5 md:p-8 lg:p-14">
+                          <div className="flex items-center gap-3 md:gap-4">
+                            <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-forest/40">
+                              {evento.horaFormatada}
+                            </span>
+                            <div className="h-px w-6 md:w-8 bg-forest/10" />
                           </div>
 
-                          <div className="flex flex-1 flex-col justify-center p-5 md:p-8 lg:p-14">
-                            <div className="flex items-center gap-3 md:gap-4">
-                              <span className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] text-forest/40">
-                                {formatHour(getEventoDate(evento))}
-                              </span>
-                              <div className="h-px w-6 md:w-8 bg-forest/10" />
-                            </div>
+                          <h2 className="mt-4 md:mt-6 font-display text-3xl font-black uppercase leading-[0.95] text-forest md:text-5xl lg:text-6xl">
+                            {evento.titulo}
+                          </h2>
 
-                            <h2 className="mt-4 md:mt-6 font-display text-3xl font-black uppercase leading-[0.95] text-forest md:text-5xl lg:text-6xl">
-                              {evento.titulo}
-                            </h2>
+                          {evento.local && (
+                            <p className="mt-3 md:mt-5 text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-forest/50">
+                              {evento.local}
+                            </p>
+                          )}
 
-                            {evento.local && (
-                              <p className="mt-3 md:mt-5 text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] md:tracking-[0.2em] text-forest/50">
-                                {evento.local}
-                              </p>
-                            )}
+                          <div
+                            className={`overflow-hidden transition-all duration-700 ease-in-out ${
+                              isExpanded
+                                ? "mt-8 md:mt-10 max-h-[1200px] opacity-100"
+                                : "max-h-0 opacity-0"
+                            }`}
+                          >
+                            <EventoExpandedPanel evento={evento} variant="full" />
+                          </div>
 
-                            <div
-                              className={`overflow-hidden transition-all duration-700 ease-in-out ${
-                                isExpanded
-                                  ? "mt-8 md:mt-10 max-h-[1200px] opacity-100"
-                                  : "max-h-0 opacity-0"
-                              }`}
-                            >
-                              <div className="rounded-3xl bg-forest/[0.03] p-6 md:p-10 border border-forest/[0.05]">
-                                {evento.descricao && (
-                                  <p className="whitespace-pre-line text-base md:text-lg leading-relaxed text-forest/80 max-w-2xl">
-                                    {evento.descricao}
-                                  </p>
-                                )}
-
-                                <div className="mt-10 flex flex-wrap items-center justify-between gap-8 border-t border-forest/10 pt-8">
-                                  {evento.valor && (
-                                    <div className="flex flex-col gap-1">
-                                      <span className="text-[10px] font-black uppercase tracking-widest text-forest/40">
-                                        Investimento
-                                      </span>
-                                      <span className="font-display text-2xl md:text-3xl font-black uppercase tracking-[0.05em] text-orange">
-                                        {evento.valor}
-                                      </span>
-                                    </div>
-                                  )}
-                                  {evento.linkCompra && (
-                                    <a
-                                      href={evento.linkCompra}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="group/btn relative inline-flex items-center gap-4 rounded-full bg-forest px-10 py-5 text-[11px] font-black uppercase tracking-[0.3em] text-cream transition-all hover:bg-orange hover:shadow-2xl hover:shadow-orange/30"
-                                    >
-                                      <span className="relative z-10">Garantir vaga</span>
-                                      <svg
-                                        width="14"
-                                        height="14"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="3"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        className="relative z-10 transition-transform duration-300 group-hover/btn:translate-x-1"
-                                        aria-hidden="true"
-                                        focusable="false"
-                                      >
-                                        <line x1="5" y1="12" x2="19" y2="12" />
-                                        <polyline points="12 5 19 12 12 19" />
-                                      </svg>
-                                    </a>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-
-                            <button
-                              type="button"
-                              aria-expanded={isExpanded}
-                              onClick={() => toggleCard(evento._id)}
-                              className={`group mt-8 flex items-center justify-center gap-4 rounded-full border-2 px-8 py-4 text-[10px] font-black uppercase tracking-[0.3em] transition-all
+                          <button
+                            type="button"
+                            aria-expanded={isExpanded}
+                            onClick={() => toggleCard(evento._id)}
+                            className={`group mt-8 flex items-center justify-center gap-4 rounded-full border-2 px-8 py-4 text-[10px] font-black uppercase tracking-[0.3em] transition-all
                                 ${
                                   isExpanded
                                     ? "border-forest bg-forest text-cream"
                                     : "border-forest/10 text-forest/50 hover:border-forest/40 hover:text-forest hover:bg-white shadow-sm"
                                 }`}
+                          >
+                            {isExpanded ? "Fechar detalhes" : "Ver mais detalhes"}
+                            <svg
+                              width="12"
+                              height="12"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className={`transition-transform duration-500 ${isExpanded ? "rotate-180" : ""}`}
+                              aria-hidden="true"
+                              focusable="false"
                             >
-                              {isExpanded ? "Fechar detalhes" : "Ver mais detalhes"}
-                              <svg
-                                width="12"
-                                height="12"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="3"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className={`transition-transform duration-500 ${isExpanded ? "rotate-180" : ""}`}
-                                aria-hidden="true"
-                                focusable="false"
-                              >
-                                <polyline points="6 9 12 15 18 9" />
-                              </svg>
-                            </button>
-                          </div>
-                        </article>
-                      );
-                    })}
-                  </div>
-                </section>
-              );
-            })}
+                              <polyline points="6 9 12 15 18 9" />
+                            </svg>
+                          </button>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              </section>
+            ))}
           </div>
         ) : (
           <div className="bg-white/30 rounded-[2.5rem] px-5 py-16 text-center text-forest backdrop-blur-sm border border-white/20 md:rounded-[3rem] md:px-6 md:py-24">

@@ -35,6 +35,7 @@
       "dist",
       ".astro",
       ".vercel",
+      ".claude",
       "public",
       "ESTÚDIO ENTRE",
       "scripts/convert-images.js"
