@@ -1,13 +1,11 @@
-import type { CategoriaEvento, EventoCard, EventoNormalizado } from "@/types/evento";
-import { CATEGORIAS } from "@/utils/categorias";
+import { isCategoriaEvento } from "@/domain/categoriaEvento";
+import type { EventoCard, EventoNormalizado } from "@/types/evento";
+
+export { isCategoriaEvento } from "@/domain/categoriaEvento";
 
 const COLLATOR_LOCALE = "pt-BR";
 
 export const EVENT_TIME_ZONE = "America/Sao_Paulo";
-
-export function isCategoriaEvento(value: unknown): value is CategoriaEvento {
-  return typeof value === "string" && Object.prototype.hasOwnProperty.call(CATEGORIAS, value);
-}
 
 export function getMesKey(date: Date): string {
   const parts = new Intl.DateTimeFormat("en-CA", {

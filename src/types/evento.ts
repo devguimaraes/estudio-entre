@@ -1,12 +1,4 @@
-export type CategoriaEvento =
-  | "show"
-  | "oficina"
-  | "roda-de-conversa"
-  | "lancamento"
-  | "sarau"
-  | "exposicao"
-  | "biblioterapia"
-  | "dj-session";
+export type { CategoriaEvento } from "@/domain/categoriaEvento";
 
 export interface EventoCard {
   _id: string;

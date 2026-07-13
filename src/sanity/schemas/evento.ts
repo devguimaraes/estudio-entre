@@ -1,4 +1,11 @@
+import { CATEGORIA_EVENTO_VALUES } from "@/domain/categoriaEvento";
+import { CATEGORIAS } from "@/utils/categorias";
 import { defineField, defineType } from "sanity";
+
+const CATEGORIA_EVENTO_OPTIONS = CATEGORIA_EVENTO_VALUES.map((value) => ({
+  title: CATEGORIAS[value].label,
+  value,
+}));
 
 export const evento = defineType({
   name: "evento",
@@ -26,16 +33,7 @@ export const evento = defineType({
       title: "Categoria",
       type: "string",
       options: {
-        list: [
-          { title: "Show", value: "show" },
-          { title: "Oficina", value: "oficina" },
-          { title: "Roda de Conversa", value: "roda-de-conversa" },
-          { title: "Lançamento", value: "lancamento" },
-          { title: "Sarau", value: "sarau" },
-          { title: "Exposição", value: "exposicao" },
-          { title: "Biblioterapia", value: "biblioterapia" },
-          { title: "DJ Session", value: "dj-session" },
-        ],
+        list: CATEGORIA_EVENTO_OPTIONS,
         layout: "radio",
       },
       validation: (rule) => rule.required(),

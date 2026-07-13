@@ -10,7 +10,8 @@
     "check": "biome check .",
     "check:fix": "biome check --write .",
     "lint": "biome lint .",
-    "format": "biome format --write ."
+    "format": "biome format --write .",
+    "test": "bun test"
   },
   "dependencies": {
     "@astrojs/react": "^5.0.3",
