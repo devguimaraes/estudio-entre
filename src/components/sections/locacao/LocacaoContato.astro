@@ -88,7 +88,7 @@ const phoneDisplay = "(21) 97310-1451";
     </div>
 
     <div class="locacao-contato__image opacity-0">
-      <TornPaperFrame variant={2} rotation="1deg" class="h-[320px] w-full shadow-2xl md:h-[480px]">
+      <TornPaperFrame variant={2} rotation="1deg" class="aspect-[641/316] w-full shadow-2xl">
         <img
           src={locacaoContato.imagem.src}
           alt={locacaoContato.imagem.alt}
@@ -113,5 +113,12 @@ const phoneDisplay = "(21) 97310-1451";
   .locacao-contato__ctas,
   .locacao-contato__image {
     will-change: transform, opacity;
+  }
+
+  .locacao-contato__image :global(img) {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 </style>
