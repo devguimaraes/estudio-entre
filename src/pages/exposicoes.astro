@@ -1,10 +1,9 @@
 ---
-import { sanityClient } from "sanity:client";
 import ExposicoesListagem from "@/components/sections/ExposicoesListagem.astro";
 import Footer from "@/components/sections/Footer.astro";
+import { getExposicoesPorStatus } from "@/intake/exposicao";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { exposicoesByStatusQuery } from "@/sanity/queries/exposicao";
-import type { ExposicaoCard, ExposicaoStatus } from "@/types/exposicao";
+import type { ExposicaoStatus } from "@/types/exposicao";
 
 const statusParam = Astro.url.searchParams.get("status");
 const filtroAtivo: ExposicaoStatus =
@@ -12,9 +11,7 @@ const filtroAtivo: ExposicaoStatus =
     ? statusParam
     : "em-cartaz";
 
-const exposicoes: ExposicaoCard[] = await sanityClient.fetch(exposicoesByStatusQuery, {
-  status: filtroAtivo,
-});
+const exposicoes = await getExposicoesPorStatus(filtroAtivo);
 
 const title = "Exposições — Estúdio Entre";
 const description = "Exposições em cartaz e acervo do Estúdio Entre — hub cultural no Méier, RJ.";
