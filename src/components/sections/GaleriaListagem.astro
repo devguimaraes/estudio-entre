@@ -7,30 +7,6 @@ interface Props {
 
 const { albuns } = Astro.props;
 
-function formatarData(inicio: string, fim: string | null): string {
-  const d1 = new Date(`${inicio}T12:00:00-03:00`);
-  const formato = new Intl.DateTimeFormat("pt-BR", {
-    day: "numeric",
-    month: "long",
-    timeZone: "America/Sao_Paulo",
-  });
-
-  if (!fim) return formato.format(d1);
-
-  const d2 = new Date(`${fim}T12:00:00-03:00`);
-  // Same month: "25 e 26 de abril"
-  if (d1.getMonth() === d2.getMonth() && d1.getFullYear() === d2.getFullYear()) {
-    return `${d1.getDate()} e ${d2.getDate()} de ${new Intl.DateTimeFormat("pt-BR", { month: "long", timeZone: "America/Sao_Paulo" }).format(d1)}`;
-  }
-  // Different months: "30 de abril a 2 de maio"
-  const formatoCurto = new Intl.DateTimeFormat("pt-BR", {
-    day: "numeric",
-    month: "long",
-    timeZone: "America/Sao_Paulo",
-  });
-  return `${formatoCurto.format(d1)} a ${formatoCurto.format(d2)}`;
-}
-
 const TORN_PAPER = [
   "polygon(1% 2%, 99% 1%, 98% 97%, 2% 99%)",
   "polygon(2% 1%, 98% 2%, 99% 98%, 1% 97%)",
@@ -82,7 +58,7 @@ const ROTATIONS = ["-1.5deg", "1.2deg", "-0.8deg", "2deg"];
               {album.titulo}
             </h3>
             <p class="text-xs text-bordo/40 uppercase tracking-wider mt-1">
-              {formatarData(album.dataInicio, album.dataFim)}
+              {album.periodoFormatado}
             </p>
             {album.descricao && (
               <p class="text-sm text-bordo/60 mt-2 line-clamp-2 leading-relaxed">

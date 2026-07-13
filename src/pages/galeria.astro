@@ -1,13 +1,11 @@
 ---
-import { sanityClient } from "sanity:client";
 import Footer from "@/components/sections/Footer.astro";
 import GaleriaListagem from "@/components/sections/GaleriaListagem.astro";
+import { getAlbuns } from "@/intake/galeria";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { albunsQuery } from "@/sanity/queries/galeria";
-import type { AlbumGaleriaCard } from "@/types/galeria";
 import { buildOgImageUrl } from "@/utils/seo";
 
-const albuns: AlbumGaleriaCard[] = await sanityClient.fetch(albunsQuery);
+const albuns = await getAlbuns();
 
 const title = "Galeria — Estúdio Entre";
 const description = "Momentos do Estúdio Entre: inaugurações, exposições e eventos em imagem.";
