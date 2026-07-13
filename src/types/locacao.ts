@@ -73,3 +73,24 @@ export interface MensagensWhatsApp {
   espaco: (nomeEspaco: string) => string;
   parceria: (tipoParceria: string) => string;
 }
+
+export interface LocacaoSobre {
+  eyebrow: string;
+  titulo: string;
+  texto: string;
+}
+
+export interface LocacaoSeo {
+  title: string;
+  description: string;
+}
+
+export interface LocacaoHero {
+  titulo: string;
+  subtitulo: string;
+  imagem: ImagemLocacao;
+  ctaPrimario: string;
+  ctaPrimarioLabel: string;
+  ctaSecundarioLabel: string;
+  ctaSecundarioAnchor: string;
+}

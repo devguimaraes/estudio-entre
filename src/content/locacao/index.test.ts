@@ -3,6 +3,9 @@ import {
   espacosLocaveis,
   exposicoesResidentes,
   locacaoContato,
+  locacaoHero,
+  locacaoSeo,
+  locacaoSobre,
   locacaoStats,
   mensagensWhatsApp,
   parcerias,
@@ -44,6 +47,24 @@ describe("locacao content", () => {
   test("Espaço Completo indica captação de vídeo não inclusa", () => {
     const completo = espacosLocaveis.find((e) => e.id === "espaco-completo");
     expect(completo?.observacoes?.some((o) => o.includes("Captação de vídeo"))).toBe(true);
+  });
+
+  test("SEO da página /locacao tem title e description dedicados", () => {
+    expect(locacaoSeo.title).toContain("Locação");
+    expect(locacaoSeo.description.length).toBeGreaterThan(40);
+  });
+
+  test("hero expõe CTAs comercial WhatsApp e âncora #espacos", () => {
+    expect(locacaoHero.ctaPrimarioLabel).toBeTruthy();
+    expect(locacaoHero.ctaSecundarioLabel).toBeTruthy();
+    expect(locacaoHero.ctaSecundarioAnchor).toBe("#espacos");
+    expect(buildWaLink(locacaoHero.ctaPrimario)).toContain("wa.me/5521973101451");
+  });
+
+  test("bloco Sobre tem texto institucional para a página", () => {
+    expect(locacaoSobre.eyebrow).toBeTruthy();
+    expect(locacaoSobre.titulo).toBeTruthy();
+    expect(locacaoSobre.texto.length).toBeGreaterThan(40);
   });
 
   test("stats do bloco Sobre cobrem capacidade, preço e suporte", () => {

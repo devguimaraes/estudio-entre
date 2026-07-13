@@ -3,6 +3,8 @@ export {
   exposicoesResidentes,
   locacaoContato,
   locacaoHero,
+  locacaoSeo,
+  locacaoSobre,
   locacaoStats,
   mensagensWhatsApp,
   parcerias,

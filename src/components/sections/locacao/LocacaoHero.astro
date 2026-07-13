@@ -1,0 +1,82 @@
+---
+import Decorative from "@/components/ui/Decorative.astro";
+import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+import { locacaoHero } from "@/content/locacao";
+import { buildWaLink } from "@/utils/whatsapp";
+
+const waUrl = buildWaLink(locacaoHero.ctaPrimario);
+---
+
+<section
+  class="locacao-hero relative flex min-h-[100svh] items-end overflow-hidden bg-bordo"
+  data-bg-color="#3D1020"
+  data-nav-theme="light"
+  aria-label="Locação no Estúdio Entre"
+>
+  <div class="absolute inset-0 z-0">
+    <img
+      src={locacaoHero.imagem.src}
+      alt={locacaoHero.imagem.alt}
+      class="h-full w-full object-cover"
+      fetchpriority="high"
+      decoding="async"
+    />
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-bordo via-bordo/80 to-bordo/30"
+      aria-hidden="true"
+    ></div>
+  </div>
+
+  <HalftoneTexture density={14} dotSize={1.2} color="240,237,232" opacity={0.06} class="z-[1]" />
+
+  <div class="absolute right-[8%] top-28 z-[2] hidden opacity-20 md:block" aria-hidden="true">
+    <Decorative variant="star" color="#F0EDE8" size={64} />
+  </div>
+
+  <div class="relative z-10 mx-auto w-full max-w-[1300px] px-4 pb-16 pt-32 md:px-16 md:pb-24 md:pt-40">
+    <p class="locacao-hero__eyebrow font-display text-[10px] font-bold uppercase tracking-[0.45em] text-cream/50 opacity-0">
+      Locação & Parcerias
+    </p>
+
+    <h1
+      class="locacao-hero__title mt-6 max-w-4xl font-display text-[clamp(2.5rem,8vw,5.5rem)] font-black uppercase leading-[0.9] text-cream opacity-0"
+    >
+      {locacaoHero.titulo}
+    </h1>
+
+    <p class="locacao-hero__subtitle mt-6 max-w-2xl text-base leading-relaxed text-cream/75 opacity-0 md:text-lg">
+      {locacaoHero.subtitulo}
+    </p>
+
+    <div class="locacao-hero__ctas mt-10 flex w-full flex-col gap-4 opacity-0 sm:max-w-xl sm:flex-row">
+      <a
+        href={waUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="locacao-hero__cta-primary inline-flex min-h-11 w-full items-center justify-center rounded-full bg-orange px-8 py-4 font-display text-[11px] font-black uppercase tracking-widest text-bordo shadow-[0_16px_40px_rgba(236,104,56,0.35)] transition-transform duration-[160ms] ease-out active:scale-[0.97] hover:bg-cream sm:w-auto"
+      >
+        {locacaoHero.ctaPrimarioLabel}
+      </a>
+      <a
+        href={locacaoHero.ctaSecundarioAnchor}
+        class="locacao-hero__cta-secondary inline-flex min-h-11 w-full items-center justify-center rounded-full border-2 border-cream/30 px-8 py-4 font-display text-[11px] font-bold uppercase tracking-widest text-cream transition-[transform,background-color,border-color] duration-[160ms] ease-out active:scale-[0.97] hover:border-cream hover:bg-cream/10 sm:w-auto"
+      >
+        {locacaoHero.ctaSecundarioLabel}
+      </a>
+    </div>
+  </div>
+
+  <script>
+    import { animateLocacaoHero } from "@/animations/locacao";
+    animateLocacaoHero();
+  </script>
+</section>
+
+<style>
+  .locacao-hero__eyebrow,
+  .locacao-hero__title,
+  .locacao-hero__subtitle,
+  .locacao-hero__ctas {
+    will-change: transform, opacity;
+  }
+</style>

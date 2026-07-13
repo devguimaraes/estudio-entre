@@ -3,6 +3,9 @@ import type {
   ExposicoesResidentes,
   LinhaTabelaValores,
   LocacaoContato,
+  LocacaoHero,
+  LocacaoSeo,
+  LocacaoSobre,
   Parceria,
   StatLocacao,
 } from "@/types/locacao";
@@ -172,7 +175,20 @@ export const locacaoContato: LocacaoContato = {
   },
 };
 
-export const locacaoHero = {
+export const locacaoSeo: LocacaoSeo = {
+  title: "Locação & Parcerias — Estúdio Entre",
+  description:
+    "Alugue salas, estúdio de podcast ou o espaço completo no Estúdio Entre. Méier, Rio de Janeiro — com suporte da equipe em cada etapa.",
+};
+
+export const locacaoSobre: LocacaoSobre = {
+  eyebrow: "O lugar",
+  titulo: "Um espaço para criar",
+  texto:
+    "No coração do Méier, o Estúdio Entre abre suas salas para quem quer criar, gravar e reunir gente — com a equipe Entre do seu lado em cada etapa.",
+};
+
+export const locacaoHero: LocacaoHero = {
   titulo: "Alugue um espaço para criar, gravar e reunir gente",
   subtitulo: "Salas, estúdio de podcast e o espaço completo — com a equipe Entre do seu lado.",
   imagem: {
@@ -180,6 +196,8 @@ export const locacaoHero = {
     alt: "Ambiente do Estúdio Entre pronto para receber encontros criativos e produções",
   },
   ctaPrimario: mensagensWhatsApp.hero,
+  ctaPrimarioLabel: "Agendar uma visita",
+  ctaSecundarioLabel: "Ver espaços e valores",
   ctaSecundarioAnchor: "#espacos",
 };
 

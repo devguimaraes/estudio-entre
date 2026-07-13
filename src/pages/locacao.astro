@@ -1,0 +1,24 @@
+---
+import Footer from "@/components/sections/Footer.astro";
+import LocacaoContato from "@/components/sections/locacao/LocacaoContato.astro";
+import LocacaoHero from "@/components/sections/locacao/LocacaoHero.astro";
+import LocacaoSobre from "@/components/sections/locacao/LocacaoSobre.astro";
+import { locacaoSeo } from "@/content/locacao";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title={locacaoSeo.title}
+  description={locacaoSeo.description}
+  navTheme="dark"
+  ogImage="/images/locacao/hero.webp"
+>
+  <main class="locacao-pagina relative overflow-hidden bg-cream text-bordo">
+    <LocacaoHero />
+    <LocacaoSobre />
+    <div id="espacos" class="scroll-mt-28" aria-hidden="true"></div>
+    <LocacaoContato />
+  </main>
+
+  <Footer />
+</BaseLayout>
