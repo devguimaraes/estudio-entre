@@ -27,28 +27,38 @@ import { buildWaLink } from "@/utils/whatsapp";
       Onde criar
     </h2>
 
-    <div class="locacao-espacos__grid mt-12 grid grid-cols-1 gap-8 md:mt-16 md:grid-cols-2 md:gap-10">
+    <div class="locacao-espacos__grid mt-12 grid grid-cols-1 gap-8 md:mt-16 md:grid-cols-1 md:gap-12 lg:gap-14">
       {
         espacosLocaveis.map((espaco, index) => {
           const waUrl = buildWaLink(mensagensWhatsApp.espaco(espaco.nome));
 
           return (
-            <article class="locacao-espacos__card flex flex-col overflow-hidden rounded-2xl border border-bordo/10 bg-cream/60 opacity-0">
-              <TornPaperFrame
-                variant={(index % 3) + 1}
-                rotation={index % 2 === 0 ? "-0.5deg" : "0.5deg"}
-                class="h-[220px] w-full md:h-[260px]"
-              >
-                <img
-                  src={espaco.imagem.src}
-                  alt={espaco.imagem.alt}
-                  class="h-full w-full object-cover"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </TornPaperFrame>
+            <article
+              class:list={[
+                "locacao-espacos__card flex flex-col overflow-hidden rounded-2xl border border-bordo/10 bg-cream/60 opacity-0",
+                "md:grid md:items-stretch md:gap-0",
+                index % 2 === 0
+                  ? "md:grid-cols-[minmax(260px,38%)_1fr]"
+                  : "md:grid-cols-[1fr_minmax(260px,38%)]",
+              ]}
+            >
+              <div class:list={["locacao-espacos__media-col shrink-0", index % 2 === 1 && "md:order-2"]}>
+                <TornPaperFrame
+                  variant={(index % 3) + 1}
+                  rotation={index % 2 === 0 ? "-0.5deg" : "0.5deg"}
+                  class="h-full w-full md:min-h-[400px] lg:min-h-[440px]"
+                >
+                  <img
+                    src={espaco.imagem.src}
+                    alt={espaco.imagem.alt}
+                    class="aspect-[3/4] w-full object-cover object-center md:aspect-auto md:h-full md:min-h-[400px] lg:min-h-[440px]"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </TornPaperFrame>
+              </div>
 
-              <div class="flex flex-1 flex-col p-6 md:p-8">
+              <div class="flex flex-1 flex-col p-6 md:justify-center md:p-8 lg:p-10">
                 <h3 class="font-display text-xl font-black uppercase leading-tight text-bordo md:text-2xl">
                   {espaco.nome}
                 </h3>
