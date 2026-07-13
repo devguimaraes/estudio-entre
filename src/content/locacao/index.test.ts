@@ -111,6 +111,7 @@ describe("locacao content", () => {
     const cocriacao = parcerias[0];
     expect(cocriacao.modeloFuncionamento).toContain("Curadoria compartilhada");
     expect(cocriacao.modeloFinanceiro).toContain("Divisão de receita");
+    expect(cocriacao.imagem?.src).toBe("/images/locacao/cocriacao-atividades.webp");
 
     const criadores = parcerias[1];
     expect(criadores.modeloFuncionamento).toContain("Permuta");
@@ -122,6 +123,7 @@ describe("locacao content", () => {
     expect(locacaoContato.email).toBe("contato@estudioentre.com.br");
     expect(locacaoContato.endereco).toContain("Rua Maria Calmon, 100");
     expect(locacaoContato.whatsapp).toBe("5521973101451");
+    expect(locacaoContato.imagem.src).toBe("/images/locacao/estudio-entre.webp");
   });
 
   test("templates WhatsApp geram links wa.me com contexto", () => {

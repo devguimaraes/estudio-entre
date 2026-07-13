@@ -144,6 +144,10 @@ export const parcerias: Parceria[] = [
       "Curadoria compartilhada, construção conjunta da proposta, uso do espaço e suporte Entre.",
     modeloFinanceiro:
       "Divisão de receita de ingressos e inscrições (a definir por projeto). Operação e receita do bar são do Estúdio Entre.",
+    imagem: {
+      src: "/images/locacao/cocriacao-atividades.webp",
+      alt: "Oficina colaborativa e vivência em grupo no Estúdio Entre",
+    },
   },
   {
     id: "criadores-conteudo",
@@ -170,8 +174,8 @@ export const locacaoContato: LocacaoContato = {
   email: "contato@estudioentre.com.br",
   endereco: "Rua Maria Calmon, 100 — Méier, Rio de Janeiro",
   imagem: {
-    src: "/images/locacao/contato.webp",
-    alt: "Entrada acolhedora do Estúdio Entre no Méier, Rio de Janeiro",
+    src: "/images/locacao/estudio-entre.webp",
+    alt: "Fachada e entrada do Estúdio Entre no Méier, Rio de Janeiro",
   },
 };
 
