@@ -2,24 +2,13 @@
  * Navbar: active link tracking + scroll-triggered theme
  */
 
+import { isLinkActive } from "@/utils/navActive";
+
 export function initNavbar(): void {
   const navLinks = document.querySelectorAll<HTMLAnchorElement>(".navbar__link[href]");
   const navGroups = document.querySelectorAll<HTMLLIElement>(".navbar__group");
 
   const sectionIds = ["sobre", "pilares", "espaco", "agenda", "agendar-visita", "contato"];
-
-  function isLinkActive(href: string, pathname: string, activeHash: string): boolean {
-    if (href.startsWith("/#")) {
-      const hash = href.slice(2);
-      return (pathname === "/" || pathname === "") && activeHash === hash;
-    }
-
-    if (href.startsWith("/")) {
-      return pathname === href || (href.length > 1 && pathname.startsWith(`${href}/`));
-    }
-
-    return false;
-  }
 
   function updateActiveLink(): void {
     const pathname = window.location.pathname;

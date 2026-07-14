@@ -1,19 +1,17 @@
 import EventoExpandedPanel from "@/components/islands/agenda/EventoExpandedPanel";
 import type { CategoriaEvento, EventoNormalizado } from "@/types/evento";
 import { CATEGORIAS } from "@/utils/categorias";
-import { formatMonthLabel, getAvailableMonthKeys, normalizeSearch } from "@/utils/eventos";
+import {
+  formatMonthLabel,
+  getAvailableMonthKeys,
+  getCurrentMesKey,
+  normalizeSearch,
+} from "@/utils/eventos";
 import { gsap } from "gsap";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 interface AgendaFullFilterProps {
   eventos: EventoNormalizado[];
-}
-
-function getCurrentMesKey(): string {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  return `${year}-${month}`;
 }
 
 function getInitialMonth(eventos: EventoNormalizado[]): string {
