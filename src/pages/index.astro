@@ -19,6 +19,21 @@ const eventos = (await getEventosFuturos()).slice(0, 3);
   title="Estúdio Entre — Hub Cultural no Méier, RJ"
   description="Hub cultural e criativo independente no Méier, Rio de Janeiro. Agenda de shows, oficinas, saraus e exposições. Sebo colaborativo, loja autoral e produção de conteúdo."
 >
+  <script is:inline>
+    function redirectLegacyGaleriaHash() {
+      if (window.location.hash !== "#galeria") return;
+      history.replaceState(null, "", `${window.location.pathname}#espaco`);
+      document.getElementById("espaco")?.scrollIntoView({ block: "start" });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", redirectLegacyGaleriaHash);
+    } else {
+      redirectLegacyGaleriaHash();
+    }
+
+    window.addEventListener("hashchange", redirectLegacyGaleriaHash);
+  </script>
   <Hero />
   <Sobre />
   <Pilares />
