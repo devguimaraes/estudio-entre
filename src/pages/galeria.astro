@@ -1,13 +1,11 @@
 ---
-import { sanityClient } from "sanity:client";
+import AlbumListagem from "@/components/sections/AlbumListagem.astro";
 import Footer from "@/components/sections/Footer.astro";
-import GaleriaListagem from "@/components/sections/GaleriaListagem.astro";
+import { getAlbuns } from "@/intake/album";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { albunsQuery } from "@/sanity/queries/galeria";
 import { buildOgImageUrl } from "@/utils/seo";
-import type { AlbumGaleriaCard } from "@/types/galeria";
 
-const albuns: AlbumGaleriaCard[] = await sanityClient.fetch(albunsQuery);
+const albuns = await getAlbuns();
 
 const title = "Galeria — Estúdio Entre";
 const description = "Momentos do Estúdio Entre: inaugurações, exposições e eventos em imagem.";
@@ -45,7 +43,7 @@ const ogImage =
 
     {/* Album grid */}
     <div class="relative z-10 max-w-[1400px] mx-auto">
-      <GaleriaListagem albuns={albuns} />
+      <AlbumListagem albuns={albuns} />
     </div>
   </main>
 
@@ -53,46 +51,7 @@ const ogImage =
 
   {/* GSAP Animation */}
   <script>
-    import gsap from "gsap";
-    import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (!prefersReducedMotion) {
-      gsap.fromTo(
-        ".galeria-pagina__eyebrow",
-        { opacity: 0, y: 15 },
-        {
-          opacity: 0.5,
-          y: 0,
-          duration: 0.6,
-          scrollTrigger: {
-            trigger: ".galeria-pagina",
-            start: "top 75%",
-            toggleActions: "play none none reverse",
-          },
-        },
-      );
-
-      gsap.fromTo(
-        ".galeria-pagina__title",
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "expo.out",
-          scrollTrigger: {
-            trigger: ".galeria-pagina",
-            start: "top 75%",
-            toggleActions: "play none none reverse",
-          },
-        },
-      );
-    } else {
-      gsap.set([".galeria-pagina__eyebrow", ".galeria-pagina__title"], { opacity: 1, y: 0 });
-    }
+    import { animateAlbumPagina } from "@/animations/albumPagina";
+    animateAlbumPagina();
   </script>
 </BaseLayout>

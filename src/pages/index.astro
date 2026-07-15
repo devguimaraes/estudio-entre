@@ -1,37 +1,43 @@
 ---
-import { sanityClient } from "sanity:client";
 import SeboHomeIsland from "@/components/islands/SeboHomeIsland";
 import Agenda from "@/components/sections/Agenda.astro";
 import Contato from "@/components/sections/Contato.astro";
+import Espaco from "@/components/sections/Espaco.astro";
 import Footer from "@/components/sections/Footer.astro";
-import Galeria from "@/components/sections/Galeria.astro";
 import Hero from "@/components/sections/Hero.astro";
 import LojaHome from "@/components/sections/LojaHome.astro";
 import Pilares from "@/components/sections/Pilares.astro";
 import Sobre from "@/components/sections/Sobre.astro";
 import VisitacaoCTA from "@/components/sections/VisitacaoCTA.astro";
+import { getEventosFuturos } from "@/intake/evento";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { eventosFuturosQuery } from "@/sanity/queries/evento";
-import type { EventoCard } from "@/types/evento";
-import { normalizeEventos } from "@/utils/eventos";
 
-let eventos: EventoCard[] = [];
-try {
-  const eventosSanity = await sanityClient.fetch<EventoCard[]>(eventosFuturosQuery);
-  eventos = normalizeEventos(eventosSanity).slice(0, 3);
-} catch {
-  console.error("Falha ao buscar eventos futuros do Sanity");
-}
+const eventos = (await getEventosFuturos()).slice(0, 3);
 ---
 
 <BaseLayout
   title="Estúdio Entre — Hub Cultural no Méier, RJ"
   description="Hub cultural e criativo independente no Méier, Rio de Janeiro. Agenda de shows, oficinas, saraus e exposições. Sebo colaborativo, loja autoral e produção de conteúdo."
 >
+  <script is:inline>
+    function redirectLegacyGaleriaHash() {
+      if (window.location.hash !== "#galeria") return;
+      history.replaceState(null, "", `${window.location.pathname}#espaco`);
+      document.getElementById("espaco")?.scrollIntoView({ block: "start" });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", redirectLegacyGaleriaHash);
+    } else {
+      redirectLegacyGaleriaHash();
+    }
+
+    window.addEventListener("hashchange", redirectLegacyGaleriaHash);
+  </script>
   <Hero />
   <Sobre />
   <Pilares />
-  <Galeria />
+  <Espaco />
   <Agenda eventos={eventos} />
   <SeboHomeIsland client:visible />
   <LojaHome />

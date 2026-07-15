@@ -1,21 +1,42 @@
+import { buildWipeColors, ensureGsapRegistered, prefersReducedMotion } from "@/animations/motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
-
 type WipeConfig = {
   trigger: string;
-  colors: [string, string, string];
+  prev: string;
+  next: string;
+  fallbacks: [string, string, string];
 };
 
 const WIPE_CONFIGS: WipeConfig[] = [
-  { trigger: ".sobre", colors: ["#ec6838", "#f0ede8", "#3d1020"] },
-  { trigger: ".agenda", colors: ["#8e8100", "#dec72c", "#3d1020"] },
-  { trigger: ".contato", colors: ["#1a1612", "#777bde", "#ec6838"] },
-  { trigger: ".footer", colors: ["#f0ede8", "#c4a54b", "#1a1612"] },
+  {
+    trigger: ".sobre",
+    prev: ".hero",
+    next: ".pilares",
+    fallbacks: ["#EC6838", "#f0ede8", "#1A1612"],
+  },
+  {
+    trigger: ".agenda",
+    prev: ".espaco",
+    next: ".sebo-home",
+    fallbacks: ["#b9e4eb", "#1d432c", "#b9e4eb"],
+  },
+  {
+    trigger: ".contato",
+    prev: ".visitacao-cta",
+    next: ".footer",
+    fallbacks: ["#3D1020", "#f0ede8", "#1A1612"],
+  },
+  {
+    trigger: ".footer",
+    prev: ".contato",
+    next: ".footer",
+    fallbacks: ["#f0ede8", "#1A1612", "#1A1612"],
+  },
 ];
 
-function playWipe(panels: HTMLElement[], colors: WipeConfig["colors"]): void {
+function playWipe(panels: HTMLElement[], colors: [string, string, string]): void {
   gsap.killTweensOf(panels);
 
   for (const [index, panel] of panels.entries()) {
@@ -45,9 +66,8 @@ function playWipe(panels: HTMLElement[], colors: WipeConfig["colors"]): void {
 }
 
 export function initSectionWipes(): void {
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  if (prefersReducedMotion) return;
+  ensureGsapRegistered();
+  if (prefersReducedMotion()) return;
 
   const panels = Array.from(document.querySelectorAll<HTMLElement>(".section-wipes__panel"));
 
@@ -59,11 +79,13 @@ export function initSectionWipes(): void {
     const trigger = document.querySelector<HTMLElement>(config.trigger);
     if (!trigger) continue;
 
+    const colors = buildWipeColors(config.prev, config.trigger, config.next, config.fallbacks);
+
     ScrollTrigger.create({
       trigger,
       start: "top center",
-      onEnter: () => playWipe(panels, config.colors),
-      onEnterBack: () => playWipe(panels, config.colors),
+      onEnter: () => playWipe(panels, colors),
+      onEnterBack: () => playWipe(panels, colors),
     });
   }
 }

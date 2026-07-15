@@ -132,6 +132,10 @@ studio/node_modules/
 mockups/
 mockups-hero/
 
+# Assets-fonte de locação (produção usa public/images/locacao/*.webp)
+/locacao/
+estudio-podcast.jpg
+
 # Playwright test artifacts
 .playwright-mcp/
 sobre-*.png

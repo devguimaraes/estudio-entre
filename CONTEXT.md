@@ -101,11 +101,15 @@ Ver também: [[Álbum]], [[Evento]], [[Eixo 1 - Cultura, Ensino e Cuidado]].
 
 Coleção de fotos de um [[Evento]] ou [[Exposição]] que já aconteceu. Registro documental, não promocional.
 
+Módulos: `src/intake/album.ts`, `src/types/album.ts`, `src/components/sections/AlbumListagem.astro`, `src/components/islands/AlbumDetalhe.tsx`. Rota pública: `/galeria`.
+
 Ver também: [[Galeria]], [[Exposição]], [[Evento]].
 
 ### Galeria
 
 Termo genérico para qualquer conjunto visual de imagens. **Não é um termo canônico** — prefira [[Espaço]] (para fotos do imóvel) ou [[Álbum]] (para registro de eventos passados).
+
+A rota `/galeria` é o canal público de [[Álbum|Álbuns]]; o nome da URL permanece por estabilidade de links externos.
 
 Ver também: [[Espaço]], [[Álbum]].
 
@@ -122,17 +126,67 @@ Ver também: [[Evento]], [[CategoriaEvento]].
 ### Espaço
 
 O imóvel físico do Estúdio Entre na Rua Maria Calmon, 100 — Méier, Rio de Janeiro.
-Fotos do ambiente, tour visual, informações de localização e horários de funcionamento.
+Narrativa afetiva do lugar: fotos do ambiente, tour visual, informações de localização e horários de funcionamento.
+
+**Não confundir com [[Locação]]** — Espaço é o tour editorial do imóvel na home (`/#espaco`), não o canal comercial de aluguel nem a proposta de [[Parceria]].
 
 Horários: quarta a sexta 10h–18h, sábado 10h–15h.
 
-Ver também: [[Estúdio Entre]], [[Visitação]].
+Módulos: `src/components/sections/Espaco.astro` (home, `#espaco`), `src/animations/espaco.ts`.
+
+Ver também: [[Estúdio Entre]], [[Visitação]], [[Locação]], [[EspaçoLocável]].
 
 ### Visitação
 
-Ação de agendar uma visita presencial ao [[Espaço]]. Não é um [[Serviço]] dos [[Eixos]] — é uma funcionalidade transversal de conversão.
+Ação de agendar uma visita presencial ao [[Espaço]] com intenção cultural — conhecer o lugar, a programação e o clima do Estúdio.
+Conversão via Google Calendar na home (`/#agendar-visita`). Não é um [[Serviço]] dos [[Eixos]] — é uma funcionalidade transversal de conversão.
 
-Ver também: [[Espaço]].
+**Não confundir com [[Locação]]** — Visitação é visita cultural gratuita/colaborativa; Locação é negócio comercial (aluguel, exposição residente, parceria) com conversão via WhatsApp em `/locacao`.
+
+Ver também: [[Espaço]], [[Locação]].
+
+### Locação
+
+Canal comercial distinto de [[Espaço]] (tour afetivo do imóvel) e de [[Visitação]] (visita cultural via Calendar).
+Rota pública: `/locacao`. Agrupa ofertas de aluguel de [[EspaçoLocável|EspaçosLocáveis]], propostas de exposição residente e modelos de [[Parceria]].
+
+Tom editorial alinhado ao [[Espaço]] (travessia, acolhimento); mecânica de conversão comercial via WhatsApp com mensagens pré-preenchidas por contexto (hero, espaço, exposição, parceria, contato).
+
+**Sinônimos proibidos:** não chamar Locação de "Espaço", "Visitação", "aluguel do lugar" nem "agendar visita" — esses termos pertencem a outros canais.
+
+Módulos (entrega V1): conteúdo tipado no repositório (`src/content/locacao/` ou equivalente), página `src/pages/locacao.astro`, helper WhatsApp centralizado.
+
+Ver também: [[EspaçoLocável]], [[Parceria]], [[Espaço]], [[Visitação]].
+
+### EspaçoLocável
+
+Unidade física do [[Espaço]] disponível para locação comercial via [[Locação]].
+Valores canônicos (V1):
+
+- **Sala Expositiva Multidisciplinar** — oficinas, vivências, cursos, exposições. Capacidade: 20 pessoas.
+- **Sala Multidisciplinar — 2º Pavimento** — oficinas, aulas com projeção, cineclubes. Capacidade: 20 pessoas.
+- **Estúdio de Podcast** — gravação de podcast e conteúdos em áudio/videocast. Edição de áudio é serviço à parte.
+- **Espaço Completo** — eventos, DJ sets, pocket shows, ativações. Capacidade: 50 pessoas. Captação de vídeo não inclusa.
+
+Cada EspaçoLocável tem capacidade, tarifas (hora / turno / diária) e CTA WhatsApp com o nome do espaço na mensagem.
+
+**Sinônimos proibidos:** não chamar EspaçoLocável de "Espaço" (termo reservado ao tour afetivo) nem "sala" genérica sem qualificador.
+
+Ver também: [[Locação]], [[Espaço]], [[Parceria]].
+
+### Parceria
+
+Modelo de colaboração comercial via [[Locação]], distinto de locação pura de [[EspaçoLocável]].
+Valores canônicos (V1):
+
+- **Cocriação de Atividades** — oficinas, vivências, cursos, clubes, rodas de conversa. Curadoria compartilhada; divisão de receita de ingressos por projeto.
+- **Parceria com Criadores de Conteúdo** — uso do espaço para gravação em permuta por produção de conteúdo e divulgação conjunta.
+
+Cada tipo tem CTA WhatsApp com o tipo de parceria na mensagem pré-preenchida.
+
+**Sinônimos proibidos:** não tratar Parceria como [[Visitação]], [[Serviço]] dos [[Eixos]] nem como locação avulsa sem o qualificador de modelo.
+
+Ver também: [[Locação]], [[EspaçoLocável]], [[Exposição]].
 
 ### Sebo
 

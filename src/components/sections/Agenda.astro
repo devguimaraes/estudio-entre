@@ -1,11 +1,11 @@
 ---
-import AgendaFilter from "@/components/islands/AgendaFilter";
+import AgendaIsland from "@/components/islands/agenda/AgendaIsland";
 import Decorative from "@/components/ui/Decorative.astro";
 import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
-import type { EventoCard } from "@/types/evento";
+import type { EventoNormalizado } from "@/types/evento";
 
 interface Props {
-  eventos: EventoCard[];
+  eventos: EventoNormalizado[];
 }
 
 const { eventos } = Astro.props;
@@ -57,7 +57,7 @@ const { eventos } = Astro.props;
     {
       eventos.length > 0 ? (
         <>
-          <AgendaFilter client:visible eventos={eventos} />
+          <AgendaIsland client:visible mode="preview" eventos={eventos} />
           <div class="mt-16 flex justify-center">
             <a
               href="/agenda"

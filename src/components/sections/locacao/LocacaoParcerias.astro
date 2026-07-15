@@ -1,0 +1,132 @@
+---
+import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+import TornPaperFrame from "@/components/ui/TornPaperFrame.astro";
+import { mensagensWhatsApp, parcerias } from "@/content/locacao";
+import { buildWaLink } from "@/utils/whatsapp";
+---
+
+<section
+  id="parcerias"
+  class="locacao-parcerias relative scroll-mt-28 overflow-hidden px-4 py-20 md:px-16 md:py-32"
+  style="background-color: #f0ede8;"
+  data-bg-color="#F0EDE8"
+  data-nav-theme="dark"
+  aria-label="Programação em parceria"
+>
+  <HalftoneTexture density={12} dotSize={1.2} color="26,22,18" opacity={0.04} class="z-0" />
+
+  <div class="relative z-10 mx-auto max-w-[1200px]">
+    <p class="locacao-parcerias__eyebrow font-display text-[10px] font-bold uppercase tracking-[0.45em] text-bordo/40 opacity-0">
+      Parcerias
+    </p>
+
+    <h2
+      class="locacao-parcerias__title mt-6 max-w-3xl font-display text-[clamp(2rem,6vw,4rem)] font-black uppercase leading-[0.9] text-bordo opacity-0"
+    >
+      Programação em parceria
+    </h2>
+
+    <div class="locacao-parcerias__grid mt-12 grid grid-cols-1 gap-8 md:mt-16 md:grid-cols-2 md:gap-10">
+      {
+        parcerias.map((parceria, index) => {
+          const waUrl = buildWaLink(mensagensWhatsApp.parceria(parceria.titulo));
+
+          return (
+            <article class="locacao-parcerias__card flex flex-col overflow-hidden rounded-2xl border border-bordo/10 bg-cream/60 opacity-0">
+              {
+                parceria.imagem && (
+                  <TornPaperFrame
+                    variant={(index % 3) + 1}
+                    rotation={index % 2 === 0 ? "-0.5deg" : "0.5deg"}
+                    class="h-[200px] w-full md:h-[240px]"
+                  >
+                    <img
+                      src={parceria.imagem.src}
+                      alt={parceria.imagem.alt}
+                      class="h-full w-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </TornPaperFrame>
+                )
+              }
+
+              <div class="flex flex-1 flex-col p-6 md:p-8">
+                <h3 class="font-display text-xl font-black uppercase leading-tight text-bordo md:text-2xl">
+                  {parceria.titulo}
+                </h3>
+
+                <p class="mt-4 text-sm leading-relaxed text-bordo/75 md:text-base">{parceria.descricao}</p>
+
+                <div class="mt-6">
+                  <p class="mb-2 font-display text-[10px] font-bold uppercase tracking-[0.3em] text-bordo/40">
+                    Formatos possíveis
+                  </p>
+                  <ul class="flex flex-wrap gap-2">
+                    {parceria.formatos.map((formato) => (
+                      <li class="rounded-full border border-bordo/10 bg-bordo/5 px-3 py-1 text-xs text-bordo/80">
+                        {formato}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div class="mt-6 space-y-4">
+                  <div>
+                    <p class="mb-1.5 font-display text-[10px] font-bold uppercase tracking-[0.3em] text-bordo/40">
+                      Modelo de funcionamento
+                    </p>
+                    <p class="text-sm leading-relaxed text-bordo/75">{parceria.modeloFuncionamento}</p>
+                  </div>
+
+                  {
+                    parceria.modeloFinanceiro && (
+                      <div>
+                        <p class="mb-1.5 font-display text-[10px] font-bold uppercase tracking-[0.3em] text-bordo/40">
+                          Modelo financeiro
+                        </p>
+                        <p class="text-sm leading-relaxed text-bordo/75">{parceria.modeloFinanceiro}</p>
+                      </div>
+                    )
+                  }
+
+                  {
+                    parceria.observacoes && parceria.observacoes.length > 0 && (
+                      <ul class="space-y-1.5 border-t border-bordo/10 pt-4">
+                        {parceria.observacoes.map((obs) => (
+                          <li class="text-xs leading-relaxed text-bordo/60 italic">{obs}</li>
+                        ))}
+                      </ul>
+                    )
+                  }
+                </div>
+
+                <a
+                  href={waUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="locacao-parcerias__cta mt-8 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-bordo px-6 py-4 font-display text-[11px] font-black uppercase tracking-widest text-cream transition-transform duration-[160ms] ease-out active:scale-[0.97] fine-hover:bg-orange fine-hover:text-bordo focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange"
+                >
+                  Falar sobre esta parceria
+                </a>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+  </div>
+
+  <script>
+    import { animateLocacaoParcerias } from "@/animations/locacao";
+    animateLocacaoParcerias();
+  </script>
+</section>
+
+<style>
+  .locacao-parcerias__eyebrow,
+  .locacao-parcerias__title,
+  .locacao-parcerias__card {
+    will-change: transform, opacity;
+  }
+</style>

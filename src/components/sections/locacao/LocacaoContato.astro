@@ -1,0 +1,132 @@
+---
+import Decorative from "@/components/ui/Decorative.astro";
+import TornPaperFrame from "@/components/ui/TornPaperFrame.astro";
+import { locacaoContato, mensagensWhatsApp } from "@/content/locacao";
+import { buildWaLink } from "@/utils/whatsapp";
+
+const waUrl = buildWaLink(mensagensWhatsApp.contato);
+const mailtoUrl = `mailto:${locacaoContato.email}`;
+const phoneDisplay = "(21) 97310-1451";
+---
+
+<section
+  class="locacao-contato relative overflow-hidden px-4 py-20 md:px-16 md:py-32"
+  style="background-color: #f0ede8;"
+  data-bg-color="#F0EDE8"
+  data-nav-theme="dark"
+  id="contato"
+>
+  <div class="absolute top-[12%] left-[6%] z-0 opacity-10" aria-hidden="true">
+    <Decorative variant="dots" color="#3D1020" size={56} />
+  </div>
+
+  <div class="relative z-10 mx-auto grid max-w-[1200px] gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-stretch lg:gap-16">
+    <div>
+      <p class="locacao-contato__eyebrow font-display text-[10px] font-bold uppercase tracking-[0.45em] text-bordo/40 opacity-0">
+        Fale com a gente
+      </p>
+
+      <h2
+        class="locacao-contato__title mt-6 font-display text-[clamp(2rem,6vw,3.5rem)] font-black uppercase leading-[0.9] text-bordo opacity-0"
+      >
+        Vamos <span class="text-orange italic">conversar</span>
+      </h2>
+
+      <div class="locacao-contato__details mt-10 space-y-8 opacity-0">
+        <div>
+          <p class="mb-3 border-b border-bordo/10 pb-2 font-display text-[10px] font-bold uppercase tracking-[0.3em] text-bordo/40">
+            WhatsApp
+          </p>
+          <a
+            href={waUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-display text-lg text-bordo transition-colors duration-300 fine-hover:text-orange focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange"
+          >
+            {phoneDisplay}
+          </a>
+        </div>
+
+        <div>
+          <p class="mb-3 border-b border-bordo/10 pb-2 font-display text-[10px] font-bold uppercase tracking-[0.3em] text-bordo/40">
+            E-mail
+          </p>
+          <a
+            href={mailtoUrl}
+            class="font-display text-lg text-bordo transition-colors duration-300 fine-hover:text-orange focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange"
+          >
+            {locacaoContato.email}
+          </a>
+        </div>
+
+        <div>
+          <p class="mb-3 border-b border-bordo/10 pb-2 font-display text-[10px] font-bold uppercase tracking-[0.3em] text-bordo/40">
+            Endereço
+          </p>
+          <address class="not-italic font-display text-lg leading-snug text-bordo">
+            {locacaoContato.endereco}
+          </address>
+        </div>
+      </div>
+
+      <div class="locacao-contato__ctas mt-10 flex w-full flex-col gap-4 opacity-0 sm:max-w-md">
+        <a
+          href={waUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-orange px-8 py-4 font-display text-[11px] font-black uppercase tracking-widest text-bordo transition-transform duration-[160ms] ease-out active:scale-[0.97] fine-hover:bg-bordo fine-hover:text-cream focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange"
+        >
+          Agende uma visita
+        </a>
+        <a
+          href={mailtoUrl}
+          class="inline-flex min-h-11 w-full items-center justify-center rounded-full border-2 border-bordo/15 px-8 py-4 font-display text-[11px] font-bold uppercase tracking-widest text-bordo transition-[transform,background-color,border-color] duration-[160ms] ease-out active:scale-[0.97] fine-hover:border-bordo fine-hover:bg-bordo/5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange"
+        >
+          Enviar e-mail
+        </a>
+      </div>
+    </div>
+
+    <div class="locacao-contato__image flex min-h-[240px] flex-col opacity-0 lg:min-h-0 lg:h-full">
+      <TornPaperFrame
+        variant={2}
+        rotation="1deg"
+        class="aspect-[641/316] w-full flex-1 shadow-2xl lg:aspect-auto lg:min-h-[480px]"
+      >
+        <img
+          src={locacaoContato.imagem.src}
+          alt={locacaoContato.imagem.alt}
+          class="h-full w-full object-cover"
+          loading="lazy"
+          decoding="async"
+        />
+      </TornPaperFrame>
+    </div>
+  </div>
+
+  <script>
+    import { animateLocacaoContato } from "@/animations/locacao";
+    animateLocacaoContato();
+  </script>
+</section>
+
+<style>
+  .locacao-contato__eyebrow,
+  .locacao-contato__title,
+  .locacao-contato__details,
+  .locacao-contato__ctas,
+  .locacao-contato__image {
+    will-change: transform, opacity;
+  }
+
+  .locacao-contato__image :global(> div) {
+    height: 100%;
+  }
+
+  .locacao-contato__image :global(img) {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+  }
+</style>

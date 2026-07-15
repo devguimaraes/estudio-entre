@@ -1,27 +1,12 @@
 ---
-import type { ExposicaoCard, ExposicaoStatus } from "@/types/exposicao";
+import type { ExposicaoListagem, ExposicaoStatus } from "@/types/exposicao";
 
 interface Props {
-  exposicoes: ExposicaoCard[];
+  exposicoes: ExposicaoListagem[];
   filtroAtivo: ExposicaoStatus;
 }
 
 const { exposicoes, filtroAtivo } = Astro.props;
-
-function formatarPeriodo(inicio: string, fim: string | null): string {
-  const formato = new Intl.DateTimeFormat("pt-BR", {
-    day: "numeric",
-    month: "short",
-    timeZone: "America/Sao_Paulo",
-  });
-  if (!fim) return formato.format(new Date(`${inicio}T12:00:00-03:00`));
-  const d1 = new Date(`${inicio}T12:00:00-03:00`);
-  const d2 = new Date(`${fim}T12:00:00-03:00`);
-  if (d1.getMonth() === d2.getMonth()) {
-    return `${d1.getDate()}–${d2.getDate()} ${new Intl.DateTimeFormat("pt-BR", { month: "short", timeZone: "America/Sao_Paulo" }).format(d1)}`;
-  }
-  return `${formato.format(d1)} – ${formato.format(d2)}`;
-}
 
 const filtros: { label: string; value: ExposicaoStatus }[] = [
   { label: "Em cartaz", value: "em-cartaz" },
@@ -67,7 +52,7 @@ const ROT = ["-1deg", "0.8deg", "-0.5deg", "1.2deg"];
           </div>
           <h3 class="font-display font-bold text-xl text-bordo leading-tight">{exp.titulo}</h3>
           {exp.artista && <p class="text-sm text-bordo/60 mt-1">{exp.artista}</p>}
-          <p class="text-xs text-bordo/40 uppercase tracking-wider mt-1">{formatarPeriodo(exp.dataInicio, exp.dataFim)}</p>
+          <p class="text-xs text-bordo/40 uppercase tracking-wider mt-1">{exp.periodoFormatado}</p>
         </a>
       ))}
     </div>

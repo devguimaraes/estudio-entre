@@ -1,11 +1,10 @@
+import { ensureGsapRegistered, prefersReducedMotion } from "@/animations/motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
-
 export function initColorTransitions(): void {
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (prefersReducedMotion) return;
+  ensureGsapRegistered();
+  if (prefersReducedMotion()) return;
 
   const nav = document.querySelector(".navbar");
 

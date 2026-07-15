@@ -1,3 +1,4 @@
+import { prefersReducedMotion } from "@/animations/motion";
 import gsap from "gsap";
 
 /**
@@ -6,16 +7,14 @@ import gsap from "gsap";
  */
 export function initCursor(): void {
   const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  if (isTouchDevice || prefersReducedMotion) return;
+  if (isTouchDevice || prefersReducedMotion()) return;
 
   const cursor = document.getElementById("custom-cursor");
   const label = cursor?.querySelector(".cursor__label");
 
   if (!cursor || !label) return;
 
-  // Reset inicial
   gsap.set(cursor, {
     opacity: 0,
     xPercent: -50,
@@ -40,7 +39,6 @@ export function initCursor(): void {
 
   window.addEventListener("mousemove", onMouseMove);
 
-  // Lógica de labels e escala
   const updateCursor = (el: HTMLElement) => {
     const text = el.getAttribute("data-cursor") || "ENTRAR";
     label.textContent = text;
@@ -51,7 +49,6 @@ export function initCursor(): void {
     cursor.classList.remove("is-hovering");
   };
 
-  // Delegar eventos para melhor performance e lidar com conteúdo dinâmico
   document.addEventListener(
     "mouseenter",
     (e) => {

@@ -1,9 +1,6 @@
-import type { CategoriaEvento } from "@/types/evento";
+import type { CategoriaEvento } from "@/domain/categoriaEvento";
 
-export const CATEGORIAS: Record<
-  CategoriaEvento,
-  { label: string; color: string; textColor: string }
-> = {
+export const CATEGORIAS = {
   show: { label: "Show", color: "#EC6838", textColor: "#F0EDE8" },
   oficina: { label: "Oficina", color: "#BDB2DD", textColor: "#1A1612" },
   "roda-de-conversa": {
@@ -16,4 +13,4 @@ export const CATEGORIAS: Record<
   exposicao: { label: "Exposição", color: "#B9E4EB", textColor: "#1A1612" },
   biblioterapia: { label: "Biblioterapia", color: "#9E4B2D", textColor: "#F0EDE8" },
   "dj-session": { label: "DJ Session", color: "#1D432C", textColor: "#F0EDE8" },
-};
+} satisfies Record<CategoriaEvento, { label: string; color: string; textColor: string }>;

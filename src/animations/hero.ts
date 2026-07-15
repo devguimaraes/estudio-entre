@@ -1,15 +1,12 @@
+import { ensureGsapRegistered, prefersReducedMotion } from "@/animations/motion";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export function animateHero(): void {
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
+  ensureGsapRegistered();
   const hero = document.querySelector(".hero");
   if (!hero) return;
 
-  if (prefersReducedMotion) {
+  if (prefersReducedMotion()) {
     gsap.set(
       [
         ".hero__dot-grid",
