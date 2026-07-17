@@ -93,7 +93,7 @@ export const espacosLocaveis: EspacoLocavel[] = [
       "Apoio logístico",
       "Montagem e desmontagem",
     ],
-    tarifas: { hora: null, turno: null, diaria: 600 },
+    tarifas: { hora: null, turno: 600, diaria: 900 },
     observacoes: [
       "Estúdio Entre responsável pela estrutura e qualidade do áudio.",
       "Captação de vídeo não inclusa — indicamos parceiros ou o cliente traz equipe própria.",

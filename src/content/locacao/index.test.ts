@@ -33,8 +33,8 @@ describe("locacao content", () => {
     const espacoCompleto = espacosLocaveis[3];
     expect(espacoCompleto.capacidade).toBe(50);
     expect(espacoCompleto.tarifas.hora).toBeNull();
-    expect(espacoCompleto.tarifas.turno).toBeNull();
-    expect(espacoCompleto.tarifas.diaria).toBe(600);
+    expect(espacoCompleto.tarifas.turno).toBe(600);
+    expect(espacoCompleto.tarifas.diaria).toBe(900);
   });
 
   test("Estúdio de Podcast indica edição de áudio à parte", () => {
@@ -89,8 +89,8 @@ describe("locacao content", () => {
       nome: "Espaço Completo",
       capacidade: 50,
       hora: null,
-      turno: null,
-      diaria: 600,
+      turno: 600,
+      diaria: 900,
     });
   });
 
