@@ -21,15 +21,16 @@ const phoneDisplay = "(21) 97310-1451";
   </div>
 
   <div class="relative z-10 mx-auto grid max-w-[1200px] gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-stretch lg:gap-16">
-    <div>
+    <div class="min-w-0">
       <p class="locacao-contato__eyebrow font-display text-[10px] font-bold uppercase tracking-[0.45em] text-bordo/40 opacity-0">
         Fale com a gente
       </p>
 
       <h2
-        class="locacao-contato__title mt-6 font-display text-[clamp(2rem,6vw,3.5rem)] font-black uppercase leading-[0.9] text-bordo opacity-0"
+        class="locacao-contato__title mt-6 font-display text-[clamp(1.75rem,7vw,3.5rem)] font-black uppercase leading-[0.9] text-bordo opacity-0"
       >
-        Vamos <span class="text-orange italic">conversar</span>
+        Vamos <br />
+        <span class="text-orange italic">conversar</span>
       </h2>
 
       <div class="locacao-contato__details mt-10 space-y-8 opacity-0">
@@ -53,7 +54,7 @@ const phoneDisplay = "(21) 97310-1451";
           </p>
           <a
             href={mailtoUrl}
-            class="font-display text-lg text-bordo transition-colors duration-300 fine-hover:text-orange focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange"
+            class="break-words font-display text-lg text-bordo transition-colors duration-300 fine-hover:text-orange focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange"
           >
             {locacaoContato.email}
           </a>
@@ -87,11 +88,11 @@ const phoneDisplay = "(21) 97310-1451";
       </div>
     </div>
 
-    <div class="locacao-contato__image flex min-h-[240px] flex-col opacity-0 lg:min-h-0 lg:h-full">
+    <div class="locacao-contato__image min-w-0 opacity-0 lg:flex lg:min-h-0 lg:h-full lg:flex-col">
       <TornPaperFrame
         variant={2}
         rotation="1deg"
-        class="aspect-[641/316] w-full flex-1 shadow-2xl lg:aspect-auto lg:min-h-[480px]"
+        class="aspect-[641/316] w-full max-w-full shadow-2xl lg:aspect-auto lg:min-h-[480px] lg:flex-1"
       >
         <img
           src={locacaoContato.imagem.src}
@@ -119,8 +120,13 @@ const phoneDisplay = "(21) 97310-1451";
     will-change: transform, opacity;
   }
 
+  .locacao-contato__image {
+    max-width: 100%;
+  }
+
   .locacao-contato__image :global(> div) {
     height: 100%;
+    max-width: 100%;
   }
 
   .locacao-contato__image :global(img) {
