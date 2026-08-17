@@ -1,12 +1,22 @@
 [
   {
+    "slug": "oab8868-vamos-olhar-para-a-raiva",
+    "titulo": "Vamos conversar com a raiva?",
+    "descricao": "Sua inscrição será confirmada após o pagamento :)",
+    "preco": "R$ 60,00",
+    "imagemUrl": "https://infinitepay-sales.services.production.infinitepay.io/pdv/v1/products/variation/media_proxy/65ffeb03-0496-4e97-8204-33d9f718bab1?v=2026-08-12T17:05:03+00:00",
+    "categoria": "Atividades",
+    "productUrl": "https://loja.infinitepay.io/estudioentre/oab8868-vamos-olhar-para-a-raiva",
+    "variationId": 17493416
+  },
+  {
     "slug": "mci3163-envelope-para-colorir-meus-desenhos-de-col",
     "titulo": "Envelope para Colorir – Meus Desenhos de Colorir",
     "descricao": "Um porta-desenhos reutilizável que também pode ser colorido pelas crianças. Perfeito para guardar atividades, levar desenhos para todos os lugares e estimular momentos de criatividade e diversão.",
     "preco": "R$ 20,00",
     "imagemUrl": "https://infinitepay-sales.services.production.infinitepay.io/pdv/v1/products/variation/media_proxy/bb44b901-445a-4a0a-b240-9e3f5d3c2f32?v=2026-06-10T20:27:14+00:00",
     "categoria": "Leitura e Criação",
-    "productUrl": "https://loja.infinitepay.io/thaynawho/mci3163-envelope-para-colorir-meus-desenhos-de-col",
+    "productUrl": "https://loja.infinitepay.io/estudioentre/mci3163-envelope-para-colorir-meus-desenhos-de-col",
     "variationId": 14331889
   },
   {
@@ -16,7 +26,7 @@
     "preco": "R$ 60,00",
     "imagemUrl": "https://infinitepay-sales.services.production.infinitepay.io/pdv/v1/products/variation/media_proxy/0c683adc-fe0c-4e64-8181-0a3f5558b469?v=2026-06-09T22:58:33+00:00",
     "categoria": "Livros",
-    "productUrl": "https://loja.infinitepay.io/thaynawho/rte9908-a-delicada-composicao-dos-dias",
+    "productUrl": "https://loja.infinitepay.io/estudioentre/rte9908-a-delicada-composicao-dos-dias",
     "variationId": 14288957
   },
   {
@@ -26,7 +36,7 @@
     "preco": "R$ 50,00",
     "imagemUrl": "https://infinitepay-sales.services.production.infinitepay.io/pdv/v1/products/variation/media_proxy/fc715026-939d-4743-85be-d9f1137aecfa?v=2026-06-10T18:40:26+00:00",
     "categoria": "Leitura e Criação",
-    "productUrl": "https://loja.infinitepay.io/thaynawho/sza9924-porta-livro-100-movido",
+    "productUrl": "https://loja.infinitepay.io/estudioentre/sza9924-porta-livro-100-movido",
     "variationId": 14326775
   },
   {
@@ -35,8 +45,8 @@
     "descricao": "Vários\nSinopse: A Palavra que Está reúne poemas nascidos de uma experiência coletiva de criação literária, conduzida pelas poetas Luci Collin e Jéssica Iancoski. A partir de temas comuns, diferentes vozes revelam olhares singulares sobre o mundo, mostrando como uma mesma palavra pode dar origem a múltiplos sentidos. Uma antologia que celebra a potência do encontro, da escuta e da escrita compartilhada.\nGênero: Poesia",
     "preco": "R$ 50,00",
     "imagemUrl": "https://infinitepay-sales.services.production.infinitepay.io/pdv/v1/products/variation/media_proxy/b8781c86-16fe-43e9-80bf-55191f26b359?v=2026-06-09T22:48:32+00:00",
-    "categoria": "Livros",
-    "productUrl": "https://loja.infinitepay.io/thaynawho/lwt6379-antologia-a-palavra-que-esta",
+    "categoria": "Leitura e Criação",
+    "productUrl": "https://loja.infinitepay.io/estudioentre/lwt6379-antologia-a-palavra-que-esta",
     "variationId": 14288397
   },
   {
@@ -46,7 +56,7 @@
     "preco": "R$ 60,00",
     "imagemUrl": "https://infinitepay-sales.services.production.infinitepay.io/pdv/v1/products/variation/media_proxy/1f2493f8-b693-4235-891f-aa6319a9f9d2?v=2026-06-09T22:55:47+00:00",
     "categoria": "Livros",
-    "productUrl": "https://loja.infinitepay.io/thaynawho/ftn8657-biblioterapia-no-tratamento-de-adiccao",
+    "productUrl": "https://loja.infinitepay.io/estudioentre/ftn8657-biblioterapia-no-tratamento-de-adiccao",
     "variationId": 14288816
   },
   {
@@ -56,7 +66,7 @@
     "preco": "R$ 50,00",
     "imagemUrl": "https://infinitepay-sales.services.production.infinitepay.io/pdv/v1/products/variation/media_proxy/e9d0ae7e-5357-4e74-b26d-3455c40e12b0?v=2026-06-08T18:41:13+00:00",
     "categoria": "Leitura e Criação",
-    "productUrl": "https://loja.infinitepay.io/thaynawho/omq6990-porta-livro-carrego-o-mundo",
+    "productUrl": "https://loja.infinitepay.io/estudioentre/omq6990-porta-livro-carrego-o-mundo",
     "variationId": 14220296
   },
   {
@@ -66,7 +76,7 @@
     "preco": "R$ 70,00",
     "imagemUrl": "https://infinitepay-sales.services.production.infinitepay.io/pdv/v1/products/variation/media_proxy/794883a4-b22f-4d61-9635-488b3bb7b4c2?v=2026-06-09T22:51:45+00:00",
     "categoria": "Leitura e Criação",
-    "productUrl": "https://loja.infinitepay.io/thaynawho/qqd0690-porta-retratos-ha-coisas-que-o-tempo-nao-a",
+    "productUrl": "https://loja.infinitepay.io/estudioentre/qqd0690-porta-retratos-ha-coisas-que-o-tempo-nao-a",
     "variationId": 14288584
   },
   {
@@ -76,7 +86,7 @@
     "preco": "R$ 65,00",
     "imagemUrl": "https://infinitepay-sales.services.production.infinitepay.io/pdv/v1/products/variation/media_proxy/c1e09a6a-186f-4836-928f-da64c4a0cf8a?v=2026-06-09T22:50:28+00:00",
     "categoria": "Livros",
-    "productUrl": "https://loja.infinitepay.io/thaynawho/vub5634-tudo-o-que-abe-no-seu-oracao",
+    "productUrl": "https://loja.infinitepay.io/estudioentre/vub5634-tudo-o-que-abe-no-seu-oracao",
     "variationId": 14288485
   },
   {
@@ -86,7 +96,7 @@
     "preco": "R$ 50,00",
     "imagemUrl": "https://infinitepay-sales.services.production.infinitepay.io/pdv/v1/products/variation/media_proxy/69fdee6b-a2e2-4643-bae5-1cec97a46a49?v=2026-06-09T22:55:04+00:00",
     "categoria": "Livros",
-    "productUrl": "https://loja.infinitepay.io/thaynawho/nkb3196-biblioterapia-clinica",
+    "productUrl": "https://loja.infinitepay.io/estudioentre/nkb3196-biblioterapia-clinica",
     "variationId": 14288777
   },
   {
@@ -96,7 +106,7 @@
     "preco": "R$ 50,00",
     "imagemUrl": "https://infinitepay-sales.services.production.infinitepay.io/pdv/v1/products/variation/media_proxy/5d3d49ab-4ae1-45ac-9a19-7a974d4ea987?v=2026-06-09T22:52:44+00:00",
     "categoria": "Livros",
-    "productUrl": "https://loja.infinitepay.io/thaynawho/iyu2151-botica-literaria-cem-poemas-para-cuidar",
+    "productUrl": "https://loja.infinitepay.io/estudioentre/iyu2151-botica-literaria-cem-poemas-para-cuidar",
     "variationId": 14288622
   }
 ]

@@ -4,11 +4,10 @@
  * Uso: GET /api/loja-teste?secret={SANITY_WEBHOOK_SECRET}
  */
 
+import { INFINITE_PAY_CATALOG } from "@/utils/infinitepay";
 import type { APIRoute } from "astro";
 
 export const prerender = false;
-
-const CATALOG_URL = "https://loja.infinitepay.io/llms/thaynawho.txt";
 
 export const GET: APIRoute = async ({ request }) => {
   const { searchParams } = new URL(request.url);
@@ -32,7 +31,7 @@ export const GET: APIRoute = async ({ request }) => {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15_000);
 
-    const res = await fetch(CATALOG_URL, { signal: controller.signal });
+    const res = await fetch(INFINITE_PAY_CATALOG, { signal: controller.signal });
     clearTimeout(timeout);
     const text = await res.text();
     const elapsed = Date.now() - start;

@@ -10,12 +10,13 @@ export interface ProdutoLoja {
 }
 
 /** Categorias da loja InfinitePay */
-export const CATEGORIAS_LOJA = ["Livros", "Leitura e Criação"] as const;
+export const CATEGORIAS_LOJA = ["Livros", "Leitura e Criação", "Atividades"] as const;
 export type CategoriaLoja = (typeof CATEGORIAS_LOJA)[number];
 
 export const CORES_CATEGORIA_LOJA: Record<CategoriaLoja, string> = {
   Livros: "#1D432C",
   "Leitura e Criação": "#777BDE",
+  Atividades: "#EC6838",
 };
 
 export interface VariacaoFrete {

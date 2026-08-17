@@ -14,8 +14,10 @@ import type { ProdutoLoja } from "@/types/loja";
 // Constantes
 // ---------------------------------------------------------------------------
 
-const INFINITE_PAY_CATALOG = "https://loja.infinitepay.io/llms/thaynawho.txt";
-const INFINITE_PAY_PRODUCT_BASE = "https://loja.infinitepay.io/thaynawho";
+const INFINITE_PAY_HANDLE = "estudioentre";
+export const INFINITE_PAY_CATALOG = `https://loja.infinitepay.io/llms/${INFINITE_PAY_HANDLE}.txt`;
+const INFINITE_PAY_PRODUCT_BASE = `https://loja.infinitepay.io/${INFINITE_PAY_HANDLE}`;
+const INFINITE_PAY_LLMS_BASE = `https://loja.infinitepay.io/llms/${INFINITE_PAY_HANDLE}`;
 const MAX_RETRIES = 4; // máximo de tentativas por requisição
 const MAX_CONCURRENT = 2; // requisições simultâneas contra o InfinitePay
 const BASE_DELAY_MS = 1_000; // delay base do backoff (1s)
@@ -230,8 +232,16 @@ function parseProductDetail(text: string): {
   };
 }
 
-/** Heurística para inferir categoria do produto com base no título */
-function inferCategory(title: string, fallback = "Livros"): string {
+/** Heurística para inferir categoria do produto com base no título e na descrição */
+function inferCategory(title: string, fallback = "Livros", description = ""): string {
+  const texto = `${title}\n${description}`
+    .toLowerCase()
+    .normalize("NFD")
+    // biome-ignore lint/suspicious/noMisleadingCharacterClass: padrão canônico para remover diacríticos
+    .replace(/[\u0300-\u036f]/g, "");
+
+  if (texto.includes("inscricao")) return "Atividades";
+
   const criacaoKeywords = [
     "porta-livro",
     "porta livro",
@@ -239,13 +249,11 @@ function inferCategory(title: string, fallback = "Livros"): string {
     "porta retrato",
     "envelope",
     "colorir",
-    "criação",
     "criacao",
     "adesivo",
     "marcador",
   ];
-  const lower = title.toLowerCase();
-  return criacaoKeywords.some((kw) => lower.includes(kw)) ? "Leitura e Criação" : fallback;
+  return criacaoKeywords.some((kw) => texto.includes(kw)) ? "Leitura e Criação" : fallback;
 }
 
 // ---------------------------------------------------------------------------
@@ -278,15 +286,16 @@ export async function fetchInfinitePayProducts(): Promise<ProdutoLoja[]> {
             const text = await res.text();
             const detail = parseProductDetail(text);
 
-            const bestCategory = detail.category ?? inferCategory(link.title, link.category);
+            const bestCategory =
+              detail.category ?? inferCategory(link.title, link.category, detail.descricao);
 
             return {
               slug: link.slug,
               title: link.title,
               price: link.price,
-              category: bestCategory,
               productUrl: `${INFINITE_PAY_PRODUCT_BASE}/${link.slug}`,
               ...detail,
+              category: bestCategory,
             };
           } catch (err) {
             console.warn(
@@ -323,7 +332,7 @@ export async function fetchInfinitePayProductBySlug(slug: string): Promise<Produ
   const cached = getCached<ProdutoLoja>(CACHE_KEY);
   if (cached) return cached;
 
-  const url = `https://loja.infinitepay.io/llms/thaynawho/${slug}.txt`;
+  const url = `${INFINITE_PAY_LLMS_BASE}/${slug}.txt`;
 
   try {
     const res = await rateLimiter.run(() => fetchWithRetry(url));
@@ -339,7 +348,7 @@ export async function fetchInfinitePayProductBySlug(slug: string): Promise<Produ
       descricao: detail.descricao,
       preco: price,
       imagemUrl: detail.imagemUrl,
-      categoria: detail.category ?? inferCategory(title),
+      categoria: detail.category ?? inferCategory(title, "Livros", detail.descricao),
       productUrl: `${INFINITE_PAY_PRODUCT_BASE}/${slug}`,
       variationId: detail.variationId,
     };
