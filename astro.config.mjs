@@ -12,6 +12,9 @@ const env = loadEnv("", process.cwd(), "SANITY_");
 export default defineConfig({
   site: "https://www.estudioentre.com.br",
   adapter: vercel(),
+  redirects: {
+    "/prototype/biblioterapia": "/biblioterapia",
+  },
   integrations: [
     react(),
     sitemap({

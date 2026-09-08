@@ -20,6 +20,7 @@ export default function VideoRoda({
   const videoRef = useRef<HTMLVideoElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
+  const [hasPlayed, setHasPlayed] = useState(false);
   const [muted, setMuted] = useState(true);
   const [reduceMotion, setReduceMotion] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -32,14 +33,28 @@ export default function VideoRoda({
     setMuted(true);
     el.play()
       .then(() => {
-        setPlaying(true);
         setAutoplayFailed(false);
       })
-      .catch(() => {
-        setPlaying(false);
+      .catch((err: unknown) => {
+        const name = err instanceof DOMException ? err.name : "";
+        if (name === "AbortError") return;
         setAutoplayFailed(true);
       });
   }, [failed]);
+
+  const togglePlay = useCallback(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    if (el.paused) {
+      el.play().catch((err: unknown) => {
+        const name = err instanceof DOMException ? err.name : "";
+        if (name === "AbortError") return;
+        setAutoplayFailed(true);
+      });
+    } else {
+      el.pause();
+    }
+  }, []);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -49,16 +64,29 @@ export default function VideoRoda({
     const frame = frameRef.current;
     if (!el || !frame) return;
 
+    const onPlay = () => {
+      setPlaying(true);
+      setHasPlayed(true);
+      setAutoplayFailed(false);
+    };
+
+    const onPause = () => {
+      setPlaying(false);
+    };
+
+    el.addEventListener("play", onPlay);
+    el.addEventListener("pause", onPause);
+
     const tryAutoplay = () => {
       if (reduce || failed) return;
       el.muted = true;
       el.play()
         .then(() => {
-          setPlaying(true);
           setAutoplayFailed(false);
         })
-        .catch(() => {
-          setPlaying(false);
+        .catch((err: unknown) => {
+          const name = err instanceof DOMException ? err.name : "";
+          if (name === "AbortError") return;
           setAutoplayFailed(true);
         });
     };
@@ -85,6 +113,8 @@ export default function VideoRoda({
     return () => {
       io.disconnect();
       el.removeEventListener("canplay", onCanPlay);
+      el.removeEventListener("play", onPlay);
+      el.removeEventListener("pause", onPause);
     };
   }, [failed]);
 
@@ -99,9 +129,8 @@ export default function VideoRoda({
     }
   }, []);
 
-  const showAssistir = !failed && !playing && (reduceMotion || autoplayFailed);
-  const showSound = !failed && playing;
-  const showPoster = !playing || failed;
+  const showAssistir = !failed && !playing && (reduceMotion || autoplayFailed) && !hasPlayed;
+  const showPoster = (!hasPlayed && !playing) || failed;
 
   return (
     <figure className={`m-0 flex flex-col items-center lg:items-start ${className}`}>
@@ -143,37 +172,54 @@ export default function VideoRoda({
           </div>
         )}
 
-        {/* Play trigger when reduced-motion or autoplay failed */}
-        {showAssistir && (
-          <button
-            type="button"
-            onClick={playMuted}
-            className="absolute bottom-5 left-5 z-10 flex min-h-11 items-center gap-2 rounded-full border border-cream/30 bg-orange px-6 py-2.5 font-display text-[11px] font-black uppercase tracking-widest text-bordo shadow-lg transition-[transform,background-color] duration-160 ease-[var(--ease-expo)] active:scale-[0.97] motion-reduce:active:scale-100 fine-hover:bg-cream focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lilas"
-          >
-            <span>▶ Assistir</span>
-          </button>
-        )}
+        {/* Controls container */}
+        <div className="absolute bottom-5 inset-x-4 z-10 flex flex-wrap items-center gap-2">
+          {/* Initial Play trigger when reduced-motion or autoplay failed */}
+          {showAssistir && (
+            <button
+              type="button"
+              onClick={playMuted}
+              className="flex min-h-11 items-center gap-2 rounded-full border border-cream/30 bg-orange px-5 py-2.5 font-display text-[11px] font-black uppercase tracking-widest text-bordo shadow-lg transition-[transform,background-color] duration-160 ease-[var(--ease-expo)] active:scale-[0.97] motion-reduce:active:scale-100 fine-hover:bg-cream focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lilas"
+            >
+              <span>▶ Assistir</span>
+            </button>
+          )}
 
-        {/* Audio control button */}
-        {showSound && (
-          <button
-            type="button"
-            onClick={toggleSound}
-            aria-pressed={!muted}
-            className="absolute bottom-5 left-5 z-10 flex min-h-11 items-center gap-2 rounded-full border border-cream/25 bg-near-black/80 px-5 py-2.5 font-display text-[11px] font-black uppercase tracking-widest text-cream backdrop-blur-md shadow-lg transition-[transform,background-color] duration-160 ease-[var(--ease-expo)] active:scale-[0.97] motion-reduce:active:scale-100 fine-hover:bg-bordo focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lilas"
-          >
-            <span className="text-xs" aria-hidden="true">
-              {muted ? "🔇" : "🔊"}
-            </span>
-            <span>{muted ? "Ligar som" : "Mudo"}</span>
-          </button>
-        )}
+          {/* Pause / Resume control for WCAG 2.2.2 */}
+          {hasPlayed && (
+            <button
+              type="button"
+              onClick={togglePlay}
+              aria-label={playing ? "Pausar vídeo" : "Continuar vídeo"}
+              className="flex min-h-11 items-center gap-1.5 rounded-full border border-cream/25 bg-near-black/80 px-4 py-2.5 font-display text-[11px] font-black uppercase tracking-widest text-cream backdrop-blur-md shadow-lg transition-[transform,background-color] duration-160 ease-[var(--ease-expo)] active:scale-[0.97] motion-reduce:active:scale-100 fine-hover:bg-bordo focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lilas"
+            >
+              <span aria-hidden="true">{playing ? "⏸" : "▶"}</span>
+              <span>{playing ? "Pausar" : "Continuar"}</span>
+            </button>
+          )}
+
+          {/* Audio control button */}
+          {(playing || hasPlayed) && (
+            <button
+              type="button"
+              onClick={toggleSound}
+              aria-pressed={!muted}
+              aria-label={muted ? "Ligar som do vídeo" : "Desativar som do vídeo"}
+              className="flex min-h-11 items-center gap-1.5 rounded-full border border-cream/25 bg-near-black/80 px-4 py-2.5 font-display text-[11px] font-black uppercase tracking-widest text-cream backdrop-blur-md shadow-lg transition-[transform,background-color] duration-160 ease-[var(--ease-expo)] active:scale-[0.97] motion-reduce:active:scale-100 fine-hover:bg-bordo focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lilas"
+            >
+              <span className="text-xs" aria-hidden="true">
+                {muted ? "🔇" : "🔊"}
+              </span>
+              <span>{muted ? "Ligar som" : "Mudo"}</span>
+            </button>
+          )}
+        </div>
       </div>
 
       <figcaption className="mx-auto mt-4 max-w-xs px-2 text-center lg:mx-0 lg:text-left">
         <p className="font-display text-base font-extrabold text-cream md:text-lg">{title}</p>
         <p className="mt-1 text-sm leading-snug text-cream/70">{caption}</p>
-        {reduceMotion && !playing && (
+        {reduceMotion && !playing && !hasPlayed && (
           <p className="mt-2 text-xs text-cream/60">O vídeo inicia com o seu clique.</p>
         )}
       </figcaption>

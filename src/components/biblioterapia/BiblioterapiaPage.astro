@@ -68,9 +68,9 @@ import { BIBLIOTERAPIA_VIDEO_SRC, biblioterapia } from "@/content/biblioterapia"
 
       <!-- Right: Headline, mecanismo & CTA -->
       <div class="order-1 flex flex-col items-start lg:order-2 lg:pb-6">
-        <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-near-black/30 px-3.5 py-1.5 backdrop-blur-md">
+        <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-beige/40 bg-near-black/30 px-3.5 py-1.5 backdrop-blur-md">
           <img src="/icons/olho.svg" alt="" aria-hidden="true" class="h-3.5 w-3.5 opacity-90 invert" />
-          <span class="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-gold">
+          <span class="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-beige">
             {biblioterapia.tag}
           </span>
         </div>
@@ -84,7 +84,7 @@ import { BIBLIOTERAPIA_VIDEO_SRC, biblioterapia } from "@/content/biblioterapia"
         </p>
 
         <!-- Chamada de destaque com ritmo da roda -->
-        <div class="mt-6 border-l-2 border-gold pl-4 text-base font-semibold leading-snug text-gold md:text-lg">
+        <div class="mt-6 border-l-2 border-beige pl-4 text-base font-semibold leading-snug text-beige md:text-lg">
           "{biblioterapia.mechanism}"
         </div>
 
@@ -148,6 +148,7 @@ import { BIBLIOTERAPIA_VIDEO_SRC, biblioterapia } from "@/content/biblioterapia"
       <div class="mt-16 flex justify-center">
         <CtaVal
           variant="secondary"
+          tone="bordo"
           label={biblioterapia.ctaSecondaryLabel}
           trigger={biblioterapia.clickTriggerRoda}
           center={true}
@@ -199,7 +200,12 @@ import { BIBLIOTERAPIA_VIDEO_SRC, biblioterapia } from "@/content/biblioterapia"
               <div>
                 <div class="mb-8 flex items-center justify-between">
                   <div class="flex h-12 w-12 items-center justify-center rounded-full bg-white/15 backdrop-blur-xs">
-                    <img src={item.icon} alt="" aria-hidden="true" class="h-6 w-6" />
+                    <img
+                      src={item.icon}
+                      alt=""
+                      aria-hidden="true"
+                      class:list={["h-6 w-6", item.textColor === "#F0EDE8" && "invert"]}
+                    />
                   </div>
                   <span class="font-mono text-[10px] uppercase tracking-widest opacity-60">
                     Cuidado
@@ -285,13 +291,18 @@ import { BIBLIOTERAPIA_VIDEO_SRC, biblioterapia } from "@/content/biblioterapia"
           <span class="font-mono text-xs font-semibold uppercase tracking-wider text-bordo/60">
             Contato direto:
           </span>
-          <span class="font-display text-xl font-black tracking-wide text-bordo">
+          <a
+            href={biblioterapia.waUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-display text-xl font-black tracking-wide text-bordo transition-colors fine-hover:text-orange"
+          >
             {biblioterapia.facilitator.phoneDisplay}
-          </span>
+          </a>
         </div>
 
         <div class="mt-8">
-          <CtaVal variant="secondary" />
+          <CtaVal variant="secondary" tone="bordo" />
         </div>
       </div>
     </div>
@@ -307,7 +318,7 @@ import { BIBLIOTERAPIA_VIDEO_SRC, biblioterapia } from "@/content/biblioterapia"
   >
     <div class="relative z-10 mx-auto max-w-[960px]">
       <div class="text-center">
-        <p class="font-mono text-xs uppercase tracking-[0.3em] text-gold">
+        <p class="font-mono text-xs uppercase tracking-[0.3em] text-beige">
           Tire suas dúvidas
         </p>
         <h2 class="mt-3 font-display text-[clamp(2rem,5vw,3.75rem)] font-black uppercase leading-[0.95] text-cream">
@@ -318,9 +329,9 @@ import { BIBLIOTERAPIA_VIDEO_SRC, biblioterapia } from "@/content/biblioterapia"
       <div class="mt-14 space-y-5">
         {
           biblioterapia.faq.map((item, index) => (
-            <div class="rounded-[1.5rem] border border-gold/30 bg-near-black/25 p-7 backdrop-blur-xs transition-colors duration-200 fine-hover:border-gold/60">
+            <div class="rounded-[1.5rem] border border-beige/30 bg-near-black/25 p-7 backdrop-blur-xs transition-colors duration-200 fine-hover:border-beige/60">
               <h3 class="flex items-start gap-3 font-display text-lg font-bold text-cream md:text-xl">
-                <span class="font-mono text-sm text-gold">0{index + 1}.</span>
+                <span class="font-mono text-sm text-beige">0{index + 1}.</span>
                 <span>{item.question}</span>
               </h3>
               <p class="mt-3 pl-8 text-sm leading-relaxed text-cream/80 md:text-base">
