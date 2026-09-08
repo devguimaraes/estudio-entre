@@ -14,7 +14,9 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [
     react(),
-    sitemap(),
+    sitemap({
+      filter: (page) => !page.includes("/prototype/"),
+    }),
     sanity({
       projectId: env.SANITY_PROJECT_ID || "7a0ee11t",
       dataset: env.SANITY_DATASET || "production",

@@ -1,0 +1,19 @@
+---
+import BiblioterapiaPage from "@/components/biblioterapia/BiblioterapiaPage.astro";
+import Footer from "@/components/sections/Footer.astro";
+import { biblioterapia } from "@/content/biblioterapia";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title={biblioterapia.seo.title}
+  description={biblioterapia.seo.description}
+  navTheme="light"
+  hideWhatsApp
+>
+  <main class="page-biblioterapia">
+    <BiblioterapiaPage />
+  </main>
+
+  <Footer />
+</BaseLayout>

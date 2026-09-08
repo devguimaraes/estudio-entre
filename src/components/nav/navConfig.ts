@@ -34,6 +34,7 @@ export const navGroups: NavGroup[] = [
     label: "Serviços",
     links: [
       { href: "/locacao", label: "Locação", cursor: "ENTRAR" },
+      { href: "/biblioterapia", label: "Biblioterapia", cursor: "CUIDAR" },
       { href: "/sebo", label: "Sebo", cursor: "GARIMPAR" },
       { href: "/lojinha", label: "Loja", cursor: "COMPRAR" },
     ],
