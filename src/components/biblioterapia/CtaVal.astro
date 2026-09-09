@@ -1,0 +1,97 @@
+---
+import Decorative from "@/components/ui/Decorative.astro";
+import { biblioterapia } from "@/content/biblioterapia";
+
+interface Props {
+  label?: string;
+  trigger?: string;
+  variant?: "primary" | "secondary" | "subtle";
+  tone?: "cream" | "bordo";
+  size?: "md" | "lg";
+  center?: boolean;
+  class?: string;
+}
+
+const {
+  label = biblioterapia.ctaLabel,
+  trigger = biblioterapia.clickTrigger,
+  variant = "primary",
+  tone = "cream",
+  size = "md",
+  center = false,
+  class: className = "",
+} = Astro.props;
+
+const triggerClass = tone === "bordo" ? "text-bordo/75" : "text-cream/70";
+
+const sizeClasses = {
+  md: "px-8 py-4 text-[11px] min-h-12",
+  lg: "px-10 py-5 text-[12px] min-h-14",
+};
+
+const variantClasses = {
+  primary:
+    "bg-orange text-bordo shadow-[0_16px_36px_rgba(236,104,56,0.32)] fine-hover:bg-cream fine-hover:text-bordo",
+  secondary:
+    "bg-bordo text-cream shadow-[0_16px_36px_rgba(61,16,32,0.3)] fine-hover:bg-orange fine-hover:text-bordo",
+  subtle:
+    "border border-bordo/30 bg-transparent text-bordo fine-hover:bg-bordo fine-hover:text-cream",
+};
+---
+
+<div
+  class:list={[
+    "flex flex-col gap-2.5",
+    center ? "items-center text-center" : "items-start text-left",
+    className,
+  ]}
+>
+  <a
+    href={biblioterapia.waUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    data-cursor="CONVERSAR"
+    class:list={[
+      "proto-cta group relative inline-flex items-center justify-center gap-3 rounded-full font-display font-black uppercase tracking-widest",
+      sizeClasses[size],
+      variantClasses[variant],
+      "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lilas",
+    ]}
+  >
+    <span class="relative z-10">{label}</span>
+    <Decorative
+      variant="arrow"
+      size={16}
+      class="relative z-10 transition-transform duration-200 ease-out group-hover:translate-x-1"
+    />
+  </a>
+
+  {trigger && (
+    <p class:list={["max-w-md text-xs leading-snug md:text-sm", triggerClass]}>
+      {trigger}
+    </p>
+  )}
+</div>
+
+<style>
+  .proto-cta {
+    transition:
+      transform 160ms cubic-bezier(0.87, 0, 0.13, 1),
+      background-color 200ms cubic-bezier(0.87, 0, 0.13, 1),
+      box-shadow 200ms ease;
+  }
+
+  .proto-cta:active {
+    transform: scale(0.97);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .proto-cta {
+      transition: background-color 200ms ease;
+    }
+
+    .proto-cta:active {
+      transform: none;
+    }
+  }
+</style>

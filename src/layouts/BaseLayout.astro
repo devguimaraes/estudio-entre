@@ -19,6 +19,8 @@ interface Props {
   ogImage?: string;
   ogType?: "website" | "article";
   navTheme?: "light" | "dark";
+  hideWhatsApp?: boolean;
+  robots?: string;
 }
 
 const {
@@ -27,6 +29,8 @@ const {
   ogImage = "/og-default.png",
   ogType = "website",
   navTheme = "light",
+  hideWhatsApp = false,
+  robots,
 } = Astro.props;
 
 const siteUrl = Astro.site ?? new URL("https://www.estudioentre.com.br");
@@ -44,6 +48,7 @@ const ogImageAbsolute = ensureAbsoluteUrl(ogImage, siteUrl);
     <!-- SEO -->
     <title>{title}</title>
     <meta name="description" content={description} />
+    {robots && <meta name="robots" content={robots} />}
     <link rel="canonical" href={pageCanonicalUrl} />
 
     <!-- Open Graph -->
@@ -137,7 +142,7 @@ const ogImageAbsolute = ensureAbsoluteUrl(ogImage, siteUrl);
     <div class="page-content">
       <slot />
     </div>
-    <WhatsAppButton />
+    {!hideWhatsApp && <WhatsAppButton />}
 
     <script>
       import { initGlobalAnimations } from "@/animations/init";

@@ -12,6 +12,7 @@ const { variant, color = "currentColor", size = 40, class: className = "" } = As
 <span
   class={`inline-block ${className}`}
   style={`width: ${size}px; height: ${size}px; color: ${color};`}
+  aria-hidden="true"
 >
   {variant === "ray" && (
     <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">

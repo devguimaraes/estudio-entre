@@ -1,0 +1,451 @@
+---
+import { Image } from "astro:assets";
+import valLendo from "@/assets/images/biblioterapia/val-lendo.jpg";
+import texturePaper from "@/assets/textures/old-paper-vintage-texture-surface-background-recycle-pale-brown-paper-crumpled-texture.webp";
+import CtaVal from "@/components/biblioterapia/CtaVal.astro";
+import VideoRoda from "@/components/biblioterapia/VideoRoda";
+import Decorative from "@/components/ui/Decorative.astro";
+import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
+import TornPaperFrame from "@/components/ui/TornPaperFrame.astro";
+import { BIBLIOTERAPIA_VIDEO_SRC, biblioterapia } from "@/content/biblioterapia";
+---
+
+<article class="relative w-full overflow-hidden">
+  <!-- ========================================================
+       1. HERO MONUMENTAL (Terracota + Video 9:16 + Framework Suíço)
+       ======================================================== -->
+  <section
+    class="relative min-h-[100svh] overflow-hidden bg-terracota px-6 pb-20 pt-28 text-cream md:px-12 md:pb-28 md:pt-36 lg:px-16 lg:pt-40"
+    data-bg-color="#9E4B2D"
+    data-nav-theme="light"
+  >
+    <!-- Background: Foto do casarão / sala em overlay escuro -->
+    <img
+      src="/images/locacao/sala-multi.webp"
+      alt=""
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.14] mix-blend-luminosity"
+    />
+
+    <!-- Halftone sutil no padrão editorial do Entre -->
+    <HalftoneTexture
+      density={16}
+      dotSize={1.2}
+      color="240,237,232"
+      opacity={0.06}
+      class="z-0"
+    />
+
+    <!-- Chave d'água monumental estilizada -->
+    <img
+      src="/icons/chave.svg"
+      alt=""
+      aria-hidden="true"
+      class="pointer-events-none absolute -right-[8%] top-24 z-0 w-[min(55vw,420px)] opacity-[0.12]"
+      style="filter: invert(73%) sepia(38%) saturate(500%) hue-rotate(6deg);"
+    />
+
+    <!-- Framework Suíço: Metadados nos cantos -->
+    <div class="pointer-events-none relative z-10 mx-auto mb-10 flex max-w-[1280px] items-center justify-between border-b border-cream/15 pb-4 text-[10px] uppercase tracking-[0.3em] text-cream/70 font-mono">
+      <span>{biblioterapia.eyebrow}</span>
+      <span class="hidden sm:inline">MÉIER_RJ · ESTÚDIO ENTRE</span>
+    </div>
+
+    <!-- Main Grid: Video 9:16 + Copy Editorial -->
+    <div class="relative z-10 mx-auto grid max-w-[1280px] items-center gap-12 lg:grid-cols-[auto_minmax(0,1fr)] lg:gap-16 xl:gap-20">
+      
+      <!-- Left: Video Vertical 9:16 (Central na narrativa) -->
+      <div class="order-2 flex justify-center lg:order-1 lg:justify-start">
+        <VideoRoda
+          client:load
+          src={BIBLIOTERAPIA_VIDEO_SRC}
+          poster={valLendo.src}
+          badge={biblioterapia.videoBadge}
+          title={biblioterapia.videoTitle}
+          caption={biblioterapia.videoCaption}
+        />
+      </div>
+
+      <!-- Right: Headline, mecanismo & CTA -->
+      <div class="order-1 flex flex-col items-start lg:order-2 lg:pb-6">
+        <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-beige/40 bg-near-black/30 px-3.5 py-1.5 backdrop-blur-md">
+          <img src="/icons/olho.svg" alt="" aria-hidden="true" class="h-3.5 w-3.5 opacity-90 invert" />
+          <span class="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-beige">
+            {biblioterapia.tag}
+          </span>
+        </div>
+
+        <h1 class="font-display text-[clamp(2.75rem,7vw,5.5rem)] font-black uppercase leading-[0.88] tracking-tight text-cream">
+          {biblioterapia.title}
+        </h1>
+
+        <p class="mt-6 max-w-[34ch] text-lg leading-relaxed text-cream/90 md:text-xl">
+          {biblioterapia.subhead}
+        </p>
+
+        <!-- Chamada de destaque com ritmo da roda -->
+        <div class="mt-6 border-l-2 border-beige pl-4 text-base font-semibold leading-snug text-beige md:text-lg">
+          "{biblioterapia.mechanism}"
+        </div>
+
+        <div class="mt-10">
+          <CtaVal
+            size="lg"
+            variant="primary"
+            trigger={biblioterapia.clickTrigger}
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       2. O QUE É & O RITUAL (Creme + Textura de Papel + 4 Passos)
+       ======================================================== -->
+  <section
+    class="relative bg-cream px-6 py-24 text-bordo md:px-12 md:py-36 lg:px-16"
+    data-bg-color="#F0EDE8"
+    data-nav-theme="dark"
+  >
+    <!-- Background Paper Texture -->
+    <div class="pointer-events-none absolute inset-0 z-0 opacity-[0.06] mix-blend-multiply">
+      <Image src={texturePaper} alt="" class="h-full w-full object-cover" />
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-[1200px]">
+      <div class="mx-auto max-w-3xl text-center">
+        <p class="font-mono text-xs uppercase tracking-[0.3em] text-bordo/60">
+          A dinâmica da vivência
+        </p>
+        <h2 class="mt-4 font-display text-[clamp(2rem,5vw,3.75rem)] font-black uppercase leading-[0.95] text-bordo">
+          {biblioterapia.not}
+        </h2>
+        <p class="mt-6 text-lg leading-relaxed text-bordo/80 md:text-xl">
+          {biblioterapia.what}
+        </p>
+      </div>
+
+      <!-- O Ritual em 4 Passos -->
+      <div class="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 md:mt-24">
+        {
+          biblioterapia.ritual.map((step) => (
+            <div class="group relative rounded-[1.75rem] border border-bordo/15 bg-white/70 p-7 shadow-sm backdrop-blur-xs transition-all duration-300 fine-hover:-translate-y-1 fine-hover:shadow-md">
+              <span class="font-mono text-3xl font-black text-orange">
+                {step.number}
+              </span>
+              <h3 class="mt-4 font-display text-lg font-black uppercase tracking-tight text-bordo">
+                {step.title}
+              </h3>
+              <p class="mt-3 text-sm leading-relaxed text-bordo/75">
+                {step.description}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- CTA suave de meio de página -->
+      <div class="mt-16 flex justify-center">
+        <CtaVal
+          variant="secondary"
+          tone="bordo"
+          label={biblioterapia.ctaSecondaryLabel}
+          trigger={biblioterapia.clickTriggerRoda}
+          center={true}
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       3. OS 4 CUIDADOS DA TIA VAL (Bento Grid com Cores do Entre)
+       ======================================================== -->
+  <section
+    class="relative bg-near-black px-6 py-24 text-cream md:px-12 md:py-36 lg:px-16"
+    data-bg-color="#1A1612"
+    data-nav-theme="light"
+  >
+    <!-- Halftone sutil no escuro -->
+    <HalftoneTexture
+      density={18}
+      dotSize={1.2}
+      color="240,237,232"
+      opacity={0.04}
+      class="z-0"
+    />
+
+    <div class="relative z-10 mx-auto max-w-[1280px]">
+      <div class="mb-14 flex flex-col justify-between gap-6 md:mb-20 md:flex-row md:items-end">
+        <div>
+          <p class="font-mono text-xs uppercase tracking-[0.3em] text-gold">
+            A partir das partilhas literárias
+          </p>
+          <h2 class="mt-3 font-display text-[clamp(2.25rem,6vw,4.5rem)] font-black uppercase leading-[0.9] text-cream">
+            O que a roda cuida
+          </h2>
+        </div>
+        <p class="max-w-[34ch] text-sm leading-relaxed text-cream/70 md:text-base">
+          Quatro movimentos reais de transformação que acontecem quando a palavra escrita encontra a escuta acolhedora.
+        </p>
+      </div>
+
+      <!-- Bento Grid com os 4 Cuidados -->
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {
+          biblioterapia.cuidados.map((item) => (
+            <div
+              class="group relative flex flex-col justify-between rounded-[2rem] p-8 transition-all duration-300 fine-hover:-translate-y-1.5 fine-hover:shadow-2xl"
+              style={`background-color: ${item.color}; color: ${item.textColor};`}
+            >
+              <div>
+                <div class="mb-8 flex items-center justify-between">
+                  <div class="flex h-12 w-12 items-center justify-center rounded-full bg-white/15 backdrop-blur-xs">
+                    <img
+                      src={item.icon}
+                      alt=""
+                      aria-hidden="true"
+                      class:list={["h-6 w-6", item.textColor === "#F0EDE8" && "invert"]}
+                    />
+                  </div>
+                  <span class="font-mono text-[10px] uppercase tracking-widest opacity-60">
+                    Cuidado
+                  </span>
+                </div>
+
+                <p class="font-mono text-[11px] font-bold uppercase tracking-wider opacity-85">
+                  {item.highlight}
+                </p>
+                <h3 class="mt-2 font-display text-2xl font-black leading-tight">
+                  {item.title}
+                </h3>
+              </div>
+
+              <p class="mt-8 text-sm leading-relaxed opacity-90">
+                {item.description}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       4. A FACILITADORA & CORA CORALINA (TornPaperFrame + Dongra)
+       ======================================================== -->
+  <section
+    class="relative bg-cream px-6 py-24 text-bordo md:px-12 md:py-36 lg:px-16"
+    data-bg-color="#F0EDE8"
+    data-nav-theme="dark"
+  >
+    <div class="relative z-10 mx-auto grid max-w-[1200px] items-center gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-20">
+      
+      <!-- Coluna 1: Moldura de Papel Rasgado com Foto da Val Lendo -->
+      <div class="mx-auto w-full max-w-[480px]">
+        <TornPaperFrame variant={2} rotation="-0.8deg" class="w-full">
+          <Image
+            src={valLendo}
+            alt={biblioterapia.photoAlt}
+            class="aspect-[3/4] h-auto w-full object-cover object-[50%_28%]"
+            widths={[480, 800, 1200]}
+            sizes="(max-width: 768px) 100vw, 480px"
+          />
+        </TornPaperFrame>
+        <p class="mt-4 text-center font-mono text-[10px] uppercase tracking-widest text-bordo/50">
+          Val Santos no Rio de Janeiro · Mediadora de Leitura
+        </p>
+      </div>
+
+      <!-- Coluna 2: Bio, Cora Coralina & Confiança -->
+      <div class="flex flex-col items-start">
+        <p class="font-mono text-xs uppercase tracking-[0.3em] text-orange">
+          A Facilitadora
+        </p>
+        
+        <h2 class="mt-3 font-display text-[clamp(2.5rem,6vw,4.5rem)] font-black uppercase leading-[0.9] text-bordo">
+          {biblioterapia.facilitator.name}
+        </h2>
+        
+        <p class="mt-2 font-display text-lg font-bold text-terracota">
+          {biblioterapia.facilitator.role}
+        </p>
+
+        <p class="mt-6 text-base leading-relaxed text-bordo/80 md:text-lg">
+          {biblioterapia.facilitator.bio}
+        </p>
+
+        <!-- Bloco Cora Coralina em Dongra Script -->
+        <div class="my-8 w-full border-y border-bordo/15 py-6">
+          <blockquote
+            class="text-[clamp(1.75rem,3.5vw,2.5rem)] leading-snug text-bordo"
+            style="font-family: var(--font-dongra-script), cursive;"
+          >
+            "{biblioterapia.quote}"
+          </blockquote>
+          <p class="mt-3 text-right font-display text-xs font-semibold text-bordo/60 uppercase tracking-wider">
+            — {biblioterapia.quoteAuthor}
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <span class="font-mono text-xs font-semibold uppercase tracking-wider text-bordo/60">
+            Contato direto:
+          </span>
+          <a
+            href={biblioterapia.waUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-display text-xl font-black tracking-wide text-bordo transition-colors fine-hover:text-orange"
+          >
+            {biblioterapia.facilitator.phoneDisplay}
+          </a>
+        </div>
+
+        <div class="mt-8">
+          <CtaVal variant="secondary" tone="bordo" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       5. QUEBRA DE OBJEÇÕES (FAQ Editorial)
+       ======================================================== -->
+  <section
+    class="relative bg-terracota px-6 py-24 text-cream md:px-12 md:py-36 lg:px-16"
+    data-bg-color="#9E4B2D"
+    data-nav-theme="light"
+  >
+    <div class="relative z-10 mx-auto max-w-[960px]">
+      <div class="text-center">
+        <p class="font-mono text-xs uppercase tracking-[0.3em] text-beige">
+          Tire suas dúvidas
+        </p>
+        <h2 class="mt-3 font-display text-[clamp(2rem,5vw,3.75rem)] font-black uppercase leading-[0.95] text-cream">
+          Perguntas antes da primeira roda
+        </h2>
+      </div>
+
+      <div class="mt-14 space-y-5">
+        {
+          biblioterapia.faq.map((item, index) => (
+            <div class="rounded-[1.5rem] border border-beige/30 bg-near-black/25 p-7 backdrop-blur-xs transition-colors duration-200 fine-hover:border-beige/60">
+              <h3 class="flex items-start gap-3 font-display text-lg font-bold text-cream md:text-xl">
+                <span class="font-mono text-sm text-beige">0{index + 1}.</span>
+                <span>{item.question}</span>
+              </h3>
+              <p class="mt-3 pl-8 text-sm leading-relaxed text-cream/80 md:text-base">
+                {item.answer}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       6. O CASARÃO NO MÉIER & CTA FINAL DE CONVERSÃO
+       ======================================================== -->
+  <section
+    class="relative overflow-hidden bg-bordo px-6 py-28 text-cream md:px-12 md:py-40 lg:px-16"
+    data-bg-color="#3D1020"
+    data-nav-theme="light"
+  >
+    <!-- Textura Halftone -->
+    <HalftoneTexture
+      density={16}
+      dotSize={1.2}
+      color="240,237,232"
+      opacity={0.07}
+      class="z-0"
+    />
+
+    <!-- Ícones Decorativos Flutuantes -->
+    <div class="pointer-events-none absolute left-[8%] top-[18%] z-0 opacity-20 hidden md:block">
+      <Decorative variant="star" color="#F0EDE8" size={70} />
+    </div>
+    <div class="pointer-events-none absolute right-[10%] bottom-[20%] z-0 opacity-15 hidden md:block">
+      <Decorative variant="ray" color="#EC6838" size={90} />
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-[800px] text-center">
+      <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-orange/40 bg-orange/10 px-4 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.25em] text-orange">
+        Presencial no Méier
+      </div>
+
+      <h2 class="font-display text-[clamp(2.5rem,7vw,5rem)] font-black uppercase leading-[0.9] text-cream">
+        Sua história tem <br />
+        <span class="text-orange">lugar no círculo.</span>
+      </h2>
+
+      <div class="mt-8 rounded-[1.5rem] border border-cream/15 bg-white/5 p-6 backdrop-blur-xs md:p-8">
+        <p class="font-display text-xl font-bold text-gold">
+          {biblioterapia.place.name}
+        </p>
+        <p class="mt-1 text-base text-cream/90">
+          {biblioterapia.place.street} — {biblioterapia.place.neighborhood}
+        </p>
+        <p class="mt-3 text-xs text-cream/60">
+          {biblioterapia.place.note}
+        </p>
+      </div>
+
+      <p class="mt-6 text-sm text-cream/70 md:text-base">
+        {biblioterapia.practical}
+      </p>
+
+      <div class="mt-10 flex justify-center">
+        <CtaVal
+          size="lg"
+          variant="primary"
+          center={true}
+          label="Agendar vivência no WhatsApp"
+          trigger="Val Santos recebe sua mensagem diretamente · Sem intermediários"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       STICKY MOBILE CTA BAR (Bottom Fixa no Celular)
+       ======================================================== -->
+  <aside
+    class="fixed inset-x-0 bottom-4 z-[90] px-4 md:hidden pointer-events-none"
+    aria-label="Ação rápida no WhatsApp"
+  >
+    <a
+      href={biblioterapia.waUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="proto-sticky-btn pointer-events-auto flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-orange px-6 py-3.5 font-display text-[11px] font-black uppercase tracking-widest text-bordo shadow-[0_12px_32px_rgba(0,0,0,0.55)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lilas"
+    >
+      <span>Falar com a Val no WhatsApp</span>
+      <Decorative variant="arrow" size={14} />
+    </a>
+  </aside>
+</article>
+
+<style>
+  .proto-sticky-btn {
+    transition:
+      transform 160ms cubic-bezier(0.87, 0, 0.13, 1),
+      background-color 200ms cubic-bezier(0.87, 0, 0.13, 1);
+  }
+
+  .proto-sticky-btn:active {
+    transform: scale(0.97);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .proto-sticky-btn:hover {
+      background-color: var(--color-cream);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .proto-sticky-btn:active {
+      transform: none;
+    }
+  }
+</style>
