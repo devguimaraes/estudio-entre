@@ -19,6 +19,8 @@ export default function VideoRoda({
 }: VideoRodaProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
+  const userPausedRef = useRef(false);
+  const userUnmutedRef = useRef(false);
   const [playing, setPlaying] = useState(false);
   const [hasPlayed, setHasPlayed] = useState(false);
   const [muted, setMuted] = useState(true);
@@ -29,6 +31,8 @@ export default function VideoRoda({
   const playMuted = useCallback(() => {
     const el = videoRef.current;
     if (!el || failed) return;
+    userPausedRef.current = false;
+    userUnmutedRef.current = false;
     el.muted = true;
     setMuted(true);
     el.play()
@@ -46,12 +50,14 @@ export default function VideoRoda({
     const el = videoRef.current;
     if (!el) return;
     if (el.paused) {
+      userPausedRef.current = false;
       el.play().catch((err: unknown) => {
         const name = err instanceof DOMException ? err.name : "";
         if (name === "AbortError") return;
         setAutoplayFailed(true);
       });
     } else {
+      userPausedRef.current = true;
       el.pause();
     }
   }, []);
@@ -78,8 +84,10 @@ export default function VideoRoda({
     el.addEventListener("pause", onPause);
 
     const tryAutoplay = () => {
-      if (reduce || failed) return;
-      el.muted = true;
+      if (reduce || failed || userPausedRef.current) return;
+      if (!userUnmutedRef.current) {
+        el.muted = true;
+      }
       el.play()
         .then(() => {
           setAutoplayFailed(false);
@@ -92,7 +100,8 @@ export default function VideoRoda({
     };
 
     const onCanPlay = () => {
-      if (!reduce) tryAutoplay();
+      if (reduce || userPausedRef.current || !el.paused) return;
+      tryAutoplay();
     };
 
     const io = new IntersectionObserver(
@@ -124,7 +133,9 @@ export default function VideoRoda({
     const nextMuted = !el.muted;
     el.muted = nextMuted;
     setMuted(nextMuted);
+    userUnmutedRef.current = !nextMuted;
     if (el.paused) {
+      userPausedRef.current = false;
       el.play().catch(() => {});
     }
   }, []);
