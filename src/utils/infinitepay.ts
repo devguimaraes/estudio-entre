@@ -178,12 +178,30 @@ function parseCatalog(text: string): RawProductLink[] {
   const links: RawProductLink[] = [];
   const lines = text.split("\n");
   let currentCategory = "";
+  let inCatalog = false;
 
   for (const line of lines) {
-    // Cabeçalho de categoria: "- Livros (1566443-livros)"
-    if (line.startsWith("- ") && (line.includes("leitura-e-criacao") || line.includes("livros"))) {
-      currentCategory = line.includes("Livros") ? "Livros" : "Leitura e Criação";
+    if (line.startsWith("## Catalog")) {
+      inCatalog = true;
+      currentCategory = "";
       continue;
+    }
+    if (!inCatalog) continue;
+
+    // Cabeçalho de categoria dentro do catálogo: "- Livros (1566443-livros)"
+    if (line.startsWith("- ") && line.includes("(") && !line.includes("R$")) {
+      if (line.includes("leitura-e-criacao")) {
+        currentCategory = "Leitura e Criação";
+        continue;
+      }
+      if (line.includes("livros")) {
+        currentCategory = "Livros";
+        continue;
+      }
+      if (line.includes("artes")) {
+        currentCategory = "Artes";
+        continue;
+      }
     }
 
     // Linha de produto: "- Nome - R$ XX,00 - available - url"
@@ -241,6 +259,14 @@ function inferCategory(title: string, fallback = "Livros", description = ""): st
     .replace(/[\u0300-\u036f]/g, "");
 
   if (texto.includes("inscricao")) return "Atividades";
+
+  if (
+    texto.includes("universo particular") ||
+    texto.includes("print manual") ||
+    (texto.includes("exposicao") && texto.includes("obra"))
+  ) {
+    return "Artes";
+  }
 
   const criacaoKeywords = [
     "porta-livro",
