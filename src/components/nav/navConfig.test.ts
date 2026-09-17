@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { navGroups } from "@/components/nav/navConfig";
+import { allNavLinks, navGroups } from "@/components/nav/navConfig";
 
 describe("navConfig", () => {
   test("Serviços contém Locação apontando para /locacao", () => {
@@ -24,7 +24,20 @@ describe("navConfig", () => {
 
   test("desktop e mobile compartilham o mesmo mapa de links", () => {
     const flatLinks = navGroups.flatMap((group) => group.links);
-    expect(flatLinks).toHaveLength(9);
-    expect(flatLinks.map((link) => link.href)).toContain("/locacao");
+    expect(flatLinks).toHaveLength(10);
+    expect(allNavLinks).toHaveLength(10);
+    expect(flatLinks.map((link) => link.href)).toEqual(allNavLinks.map((link) => link.href));
+    expect(flatLinks.map((link) => link.href)).toEqual([
+      "/#sobre",
+      "/#espaco",
+      "/#agendar-visita",
+      "/exposicoes",
+      "/agenda",
+      "/galeria",
+      "/locacao",
+      "/biblioterapia",
+      "/sebo",
+      "/lojinha",
+    ]);
   });
 });
