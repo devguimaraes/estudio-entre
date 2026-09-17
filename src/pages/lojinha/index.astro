@@ -8,13 +8,14 @@ import NoiseTexture from "@/components/ui/NoiseTexture.astro";
 import lojaData from "@/data/loja.json";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import type { ProdutoLoja } from "@/types/loja";
+import { PAGE_SEO } from "@/utils/seo";
 
 const produtos: ProdutoLoja[] = lojaData;
 ---
 
 <BaseLayout
-  title="Loja — Estúdio Entre"
-  description="Produtos autorais, publicações independentes e objetos que carregam a essência do Estúdio Entre."
+  title={PAGE_SEO.lojinha.title}
+  description={PAGE_SEO.lojinha.description}
   navTheme="dark"
 >
   <main class="relative min-h-screen overflow-hidden bg-cream pb-24 pt-32 text-forest md:pb-40 md:pt-40">

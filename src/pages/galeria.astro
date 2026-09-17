@@ -3,12 +3,12 @@ import AlbumListagem from "@/components/sections/AlbumListagem.astro";
 import Footer from "@/components/sections/Footer.astro";
 import { getAlbuns } from "@/intake/album";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { buildOgImageUrl } from "@/utils/seo";
+import { PAGE_SEO, buildOgImageUrl } from "@/utils/seo";
 
 const albuns = await getAlbuns();
 
-const title = "Galeria — Estúdio Entre";
-const description = "Momentos do Estúdio Entre: inaugurações, exposições e eventos em imagem.";
+const title = PAGE_SEO.galeria.title;
+const description = PAGE_SEO.galeria.description;
 const ogImage =
   albuns.length > 0 && albuns[0].capaUrl ? buildOgImageUrl(albuns[0].capaUrl) : undefined;
 ---

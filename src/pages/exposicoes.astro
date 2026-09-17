@@ -4,6 +4,7 @@ import Footer from "@/components/sections/Footer.astro";
 import { getExposicoesPorStatus } from "@/intake/exposicao";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import type { ExposicaoStatus } from "@/types/exposicao";
+import { PAGE_SEO } from "@/utils/seo";
 
 const statusParam = Astro.url.searchParams.get("status");
 const filtroAtivo: ExposicaoStatus =
@@ -13,8 +14,8 @@ const filtroAtivo: ExposicaoStatus =
 
 const exposicoes = await getExposicoesPorStatus(filtroAtivo);
 
-const title = "Exposições — Estúdio Entre";
-const description = "Exposições em cartaz e acervo do Estúdio Entre — hub cultural no Méier, RJ.";
+const title = PAGE_SEO.exposicoes.title;
+const description = PAGE_SEO.exposicoes.description;
 ---
 
 <BaseLayout title={title} description={description} navTheme="dark">

@@ -5,11 +5,12 @@ import Decorative from "@/components/ui/Decorative.astro";
 import HalftoneTexture from "@/components/ui/HalftoneTexture.astro";
 import NoiseTexture from "@/components/ui/NoiseTexture.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { PAGE_SEO } from "@/utils/seo";
 ---
 
 <BaseLayout
-  title="Sebo — Estúdio Entre"
-  description="Catálogo de livros usados do Estúdio Entre. Garimpe por gênero, autor ou título."
+  title={PAGE_SEO.sebo.title}
+  description={PAGE_SEO.sebo.description}
   navTheme="dark"
 >
   <main class="relative min-h-screen overflow-hidden bg-cream pb-24 text-bordo md:pb-40">

@@ -11,13 +11,14 @@ import Sobre from "@/components/sections/Sobre.astro";
 import VisitacaoCTA from "@/components/sections/VisitacaoCTA.astro";
 import { getEventosFuturos } from "@/intake/evento";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { PAGE_SEO } from "@/utils/seo";
 
 const eventos = (await getEventosFuturos()).slice(0, 3);
 ---
 
 <BaseLayout
-  title="Estúdio Entre — Hub Cultural no Méier, RJ"
-  description="Hub cultural e criativo independente no Méier, Rio de Janeiro. Agenda de shows, oficinas, saraus e exposições. Sebo colaborativo, loja autoral e produção de conteúdo."
+  title={PAGE_SEO.home.title}
+  description={PAGE_SEO.home.description}
 >
   <script is:inline>
     function redirectLegacyGaleriaHash() {
