@@ -1,3 +1,4 @@
+import { ORGANIZATION } from "@/utils/seo";
 import { buildWaLink } from "@/utils/whatsapp";
 
 export const VAL_WHATSAPP_PHONE = "5521998971088";
@@ -142,9 +143,9 @@ export const biblioterapia = {
   ] satisfies FaqItem[],
 
   place: {
-    name: "Estúdio Entre",
-    street: "Rua Maria Calmon, 100",
-    neighborhood: "Méier, Rio de Janeiro",
+    name: ORGANIZATION.name,
+    street: ORGANIZATION.address.streetAddress,
+    neighborhood: `${ORGANIZATION.address.neighborhood}, ${ORGANIZATION.address.addressLocality} - ${ORGANIZATION.address.addressRegion}, ${ORGANIZATION.address.postalCode}`,
     note: "Um casarão acolhedor no coração da Zona Norte.",
   },
 
@@ -165,6 +166,6 @@ export const biblioterapia = {
   seo: {
     title: "Biblioterapia — Leituras que cuidam com Val Santos | Estúdio Entre",
     description:
-      "Roda de biblioterapia presencial no Méier, RJ com Val Santos. Leitura guiada, escuta afetiva e recomeço — não é terapia clínica, é uma roda. Agende no WhatsApp.",
+      "Roda de biblioterapia presencial no Méier com Val Santos. Leitura guiada, escuta afetiva e recomeço — não é terapia clínica. Agende sua vivência no WhatsApp.",
   },
 } as const;

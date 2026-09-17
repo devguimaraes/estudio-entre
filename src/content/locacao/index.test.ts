@@ -121,7 +121,9 @@ describe("locacao content", () => {
 
   test("contato usa e-mail canônico e endereço do Estúdio", () => {
     expect(locacaoContato.email).toBe("contato@estudioentre.com.br");
-    expect(locacaoContato.endereco).toContain("Rua Maria Calmon, 100");
+    expect(locacaoContato.endereco).toBe(
+      "Rua Maria Calmon, Nº 100 - Méier, Rio de Janeiro - RJ, 20710-030",
+    );
     expect(locacaoContato.whatsapp).toBe("5521973101451");
     expect(locacaoContato.imagem.src).toBe("/images/locacao/estudio-entre.webp");
   });

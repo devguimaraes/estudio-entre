@@ -3,6 +3,9 @@ import { Image } from "astro:assets";
 import texturePaper from "@/assets/textures/old-paper-vintage-texture-surface-background-recycle-pale-brown-paper-crumpled-texture.webp";
 import Decorative from "@/components/ui/Decorative.astro";
 import TornPaperFrame from "@/components/ui/TornPaperFrame.astro";
+import { ORGANIZATION, formatAddressLines } from "@/utils/seo";
+
+const addressLines = formatAddressLines();
 ---
 
 <section
@@ -59,9 +62,10 @@ import TornPaperFrame from "@/components/ui/TornPaperFrame.astro";
               Endereço
             </p>
             <address class="not-italic text-lg font-display text-bordo leading-snug">
-              Rua Maria Calmon, 100<br />
-              Méier, Rio de Janeiro<br />
-              CEP 20710-030
+              {ORGANIZATION.name}<br />
+              {addressLines[0]}<br />
+              {addressLines[1]}<br />
+              {addressLines[2]}
             </address>
           </div>
 
@@ -82,11 +86,11 @@ import TornPaperFrame from "@/components/ui/TornPaperFrame.astro";
               Contato
             </p>
             <div class="space-y-2">
-              <a href="mailto:contato@estudioentre.com.br" class="block text-lg font-display text-bordo hover:text-orange transition-colors duration-300">
-                contato@estudioentre.com.br
+              <a href={`mailto:${ORGANIZATION.email}`} class="block text-lg font-display text-bordo hover:text-orange transition-colors duration-300">
+                {ORGANIZATION.email}
               </a>
-              <a href="https://wa.me/5521973101451" class="block text-lg font-display text-bordo hover:text-orange transition-colors duration-300">
-                (21) 97310-1451
+              <a href={ORGANIZATION.whatsappUrl} class="block text-lg font-display text-bordo hover:text-orange transition-colors duration-300">
+                {ORGANIZATION.telephoneDisplay}
               </a>
             </div>
           </div>
@@ -103,7 +107,7 @@ import TornPaperFrame from "@/components/ui/TornPaperFrame.astro";
               <a href="https://tiktok.com/@entrenoestudio" target="_blank" rel="noopener noreferrer" class="group w-12 h-12 rounded-full border border-bordo/10 flex items-center justify-center hover:border-orange transition-all duration-500" aria-label="TikTok">
                 <img src="/icons/tiktok.svg" class="w-5 h-5 opacity-40 group-hover:opacity-100 transition-all duration-500" alt="" />
               </a>
-              <a href="https://wa.me/5521973101451" target="_blank" rel="noopener noreferrer" class="group w-12 h-12 rounded-full border border-bordo/10 flex items-center justify-center hover:border-orange transition-all duration-500" aria-label="WhatsApp">
+              <a href={ORGANIZATION.whatsappUrl} target="_blank" rel="noopener noreferrer" class="group w-12 h-12 rounded-full border border-bordo/10 flex items-center justify-center hover:border-orange transition-all duration-500" aria-label="WhatsApp">
                 <img src="/icons/whatsapp.svg" class="w-5 h-5 opacity-40 group-hover:opacity-100 transition-all duration-500" alt="" />
               </a>
             </div>
@@ -123,7 +127,7 @@ import TornPaperFrame from "@/components/ui/TornPaperFrame.astro";
               allowfullscreen=""
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
-              title="Estúdio Entre — Google Maps"
+              title={ORGANIZATION.name}
             ></iframe>
           </TornPaperFrame>
         </div>

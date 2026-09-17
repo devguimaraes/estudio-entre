@@ -2,11 +2,11 @@
 import Decorative from "@/components/ui/Decorative.astro";
 import TornPaperFrame from "@/components/ui/TornPaperFrame.astro";
 import { locacaoContato, mensagensWhatsApp } from "@/content/locacao";
+import { ORGANIZATION } from "@/utils/seo";
 import { buildWaLink } from "@/utils/whatsapp";
 
 const waUrl = buildWaLink(mensagensWhatsApp.contato);
 const mailtoUrl = `mailto:${locacaoContato.email}`;
-const phoneDisplay = "(21) 97310-1451";
 ---
 
 <section
@@ -44,7 +44,7 @@ const phoneDisplay = "(21) 97310-1451";
             rel="noopener noreferrer"
             class="font-display text-lg text-bordo transition-colors duration-300 fine-hover:text-orange focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange"
           >
-            {phoneDisplay}
+            {ORGANIZATION.telephoneDisplay}
           </a>
         </div>
 
@@ -65,6 +65,7 @@ const phoneDisplay = "(21) 97310-1451";
             Endereço
           </p>
           <address class="not-italic font-display text-lg leading-snug text-bordo">
+            {ORGANIZATION.name}<br />
             {locacaoContato.endereco}
           </address>
         </div>

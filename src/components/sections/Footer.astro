@@ -1,6 +1,9 @@
 ---
 import { Image } from "astro:assets";
 import logoClaro from "@/assets/logos/Logo_Estudio Entre - Claro 1.png";
+import { ORGANIZATION, formatAddressLines } from "@/utils/seo";
+
+const addressLines = formatAddressLines();
 ---
 
 <footer class="footer relative py-24 md:py-40 px-6 md:px-16 overflow-hidden" style="background-color: #1A1612;" data-bg-color="#1A1612" data-nav-theme="light">
@@ -58,11 +61,18 @@ import logoClaro from "@/assets/logos/Logo_Estudio Entre - Claro 1.png";
       <div class="footer__col opacity-0 flex flex-col gap-12">
         <div>
           <p class="font-display font-bold text-[10px] uppercase tracking-[0.4em] text-cream/40 mb-6">Localização</p>
+          <p class="text-base text-cream/90 leading-relaxed mb-3">{ORGANIZATION.name}</p>
           <address class="not-italic text-base text-cream/70 leading-relaxed">
-            Rua Maria Calmon, 100 — Méier<br />
-            Rio de Janeiro, RJ<br />
-            20710-030
+            {addressLines[0]}<br />
+            {addressLines[1]}<br />
+            {addressLines[2]}
           </address>
+          <a
+            href={ORGANIZATION.whatsappUrl}
+            class="mt-4 inline-block text-base text-cream/70 transition-colors duration-300 ease-[var(--ease-expo)] fine-hover:text-orange"
+          >
+            {ORGANIZATION.telephoneDisplay}
+          </a>
         </div>
 
         <div>
@@ -74,12 +84,13 @@ import logoClaro from "@/assets/logos/Logo_Estudio Entre - Claro 1.png";
             <a href="https://tiktok.com/@entrenoestudio" target="_blank" class="group flex items-center justify-center w-12 h-12 rounded-full border border-cream/20 hover:border-orange transition-all duration-500" aria-label="TikTok">
               <img src="/icons/tiktok.svg" class="w-5 h-5 invert opacity-60 group-hover:opacity-100 transition-all duration-500" alt="" />
             </a>
-            <a href="https://wa.me/5521973101451" class="group flex items-center justify-center w-12 h-12 rounded-full border border-cream/20 hover:border-orange transition-all duration-500" aria-label="WhatsApp">
+            <a href={ORGANIZATION.whatsappUrl} class="group flex items-center justify-center w-12 h-12 rounded-full border border-cream/20 hover:border-orange transition-all duration-500" aria-label="WhatsApp">
               <img src="/icons/whatsapp.svg" class="w-5 h-5 invert opacity-60 group-hover:opacity-100 transition-all duration-500" alt="" />
             </a>
             <a
-              href="https://www.google.com/search?q=Est%C3%BAdio+Entre"
+              href={ORGANIZATION.mapsUrl}
               target="_blank"
+              rel="noopener noreferrer"
               class="group flex items-center justify-center w-12 h-12 rounded-full border border-cream/20 hover:border-orange transition-all duration-500"
               aria-label="Google Meu Negócio"
             >

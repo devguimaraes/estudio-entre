@@ -10,7 +10,45 @@ export const SITE_NAME = "Estúdio Entre";
 
 /** Descrição padrão para compartilhamento quando a página não define uma própria. */
 export const DEFAULT_DESCRIPTION =
-  "Hub cultural e criativo independente no Méier, Rio de Janeiro. Entre livros, vozes e beats.";
+  "Centro cultural independente no Méier, Zona Norte do Rio. Biblioterapia, oficinas, palestras e estúdio para podcasts, DJ e videocasts. LGBTQ+ friendly.";
+
+export interface PageSeo {
+  title: string;
+  description: string;
+}
+
+/** Titles e descriptions por intenção de busca — fonte única das páginas de listagem. */
+export const PAGE_SEO = {
+  home: {
+    title: "Estúdio Entre - Centro Cultural Méier, RJ",
+    description: DEFAULT_DESCRIPTION,
+  },
+  agenda: {
+    title: "Agenda cultural no Méier — Estúdio Entre",
+    description:
+      "Confira encontros, oficinas, palestras, saraus e vivências no Méier. Programação atualizada do Estúdio Entre. Veja datas e reserve.",
+  },
+  galeria: {
+    title: "Galeria de eventos — Estúdio Entre",
+    description:
+      "Fotos de inaugurações, exposições e encontros no hub cultural do Méier. Veja os registros do Estúdio Entre.",
+  },
+  exposicoes: {
+    title: "Exposições em cartaz no Méier — Estúdio Entre",
+    description:
+      "Exposições em cartaz, futuras e acervo no Estúdio Entre, Méier. Conheça artistas, curadoria e período de visitação.",
+  },
+  sebo: {
+    title: "Sebo no Méier — Estúdio Entre",
+    description:
+      "Livros usados no Méier. Garimpe o sebo do Estúdio Entre por gênero, autor ou título e fale no WhatsApp.",
+  },
+  lojinha: {
+    title: "Loja autoral — Estúdio Entre",
+    description:
+      "Publicações independentes, objetos autorais e produtos da casa no Estúdio Entre. Compre ou retire no Méier.",
+  },
+} as const satisfies Record<string, PageSeo>;
 
 /** Tamanhos recomendados para imagem de compartilhamento (OG / Twitter). */
 export const OG_IMAGE_SIZE = { width: 1200, height: 630 } as const;
@@ -76,29 +114,36 @@ export function canonicalUrl(pathname: string, site: URL): string {
 // Schema.org JSON-LD
 // ---------------------------------------------------------------------------
 
-/** Dados canônicos da organização — fonte única para Schema.org e meta tags. */
+const GMB_MAPS_URL = "https://maps.app.goo.gl/A9bjYkH2eRP2ekz87";
+
+/** Dados canônicos da organização — fonte única para Schema.org e NAP visível. */
 export const ORGANIZATION = {
-  name: "Estúdio Entre",
+  name: "Estúdio Entre - Centro Cultural Méier",
+  alternateName: SITE_NAME,
   description:
-    "Hub cultural e criativo independente no Méier, Rio de Janeiro. Agenda de shows, oficinas, saraus, exposições. Sebo colaborativo, loja autoral e produção de conteúdo.",
+    "Um Centro cultural independente no coração do Méier, Zona Norte do Rio de Janeiro. O Estúdio Entre reúne rodas de biblioterapia, oficinas, palestras e encontros culturais em um espaço plural e acolhedor, onde arte, palavra e cuidado se encontram para inspirar conexões reais. Para criadores de conteúdo, oferecemos estúdio profissional com estrutura completa para gravação de podcasts, sets de DJ e videocasts. Um espaço construído por mulheres empreendedoras, para pessoas que acreditam que cultura é acesso, cura e pertencimento. LGBTQ+ friendly. Entre — é só entrar.",
   url: "https://www.estudioentre.com.br",
   telephone: "+5521973101451",
+  telephoneDisplay: "(21) 97310-1451",
+  whatsappUrl: "https://wa.me/5521973101451",
   email: "contato@estudioentre.com.br",
+  mapsUrl: GMB_MAPS_URL,
   address: {
-    streetAddress: "Rua Maria Calmon, 100",
+    streetAddress: "Rua Maria Calmon, Nº 100",
+    neighborhood: "Méier",
     addressLocality: "Rio de Janeiro",
     addressRegion: "RJ",
     postalCode: "20710-030",
     addressCountry: "BR",
   },
   geo: {
-    latitude: -22.9014,
-    longitude: -43.2822,
+    latitude: -22.9043232,
+    longitude: -43.2768551,
   },
   sameAs: [
     "https://instagram.com/entrenoestudio",
     "https://tiktok.com/@entrenoestudio",
-    "https://maps.app.goo.gl/A9bjYkH2eRP2ekz87",
+    GMB_MAPS_URL,
   ],
   openingHoursSpecification: [
     {
@@ -114,6 +159,22 @@ export const ORGANIZATION = {
   ],
 } as const;
 
+/** Linhas do endereço para blocos `<address>` (rua, bairro/cidade/UF, CEP). */
+export function formatAddressLines(): readonly [string, string, string] {
+  const { streetAddress, neighborhood, addressLocality, addressRegion, postalCode } =
+    ORGANIZATION.address;
+
+  return [streetAddress, `${neighborhood}, ${addressLocality} - ${addressRegion}`, postalCode];
+}
+
+/** Endereço em uma linha, alinhado ao Google Meu Negócio. */
+export function formatAddressLine(): string {
+  const { streetAddress, neighborhood, addressLocality, addressRegion, postalCode } =
+    ORGANIZATION.address;
+
+  return `${streetAddress} - ${neighborhood}, ${addressLocality} - ${addressRegion}, ${postalCode}`;
+}
+
 /**
  * Constrói o objeto JSON-LD `Organization` + `LocalBusiness` + `EntertainmentBusiness`
  * para a página inicial.
@@ -127,10 +188,12 @@ export function localBusinessSchema(): object {
     "@context": "https://schema.org",
     "@type": ["Organization", "LocalBusiness", "EntertainmentBusiness"],
     name: ORGANIZATION.name,
+    alternateName: ORGANIZATION.alternateName,
     description: ORGANIZATION.description,
     url: ORGANIZATION.url,
     telephone: ORGANIZATION.telephone,
     email: ORGANIZATION.email,
+    hasMap: ORGANIZATION.mapsUrl,
     address: {
       "@type": "PostalAddress",
       streetAddress: ORGANIZATION.address.streetAddress,

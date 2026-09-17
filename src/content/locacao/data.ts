@@ -9,6 +9,7 @@ import type {
   Parceria,
   StatLocacao,
 } from "@/types/locacao";
+import { ORGANIZATION, formatAddressLine } from "@/utils/seo";
 import { WHATSAPP_PHONE } from "@/utils/whatsapp";
 import { mensagensWhatsApp } from "./messages";
 
@@ -171,8 +172,8 @@ export const parcerias: Parceria[] = [
 
 export const locacaoContato: LocacaoContato = {
   whatsapp: WHATSAPP_PHONE,
-  email: "contato@estudioentre.com.br",
-  endereco: "Rua Maria Calmon, 100 — Méier, Rio de Janeiro",
+  email: ORGANIZATION.email,
+  endereco: formatAddressLine(),
   imagem: {
     src: "/images/locacao/estudio-entre.webp",
     alt: "Fachada e entrada do Estúdio Entre no Méier, Rio de Janeiro",
@@ -180,9 +181,9 @@ export const locacaoContato: LocacaoContato = {
 };
 
 export const locacaoSeo: LocacaoSeo = {
-  title: "Locação & Parcerias — Estúdio Entre",
+  title: "Locação de espaço e estúdio no Méier — Estúdio Entre",
   description:
-    "Alugue salas, estúdio de podcast ou o espaço completo no Estúdio Entre. Méier, Rio de Janeiro — com suporte da equipe em cada etapa.",
+    "Alugue salas, estúdio de podcast, sets de DJ ou o espaço completo no Méier. Suporte da equipe Entre em cada etapa. Agende uma visita.",
 };
 
 export const locacaoSobre: LocacaoSobre = {
